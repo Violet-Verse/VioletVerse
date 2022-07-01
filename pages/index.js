@@ -6,10 +6,10 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <div>
-      <h1>Welcome to the Violet Verse</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-      <Link href="/"><a>Read More</a></Link>
-      <Link href="/"><a>Our Community</a></Link>
+      <h1 className={styles.title}>Welcome to the Violet Verse</h1>
+      <p className={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <Link href="/"><a className={styles.btn}>Read More</a></Link>
+      <Link href="/"><a className={styles.btn}>Our Community</a></Link>
     </div>
   )
 }
