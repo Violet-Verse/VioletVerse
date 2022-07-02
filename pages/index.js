@@ -1,13 +1,13 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import { Button, Container, Grid, Image } from "@nextui-org/react";
-import { Text, Spacer } from "@nextui-org/react";
+import { Button, Container, Grid, Image, Spacer, Text, Row } from "@nextui-org/react";
 
 export default function Home() {
     return (
         <div>
             <Grid.Container gap={2} justify="center">
-                <Grid direction="column" xs={4}>
+                <Grid direction="column" justify="center" xs={3}>
+
                     <Text
                         h1
                         size={40}
@@ -24,7 +24,7 @@ export default function Home() {
                         sed do eiusmod tempor incididunt ut labore et dolore
                         magna aliqua.
                     </p>
-                    <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
+                    <Row wrap="wrap">
                         <Link href="/about">
                             <Button>Read More</Button>
                         </Link>
@@ -32,14 +32,13 @@ export default function Home() {
                         <Link href="/">
                             <Button color="secondary">Our Community</Button>
                         </Link>
-                    </Container>
+                    </Row>
                 </Grid>
-                <Grid xs={8}>
+                <Grid xs={9}>
                     <Image
-                        showSkeleton
-                        width={763}
+                        width={763
+						}
                         height={338}
-                        maxDelay={10000}
                         src="/Squared.png"
                         alt="Default Image"
                     />
