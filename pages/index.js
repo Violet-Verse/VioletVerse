@@ -32,6 +32,18 @@ export default function Home() {
                         <Link href="/">
                             <Button color="secondary">Our Community</Button>
                         </Link>
+
+                        <Text
+                        h1
+                        size={43}
+                        css={{
+                            textGradient:
+                                "45deg, $grey -20%, $grey 100%",
+                        }}
+                        weight="bold"
+                    >
+                        Curated Content Marketplace
+                    </Text>
                     </Row>
                 </Grid>
                 <Grid xs={9}>
