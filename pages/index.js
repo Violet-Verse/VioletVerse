@@ -34,7 +34,7 @@ export default function Home() {
                         </Link>
 
                         <Text
-                        h1
+                        h1k
                         size={43}
                         css={{
                             textGradient:
