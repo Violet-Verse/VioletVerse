@@ -24,6 +24,8 @@ export default function Home() {
                         sed do eiusmod tempor incididunt ut labore et dolore
                         magna aliqua.
                     </p>
+
+
                     <Row wrap="wrap">
                         <Link href="/about">
                             <Button>Read More</Button>
@@ -32,7 +34,10 @@ export default function Home() {
                         <Link href="/">
                             <Button color="secondary">Our Community</Button>
                         </Link>
-
+                        {/* Here is where the next section starts */}
+                        <Row>
+                        <Grid justify="space-between" xs={5}> </Grid>
+                        </Row>
                         <Text
                         h1k
                         font-family= "Work Sans"
