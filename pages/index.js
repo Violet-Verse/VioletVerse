@@ -35,11 +35,9 @@ export default function Home() {
 
                         <Text
                         h1k
+                        font-family= "Work Sans"
                         size={43}
-                        css={{
-                            textGradient:
-                                "45deg, $grey -20%, $grey 100%",
-                        }}
+                        color= "#f293854"
                         weight="bold"
                     >
                         Curated Content Marketplace
