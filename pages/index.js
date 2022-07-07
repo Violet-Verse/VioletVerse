@@ -25,7 +25,6 @@ export default function Home() {
                         magna aliqua.
                     </p>
 
-
                     <Row wrap="wrap">
                         <Link href="/about">
                             <Button>Read More</Button>
@@ -36,7 +35,8 @@ export default function Home() {
                         </Link>
                         {/* Here is where the next section starts */}
                         <Row>
-                        <Grid justify="space-between" xs={5}> </Grid>
+                        <Grid container spacing={4}></Grid>
+                        <Grid justify="space-between" xs={6}> </Grid>
                         </Row>
                         <Text
                         h1k
