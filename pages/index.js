@@ -1,13 +1,20 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import { Button, Container, Grid, Image, Spacer, Text, Row } from "@nextui-org/react";
+import {
+    Button,
+    Container,
+    Grid,
+    Image,
+    Spacer,
+    Text,
+    Row,
+} from "@nextui-org/react";
 
 export default function Home() {
     return (
         <div>
-            <Grid.Container gap={2} justify="center">
+            <Grid.Container gap={2} justify="space-between">
                 <Grid direction="column" justify="center" xs={3}>
-
                     <Text
                         h1
                         size={40}
@@ -36,12 +43,30 @@ export default function Home() {
                 </Grid>
                 <Grid xs={9}>
                     <Image
-                        width={763
-						}
+                        width={763}
                         height={338}
                         src="/Squared.png"
                         alt="Default Image"
                     />
+                </Grid>
+            </Grid.Container>
+            <Grid.Container gap={2} justify="space-between">
+                <Grid>
+                    <Text h1 size={40} weight="bold">
+                        Curated Content Marketplace
+                    </Text>
+                </Grid>
+                <Grid xs={0} sm={0} md={4}>
+                    <Button.Group color="gradient" ghost>
+                        <Button>Tech</Button>
+                        <Button>Lifestyle</Button>
+                        <Button>Education</Button>
+                    </Button.Group>
+                </Grid>
+                <Grid alignContent="center">
+                    <Button flat size="sm" color="primary">
+					See All
+                    </Button>
                 </Grid>
             </Grid.Container>
         </div>
