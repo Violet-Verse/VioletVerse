@@ -1,16 +1,15 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import { Grid } from "@mui/material";
-import { Button, Container, Image, Spacer, Text } from "@nextui-org/react";
-import { MultiSelectUnstyled } from "@mui/base";
+import Image from "next/image";
+import { Grid, Button } from "@mui/material";
+import { Text } from "@nextui-org/react";
 
 export default function Home() {
     return (
         <div>
-            {/* First row of the homepage*/}
-            <Grid container direction="row" justify="center">
-                <Grid item justify="center" xs={3}>
-                    {/* Here is the color for the welcome part*/}
+            {/* First Section */}
+            <Grid container direction="row" spacing={6} justifyContent="center">
+                <Grid item xs={3}>
                     <Text
                         h1k
                         font-family="Work Sans"
@@ -25,31 +24,33 @@ export default function Home() {
                         sed do eiusmod tempor incididunt ut labore et dolore
                         magna aliqua.
                     </p>
-
-                    <Grid wrap="wrap">
-                        <Link href="/about">
-                            <Button>Read More</Button>
-                        </Link>
-                        <Spacer x={1} />
-                        <Link href="/">
-                            <Button color="secondary">Our Community</Button>
-                        </Link>
+                    <Grid container direction="row" spacing={2}>
+                        <Grid item>
+                            <Link href="/about">
+                                <Button variant="contained">Read More</Button>
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="/">
+                                <Button variant="outlined" color="secondary">
+                                    Our Community
+                                </Button>
+                            </Link>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={9}>
-                        <Image
-                            width={763}
-                            height={338}
-                            src="/Squared.png"
-                            alt="Default Image"
-                        />
-                    </Grid>
-                    {/* Here is where the next section starts */}
-
                     <Grid container spacing={4}></Grid>
-                    <Grid justify="space-between" xs={6}>
-                        {" "}
-                    </Grid>
                 </Grid>
+                <Grid item>
+                    <Image
+                        width={763}
+                        height={338}
+                        src="/Squared.png"
+                        alt="Default Image"
+                    />
+                </Grid>
+            </Grid>
+            {/* Second Section */}
+            <Grid container>
                 <Text
                     h1k
                     font-family="Work Sans"
