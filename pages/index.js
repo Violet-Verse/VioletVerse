@@ -1,27 +1,20 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import {
-    Button,
-    Container,
-    Grid,
-    Image,
-    Spacer,
-    Text,
-    Row,
-} from "@nextui-org/react";
+import Image from "next/image";
+import { Grid, Button, ButtonGroup } from "@mui/material";
+import { Text } from "@nextui-org/react";
 
 export default function Home() {
     return (
         <div>
-            <Grid.Container gap={2} justify="space-between">
-                <Grid direction="column" justify="center" xs={3}>
+            {/* First Section */}
+            <Grid container direction="row" spacing={6} justifyContent="space-around" alignItems="center">
+                <Grid item xs={6}>
                     <Text
-                        h1
-                        size={40}
-                        css={{
-                            textGradient:
-                                "45deg, $yellow600 -20%, $red600 100%",
-                        }}
+                        h1k
+                        font-family="Work Sans"
+                        size={43}
+                        color="#293854"
                         weight="bold"
                     >
                         Welcome to the Violet Verse
@@ -29,19 +22,30 @@ export default function Home() {
                     <p className={styles.text}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
+                        magna aliqua. Strong, sweet, cup americano spoon blue
+                        mountain black robusta breve. Skinny variety to go white
+                        rich, redeye crema breve whipped. Strong, sweet, cup
+                        americano spoon blue mountain black robusta breve.
+                        Skinny variety to go white rich, redeye crema breve
+                        whipped.
                     </p>
-                    <Row wrap="wrap">
-                        <Link href="/about">
-                            <Button>Read More</Button>
-                        </Link>
-                        <Spacer x={1} />
-                        <Link href="/">
-                            <Button color="secondary">Our Community</Button>
-                        </Link>
-                    </Row>
+                    <Grid container direction="row" spacing={2}>
+                        <Grid item>
+                            <Link href="/about">
+                                <Button variant="contained">Read More</Button>
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="/">
+                                <Button variant="outlined" color="secondary">
+                                    Our Community
+                                </Button>
+                            </Link>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={4}></Grid>
                 </Grid>
-                <Grid xs={9}>
+                <Grid item>
                     <Image
                         width={763}
                         height={338}
@@ -49,26 +53,36 @@ export default function Home() {
                         alt="Default Image"
                     />
                 </Grid>
-            </Grid.Container>
-            <Grid.Container gap={2} justify="space-between">
-                <Grid>
-                    <Text h1 size={40} weight="bold">
+            </Grid>
+            {/* Second Section */}
+            <Grid container justifyContent="space-between" alignItems="center" marginTop="50px">
+                <Grid item>
+                    <Text
+                        h1k
+                        font-family="Work Sans"
+                        size={43}
+                        color="#f293854"
+                        weight="bold"
+                    >
                         Curated Content Marketplace
                     </Text>
                 </Grid>
-                <Grid xs={0} sm={0} md={4}>
-                    <Button.Group color="gradient" ghost>
+                <Grid item xs={4}>
+                    <ButtonGroup
+                        variant="outlined"
+                        aria-label="outlined primary button group"
+                        size="medium"
+                        fullWidth="true"
+                    >
                         <Button>Tech</Button>
                         <Button>Lifestyle</Button>
                         <Button>Education</Button>
-                    </Button.Group>
+                    </ButtonGroup>
                 </Grid>
-                <Grid alignContent="center">
-                    <Button flat size="sm" color="primary">
-					See All
-                    </Button>
+                <Grid item>
+                    <Button>See All</Button>
                 </Grid>
-            </Grid.Container>
+            </Grid>
         </div>
     );
 }
