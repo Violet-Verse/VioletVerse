@@ -79,7 +79,7 @@ const Home = ({ posts }) => {
                         variant="outlined"
                         aria-label="outlined primary button group"
                         size="medium"
-                        fullWidth="true"
+                        fullWidth={true}
                     >
                         <Button>Tech</Button>
                         <Button>Lifestyle</Button>

@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import Link from "next/link";
+import Head from "next/head";
 
 export const getStaticPaths = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -29,11 +30,14 @@ export const getStaticProps = async (context) => {
 const Article = ({ posts }) => {
     return (
         <div>
+            <Head>
+                <title>{posts.title + `| by Violet Verse`}</title>
+            </Head>
             <h1>{posts.title}</h1>
             <p>{posts.body}</p>
-            <Link href='/posts'>
+            <Link href="/posts">
                 <a>
-                    <h3 style={{color: 'blue'}}>See more posts</h3>
+                    <h3 style={{ color: "blue" }}>See more posts</h3>
                 </a>
             </Link>
         </div>
