@@ -32,7 +32,8 @@ const Article = ({ posts }) => {
         <div>
             <Head>
                 <title>{posts.title + `| by Violet Verse`}</title>
-                <meta name="og:title" content={posts.title + `| by Violet Verse`} />
+                <meta name="title" content={posts.title + `| by Violet Verse`} />
+                <meta name="description" content={posts.body} />
             </Head>
             <h1>{posts.title}</h1>
             <p>{posts.body}</p>
