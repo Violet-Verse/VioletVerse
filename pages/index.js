@@ -1,10 +1,21 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Grid, Button, ButtonGroup } from "@mui/material";
+import { Grid, Button, ButtonGroup, CardActionArea } from "@mui/material";
 import { Text } from "@nextui-org/react";
 
-export default function Home() {
+export const getStaticProps = async () => {
+    const res = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1/posts"
+    );
+    const data = await res.json();
+
+    return {
+        props: { posts: data },
+    };
+};
+
+const Home = ({ posts }) => {
     return (
         <div>
             {/* First Section */}
@@ -15,6 +26,14 @@ export default function Home() {
                 justifyContent="space-around"
                 alignItems="center"
             >
+                <Grid item md={12} lg={6} align="center">
+                    <Image
+                        width={763}
+                        height={338}
+                        src="/Squared.png"
+                        alt="Default Image"
+                    />
+                </Grid>
                 <Grid item xs={6}>
                     <Text h1 size={43} color="#f293854" weight="bold">
                         Welcome to the Violet Verse
@@ -43,14 +62,6 @@ export default function Home() {
                             </Link>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid item>
-                    <Image
-                        width={763}
-                        height={338}
-                        src="/Squared.png"
-                        alt="Default Image"
-                    />
                 </Grid>
             </Grid>
             {/* Second Section */}
@@ -82,76 +93,30 @@ export default function Home() {
                 </Grid>
             </Grid>
             <Grid container spacing={2} align="left" marginTop="25px">
-                <Grid item xs={12} sm={6} md={4}>
-                    <Image
-                        src="/Rectangle.png"
-                        alt="Placeholder Image"
-                        width={370}
-                        height={158}
-                    />
-                    <Text h3 color="#f293854" weight="bold">
-                        Article Title
-                    </Text>
-                    <Text color="#4D20A3" weight="semibold">
-                        Content Creator | Tech
-                    </Text>
-                    <Text
-                        color="#A4B0C0"
-                        weight="medium"
-                        css={{ maxWidth: "370px" }}
-                    >
-                        Strong, sweet, cup americano spoon blue mountain black
-                        robusta breve. Skinny variety to go white rich, redeye
-                        crema breve whipped.
-                    </Text>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Image
-                        src="/Rectangle.png"
-                        alt="Placeholder Image"
-                        width={370}
-                        height={158}
-                    />
-                    <Text h3 color="#f293854" weight="bold">
-                        Article Title
-                    </Text>
-                    <Text color="#4D20A3" weight="semibold">
-                        Content Creator | Tech
-                    </Text>
-                    <Text
-                        color="#A4B0C0"
-                        weight="medium"
-                        css={{ maxWidth: "370px" }}
-                    >
-                        Strong, sweet, cup americano spoon blue mountain black
-                        robusta breve. Skinny variety to go white rich, redeye
-                        crema breve whipped.
-                    </Text>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Image
-                        src="/Rectangle.png"
-                        alt="Placeholder Image"
-                        width={370}
-                        height={158}
-                    />
-                    <Text h3 color="#f293854" weight="bold">
-                        Article Title
-                    </Text>
-                    <Text color="#4D20A3" weight="semibold">
-                        Content Creator | Tech
-                    </Text>
-                    <Text
-                        color="#A4B0C0"
-                        weight="medium"
-                        css={{ maxWidth: "370px" }}
-                    >
-                        Strong, sweet, cup americano spoon blue mountain black
-                        robusta breve. Skinny variety to go white rich, redeye
-                        crema breve whipped.
-                    </Text>
-                </Grid>
+                {posts.slice(0, 3).map((post) => (
+                    <Grid item xs={12} sm={6} md={4} key={post.id}>
+                        <CardActionArea style={{ maxWidth: "370px" }}>
+                            <Image
+                                src="/Rectangle.png"
+                                alt="Placeholder Image"
+                                width={370}
+                                height={158}
+                            />
+                            <Text h3 color="#f293854" weight="bold">
+                                {post.title}
+                            </Text>
+                            <Text color="#4D20A3" weight="semibold">
+                                Content Creator | Tech
+                            </Text>
+                            <Text color="#A4B0C0" weight="medium">
+                                {post.body}
+                            </Text>
+                        </CardActionArea>
+                    </Grid>
+                ))}
             </Grid>
         </div>
     );
-}
+};
+
+export default Home;
