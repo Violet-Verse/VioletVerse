@@ -89,7 +89,11 @@ const Home = ({ posts }) => {
                     </ButtonGroup>
                 </Grid>
                 <Grid item>
-                    <Button>[+] See All</Button>
+                    <Link href="/posts">
+                        <a>
+                            <Button>[+] See All</Button>
+                        </a>
+                    </Link>
                 </Grid>
             </Grid>
             <Grid container spacing={2} align="left" marginTop="25px">
