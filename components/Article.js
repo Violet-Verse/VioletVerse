@@ -22,7 +22,7 @@ const Article = (props) => {
                             <Link href={"/posts/" + post.id}>
                                 <a>
                                     <Image
-                                        src="/Rectangle.png"
+                                        src={`/` + whichCategory(post.userId) +`.jpg`}
                                         alt="Placeholder Image"
                                         width={370}
                                         height={158}
