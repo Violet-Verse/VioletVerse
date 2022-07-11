@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Grid, Button, ButtonGroup, CardActionArea } from "@mui/material";
+import { Grid, Button, ButtonGroup } from "@mui/material";
 import { Text } from "@nextui-org/react";
 import Article from "../components/Article";
 
