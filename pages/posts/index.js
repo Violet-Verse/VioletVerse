@@ -1,8 +1,8 @@
-import styles from "../../styles/Home.module.css";
+import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Grid, Button, ButtonGroup, CardActionArea } from "@mui/material";
+import { Grid, ButtonGroup, Button } from "@mui/material";
 import { Text } from "@nextui-org/react";
+import Article from "../../components/Article";
 
 export const getStaticProps = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -14,36 +14,59 @@ export const getStaticProps = async () => {
 };
 
 const Posts = ({ posts }) => {
+    const [livePosts, setLivePosts] = useState(posts);
+    const [category, setCategory] = useState();
+    const handleCategory = (newCategory) => {
+        if (category == newCategory) {
+            setCategory(0);
+            setLivePosts(posts);
+        } else {
+            setCategory(newCategory);
+            setLivePosts(posts.filter((x) => x.userId === newCategory));
+        }
+    };
     return (
-        <div>
-            <Grid container spacing={2} align="left" marginTop="25px">
-                {posts.map((post) => (
-                    <Grid item xs={12} sm={6} md={4} key={post.id}>
-                        <Link href={"/posts/" + post.id}>
-                            <a>
-                                <CardActionArea style={{ maxWidth: "370px" }}>
-                                    <Image
-                                        src="/Rectangle.png"
-                                        alt="Placeholder Image"
-                                        width={370}
-                                        height={158}
-                                    />
-                                    <Text h3 color="#f293854" weight="bold">
-                                        {post.title}
-                                    </Text>
-                                    <Text color="#4D20A3" weight="semibold">
-                                        Content Creator | Tech
-                                    </Text>
-                                    <Text color="#A4B0C0" weight="medium">
-                                        {post.body}
-                                    </Text>
-                                </CardActionArea>
-                            </a>
-                        </Link>
-                    </Grid>
-                ))}
+        <>
+            <Grid
+                container
+                justifyContent="space-between"
+                alignItems="center"
+                marginTop="100px"
+            >
+                <Grid item md={12} lg={6}>
+                    <Text h1 size={43} color="#f293854" weight="bold">
+                        Curated Content Marketplace
+                    </Text>
+                </Grid>
+                <Grid item md={6} lg={4}>
+                    <ButtonGroup
+                        aria-label="outlined primary button group"
+                        size="medium"
+                        fullWidth={true}
+                    >
+                        <Button
+                            variant={category == 1 ? "contained" : "outlined"}
+                            onClick={() => handleCategory(1)}
+                        >
+                            Tech
+                        </Button>
+                        <Button
+                            variant={category == 2 ? "contained" : "outlined"}
+                            onClick={() => handleCategory(2)}
+                        >
+                            Lifestyle
+                        </Button>
+                        <Button
+                            variant={category == 3 ? "contained" : "outlined"}
+                            onClick={() => handleCategory(3)}
+                        >
+                            Education
+                        </Button>
+                    </ButtonGroup>
+                </Grid>
             </Grid>
-        </div>
+            <Article posts={livePosts} maximum={100} />
+        </>
     );
 };
 
