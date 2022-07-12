@@ -148,6 +148,7 @@ const About = () => {
                                     `https://www.twitter.com/` + member.twitter
                                 }
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <TwitterIcon />
                             </a>
@@ -158,6 +159,7 @@ const About = () => {
                                     member.facebook
                                 }
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <FacebookIcon />
                             </a>
@@ -167,6 +169,7 @@ const About = () => {
                                     member.linkedIn
                                 }
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <LinkedInIcon />
                             </a>
