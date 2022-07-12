@@ -14,7 +14,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Link from "next/link";
 
-const pages = ["Market", "Web3 Resources", "VV VR", "Community"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
@@ -23,7 +22,7 @@ const ResponsiveAppBar = () => {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-    
+
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
@@ -78,16 +77,42 @@ const ResponsiveAppBar = () => {
                                 display: { xs: "block", md: "none" },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                >
-                                    <Typography textAlign="center">
-                                        {page}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem onClick={handleCloseNavMenu}>
+                                <Link href="#">
+                                    <a>
+                                        <Typography textAlign="center">
+                                            Market
+                                        </Typography>
+                                    </a>
+                                </Link>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu}>
+                                <Link href="#">
+                                    <a>
+                                        <Typography textAlign="center">
+                                            Web3 Resources
+                                        </Typography>
+                                    </a>
+                                </Link>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu}>
+                                <Link href="#">
+                                    <a>
+                                        <Typography textAlign="center">
+                                            VV VR
+                                        </Typography>
+                                    </a>
+                                </Link>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu}>
+                                <Link href="/about">
+                                    <a>
+                                        <Typography textAlign="center">
+                                            Community
+                                        </Typography>
+                                    </a>
+                                </Link>
+                            </MenuItem>
                         </Menu>
                     </Box>
                     <Box sx={{ display: { xs: "flex", md: "none" }, mr: 3 }}>
@@ -124,23 +149,67 @@ const ResponsiveAppBar = () => {
                             display: { xs: "none", md: "flex" },
                         }}
                     >
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "white", display: "block" }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+                        <Link href="#">
+                            <a>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                >
+                                    Market
+                                </Button>
+                            </a>
+                        </Link>
+                        <Link href="#">
+                            <a>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                >
+                                    Web3 Resources
+                                </Button>
+                            </a>
+                        </Link>
+                        <Link href="#">
+                            <a>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                >
+                                    VV VR
+                                </Button>
+                            </a>
+                        </Link>
+                        <Link href="/about">
+                            <a>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                >
+                                    Community
+                                </Button>
+                            </a>
+                        </Link>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton
-                                onClick={() => null}
-                                sx={{ p: 0 }}
-                            >
+                            <IconButton onClick={() => null} sx={{ p: 0 }}>
                                 <Avatar
                                     alt="Remy Sharp"
                                     src="/static/images/avatar/2.jpg"
