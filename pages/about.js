@@ -50,13 +50,6 @@ const About = () => {
                 spacing={6}
                 justifyContent="space-around"
                 alignItems="center"
-            ></Grid>
-            <Grid
-                container
-                direction="row"
-                spacing={6}
-                justifyContent="space-around"
-                alignItems="center"
             >
                 <Grid item xs={6}>
                     <Text
