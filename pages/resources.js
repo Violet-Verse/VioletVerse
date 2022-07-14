@@ -1,59 +1,49 @@
+import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
 import { Grid, Button, ButtonGroup } from "@mui/material";
-import { Text } from "@nextui-org/react";
 
 const Resources = () => {
-    /*First Section*/
+    const [category, setCategory] = useState(0);
+    const handleCategory = (newCategory) => {
+        if (newCategory == category) {
+            setCategory(0);
+        } else {
+            setCategory(newCategory)
+        }
+    }
 
     return (
-        <div>
+        <>
             <Grid
                 container
-                direction="row"
-                spacing={6}
-                justifyContent="space-around"
+                direction="column"
+                justifyContent="center"
                 alignItems="center"
+                textAlign="center"
+                spacing={2}
             >
-                <Grid item xs={6}>
-                    <Text
-                        h1
-                        font-family="Work Sans"
-                        size={43}
-                        color="#293854"
-                        weight="bold"
-                    >
-                        New to web3?
-                    </Text>
+                <Grid item>
+                    <h1 className={styles.title}>New to web3?</h1>
+                </Grid>
+                <Grid item>
                     <p className={styles.text}>
-                        <br />
                         Strong, sweet, cup americano spoon blue mountain <br />
                         black robusta breve. Skinny variety to go white rich,
                         redeye crema breve whipped. <br />
                     </p>
-                    <Grid container direction="row" spacing={2}></Grid>
-                    <Grid container spacing={2}></Grid>
+                </Grid>
+                <Grid item>
+                    <ButtonGroup
+                        aria-label="outlined primary button group"
+                        size="large"
+                    >
+                        <Button onClick={() => handleCategory(1)} variant={category == 1 ? "contained" : "outlined"}>Events</Button>
+                        <Button onClick={() => handleCategory(2)} variant={category == 2 ? "contained" : "outlined"}>Resources</Button>
+                        <Button onClick={() => handleCategory(3)} variant={category == 3 ? "contained" : "outlined"}>Getting Started</Button>
+                    </ButtonGroup>
                 </Grid>
             </Grid>
-            <Grid
-                container
-                justifyContent="space-between"
-                alignItems="center"
-                marginTop="100px"
-            ></Grid>
-            <Grid item md={5} lg={4}>
-                <ButtonGroup
-                    container
-                    aria-label="outlined primary button group"
-                    size="large"
-                    alignItems="center"
-                >
-                    <Button>Events</Button>
-                    <Button>Resources</Button>
-                    <Button>Getting Started</Button>
-                </ButtonGroup>
-            </Grid>
-        </div>
+        </>
     );
 };
 
