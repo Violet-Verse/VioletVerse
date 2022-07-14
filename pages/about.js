@@ -20,15 +20,9 @@ const About = () => {
                 alignItems="center"
             >
                 <Grid item xs={6}>
-                    <Text
-                        h1
-                        font-family="Work Sans"
-                        size={43}
-                        color="#293854"
-                        weight="bold"
-                    >
+                    <h1 className={styles.title}>
                         About the Violet Verse
-                    </Text>
+                    </h1>
                     <p className={styles.text}>
                         <br />
                         Strong, sweet, cup americano spoon blue mountain <br />
@@ -55,22 +49,15 @@ const About = () => {
                 marginTop="50px"
             >
                 <Grid item>
-                    <Text
-                        h1k
-                        font-family="Work Sans"
-                        size={43}
-                        color="#f293854"
-                        weight="bold"
-                    >
+                    <h1 className={styles.title}>
                         Our Team
-                    </Text>
+                    </h1>
                 </Grid>
             </Grid>
 
             {/*Image configuration*/}
 
             <Grid
-                item
                 container
                 direction="row"
                 spacing={6}
@@ -79,7 +66,7 @@ const About = () => {
             >
                 <Grid
                     container
-                    spacing
+                    spacing={2}
                     direction="row"
                     columnSpacing={3}
                     justifyContent="space-evenly"

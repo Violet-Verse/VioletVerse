@@ -87,7 +87,7 @@ const ResponsiveAppBar = () => {
                                 </Link>
                             </MenuItem>
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Link href="#">
+                                <Link href="/resources">
                                     <a>
                                         <Typography textAlign="center">
                                             Web3 Resources
@@ -163,7 +163,7 @@ const ResponsiveAppBar = () => {
                                 </Button>
                             </a>
                         </Link>
-                        <Link href="#">
+                        <Link href="/resources">
                             <a>
                                 <Button
                                     onClick={handleCloseNavMenu}
@@ -212,7 +212,6 @@ const ResponsiveAppBar = () => {
                             <IconButton onClick={() => null} sx={{ p: 0 }}>
                                 <Avatar
                                     alt="Remy Sharp"
-                                    src="/static/images/avatar/2.jpg"
                                 />
                             </IconButton>
                         </Tooltip>

@@ -15,7 +15,7 @@ export const getStaticProps = async () => {
 
 const Posts = ({ posts }) => {
     const [livePosts, setLivePosts] = useState(posts);
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState(0);
     const handleCategory = (newCategory) => {
         if (category == newCategory) {
             setCategory(0);
