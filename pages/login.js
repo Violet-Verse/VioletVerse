@@ -2,9 +2,11 @@ import React from "react";
 import { Button, TextField, Container, Box } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Magic } from "magic-sdk";
+import { useUser } from "../hooks/useAuth";
 import Router from "next/router";
 
 export default function LoginPage() {
+    useUser({ redirectTo: "/", redirectIfFound: true });
     const {
         register,
         handleSubmit,
@@ -26,7 +28,7 @@ export default function LoginPage() {
             // We successfully logged in, our API
             // set authorization cookies and now we
             // can redirect to the dashboard!
-            Router.push("/dashboard");
+            Router.push("/");
         } else {
             /* handle errors */
         }

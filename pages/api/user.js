@@ -1,21 +1,9 @@
-import Iron from "@hapi/iron";
-import CookieService from "../../lib/cookie";
+import { getLoginSession } from "../../lib/cookie";
 
 export default async function user(req, res) {
-    let user;
-    try {
-        user = await Iron.unseal(
-            CookieService.getAuthToken(req.cookies),
-            process.env.TOKEN_SECRET,
-            Iron.defaults
-        );
-    } catch (err) {
-        res.status(401).end();
-    }
-
-    // now we have access to the data inside of user
-    // and we could make database calls or just send back what we have
-    // in the token.
-
-    res.json(user);
+    const session = await getLoginSession(req);
+    // After getting the session you may want to fetch for the user instead
+    // of sending the session's payload directly, this example doesn't have a DB
+    // so it won't matter in this case
+    res.status(200).json({ user: session || null });
 }

@@ -1,19 +1,31 @@
+import { useEffect } from "react";
+import Router from "next/router";
 import useSWR from "swr";
 
-function fetcher(route) {
-    /* our token cookie gets sent with this request */
-    return fetch(route)
-        .then((r) => r.ok && r.json())
-        .then((user) => user || null);
-}
+const fetcher = (url) =>
+    fetch(url)
+        .then((r) => r.json())
+        .then((data) => {
+            return { user: data?.user || null };
+        });
 
-export default function useAuth() {
-    const { data: user, error, mutate } = useSWR("/api/user", fetcher);
-    const loading = user === undefined;
+export function useUser({ redirectTo, redirectIfFound } = {}) {
+    const { data, error } = useSWR("/api/user", fetcher);
+    const user = data?.user;
+    const finished = Boolean(data);
+    const hasUser = Boolean(user);
 
-    return {
-        user,
-        loading,
-        error,
-    };
+    useEffect(() => {
+        if (!redirectTo || !finished) return;
+        if (
+            // If redirectTo is set, redirect if the user was not found.
+            (redirectTo && !redirectIfFound && !hasUser) ||
+            // If redirectIfFound is also set, redirect if the user was found
+            (redirectIfFound && hasUser)
+        ) {
+            Router.push(redirectTo);
+        }
+    }, [redirectTo, redirectIfFound, finished, hasUser]);
+
+    return error ? null : user;
 }
