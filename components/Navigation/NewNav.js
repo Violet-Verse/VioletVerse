@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Link from "next/link";
+import Router from "next/router";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -209,7 +210,10 @@ const ResponsiveAppBar = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={() => null} sx={{ p: 0 }}>
+                            <IconButton
+                                onClick={() => Router.push("/login")}
+                                sx={{ p: 0 }}
+                            >
                                 <Avatar
                                     alt="Remy Sharp"
                                     src="/static/images/avatar/2.jpg"

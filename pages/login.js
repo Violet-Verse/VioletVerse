@@ -14,7 +14,7 @@ export default function LoginPage() {
     const onSubmit = async ({ email }) => {
         const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISH_KEY);
         const didToken = await magic.auth.loginWithMagicLink({ email });
-        const res = await fetch("/api/login", {
+        const authRequest = await fetch("/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -22,10 +22,13 @@ export default function LoginPage() {
             },
             body: JSON.stringify({ email }),
         });
-        if (res.status === 200) {
-            Router.push("/");
+        if (authRequest.ok) {
+            // We successfully logged in, our API
+            // set authorization cookies and now we
+            // can redirect to the dashboard!
+            Router.push("/dashboard");
         } else {
-            // display an error
+            /* handle errors */
         }
     };
 
