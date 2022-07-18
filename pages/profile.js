@@ -1,9 +1,18 @@
 import { Button } from "@mui/material";
-import { useUser } from "../hooks/useAuth";
+import { useUser } from "../components/user";
 import Router from "next/router";
 
+export async function getStaticProps(context) {
+    return {
+        props: {
+            protected: true,
+        },
+    };
+}
+
 const Profile = () => {
-    const user = useUser({ redirectTo: "/login" });
+    const { user } = useUser();
+    console.log(user);
 
     const handleLogout = async () => {
         const logoutRequest = await fetch("/api/logout", {
