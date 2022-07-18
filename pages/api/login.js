@@ -14,6 +14,7 @@ export default async function login(req, res) {
     );
     const user = await magic.users.getMetadataByToken(didToken);
 
+    const users = [];
     // database
     table
         .select({
@@ -23,10 +24,33 @@ export default async function login(req, res) {
             function page(records, fetchNextPage) {
                 records.forEach(function (record) {
                     console.log("Retrieved", record.get("userId"));
+                    users.push(record.get("userId"));
                 });
                 fetchNextPage();
             },
             function done(err) {
+                if (users.length >= 1) {
+                    // User found in database
+                    console.log("user found");
+                } else {
+                    // User not found in database -- ADD NEW USER
+                    console.log("user not found");
+                    try {
+                        table.create([
+                            {
+                                fields: {
+                                    userId: `${user.issuer}`,
+                                    email: `${user.email}`,
+                                    role: "user",
+                                    bio: "An interesting bio awaits...",
+                                    flowAddress: `${req.body.flowAddress}`,
+                                },
+                            },
+                        ]);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
                 if (err) {
                     console.error(err);
                     return;
