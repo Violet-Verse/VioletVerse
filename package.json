@@ -11,12 +11,21 @@
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@hapi/iron": "^7.0.0",
+    "@magic-ext/flow": "^3.1.1",
+    "@magic-sdk/admin": "^1.4.1",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.6",
     "@nextui-org/react": "^1.0.0-beta.9",
+    "@onflow/fcl": "^1.1.0",
+    "airtable": "^0.11.4",
+    "cookie": "^0.5.0",
+    "magic-sdk": "^8.1.1",
     "next": "12.2.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.33.1",
+    "swr": "^1.3.0"
   },
   "devDependencies": {
     "eslint": "8.18.0",

@@ -13,11 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Link from "next/link";
+import Router from "next/router";
+import { useUser } from "../../components/user";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
+    const { user } = useUser();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -25,6 +29,22 @@ const ResponsiveAppBar = () => {
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
+    };
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = (setting) => {
+        if (setting === "logout") {
+            Router.push("/api/" + setting);
+            setAnchorElUser(null);
+        } else if (setting === "profile") {
+            Router.push("/" + setting);
+            setAnchorElUser(null);
+        } else {
+            setAnchorElUser(null);
+        }
     };
 
     return (
@@ -206,16 +226,64 @@ const ResponsiveAppBar = () => {
                             </a>
                         </Link>
                     </Box>
+                    {user ? (
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton
+                                        onClick={handleOpenUserMenu}
+                                        sx={{ p: 0 }}
+                                    >
+                                        <Avatar
+                                            alt="Remy Sharp"
+                                            src="/static/images/avatar/2.jpg"
+                                        />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: "45px" }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right",
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right",
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map((setting) => (
+                                        <MenuItem
+                                            key={setting}
+                                            onClick={() =>
+                                                handleCloseUserMenu(
+                                                    setting.toLowerCase()
+                                                )
+                                            }
+                                        >
+                                            <Typography textAlign="center">
+                                                {setting}
+                                            </Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </Box>
+                        </Box>
+                    ) : (
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Button
+                                color="inherit"
+                                onClick={() => Router.push("/login")}
+                            >
+                                Login
+                            </Button>
+                        </Box>
+                    )}
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={() => null} sx={{ p: 0 }}>
-                                <Avatar
-                                    alt="Remy Sharp"
-                                />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
                 </Toolbar>
             </Container>
         </AppBar>
