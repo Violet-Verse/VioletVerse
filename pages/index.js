@@ -116,7 +116,7 @@ const Home = ({ posts }) => {
                 <Grid item>
                     <Link href="/posts">
                         <a>
-                            <Button>[+] See All</Button>
+                            <Button>See All</Button>
                         </a>
                     </Link>
                 </Grid>

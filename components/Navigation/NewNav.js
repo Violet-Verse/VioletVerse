@@ -98,7 +98,7 @@ const ResponsiveAppBar = () => {
                             }}
                         >
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Link href="#">
+                                <Link href="/posts">
                                     <a>
                                         <Typography textAlign="center">
                                             Market
@@ -169,7 +169,7 @@ const ResponsiveAppBar = () => {
                             display: { xs: "none", md: "flex" },
                         }}
                     >
-                        <Link href="#">
+                        <Link href="/posts">
                             <a>
                                 <Button
                                     onClick={handleCloseNavMenu}
@@ -283,7 +283,6 @@ const ResponsiveAppBar = () => {
                             </Button>
                         </Box>
                     )}
-
                 </Toolbar>
             </Container>
         </AppBar>
