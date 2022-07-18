@@ -107,7 +107,7 @@ const ResponsiveAppBar = () => {
                                 </Link>
                             </MenuItem>
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Link href="#">
+                                <Link href="/resources">
                                     <a>
                                         <Typography textAlign="center">
                                             Web3 Resources
@@ -183,7 +183,7 @@ const ResponsiveAppBar = () => {
                                 </Button>
                             </a>
                         </Link>
-                        <Link href="#">
+                        <Link href="/resources">
                             <a>
                                 <Button
                                     onClick={handleCloseNavMenu}
@@ -226,7 +226,6 @@ const ResponsiveAppBar = () => {
                             </a>
                         </Link>
                     </Box>
-
                     {user ? (
                         <Box sx={{ flexGrow: 0 }}>
                             <Box sx={{ flexGrow: 0 }}>
@@ -284,6 +283,7 @@ const ResponsiveAppBar = () => {
                             </Button>
                         </Box>
                     )}
+
                 </Toolbar>
             </Container>
         </AppBar>
