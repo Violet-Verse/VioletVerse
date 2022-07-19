@@ -1,5 +1,7 @@
-import Link from "next/link";
+import Router from "next/router";
 import Head from "next/head";
+import Image from "next/image";
+import { Grid, Button, ButtonGroup, Box } from "@mui/material";
 
 export const getStaticPaths = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -31,7 +33,11 @@ const Article = ({ posts }) => {
     const siteTitle = `${posts.title} + | by Violet Verse`;
     const siteDescription = posts.body;
     return (
-        <div>
+        <Box
+            sx={{
+                padding: { xs: "0px 10%", lg: "0px 20%", xl: "0px 20%" },
+            }}
+        >
             <Head>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
@@ -50,14 +56,49 @@ const Article = ({ posts }) => {
                     content="https://i.imgur.com/HOcgWqo.png"
                 />
             </Head>
-            <h1>{posts.title}</h1>
-            <p>{posts.body}</p>
-            <Link href="/posts">
-                <a>
-                    <h3 style={{ color: "blue" }}>See more posts</h3>
-                </a>
-            </Link>
-        </div>
+            <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+            >
+                <Grid
+                    item
+                    sx={{
+                        textAlign: "center",
+                    }}
+                >
+                    <h1>{posts.title}</h1>
+                    <h4>By User {posts.userId}</h4>
+                </Grid>
+                <Grid item sx={{ margin: "50px 0px" }}>
+                    <Image
+                        src="/Photography_2.png"
+                        alt="Violet Verse Banner"
+                        width={1920}
+                        height={1080}
+                    />
+                </Grid>
+                <Grid
+                    item
+                    sx={{
+                        textAlign: "justify",
+                    }}
+                >
+                    <p>{posts.body}</p>
+                </Grid>
+                <Button
+                    sx={{
+                        marginTop: "50px",
+                    }}
+                    size="large"
+                    variant="contained"
+                    onClick={() => Router.push("/posts")}
+                >
+                    See more posts
+                </Button>
+            </Grid>
+        </Box>
     );
 };
 

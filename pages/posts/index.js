@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { Grid, ButtonGroup, Button } from "@mui/material";
 import { Text } from "@nextui-org/react";
 import Article from "../../components/Article";
