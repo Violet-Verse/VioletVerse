@@ -29,16 +29,7 @@ const Home = ({ posts }) => {
         }
     };
     return (
-        <Box
-            sx={{
-                padding: {
-                    xs: "0px 0px",
-                    sm: "0px 10%",
-                    lg: "0px 20%",
-                    xl: "0px 20%",
-                },
-            }}
-        >
+        <>
             {/* First Section */}
             <Grid
                 container
@@ -157,7 +148,7 @@ const Home = ({ posts }) => {
                 </Grid>
             </Grid>
             <Article posts={livePosts} maximum={3} />
-        </Box>
+        </>
     );
 };
 

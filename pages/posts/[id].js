@@ -33,16 +33,7 @@ const Article = ({ posts }) => {
     const siteTitle = `${posts.title} + | by Violet Verse`;
     const siteDescription = posts.body;
     return (
-        <Box
-            sx={{
-                padding: {
-                    xs: "0px 0px",
-                    sm: "0px 10%",
-                    lg: "0px 20%",
-                    xl: "0px 20%",
-                },
-            }}
-        >
+        <>
             <Head>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
@@ -103,7 +94,7 @@ const Article = ({ posts }) => {
                     See more posts
                 </Button>
             </Grid>
-        </Box>
+        </>
     );
 };
 

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Navbar from "./Navigation/Navbar";
 import Footer from "./Footer";
+import { Box } from "@mui/material";
 
 const Layout = ({ children }) => {
     const siteTitle = "Violet Verse | Web3 content outlet powered by Flow";
@@ -32,9 +33,19 @@ const Layout = ({ children }) => {
                 />
             </Head>
             <Navbar />
-            <div className="content" style={{ marginTop: "50px" }}>
+            <Box
+                sx={{
+                    padding: {
+                        xs: "0px 0px",
+                        sm: "0px 10%",
+                        lg: "0px 20%",
+                        xl: "0px 20%",
+                    },
+                    marginTop: "50px",
+                }}
+            >
                 {children}
-            </div>
+            </Box>
             <Footer />
         </div>
     );

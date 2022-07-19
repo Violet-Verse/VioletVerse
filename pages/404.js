@@ -19,17 +19,7 @@ const NotFound = () => {
     });
 
     return (
-        <Box
-            className="not-found"
-            sx={{
-                padding: {
-                    xs: "0px 0px",
-                    sm: "0px 10%",
-                    lg: "0px 20%",
-                    xl: "0px 20%",
-                },
-            }}
-        >
+        <>
             <h1>Ooops...</h1>
             <h2>That page cannot be found.</h2>
             <Box sx={{ margin: "25px 0px" }}>
@@ -48,7 +38,7 @@ const NotFound = () => {
                 </Link>{" "}
                 in {seconds}...
             </p>
-        </Box>
+        </>
     );
 };
 
