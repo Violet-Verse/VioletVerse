@@ -83,13 +83,18 @@ const Home = ({ posts }) => {
                     </Grid>
                 </Grid>
                 <Grid item md={12} lg={8} align="center">
-                    <Image
-                        width={1920}
-                        height={1080}
-                        src="/Photography_Banner.png"
-                        alt="Default Image"
-                        // layout="responsive"
-                    />
+                    <Link href="/posts">
+                        <a>
+                            <Image
+                                width={1920}
+                                height={1080}
+                                src="/Photography_Banner.png"
+                                alt="Default Image"
+                                className="image"
+                                // layout="responsive"
+                            />
+                        </a>
+                    </Link>
                 </Grid>
             </Grid>
             {/* Second Section */}

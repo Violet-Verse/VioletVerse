@@ -1,80 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 body {
-  font-family: "Nunito";
+    font-family: "Nunito";
 }
+
 a {
-  color: #333;
-  text-decoration: none;
+    color: #333;
+    text-decoration: none;
 }
 
 nav {
-  margin: 10px auto 80px;
-  padding: 10px 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  border-bottom: 1px solid #ddd;
+    margin: 10px auto 80px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    border-bottom: 1px solid #ddd;
 }
+
 nav a {
-  margin-left: 12px;
+    margin-left: 12px;
 }
+
 nav .logo {
-  margin-right: auto;
+    margin-right: auto;
 }
+
 footer {
-  display: block;
-  text-align: center;
-  padding: 30px 0;
-  margin-top: 60px;
-  color: #777;
-  border-top: 1px solid #eaeaea;
+    display: block;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+    color: #777;
+    border-top: 1px solid #eaeaea;
 }
 
 .not-found {
-  text-align: center;
-  font-size: large;
+    text-align: center;
+    font-size: large;
 }
-.not-found a{
-  color: #4979ff;
-  text-decoration: underline;
+
+.not-found a {
+    color: #4979ff;
+    text-decoration: underline;
 }
 
 h1 {
-  font-family: 'Ogg';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 40px;
-  color: #293854;
-  letter-spacing: -0.01em;
-  line-height: 120%;
+    font-family: "Ogg";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    color: #293854;
+    letter-spacing: -0.01em;
+    line-height: 120%;
 }
 
 h2 {
-  font-family: 'Ogg';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 30px;
-  color: #293854;
-  letter-spacing: -0.01em;
-  line-height: 120%;
+    font-family: "Ogg";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    color: #293854;
+    letter-spacing: -0.01em;
+    line-height: 120%;
 }
 
 h4 {
-  font-family: 'Ogg';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  color: #293854;
-  letter-spacing: -0.01em;
-  line-height: 120%;
+    font-family: "Ogg";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    color: #293854;
+    letter-spacing: -0.01em;
+    line-height: 120%;
 }
 
 p {
-  font-family: 'Test Calibre';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 20px;
-  color: #73839C;
+    font-family: "Test Calibre";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    color: #73839c;
+}
+
+.image {
+    filter: brightness(100%);
+    -webkit-filter: brightness(100%);
+    transition: 0.3s ease;
+    border-radius: 10px;
+}
+
+.image:hover {
+    filter: brightness(85%);
+    -webkit-filter: brightness(85%);
+    transition: 0.3s ease;
+}
+
+.imageSm {
+    border-radius: 10px;
 }

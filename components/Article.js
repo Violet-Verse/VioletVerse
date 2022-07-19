@@ -36,6 +36,7 @@ const Article = (props) => {
                                         alt="Placeholder Image"
                                         width={370}
                                         height={158}
+                                        className="imageSm"
                                     />
                                     <Text
                                         h3

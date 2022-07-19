@@ -28,6 +28,7 @@ const NotFound = () => {
                     height={1080}
                     src="/Photography_Banner.png"
                     alt="Default Image"
+                    className="image"
                     // layout="responsive"
                 />
             </Box>
