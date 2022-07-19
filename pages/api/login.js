@@ -68,6 +68,5 @@ export default async function login(req, res) {
         Iron.defaults
     );
     CookieService.setTokenCookie(res, token);
-
     res.end();
 }

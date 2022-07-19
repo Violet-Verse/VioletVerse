@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Router from "next/router";
 import { Button, TextField, Container, Box } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -6,8 +6,12 @@ import { Magic } from "magic-sdk";
 import * as fcl from "@onflow/fcl";
 import { FlowExtension } from "@magic-ext/flow";
 import { useUser } from "../hooks/useAuth";
+import useSWR, { useSWRConfig } from "swr";
 
 export default function LoginPage() {
+    const { mutate } = useSWRConfig();
+
+    useEffect(() => {}, []);
     useUser({ redirectTo: "/", redirectIfFound: true });
     const {
         register,
@@ -47,6 +51,7 @@ export default function LoginPage() {
             // We successfully logged in, our API
             // set authorization cookies and now we
             // can redirect to the dashboard!
+            mutate("/api/user");
             Router.push("/");
         } else {
             /* handle errors */
