@@ -25,7 +25,16 @@ const Posts = ({ posts }) => {
         }
     };
     return (
-        <>
+        <Box
+            sx={{
+                padding: {
+                    xs: "0px 0px",
+                    sm: "0px 10%",
+                    lg: "0px 20%",
+                    xl: "0px 20%",
+                },
+            }}
+        >
             <Grid
                 container
                 justifyContent={{
@@ -81,7 +90,7 @@ const Posts = ({ posts }) => {
                 </Grid>
             </Grid>
             <Article posts={livePosts} maximum={100} />
-        </>
+        </Box>
     );
 };
 
