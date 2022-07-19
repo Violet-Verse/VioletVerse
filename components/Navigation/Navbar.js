@@ -235,7 +235,7 @@ const ResponsiveAppBar = () => {
                                         sx={{ p: 0 }}
                                     >
                                         <Avatar
-                                            alt="Remy Sharp"
+                                            alt={user.email.toUpperCase()}
                                             src="/static/images/avatar/2.jpg"
                                         />
                                     </IconButton>

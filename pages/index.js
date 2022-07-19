@@ -38,9 +38,9 @@ const Home = ({ posts }) => {
                 justifyContent="space-between"
                 alignItems="center"
             >
-                <Grid item md={12} lg={3}>
-                    <h1>Welcome to the Violet Verse</h1>
-                    <p>Welcome to the Violet Verse</p>
+                <Grid item md={12} lg={4}>
+                    <h1>Welcome to the{"\n"} Violet Verse</h1>
+                    <p>Welcome to the{"\n"} Violet Verse</p>
                     <Grid container direction="row" spacing={2}>
                         <Grid item>
                             <Button
@@ -54,12 +54,13 @@ const Home = ({ posts }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item md={12} lg={6} align="center">
+                <Grid item md={12} lg={8} align="center">
                     <Image
-                        width={763}
-                        height={338}
-                        src="/Squared.png"
+                        width={1920}
+                        height={1080}
+                        src="/Photography_Banner.png"
                         alt="Default Image"
+                        layout="responsive"
                     />
                 </Grid>
             </Grid>

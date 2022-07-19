@@ -62,7 +62,7 @@ export default function LoginPage() {
     return (
         <div>
             <Container maxWidth="xs">
-                <h1>Magic Login</h1>
+                <h1>Login with Flow</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box mb={2}>
                         <TextField
