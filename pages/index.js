@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Grid, Button, ButtonGroup } from "@mui/material";
+import { Grid, Button, ButtonGroup, Box } from "@mui/material";
 import { Text } from "@nextui-org/react";
 import Article from "../components/Article";
+import Router from "next/router";
 
 export const getStaticProps = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -28,15 +29,31 @@ const Home = ({ posts }) => {
         }
     };
     return (
-        <div>
+        <Box sx={{ padding: { lg: "0px 100px", xl: "0px 200px" } }}>
             {/* First Section */}
             <Grid
                 container
                 direction="row"
                 spacing={6}
-                justifyContent="space-around"
+                justifyContent="space-between"
                 alignItems="center"
             >
+                <Grid item md={12} lg={3}>
+                    <h1>Welcome to the Violet Verse</h1>
+                    <p>Welcome to the Violet Verse</p>
+                    <Grid container direction="row" spacing={2}>
+                        <Grid item>
+                            <Button
+                                sx={{ marginTop: "60px" }}
+                                size="large"
+                                variant="contained"
+                                onClick={() => Router.push("/posts")}
+                            >
+                                Discover
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
                 <Grid item md={12} lg={6} align="center">
                     <Image
                         width={763}
@@ -44,35 +61,6 @@ const Home = ({ posts }) => {
                         src="/Squared.png"
                         alt="Default Image"
                     />
-                </Grid>
-                <Grid item xs={6}>
-                    <Text h1 size={43} color="#f293854" weight="bold">
-                        Welcome to the Violet Verse
-                    </Text>
-                    <p className={styles.text}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Strong, sweet, cup americano spoon blue
-                        mountain black robusta breve. Skinny variety to go white
-                        rich, redeye crema breve whipped. Strong, sweet, cup
-                        americano spoon blue mountain black robusta breve.
-                        Skinny variety to go white rich, redeye crema breve
-                        whipped.
-                    </p>
-                    <Grid container direction="row" spacing={2}>
-                        <Grid item>
-                            <Link href="/">
-                                <Button variant="contained">Read More</Button>
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="/about">
-                                <Button variant="outlined" color="secondary">
-                                    Our Community
-                                </Button>
-                            </Link>
-                        </Grid>
-                    </Grid>
                 </Grid>
             </Grid>
             {/* Second Section */}
@@ -83,9 +71,7 @@ const Home = ({ posts }) => {
                 marginTop="100px"
             >
                 <Grid item md={12} lg={6}>
-                    <Text h1 size={43} color="#f293854" weight="bold">
-                        Curated Content Marketplace
-                    </Text>
+                    <h1>Curated Content Marketplace</h1>
                 </Grid>
                 <Grid item md={6} lg={4}>
                     <ButtonGroup
@@ -114,15 +100,13 @@ const Home = ({ posts }) => {
                     </ButtonGroup>
                 </Grid>
                 <Grid item>
-                    <Link href="/posts">
-                        <a>
-                            <Button>See All</Button>
-                        </a>
-                    </Link>
+                    <Button onClick={() => Router.push("/posts")}>
+                        See All
+                    </Button>
                 </Grid>
             </Grid>
             <Article posts={livePosts} maximum={3} />
-        </div>
+        </Box>
     );
 };
 

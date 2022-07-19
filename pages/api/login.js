@@ -14,8 +14,9 @@ export default async function login(req, res) {
     );
     const user = await magic.users.getMetadataByToken(didToken);
 
+    // search for user record in database
+    // if no user found then create record
     const users = [];
-    // database
     table
         .select({
             filterByFormula: `{userId} = "${user.issuer}"`,
@@ -58,8 +59,8 @@ export default async function login(req, res) {
             }
         );
 
-    console.log(req.body);
-    console.log(user);
+    // console.log(req.body);
+    // console.log(user);
 
     // Author a couple of cookies to persist a user's session
     const token = await Iron.seal(

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 body {
   font-family: "Nunito";
 }
@@ -41,4 +42,20 @@ footer {
 .not-found a{
   color: #4979ff;
   text-decoration: underline;
+}
+
+h1 {
+  font-family: 'Ogg';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  color: #293854;
+}
+
+p {
+  font-family: 'Test Calibre';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  color: #73839C;
 }

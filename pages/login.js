@@ -19,7 +19,7 @@ export default function LoginPage() {
         formState: { errors },
     } = useForm();
 
-    // CONFIGURE ACCESS NODE
+    // CONFIGURE FLOW ACCESS NODE
     fcl.config()
         .put("grpc.metadata", {
             api_key: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
@@ -37,6 +37,7 @@ export default function LoginPage() {
                 }),
             ],
         });
+
         const didToken = await magic.auth.loginWithMagicLink({ email });
         const { publicAddress } = await magic.user.getMetadata();
         const authRequest = await fetch("/api/login", {

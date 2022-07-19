@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Navbar from "./Navigation/NewNav";
+import Navbar from "./Navigation/Navbar";
 import Footer from "./Footer";
 
 const Layout = ({ children }) => {
@@ -24,7 +24,9 @@ const Layout = ({ children }) => {
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <Navbar />
-            <div className="content" style={{marginTop: '50px'}}>{children}</div>
+            <div className="content" style={{ marginTop: "50px" }}>
+                {children}
+            </div>
             <Footer />
         </div>
     );
