@@ -22,7 +22,11 @@ const Article = (props) => {
                             <Link href={"/posts/" + post.id}>
                                 <a>
                                     <Image
-                                        src={`/` + whichCategory(post.userId) +`.jpg`}
+                                        src={
+                                            `/` +
+                                            whichCategory(post.userId) +
+                                            `.jpg`
+                                        }
                                         alt="Placeholder Image"
                                         width={370}
                                         height={158}
@@ -34,9 +38,7 @@ const Article = (props) => {
                                         Content Creator |{" "}
                                         {whichCategory(post.userId)}
                                     </Text>
-                                    <Text color="#A4B0C0" weight="medium">
-                                        {post.body}
-                                    </Text>
+                                    <p>{post.body}</p>
                                 </a>
                             </Link>
                         </CardActionArea>

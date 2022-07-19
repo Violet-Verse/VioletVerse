@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Router from "next/router";
 import { Button, TextField, Container, Box } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -6,8 +6,12 @@ import { Magic } from "magic-sdk";
 import * as fcl from "@onflow/fcl";
 import { FlowExtension } from "@magic-ext/flow";
 import { useUser } from "../hooks/useAuth";
+import useSWR, { useSWRConfig } from "swr";
 
 export default function LoginPage() {
+    const { mutate } = useSWRConfig();
+
+    useEffect(() => {}, []);
     useUser({ redirectTo: "/", redirectIfFound: true });
     const {
         register,
@@ -15,7 +19,7 @@ export default function LoginPage() {
         formState: { errors },
     } = useForm();
 
-    // CONFIGURE ACCESS NODE
+    // CONFIGURE FLOW ACCESS NODE
     fcl.config()
         .put("grpc.metadata", {
             api_key: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
@@ -33,6 +37,7 @@ export default function LoginPage() {
                 }),
             ],
         });
+
         const didToken = await magic.auth.loginWithMagicLink({ email });
         const { publicAddress } = await magic.user.getMetadata();
         const authRequest = await fetch("/api/login", {
@@ -47,6 +52,7 @@ export default function LoginPage() {
             // We successfully logged in, our API
             // set authorization cookies and now we
             // can redirect to the dashboard!
+            mutate("/api/user");
             Router.push("/");
         } else {
             /* handle errors */
@@ -56,7 +62,7 @@ export default function LoginPage() {
     return (
         <div>
             <Container maxWidth="xs">
-                <h1>Magic Login</h1>
+                <h1>Login with Flow</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box mb={2}>
                         <TextField

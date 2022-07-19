@@ -1,30 +1,40 @@
 import Head from "next/head";
-import Navbar from "./Navigation/NewNav";
+import Navbar from "./Navigation/Navbar";
 import Footer from "./Footer";
 
 const Layout = ({ children }) => {
-    const siteTitle = "Violet Verse";
+    const siteTitle = "Violet Verse | Web3 content outlet powered by Flow";
+    const siteDescription =
+        "Violet Verse is a Web3 Dapp powered by Flow. The best place to get your crypto news!";
 
     return (
         <div>
             <Head>
-                <title>{siteTitle}</title>
                 <link rel="icon" href="/favicon.ico" />
-                <meta
-                    name="description"
-                    content="Strong, sweet, cup americano spoon blue mountain black robusta breve."
-                />
+                <title>{siteTitle}</title>
+                <meta name="og:title" content={siteTitle} />
+                <meta name="og:description" content={siteDescription} />
                 <meta
                     property="og:image"
-                    content={`https://og-image.vercel.app/${encodeURI(
-                        siteTitle
-                    )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
+                    content="https://i.imgur.com/yhNmGo8.png"
                 />
-                <meta name="og:title" content={siteTitle} />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="800" />
+                <meta property="og:image:height" content="420" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:description" content={siteDescription} />
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:image:src"
+                    content="https://i.imgur.com/yhNmGo8.png"
+                />
             </Head>
             <Navbar />
-            <div className="content" style={{marginTop: '50px'}}>{children}</div>
+            <div className="content" style={{ marginTop: "50px" }}>
+                {children}
+            </div>
             <Footer />
         </div>
     );
