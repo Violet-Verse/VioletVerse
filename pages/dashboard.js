@@ -8,7 +8,6 @@ const Dashboard = () => {
             </Container>
         </div>
     );
-}
 };
 
 export default Dashboard;
