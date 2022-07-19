@@ -18,16 +18,16 @@ const Layout = ({ children }) => {
                     property="og:image"
                     content="https://i.imgur.com/yhNmGo8.png"
                 />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="800" />
+                <meta property="og:image:height" content="420" />
                 <meta property="og:type" content="website" />
-                <meta property="twitter:site" content="@TheVioletVerse" />
-                <meta property="twitter:title" content={siteTitle} />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
                 <meta
-                    property="twitter:description"
-                    content={siteDescription}
-                />
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta
-                    property="twitter:image:src"
+                    name="twitter:image:src"
                     content="https://i.imgur.com/yhNmGo8.png"
                 />
             </Head>
