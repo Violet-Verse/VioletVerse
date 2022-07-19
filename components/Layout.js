@@ -18,7 +18,10 @@ const Layout = ({ children }) => {
                     property="og:image"
                     content="https://i.imgur.com/HZmoUvQ.png"
                 />
-                <meta name="og:title" content={siteTitle} />
+                <meta
+                    name="og:title"
+                    content={`${siteTitle} Testing Header | Place for News`}
+                />
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <Navbar />
