@@ -51,7 +51,7 @@ const Home = ({ posts }) => {
                     }}
                 >
                     <h1 style={{ whiteSpace: "pre-wrap" }}>
-                        {"Welcome to the \n Violet Verse"}
+                        {"Welcome to the \nViolet Verse"}
                     </h1>
                     <p>Welcome to the Violet Verse</p>
                     <Grid

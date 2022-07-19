@@ -37,8 +37,9 @@ const Layout = ({ children }) => {
                 sx={{
                     padding: {
                         xs: "0px 0px",
-                        sm: "0px 10%",
-                        lg: "0px 20%",
+                        sm: "0px 5%",
+                        md: "0px 10%",
+                        lg: "0px 15%",
                         xl: "0px 20%",
                     },
                     marginTop: "50px",
