@@ -3,26 +3,23 @@ import Navbar from "./Navigation/Navbar";
 import Footer from "./Footer";
 
 const Layout = ({ children }) => {
-    const siteTitle = "Violet Verse";
+    const siteTitle = "Violet Verse | Web3 content outlet powered by Flow";
 
     return (
         <div>
             <Head>
-                <title>{siteTitle}: Testing12312312</title>
                 <link rel="icon" href="/favicon.ico" />
+                <title>{siteTitle}</title>
+                <meta name="og:title" content={siteTitle} />
                 <meta
-                    name="description"
-                    content="Strong, sweet, cup americano spoon blue mountain black robusta breve."
+                    name="og:description"
+                    content="Violet Verse is a Web3 Dapp powered by Flow. The best place to get your crypto news!"
                 />
                 <meta
                     property="og:image"
                     content="https://i.imgur.com/HZmoUvQ.png"
                 />
-                <meta
-                    name="og:title"
-                    content={`${siteTitle} Testing Header | Place for News`}
-                />
-                <meta name="twitter:card" content="summary_large_image" />
+                <meta property="og:type" content="website" />
             </Head>
             <Navbar />
             <div className="content" style={{ marginTop: "50px" }}>
