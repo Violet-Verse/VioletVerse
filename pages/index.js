@@ -29,22 +29,54 @@ const Home = ({ posts }) => {
         }
     };
     return (
-        <Box sx={{ padding: { lg: "0px 100px", xl: "0px 200px" } }}>
+        <Box
+            sx={{
+                padding: { xs: "0px 50px", lg: "0px 100px", xl: "0px 200px" },
+            }}
+        >
             {/* First Section */}
             <Grid
                 container
                 direction="row"
                 spacing={6}
-                justifyContent="space-between"
+                justifyContent={{
+                    xs: "center",
+                    md: "center",
+                    lg: "space-between",
+                }}
                 alignItems="center"
             >
-                <Grid item md={12} lg={4}>
-                    <h1>Welcome to the{"\n"} Violet Verse</h1>
-                    <p>Welcome to the{"\n"} Violet Verse</p>
-                    <Grid container direction="row" spacing={2}>
+                <Grid
+                    item
+                    md={12}
+                    lg={4}
+                    sx={{
+                        textAlign: { xs: "center", md: "center", lg: "left" },
+                    }}
+                >
+                    <h1 style={{ whiteSpace: "pre-wrap" }}>
+                        {"Welcome to the \n Violet Verse"}
+                    </h1>
+                    <p>Welcome to the Violet Verse</p>
+                    <Grid
+                        container
+                        direction="row"
+                        spacing={2}
+                        justifyContent={{
+                            xs: "center",
+                            md: "center",
+                            lg: "flex-start",
+                        }}
+                    >
                         <Grid item>
                             <Button
-                                sx={{ marginTop: "60px" }}
+                                sx={{
+                                    marginTop: {
+                                        xs: "20px",
+                                        md: "20px",
+                                        lg: "60px",
+                                    },
+                                }}
                                 size="large"
                                 variant="contained"
                                 onClick={() => Router.push("/posts")}
@@ -60,16 +92,27 @@ const Home = ({ posts }) => {
                         height={1080}
                         src="/Photography_Banner.png"
                         alt="Default Image"
-                        layout="responsive"
+                        // layout="responsive"
                     />
                 </Grid>
             </Grid>
             {/* Second Section */}
             <Grid
                 container
-                justifyContent="space-between"
+                justifyContent={{
+                    xs: "center",
+                    md: "center",
+                    lg: "space-between",
+                }}
                 alignItems="center"
-                marginTop="100px"
+                sx={{
+                    marginTop: {
+                        xs: "75px",
+                        md: "75px",
+                        lg: "100px",
+                    },
+                    textAlign: { xs: "center", md: "center", lg: "left" },
+                }}
             >
                 <Grid item md={12} lg={6}>
                     <h1>Curated Content Marketplace</h1>

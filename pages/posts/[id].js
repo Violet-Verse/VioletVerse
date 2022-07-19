@@ -35,10 +35,6 @@ const Article = ({ posts }) => {
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={posts.body} />
-                <meta
-                    property="og:image"
-                    content="https://i.imgur.com/HOcgWqo.png"
-                />
                 <meta property="og:type" content="article" />
             </Head>
             <h1>{posts.title}</h1>

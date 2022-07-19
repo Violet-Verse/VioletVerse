@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
                 />
                 <meta
                     property="og:image"
-                    content="https://i.imgur.com/HZmoUvQ.png"
+                    content="https://i.imgur.com/yhNmGo8.png"
                 />
                 <meta property="og:type" content="website" />
             </Head>
