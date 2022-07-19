@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, ButtonGroup, Button } from "@mui/material";
+import { Grid, ButtonGroup, Button, Box } from "@mui/material";
 import { Text } from "@nextui-org/react";
 import Article from "../../components/Article";
 
@@ -28,14 +28,25 @@ const Posts = ({ posts }) => {
         <>
             <Grid
                 container
-                justifyContent="space-between"
+                justifyContent={{
+                    xs: "center",
+                    md: "center",
+                    lg: "space-between",
+                }}
                 alignItems="center"
-                marginTop="100px"
+                sx={{
+                    marginTop: {
+                        xs: "75px",
+                        md: "75px",
+                        lg: "100px",
+                    },
+                    textAlign: { xs: "center", md: "center", lg: "left" },
+                }}
             >
                 <Grid item md={12} lg={6}>
-                    <Text h1 size={43} color="#f293854" weight="bold">
-                        Curated Content Marketplace
-                    </Text>
+                    <Box sx={{ marginBottom: "25px" }}>
+                        <h1>Curated Content Marketplace</h1>
+                    </Box>
                 </Grid>
                 <Grid item md={6} lg={4}>
                     <ButtonGroup
@@ -62,6 +73,11 @@ const Posts = ({ posts }) => {
                             Education
                         </Button>
                     </ButtonGroup>
+                </Grid>
+                <Grid item>
+                    <Button onClick={() => Router.push("/posts")}>
+                        See All
+                    </Button>
                 </Grid>
             </Grid>
             <Article posts={livePosts} maximum={100} />

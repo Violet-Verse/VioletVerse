@@ -31,7 +31,12 @@ const Home = ({ posts }) => {
     return (
         <Box
             sx={{
-                padding: { xs: "0px 50px", lg: "0px 100px", xl: "0px 200px" },
+                padding: {
+                    xs: "0px 0px",
+                    sm: "0px 10%",
+                    lg: "0px 20%",
+                    xl: "0px 20%",
+                },
             }}
         >
             {/* First Section */}
@@ -115,7 +120,9 @@ const Home = ({ posts }) => {
                 }}
             >
                 <Grid item md={12} lg={6}>
-                    <h1>Curated Content Marketplace</h1>
+                    <Box sx={{ marginBottom: "25px" }}>
+                        <h1>Curated Content Marketplace</h1>
+                    </Box>
                 </Grid>
                 <Grid item md={6} lg={4}>
                     <ButtonGroup

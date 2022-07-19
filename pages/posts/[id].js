@@ -35,7 +35,12 @@ const Article = ({ posts }) => {
     return (
         <Box
             sx={{
-                padding: { xs: "0px 10%", lg: "0px 20%", xl: "0px 20%" },
+                padding: {
+                    xs: "0px 0px",
+                    sm: "0px 10%",
+                    lg: "0px 20%",
+                    xl: "0px 20%",
+                },
             }}
         >
             <Head>

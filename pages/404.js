@@ -22,7 +22,12 @@ const NotFound = () => {
         <Box
             className="not-found"
             sx={{
-                padding: { xs: "0px 5%", lg: "0px 20%", xl: "0px 20%" },
+                padding: {
+                    xs: "0px 0px",
+                    sm: "0px 10%",
+                    lg: "0px 20%",
+                    xl: "0px 20%",
+                },
             }}
         >
             <h1>Ooops...</h1>

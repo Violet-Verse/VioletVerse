@@ -15,10 +15,16 @@ const Article = (props) => {
     };
     return (
         <>
-            <Grid container spacing={2} align="left" marginTop="25px">
+            <Grid
+                container
+                spacing={2}
+                align="center"
+                sx={{ marginTop: "25px" }}
+                justifyContent="center"
+            >
                 {props.posts.slice(0, props.maximum).map((post) => (
                     <Grid item xs={12} sm={6} md={4} key={post.id}>
-                        <CardActionArea style={{ maxWidth: "370px" }}>
+                        <CardActionArea sx={{ maxWidth: "370px" }}>
                             <Link href={"/posts/" + post.id}>
                                 <a>
                                     <Image
@@ -31,14 +37,25 @@ const Article = (props) => {
                                         width={370}
                                         height={158}
                                     />
-                                    <Text h3 color="#f293854" weight="bold">
+                                    <Text
+                                        h3
+                                        color="#f293854"
+                                        weight="bold"
+                                        style={{ textAlign: "left" }}
+                                    >
                                         {post.title}
                                     </Text>
-                                    <Text color="#4D20A3" weight="semibold">
+                                    <Text
+                                        color="#4D20A3"
+                                        weight="semibold"
+                                        style={{ textAlign: "left" }}
+                                    >
                                         Content Creator |{" "}
                                         {whichCategory(post.userId)}
                                     </Text>
-                                    <p>{post.body}</p>
+                                    <p style={{ textAlign: "left" }}>
+                                        {post.body}
+                                    </p>
                                 </a>
                             </Link>
                         </CardActionArea>
