@@ -2,7 +2,7 @@ export const members = [
     {
         name: "Melissa",
         id: 1,
-        title: "Founder & CEO",
+        title: "Founder",
         website: "",
         facebook: "",
         twitter: "melwritesmiami",

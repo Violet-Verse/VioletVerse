@@ -28,7 +28,9 @@ const About = () => {
                         textAlign: { xs: "center", md: "center", lg: "left" },
                     }}
                 >
-                    <h1>About the Violet Verse</h1>
+                    <h1 style={{ whiteSpace: "pre-wrap" }}>
+                        {"About the \nViolet Verse"}
+                    </h1>
                     <p>
                         <br />
                         Strong, sweet, cup americano spoon blue mountain <br />
