@@ -66,6 +66,16 @@ h2 {
     line-height: 120%;
 }
 
+h3 {
+    font-family: "Ogg";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    color: #293854;
+    letter-spacing: -0.01em;
+    line-height: 120%;
+}
+
 h4 {
     font-family: "Ogg";
     font-style: normal;
@@ -81,6 +91,7 @@ p {
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
+    line-height: 130%;
     color: #73839c;
 }
 
@@ -98,5 +109,5 @@ p {
 }
 
 .imageSm {
-    border-radius: 10px;
+    border-radius: 5px;
 }

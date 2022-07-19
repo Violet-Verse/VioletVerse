@@ -31,6 +31,8 @@ const Home = ({ posts }) => {
     return (
         <>
             {/* First Section */}
+            {/* Welcome to the Violet Verse */}
+
             <Grid
                 container
                 direction="row"
@@ -97,7 +99,10 @@ const Home = ({ posts }) => {
                     </Link>
                 </Grid>
             </Grid>
+
             {/* Second Section */}
+            {/* Curated Content Marketplace */}
+
             <Grid
                 container
                 justifyContent={{

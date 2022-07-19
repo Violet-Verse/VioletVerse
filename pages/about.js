@@ -1,29 +1,35 @@
-import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Grid, CardActionArea } from "@mui/material";
-import { Text } from "@nextui-org/react";
+import { Grid, Box } from "@mui/material";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import LanguageIcon from "@mui/icons-material/Language";
 import { members } from "../components/UserData";
 
 const About = () => {
     return (
-        <div>
+        <>
             {/* First section */}
+            {/* About the Violet Verse */}
+
             <Grid
                 container
                 direction="row"
-                spacing={6}
+                spacing={8}
                 justifyContent="space-around"
                 alignItems="center"
             >
-                <Grid item xs={6}>
-                    <h1 className={styles.title}>
-                        About the Violet Verse
-                    </h1>
-                    <p className={styles.text}>
+                <Grid
+                    item
+                    md={12}
+                    lg={4}
+                    sx={{
+                        textAlign: { xs: "center", md: "center", lg: "left" },
+                    }}
+                >
+                    <h1>About the Violet Verse</h1>
+                    <p>
                         <br />
                         Strong, sweet, cup americano spoon blue mountain <br />
                         black robusta breve. Skinny variety to go white rich,
@@ -32,107 +38,147 @@ const About = () => {
                     <Grid container direction="row" spacing={2}></Grid>
                     <Grid container spacing={2}></Grid>
                 </Grid>
-                <Grid item>
+                <Grid item md={12} lg={8} align="center">
                     <Image
-                        width={763}
-                        height={338}
-                        src="/Squared.png"
+                        width={1920}
+                        height={1080}
+                        src="/Photography_2.png"
                         alt="Default Image"
+                        className="image"
                     />
                 </Grid>
             </Grid>
+
             {/* 2nd Section */}
-            <Grid
-                container
-                justifyContent="space-between"
-                alignItems="center"
-                marginTop="50px"
-            >
-                <Grid item>
-                    <h1 className={styles.title}>
-                        Our Team
-                    </h1>
-                </Grid>
-            </Grid>
-
-            {/*Image configuration*/}
+            {/* Our Team */}
 
             <Grid
                 container
-                direction="row"
-                spacing={6}
-                justifyContent="space-around"
-                alignItems="center"
+                spacing={2}
+                align="center"
+                sx={{ marginTop: "40px" }}
+                justifyContent="center"
             >
                 <Grid
-                    container
-                    spacing={2}
-                    direction="row"
-                    columnSpacing={3}
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    marginTop="80px"
+                    item
+                    xs={12}
+                    sx={{
+                        textAlign: { xs: "center", md: "center", lg: "left" },
+                    }}
                 >
-                    {members.map((member) => (
-                        <Grid item key={member.id}>
-                            <CardActionArea style={{ maxWidth: "370px" }}>
-                                <Link href={"/team/" + member.id}>
-                                    <a>
-                                        <Image
-                                            width={270}
-                                            height={313}
-                                            src="/Squared.png"
-                                            alt="Default Image"
-                                            style={{ marginBottom: "35px" }}
-                                        />
-                                        <Text
-                                            font-family="Work Sans"
-                                            size={20}
-                                            color="#f293854"
-                                            weight="bold"
-                                        >
-                                            {member.name}
-                                        </Text>
-                                        <Text>{member.title}</Text>
-                                    </a>
-                                </Link>
-                            </CardActionArea>
-                            <a
-                                href={
-                                    `https://www.twitter.com/` + member.twitter
-                                }
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                <TwitterIcon />
-                            </a>
-
-                            <a
-                                href={
-                                    `https://www.facebook.com/` +
-                                    member.facebook
-                                }
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                <FacebookIcon />
-                            </a>
-                            <a
-                                href={
-                                    `https://www.linkedin.com/in/` +
-                                    member.linkedIn
-                                }
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                <LinkedInIcon />
-                            </a>
-                        </Grid>
-                    ))}
+                    <h1>Our Team</h1>
                 </Grid>
-                <Grid item></Grid>
+                {members.map((member) => (
+                    <Grid item xs={12} sm={6} lg={3} key={member.id}>
+                        <Image
+                            width={1000}
+                            height={1159}
+                            src={member.photo}
+                            alt="Default Image"
+                            className="imageSm"
+                        />
+                        <Link href={"/team/" + member.id}>
+                            <a>
+                                <h2
+                                    style={{
+                                        textAlign: "left",
+                                        fontFamily: "Test Calibre",
+                                        fontWeight: "700",
+                                        fontSize: "22px",
+                                        marginTop: "15px",
+                                    }}
+                                >
+                                    {member.name}
+                                </h2>
+                            </a>
+                        </Link>
+                        <h3
+                            style={{
+                                marginTop: "15px",
+                                textAlign: "left",
+                                fontFamily: "Test Calibre",
+                                fontWeight: "400",
+                                fontSize: "18px",
+                            }}
+                        >
+                            {member.title}
+                        </h3>
+                        <Box
+                            sx={{
+                                marginTop: "15px",
+                                textAlign: "left",
+                            }}
+                        >
+                            {member?.website && (
+                                <a
+                                    href={member.facebook}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <LanguageIcon
+                                        sx={{
+                                            margin: "0px 3px",
+                                            color: "#73839C",
+                                        }}
+                                    />
+                                </a>
+                            )}
+                            {member?.twitter && (
+                                <a
+                                    href={
+                                        `https://www.twitter.com/` +
+                                        member.twitter
+                                    }
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <TwitterIcon
+                                        sx={{
+                                            margin: "0px 3px",
+                                            color: "#73839C",
+                                        }}
+                                    />
+                                </a>
+                            )}
+                            {member?.linkedIn && (
+                                <a
+                                    href={
+                                        `https://www.linkedin.com/in/` +
+                                        member.linkedIn
+                                    }
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <LinkedInIcon
+                                        sx={{
+                                            margin: "0px 3px",
+                                            color: "#73839C",
+                                        }}
+                                    />
+                                </a>
+                            )}
+                            {member?.facebook && (
+                                <a
+                                    href={
+                                        `https://www.facebook.com/` +
+                                        member.facebook
+                                    }
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <FacebookIcon
+                                        sx={{
+                                            margin: "0px 3px",
+                                            color: "#73839C",
+                                        }}
+                                    />
+                                </a>
+                            )}
+                        </Box>
+                    </Grid>
+                ))}
             </Grid>
-        </div>
+        </>
     );
 };
 
