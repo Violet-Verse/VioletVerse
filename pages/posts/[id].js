@@ -29,13 +29,26 @@ export const getStaticProps = async (context) => {
 
 const Article = ({ posts }) => {
     const siteTitle = `${posts.title} + | by Violet Verse`;
+    const siteDescription = posts.body;
     return (
         <div>
             <Head>
-                <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
-                <meta name="og:description" content={posts.body} />
-                <meta property="og:type" content="article" />
+                <meta name="og:description" content={siteDescription} />
+                <meta
+                    property="og:image"
+                    content="https://i.imgur.com/HOcgWqo.png"
+                />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:image:src"
+                    content="https://i.imgur.com/HOcgWqo.png"
+                />
             </Head>
             <h1>{posts.title}</h1>
             <p>{posts.body}</p>
