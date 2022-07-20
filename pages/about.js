@@ -137,72 +137,82 @@ const About = () => {
                             >
                                 {member.title}
                             </h3>
-
-                            {member?.website && (
-                                <a
-                                    href={member.website}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <LanguageIcon
-                                        sx={{
-                                            margin: "0px 3px",
-                                            color: "#73839C",
-                                        }}
-                                    />
-                                </a>
-                            )}
-                            {member?.twitter && (
-                                <a
-                                    href={
-                                        `https://www.twitter.com/` +
-                                        member.twitter
-                                    }
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <TwitterIcon
-                                        sx={{
-                                            margin: "0px 3px",
-                                            color: "#73839C",
-                                        }}
-                                    />
-                                </a>
-                            )}
-                            {member?.linkedIn && (
-                                <a
-                                    href={
-                                        `https://www.linkedin.com/in/` +
-                                        member.linkedIn
-                                    }
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <LinkedInIcon
-                                        sx={{
-                                            margin: "0px 3px",
-                                            color: "#73839C",
-                                        }}
-                                    />
-                                </a>
-                            )}
-                            {member?.facebook && (
-                                <a
-                                    href={
-                                        `https://www.facebook.com/` +
-                                        member.facebook
-                                    }
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <FacebookIcon
-                                        sx={{
-                                            margin: "0px 3px",
-                                            color: "#73839C",
-                                        }}
-                                    />
-                                </a>
-                            )}
+                            <Grid
+                                container
+                                direction="row"
+                                spacing={1}
+                                justifyContent={{ xs: "center", sm: "left" }}
+                            >
+                                {member?.website && (
+                                    <Grid item>
+                                        <a
+                                            href={member.website}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <LanguageIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.twitter && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.twitter.com/` +
+                                                member.twitter
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <TwitterIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.linkedIn && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.linkedin.com/in/` +
+                                                member.linkedIn
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <LinkedInIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.facebook && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.facebook.com/` +
+                                                member.facebook
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <FacebookIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                            </Grid>
                         </Box>
                     </Grid>
                 ))}
