@@ -1,5 +1,9 @@
 import { Box, Grid } from "@mui/material";
 import Image from "next/image";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import LanguageIcon from "@mui/icons-material/Language";
 import { members } from "../../components/UserData";
 
 export const getStaticProps = async ({ params }) => {
@@ -23,6 +27,65 @@ const Team = ({ member }) => {
         <Grid container direction="column" align="center" alignContent="center">
             <h1>{member.name}</h1>
             <h4>{member.title}</h4>
+            <Grid
+                container
+                direction="row"
+                align="center"
+                justifyContent="center"
+            >
+                {member?.website && (
+                    <a href={member.website} target="_blank" rel="noreferrer">
+                        <LanguageIcon
+                            sx={{
+                                margin: "0px 3px",
+                                color: "#73839C",
+                            }}
+                        />
+                    </a>
+                )}
+                {member?.twitter && (
+                    <a
+                        href={`https://www.twitter.com/` + member.twitter}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <TwitterIcon
+                            sx={{
+                                margin: "0px 3px",
+                                color: "#73839C",
+                            }}
+                        />
+                    </a>
+                )}
+                {member?.linkedIn && (
+                    <a
+                        href={`https://www.linkedin.com/in/` + member.linkedIn}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <LinkedInIcon
+                            sx={{
+                                margin: "0px 3px",
+                                color: "#73839C",
+                            }}
+                        />
+                    </a>
+                )}
+                {member?.facebook && (
+                    <a
+                        href={`https://www.facebook.com/` + member.facebook}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <FacebookIcon
+                            sx={{
+                                margin: "0px 3px",
+                                color: "#73839C",
+                            }}
+                        />
+                    </a>
+                )}
+            </Grid>
             <Image
                 width={345.13}
                 height={400}
