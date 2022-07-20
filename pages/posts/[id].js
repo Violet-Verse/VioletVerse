@@ -1,7 +1,7 @@
-import Router from "next/router";
+import { Button, Grid } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
-import { Grid, Button, ButtonGroup, Box } from "@mui/material";
+import Router from "next/router";
 
 export const getStaticPaths = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");

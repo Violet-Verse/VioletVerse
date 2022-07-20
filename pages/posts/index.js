@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Grid, ButtonGroup, Button, Box } from "@mui/material";
+import { Box, Button, ButtonGroup, Grid } from "@mui/material";
 import { Text } from "@nextui-org/react";
+import React, { useState } from "react";
+
 import Article from "../../components/Article";
 
 export const getStaticProps = async () => {

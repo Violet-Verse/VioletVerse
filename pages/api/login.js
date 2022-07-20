@@ -1,5 +1,6 @@
-import { Magic } from "@magic-sdk/admin";
 import Iron from "@hapi/iron";
+import { Magic } from "@magic-sdk/admin";
+
 import CookieService from "../../lib/cookie";
 import { table } from "./utils/Airtable";
 

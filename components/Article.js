@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Grid, CardActionArea } from "@mui/material";
+import { CardActionArea, Grid } from "@mui/material";
 import { Text } from "@nextui-org/react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Article = (props) => {
     const whichCategory = (id) => {

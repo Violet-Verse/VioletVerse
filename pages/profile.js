@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
-import { useUser } from "../components/UserContext";
 import Router from "next/router";
+
+import { useUser } from "../components/UserContext";
 
 export async function getStaticProps(context) {
     return {

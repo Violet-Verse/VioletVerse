@@ -1,11 +1,12 @@
-import Link from "next/link";
-import Image from "next/image";
-import Head from "next/head";
-import { Grid, Box } from "@mui/material";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import { Box, Grid } from "@mui/material";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+
 import { members } from "../components/Placeholder/UserData";
 
 const About = () => {

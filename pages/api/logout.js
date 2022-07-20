@@ -1,4 +1,5 @@
 import { Magic } from "@magic-sdk/admin";
+
 import { removeTokenCookie } from "../../lib/cookie";
 import { getLoginSession } from "../../lib/cookie";
 

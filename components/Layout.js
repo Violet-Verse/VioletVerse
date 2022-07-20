@@ -1,7 +1,8 @@
-import Head from "next/head";
-import Navbar from "./Layout/Navbar";
-import Footer from "./Layout/Footer";
 import { Box } from "@mui/material";
+import Head from "next/head";
+
+import Footer from "./Layout/Footer";
+import Navbar from "./Layout/Navbar";
 
 const Layout = ({ children }) => {
     const siteTitle = "Violet Verse | Web3 content outlet powered by Flow";

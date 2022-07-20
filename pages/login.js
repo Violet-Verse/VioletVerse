@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
-import Router from "next/router";
-import { Button, TextField, Container, Box } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { Magic } from "magic-sdk";
-import * as fcl from "@onflow/fcl";
 import { FlowExtension } from "@magic-ext/flow";
-import { useUser } from "../hooks/useAuth";
+import { Box, Button, Container, TextField } from "@mui/material";
+import * as fcl from "@onflow/fcl";
+import { Magic } from "magic-sdk";
+import Router from "next/router";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
+
+import { useUser } from "../hooks/useAuth";
 
 export default function LoginPage() {
     const { mutate } = useSWRConfig();

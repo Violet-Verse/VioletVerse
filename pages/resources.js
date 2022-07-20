@@ -1,6 +1,7 @@
+import { Button, ButtonGroup, Grid } from "@mui/material";
 import React, { useState } from "react";
+
 import styles from "../styles/Home.module.css";
-import { Grid, Button, ButtonGroup } from "@mui/material";
 
 const Resources = () => {
     const [category, setCategory] = useState(0);
@@ -8,9 +9,9 @@ const Resources = () => {
         if (newCategory == category) {
             setCategory(0);
         } else {
-            setCategory(newCategory)
+            setCategory(newCategory);
         }
-    }
+    };
 
     return (
         <>
@@ -37,9 +38,24 @@ const Resources = () => {
                         aria-label="outlined primary button group"
                         size="large"
                     >
-                        <Button onClick={() => handleCategory(1)} variant={category == 1 ? "contained" : "outlined"}>Events</Button>
-                        <Button onClick={() => handleCategory(2)} variant={category == 2 ? "contained" : "outlined"}>Resources</Button>
-                        <Button onClick={() => handleCategory(3)} variant={category == 3 ? "contained" : "outlined"}>Getting Started</Button>
+                        <Button
+                            onClick={() => handleCategory(1)}
+                            variant={category == 1 ? "contained" : "outlined"}
+                        >
+                            Events
+                        </Button>
+                        <Button
+                            onClick={() => handleCategory(2)}
+                            variant={category == 2 ? "contained" : "outlined"}
+                        >
+                            Resources
+                        </Button>
+                        <Button
+                            onClick={() => handleCategory(3)}
+                            variant={category == 3 ? "contained" : "outlined"}
+                        >
+                            Getting Started
+                        </Button>
                     </ButtonGroup>
                 </Grid>
             </Grid>

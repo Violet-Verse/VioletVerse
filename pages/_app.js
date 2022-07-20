@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../components/Layout";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NextUIProvider } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+
+import Layout from "../components/Layout";
 import { UserContext } from "../components/UserContext";
 import { useUser } from "../hooks/useAuth";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "../styles/globals.css";
+
 import "../styles/fonts.css";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
     const user = useUser();

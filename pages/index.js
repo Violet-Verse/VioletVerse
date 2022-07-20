@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
+import { Box, Button, ButtonGroup, Grid } from "@mui/material";
 import Image from "next/image";
-import { Grid, Button, ButtonGroup, Box } from "@mui/material";
-import { Text } from "@nextui-org/react";
-import Article from "../components/Article";
+import Link from "next/link";
 import Router from "next/router";
+import React, { useState } from "react";
+
+import Article from "../components/Article";
 
 export const getStaticProps = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
