@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
-import { useUser } from "../../components/user";
+import { useUser } from "../../components/UserContext";
 
 const settings = ["Profile", "Logout"];
 

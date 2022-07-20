@@ -6,7 +6,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
-import { members } from "../components/UserData";
+import { members } from "../components/Placeholder/UserData";
 
 const About = () => {
     const siteTitle = `About The Team | Violet Verse`;
@@ -67,7 +67,7 @@ const About = () => {
                     <Image
                         width={1920}
                         height={1080}
-                        src="/Photography_2.png"
+                        src="/banners/Photography_2.png"
                         alt="Default Image"
                         className="image"
                     />

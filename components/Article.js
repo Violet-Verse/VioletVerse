@@ -29,7 +29,7 @@ const Article = (props) => {
                                 <a>
                                     <Image
                                         src={
-                                            `/` +
+                                            `/placeholder/` +
                                             whichCategory(post.userId) +
                                             `.jpg`
                                         }

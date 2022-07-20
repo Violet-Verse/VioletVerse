@@ -52,7 +52,7 @@ export default function LoginPage() {
             // We successfully logged in, our API
             // set authorization cookies and now we
             // can redirect to the dashboard!
-            mutate("/api/user");
+            mutate("/api/getUser");
             Router.push("/");
         } else {
             /* handle errors */

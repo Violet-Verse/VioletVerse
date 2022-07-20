@@ -96,7 +96,7 @@ const Home = ({ posts }) => {
                             <Image
                                 width={1920}
                                 height={1080}
-                                src="/Photography_Banner.png"
+                                src="/banners/Photography_1.png"
                                 alt="Default Image"
                                 className="image"
                                 // layout="responsive"

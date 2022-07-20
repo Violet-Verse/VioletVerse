@@ -69,7 +69,7 @@ const Article = ({ posts }) => {
                 </Grid>
                 <Grid item sx={{ margin: "50px 0px" }}>
                     <Image
-                        src="/Photography_2.png"
+                        src="/banners/Photography_2.png"
                         alt="Violet Verse Banner"
                         width={1920}
                         height={1080}

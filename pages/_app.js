@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { NextUIProvider } from "@nextui-org/react";
-import { UserContext } from "../components/user";
+import { UserContext } from "../components/UserContext";
 import { useUser } from "../hooks/useAuth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "../styles/globals.css";

@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Navbar from "./Navigation/Navbar";
-import Footer from "./Footer";
+import Navbar from "./Layout/Navbar";
+import Footer from "./Layout/Footer";
 import { Box } from "@mui/material";
 
 const Layout = ({ children }) => {
