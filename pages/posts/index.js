@@ -30,10 +30,11 @@ const Posts = ({ posts }) => {
                 container
                 justifyContent={{
                     xs: "center",
-                    md: "center",
-                    lg: "space-between",
+                    lg: "center",
+                    xl: "space-between",
                 }}
                 alignItems="center"
+                direction="row"
                 sx={{
                     marginTop: {
                         xs: "75px",
@@ -43,12 +44,25 @@ const Posts = ({ posts }) => {
                     textAlign: { xs: "center", md: "center", lg: "left" },
                 }}
             >
-                <Grid item md={12} lg={6}>
-                    <Box sx={{ marginBottom: "25px" }}>
+                <Grid item xs={12} lg={12} xl={7}>
+                    <Box
+                        sx={{
+                            marginBottom: {
+                                xs: "30px",
+                                lg: "30px",
+                                xl: "0px",
+                            },
+                            textAlign: {
+                                xs: "center",
+                                lg: "center",
+                                xl: "left",
+                            },
+                        }}
+                    >
                         <h1>Curated Content Marketplace</h1>
                     </Box>
                 </Grid>
-                <Grid item md={6} lg={4}>
+                <Grid item xl={3}>
                     <ButtonGroup
                         aria-label="outlined primary button group"
                         size="medium"
@@ -73,11 +87,6 @@ const Posts = ({ posts }) => {
                             Education
                         </Button>
                     </ButtonGroup>
-                </Grid>
-                <Grid item>
-                    <Button onClick={() => Router.push("/posts")}>
-                        See All
-                    </Button>
                 </Grid>
             </Grid>
             <Article posts={livePosts} maximum={100} />

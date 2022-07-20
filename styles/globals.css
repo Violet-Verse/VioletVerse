@@ -54,13 +54,14 @@ h1 {
     color: #293854;
     letter-spacing: -0.01em;
     line-height: 120%;
+    margin: 0px;
 }
 
 h2 {
     font-family: "Ogg";
     font-style: normal;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 36px;
     color: #293854;
     letter-spacing: -0.01em;
     line-height: 120%;
@@ -70,13 +71,33 @@ h3 {
     font-family: "Ogg";
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 32px;
     color: #293854;
     letter-spacing: -0.01em;
     line-height: 120%;
 }
 
 h4 {
+    font-family: "Test Calibre";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    color: #293854;
+    letter-spacing: -0.01em;
+    line-height: 120%;
+}
+
+h5 {
+    font-family: "Test Calibre";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #293854;
+    letter-spacing: -0.01em;
+    line-height: 120%;
+}
+
+h6 {
     font-family: "Ogg";
     font-style: normal;
     font-weight: 500;
@@ -92,6 +113,7 @@ p {
     font-weight: 300;
     font-size: 20px;
     line-height: 130%;
+    letter-spacing: 0.005em;
     color: #73839c;
 }
 
@@ -99,7 +121,7 @@ p {
     filter: brightness(100%);
     -webkit-filter: brightness(100%);
     transition: 0.3s ease;
-    border-radius: 10px;
+    border-radius: 4px;
 }
 
 .image:hover {

@@ -38,23 +38,25 @@ const Article = (props) => {
                                         height={158}
                                         className="imageSm"
                                     />
-                                    <Text
-                                        h3
-                                        color="#f293854"
-                                        weight="bold"
-                                        style={{ textAlign: "left" }}
-                                    >
+                                    <h4 style={{ textAlign: "left" }}>
                                         {post.title}
-                                    </Text>
-                                    <Text
-                                        color="#4D20A3"
-                                        weight="semibold"
-                                        style={{ textAlign: "left" }}
+                                    </h4>
+                                    <h5
+                                        style={{
+                                            textAlign: "left",
+                                            color: "#693E9A",
+                                        }}
                                     >
                                         Content Creator |{" "}
                                         {whichCategory(post.userId)}
-                                    </Text>
-                                    <p style={{ textAlign: "left" }}>
+                                    </h5>
+                                    <p
+                                        style={{
+                                            textAlign: "left",
+                                            color: "#A4B0C0",
+                                            // fontWeight: "400",
+                                        }}
+                                    >
                                         {post.body}
                                     </p>
                                 </a>

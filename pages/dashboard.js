@@ -1,11 +1,11 @@
-import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const Dashboard = () => {
     return (
         <div>
-            <Container maxWidth="xs">
+            <Grid container>
                 <h1>Dashboard</h1>
-            </Container>
+            </Grid>
         </div>
     );
 };

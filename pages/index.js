@@ -46,10 +46,15 @@ const Home = ({ posts }) => {
             >
                 <Grid
                     item
-                    md={12}
-                    lg={4}
+                    lg={12}
+                    xl={4}
                     sx={{
-                        textAlign: { xs: "center", md: "center", lg: "left" },
+                        textAlign: {
+                            xs: "center",
+                            md: "center",
+                            lg: "center",
+                            xl: "left",
+                        },
                     }}
                 >
                     <h1 style={{ whiteSpace: "pre-wrap" }}>
@@ -63,7 +68,8 @@ const Home = ({ posts }) => {
                         justifyContent={{
                             xs: "center",
                             md: "center",
-                            lg: "flex-start",
+                            lg: "center",
+                            xl: "flex-start",
                         }}
                     >
                         <Grid item>
@@ -71,8 +77,8 @@ const Home = ({ posts }) => {
                                 sx={{
                                     marginTop: {
                                         xs: "20px",
-                                        md: "20px",
-                                        lg: "60px",
+                                        lg: "20px",
+                                        xl: "60px",
                                     },
                                 }}
                                 size="large"
@@ -84,7 +90,7 @@ const Home = ({ posts }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item md={12} lg={8} align="center">
+                <Grid item md={12} lg={12} xl={8} align="center">
                     <Link href="/posts">
                         <a>
                             <Image
@@ -107,10 +113,11 @@ const Home = ({ posts }) => {
                 container
                 justifyContent={{
                     xs: "center",
-                    md: "center",
-                    lg: "space-between",
+                    lg: "center",
+                    xl: "space-between",
                 }}
                 alignItems="center"
+                direction="row"
                 sx={{
                     marginTop: {
                         xs: "75px",
@@ -120,12 +127,25 @@ const Home = ({ posts }) => {
                     textAlign: { xs: "center", md: "center", lg: "left" },
                 }}
             >
-                <Grid item md={12} lg={6}>
-                    <Box sx={{ marginBottom: "25px" }}>
+                <Grid item xs={12} lg={12} xl={7}>
+                    <Box
+                        sx={{
+                            marginBottom: {
+                                xs: "30px",
+                                lg: "30px",
+                                xl: "0px",
+                            },
+                            textAlign: {
+                                xs: "center",
+                                lg: "center",
+                                xl: "left",
+                            },
+                        }}
+                    >
                         <h1>Curated Content Marketplace</h1>
                     </Box>
                 </Grid>
-                <Grid item md={6} lg={4}>
+                <Grid item xl={3}>
                     <ButtonGroup
                         aria-label="outlined primary button group"
                         size="medium"

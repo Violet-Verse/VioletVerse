@@ -1,3 +1,5 @@
+import { Box, Grid } from "@mui/material";
+import Image from "next/image";
 import { members } from "../../components/UserData";
 
 export const getStaticProps = async ({ params }) => {
@@ -18,10 +20,21 @@ export const getStaticPaths = async () => {
 
 const Team = ({ member }) => {
     return (
-        <div>
-            <h1>Name: {member.name}</h1>
-            <p>{member.title}</p>
-        </div>
+        <Grid container direction="column" align="center" alignContent="center">
+            <h1>{member.name}</h1>
+            <h4>{member.title}</h4>
+            <Image
+                width={345.13}
+                height={400}
+                src={member.photo}
+                alt="Default Image"
+                className="imageSm"
+                objectFit={"contain"}
+            />
+            <Box sx={{ padding: "0px 15%" }}>
+                <p>{member.bio}</p>
+            </Box>
+        </Grid>
     );
 };
 

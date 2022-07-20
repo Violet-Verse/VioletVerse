@@ -58,7 +58,7 @@ const About = () => {
                 container
                 spacing={2}
                 align="center"
-                sx={{ marginTop: "40px" }}
+                sx={{ marginTop: { xs: "30px", md: "30px", lg: "40px" } }}
                 justifyContent="center"
             >
                 <Grid
@@ -66,54 +66,58 @@ const About = () => {
                     xs={12}
                     sx={{
                         textAlign: { xs: "center", md: "center", lg: "left" },
+                        marginBottom: { xs: "30px", md: "30px", lg: "50px" },
                     }}
                 >
                     <h1>Our Team</h1>
                 </Grid>
                 {members.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Image
-                            width={1000}
-                            height={1159}
-                            src={member.photo}
-                            alt="Default Image"
-                            className="imageSm"
-                        />
                         <Link href={"/team/" + member.id}>
                             <a>
-                                <h2
-                                    style={{
-                                        textAlign: "left",
-                                        fontFamily: "Test Calibre",
-                                        fontWeight: "700",
-                                        fontSize: "22px",
-                                        marginTop: "15px",
-                                    }}
-                                >
-                                    {member.name}
-                                </h2>
+                                <Image
+                                    width={1000}
+                                    height={1159}
+                                    src={member.photo}
+                                    alt="Default Image"
+                                    className="image"
+                                    objectFit={"cover"}
+                                />
                             </a>
                         </Link>
-                        <h3
-                            style={{
-                                marginTop: "15px",
-                                textAlign: "left",
-                                fontFamily: "Test Calibre",
-                                fontWeight: "400",
-                                fontSize: "18px",
-                            }}
-                        >
-                            {member.title}
-                        </h3>
                         <Box
                             sx={{
-                                marginTop: "15px",
-                                textAlign: "left",
+                                textAlign: {
+                                    xs: "center",
+                                    sm: "left",
+                                    lg: "left",
+                                },
                             }}
                         >
+                            <Link href={"/team/" + member.id}>
+                                <a>
+                                    <h4
+                                        style={{
+                                            marginTop: "15px",
+                                        }}
+                                    >
+                                        {member.name}
+                                    </h4>
+                                </a>
+                            </Link>
+                            <h3
+                                style={{
+                                    fontFamily: "Test Calibre",
+                                    fontWeight: "400",
+                                    fontSize: "18px",
+                                }}
+                            >
+                                {member.title}
+                            </h3>
+
                             {member?.website && (
                                 <a
-                                    href={member.facebook}
+                                    href={member.website}
                                     target="_blank"
                                     rel="noreferrer"
                                 >

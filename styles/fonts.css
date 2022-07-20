@@ -25,6 +25,13 @@
 
 @font-face {
     font-family: "Test Calibre";
+    src: url("/fonts/Calibre/TestCalibre-Thin.otf") format("opentype");
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Test Calibre";
     src: url("/fonts/Calibre/TestCalibre-Light.otf") format("opentype");
     font-weight: 300;
     font-style: normal;
@@ -34,6 +41,20 @@
     font-family: "Test Calibre";
     src: url("/fonts/Calibre/TestCalibre-Regular.otf") format("opentype");
     font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Test Calibre";
+    src: url("/fonts/Calibre/TestCalibre-Medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Test Calibre";
+    src: url("/fonts/Calibre/TestCalibre-Semibold.otf") format("opentype");
+    font-weight: 600;
     font-style: normal;
 }
 
