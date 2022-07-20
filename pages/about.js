@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import { Grid, Box } from "@mui/material";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -8,8 +9,28 @@ import LanguageIcon from "@mui/icons-material/Language";
 import { members } from "../components/UserData";
 
 const About = () => {
+    const siteTitle = `About The Team | Violet Verse`;
+    const siteDescription = `Learn more about the team building Violet Verse.`;
     return (
         <>
+            <Head>
+                <meta name="og:title" content={siteTitle} />
+                <meta name="og:description" content={siteDescription} />
+                <meta
+                    property="og:image"
+                    content="https://i.imgur.com/HOcgWqo.png"
+                />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:image:src"
+                    content="https://i.imgur.com/HOcgWqo.png"
+                />
+            </Head>
             {/* First section */}
             {/* About the Violet Verse */}
 
