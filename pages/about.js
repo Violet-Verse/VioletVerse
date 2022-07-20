@@ -52,12 +52,14 @@ const About = () => {
                     <h1 style={{ whiteSpace: "pre-wrap" }}>
                         {"About the \nViolet Verse"}
                     </h1>
-                    <p>
-                        <br />
-                        Strong, sweet, cup americano spoon blue mountain <br />
-                        black robusta breve. Skinny variety to go white rich,
-                        redeye crema breve whipped. <br />
-                    </p>
+                    <Box sx={{ padding: { xs: "0px 5%", md: "0px" } }}>
+                        <p>
+                            Strong, sweet, cup americano spoon blue mountain{" "}
+                            <br />
+                            black robusta breve. Skinny variety to go white
+                            rich, redeye crema breve whipped. <br />
+                        </p>
+                    </Box>
                     <Grid container direction="row" spacing={2}></Grid>
                     <Grid container spacing={2}></Grid>
                 </Grid>
