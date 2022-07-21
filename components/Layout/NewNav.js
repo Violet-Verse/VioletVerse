@@ -83,65 +83,77 @@ const NewNav = () => {
                                 display: { xs: "none", md: "flex" },
                             }}
                         >
-                            <Button
-                                href="/posts"
-                                sx={{
-                                    my: 2,
-                                    color: "#0A0510",
-                                    display: "block",
-                                    mr: "15px",
-                                    fontFamily: "Ogg",
-                                    fontSize: "18px",
-                                    lineHeight: "130%",
-                                    letterSpacing: "-0.005em",
-                                }}
-                            >
-                                Market
-                            </Button>
-                            <Button
-                                href="/resources"
-                                sx={{
-                                    my: 2,
-                                    color: "#0A0510",
-                                    display: "block",
-                                    mr: "15px",
-                                    fontFamily: "Ogg",
-                                    fontSize: "18px",
-                                    lineHeight: "130%",
-                                    letterSpacing: "-0.005em",
-                                }}
-                            >
-                                Web3 Resources
-                            </Button>
-                            <Button
-                                href="#"
-                                sx={{
-                                    my: 2,
-                                    color: "#0A0510",
-                                    display: "block",
-                                    mr: "15px",
-                                    fontFamily: "Ogg",
-                                    fontSize: "18px",
-                                    lineHeight: "130%",
-                                    letterSpacing: "-0.005em",
-                                }}
-                            >
-                                VV VR
-                            </Button>
-                            <Button
-                                href="/about"
-                                sx={{
-                                    my: 2,
-                                    color: "#0A0510",
-                                    display: "block",
-                                    fontFamily: "Ogg",
-                                    fontSize: "18px",
-                                    lineHeight: "130%",
-                                    letterSpacing: "-0.005em",
-                                }}
-                            >
-                                Community
-                            </Button>
+                            <Link href="/posts">
+                                <a>
+                                    <Button
+                                        sx={{
+                                            my: 2,
+                                            color: "#0A0510",
+                                            display: "block",
+                                            mr: "15px",
+                                            fontFamily: "Ogg",
+                                            fontSize: "18px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.005em",
+                                        }}
+                                    >
+                                        Market
+                                    </Button>
+                                </a>
+                            </Link>
+                            <Link href="resources">
+                                <a>
+                                    <Button
+                                        sx={{
+                                            my: 2,
+                                            color: "#0A0510",
+                                            display: "block",
+                                            mr: "15px",
+                                            fontFamily: "Ogg",
+                                            fontSize: "18px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.005em",
+                                        }}
+                                    >
+                                        Web3 Resources
+                                    </Button>
+                                </a>
+                            </Link>
+                            <Link href="#">
+                                <a>
+                                    <Button
+                                        sx={{
+                                            my: 2,
+                                            color: "#0A0510",
+                                            display: "block",
+                                            mr: "15px",
+                                            fontFamily: "Ogg",
+                                            fontSize: "18px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.005em",
+                                        }}
+                                    >
+                                        VV VR
+                                    </Button>
+                                </a>
+                            </Link>
+                            <Link href="/about">
+                                <a>
+                                    <Button
+                                        sx={{
+                                            my: 2,
+                                            color: "#0A0510",
+                                            display: "block",
+                                            fontFamily: "Ogg",
+                                            fontSize: "18px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.005em",
+                                        }}
+                                    >
+                                        Community
+                                    </Button>
+                                </a>
+                            </Link>
                         </Box>
                         {/* XS Breakpoint | Connect Wallet */}
                         {!user && (

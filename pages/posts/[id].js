@@ -91,6 +91,7 @@ const Article = ({ posts }) => {
                     size="large"
                     variant="contained"
                     onClick={() => Router.push("/posts")}
+                    disableElevation
                 >
                     See more posts
                 </Button>
