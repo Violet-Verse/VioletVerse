@@ -155,7 +155,7 @@ const NewNav = () => {
                                 </a>
                             </Link>
                         </Box>
-                        {/* XS Breakpoint | Connect Wallet */}
+                        {/* Connect Wallet | XS Breakpoint */}
                         {!user && (
                             <Box
                                 sx={{
@@ -175,7 +175,7 @@ const NewNav = () => {
                                 </IconButton>
                             </Box>
                         )}
-                        {/* XS Breakpoint | Menu Dropdown */}
+                        {/* Menu Dropdown | XS Breakpoint */}
                         <Box
                             sx={{
                                 mr: 2,
@@ -249,7 +249,7 @@ const NewNav = () => {
                                 </MenuItem>
                             </Menu>
                         </Box>
-                        {/* Medium or larger | Logo */}
+                        {/* Logo | Medium or larger */}
                         <Box
                             sx={{
                                 mr: 2,
@@ -268,71 +268,77 @@ const NewNav = () => {
                                 </a>
                             </Link>
                         </Box>
-                        <Box
-                            sx={{
-                                mr: 4,
-                                display: { xs: "none", md: "flex" },
-                                flexGrow: 0,
-                            }}
-                        >
-                            <Button variant="contained" disableElevation>
-                                <Image
-                                    alt="edit"
-                                    src="/star.svg"
-                                    height={16}
-                                    width={16}
-                                />
-                                &nbsp;0 VV Tokens
-                            </Button>
-                        </Box>
-                        {/* Medium or larger | Connect Wallet */}
+                        {/* VV Tokens | Medium or larger */}
+                        {/* Connect Wallet | Medium or larger */}
                         {user ? (
-                            <Box sx={{ flexGrow: 0 }}>
-                                <Box sx={{ flexGrow: 0 }}>
-                                    <Tooltip title="Open settings">
-                                        <IconButton
-                                            onClick={handleOpenUserMenu}
-                                            sx={{ p: 0 }}
-                                        >
-                                            <Avatar
-                                                alt={user.email.toUpperCase()}
-                                                src="/static/images/avatar/2.jpg"
-                                            />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        sx={{ mt: "45px" }}
-                                        id="menu-appbar"
-                                        anchorEl={anchorElUser}
-                                        anchorOrigin={{
-                                            vertical: "top",
-                                            horizontal: "right",
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: "top",
-                                            horizontal: "right",
-                                        }}
-                                        open={Boolean(anchorElUser)}
-                                        onClose={handleCloseUserMenu}
+                            <>
+                                <Box
+                                    sx={{
+                                        mr: 4,
+                                        display: { xs: "none", md: "flex" },
+                                        flexGrow: 0,
+                                    }}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        disableElevation
                                     >
-                                        {settings.map((setting) => (
-                                            <MenuItem
-                                                key={setting}
-                                                onClick={() =>
-                                                    handleCloseUserMenu(
-                                                        setting.toLowerCase()
-                                                    )
-                                                }
-                                            >
-                                                <Typography textAlign="center">
-                                                    {setting}
-                                                </Typography>
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
+                                        <Image
+                                            alt="edit"
+                                            src="/star.svg"
+                                            height={16}
+                                            width={16}
+                                        />
+                                        &nbsp;0 VV Tokens
+                                    </Button>
                                 </Box>
-                            </Box>
+                                <Box sx={{ flexGrow: 0 }}>
+                                    <Box sx={{ flexGrow: 0 }}>
+                                        <Tooltip title="Open settings">
+                                            <IconButton
+                                                onClick={handleOpenUserMenu}
+                                                sx={{ p: 0 }}
+                                            >
+                                                <Avatar
+                                                    alt={user.email.toUpperCase()}
+                                                    src="/static/images/avatar/2.jpg"
+                                                />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Menu
+                                            sx={{ mt: "45px" }}
+                                            id="menu-appbar"
+                                            anchorEl={anchorElUser}
+                                            anchorOrigin={{
+                                                vertical: "top",
+                                                horizontal: "right",
+                                            }}
+                                            keepMounted
+                                            transformOrigin={{
+                                                vertical: "top",
+                                                horizontal: "right",
+                                            }}
+                                            open={Boolean(anchorElUser)}
+                                            onClose={handleCloseUserMenu}
+                                        >
+                                            {settings.map((setting) => (
+                                                <MenuItem
+                                                    key={setting}
+                                                    onClick={() =>
+                                                        handleCloseUserMenu(
+                                                            setting.toLowerCase()
+                                                        )
+                                                    }
+                                                >
+                                                    <Typography textAlign="center">
+                                                        {setting}
+                                                    </Typography>
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                    </Box>
+                                </Box>
+                            </>
                         ) : (
                             <Box
                                 sx={{
