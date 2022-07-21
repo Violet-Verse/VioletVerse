@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
@@ -37,15 +37,15 @@ const Home = ({ posts }) => {
                 <Grid item>
                     <Link href="/posts">
                         <a>
-                            <Image
-                                width={2000}
-                                height={1118}
-                                src="/banners/large_banner.png"
-                                alt="Default Image"
-                                objectFit="cover"
-                                className="image"
-                                // layout="responsive"
-                            />
+                            <video
+                                className="video"
+                                autoPlay
+                                muted
+                                loop
+                                width="100%"
+                            >
+                                <source src="/video.mp4" type="video/mp4" />
+                            </video>
                         </a>
                     </Link>
                 </Grid>

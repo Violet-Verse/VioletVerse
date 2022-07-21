@@ -129,3 +129,17 @@ p {
     -webkit-filter: brightness(85%);
     transition: 0.3s ease;
 }
+
+.video {
+    filter: brightness(100%);
+    -webkit-filter: brightness(100%);
+    transition: 0.3s ease;
+    border-radius: 4px;
+}
+
+.video:hover {
+    filter: brightness(55%);
+    -webkit-filter: brightness(55%);
+    transition: 0.3s ease;
+    border-radius: 16px;
+}
