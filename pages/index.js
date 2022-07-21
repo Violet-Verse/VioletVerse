@@ -22,6 +22,7 @@ const Home = ({ posts }) => {
                 dangerouslySetInnerHTML={{
                     __html: `
              <video
+              poster="/banners/thumbnail.jpeg"
                loop
                muted
                autoplay
