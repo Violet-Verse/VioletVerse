@@ -60,48 +60,60 @@ const NewNav = () => {
                             }}
                         >
                             <Button
-                                className={styles.navItem}
                                 href="/posts"
                                 sx={{
                                     my: 2,
                                     color: "#0A0510",
                                     display: "block",
                                     mr: "15px",
+                                    fontFamily: "Ogg",
+                                    fontSize: "18px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.005em",
                                 }}
                             >
                                 Market
                             </Button>
                             <Button
-                                className={styles.navItem}
                                 href="/resources"
                                 sx={{
                                     my: 2,
                                     color: "#0A0510",
                                     display: "block",
                                     mr: "15px",
+                                    fontFamily: "Ogg",
+                                    fontSize: "18px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.005em",
                                 }}
                             >
                                 Web3 Resources
                             </Button>
                             <Button
-                                className={styles.navItem}
                                 href="#"
                                 sx={{
                                     my: 2,
                                     color: "#0A0510",
                                     display: "block",
                                     mr: "15px",
+                                    fontFamily: "Ogg",
+                                    fontSize: "18px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.005em",
                                 }}
                             >
                                 VV VR
                             </Button>
                             <Button
-                                className={styles.navItem}
                                 href="/about"
                                 sx={{
                                     my: 2,
                                     color: "#0A0510",
                                     display: "block",
+                                    fontFamily: "Ogg",
+                                    fontSize: "18px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.005em",
                                 }}
                             >
                                 Community
