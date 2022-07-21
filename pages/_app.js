@@ -13,9 +13,26 @@ function MyApp({ Component, pageProps }) {
     const user = useUser();
 
     const theme = createTheme({
-        shape: {
-            borderRadius: 10,
+        components: {
+            MuiAppBar: {
+                styleOverrides: {
+                    colorPrimary: {
+                        backgroundColor: "white",
+                        padding: "15px 0px",
+                    },
+                },
+            },
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 100,
+                    },
+                },
+            },
         },
+        // shape: {
+        //     borderRadius: 100,
+        // },
         typography: {
             button: {
                 textTransform: "none",
@@ -24,11 +41,11 @@ function MyApp({ Component, pageProps }) {
             },
         },
         palette: {
-            type: "light",
             primary: {
-                main: "#693E9A",
-                light: "#53317A",
-                dark: "#53317A",
+                main: "#DED1F7",
+                light: "#E5DBF9",
+                dark: "#B3A8C6",
+                contrastText: "#43226D",
             },
             secondary: {
                 main: "#f50057",

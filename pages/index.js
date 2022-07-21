@@ -82,6 +82,7 @@ const Home = ({ posts }) => {
                                 }}
                                 size="large"
                                 variant="contained"
+                                disableElevation
                                 onClick={() => Router.push("/posts")}
                             >
                                 Discover
