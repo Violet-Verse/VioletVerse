@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React from "react";
 import { NextUIProvider } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-
 import Layout from "../components/Layout";
 import { UserContext } from "../components/UserContext";
 import { useUser } from "../hooks/useAuth";
@@ -13,8 +12,23 @@ function MyApp({ Component, pageProps }) {
     const user = useUser();
 
     const theme = createTheme({
-        shape: {
-            borderRadius: 10,
+        components: {
+            MuiAppBar: {
+                styleOverrides: {
+                    colorPrimary: {
+                        backgroundColor: "white",
+                        padding: "15px 0px",
+                    },
+                },
+            },
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 100,
+                        fontSize: "18px",
+                    },
+                },
+            },
         },
         typography: {
             button: {
@@ -24,14 +38,11 @@ function MyApp({ Component, pageProps }) {
             },
         },
         palette: {
-            type: "light",
             primary: {
-                main: "#693E9A",
-                light: "#53317A",
-                dark: "#53317A",
-            },
-            secondary: {
-                main: "#f50057",
+                light: "#E5DBF9",
+                main: "#DED1F7",
+                dark: "#B3A8C6",
+                contrastText: "#43226D",
             },
         },
     });
@@ -58,15 +69,15 @@ function MyApp({ Component, pageProps }) {
     }
 
     return (
-        <NextUIProvider>
-            <UserContext.Provider value={user}>
-                <ThemeProvider theme={theme}>
+        <UserContext.Provider value={user}>
+            <ThemeProvider theme={theme}>
+                <NextUIProvider>
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
-                </ThemeProvider>
-            </UserContext.Provider>
-        </NextUIProvider>
+                </NextUIProvider>
+            </ThemeProvider>
+        </UserContext.Provider>
     );
 }
 

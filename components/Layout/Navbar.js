@@ -14,7 +14,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
 import * as React from "react";
-
 import { useUser } from "../../components/UserContext";
 
 const settings = ["Profile", "Logout"];

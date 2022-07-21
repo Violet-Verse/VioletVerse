@@ -90,6 +90,7 @@ export default function LoginPage() {
                         variant="contained"
                         color="primary"
                         fullWidth
+                        disableElevation
                     >
                         Login / Sign Up
                     </Button>

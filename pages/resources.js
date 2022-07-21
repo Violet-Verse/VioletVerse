@@ -24,20 +24,17 @@ const Resources = () => {
                 spacing={2}
             >
                 <Grid item>
-                    <h1 className={styles.title}>New to web3?</h1>
+                    <h1>New to web3?</h1>
                 </Grid>
                 <Grid item>
-                    <p className={styles.text}>
+                    <p>
                         Strong, sweet, cup americano spoon blue mountain <br />
                         black robusta breve. Skinny variety to go white rich,
                         redeye crema breve whipped. <br />
                     </p>
                 </Grid>
                 <Grid item>
-                    <ButtonGroup
-                        aria-label="outlined primary button group"
-                        size="large"
-                    >
+                    <ButtonGroup size="large" color="secondary">
                         <Button
                             onClick={() => handleCategory(1)}
                             variant={category == 1 ? "contained" : "outlined"}

@@ -2,15 +2,15 @@ import { Box } from "@mui/material";
 import Head from "next/head";
 
 import Footer from "./Layout/Footer";
-import Navbar from "./Layout/Navbar";
+import Navbar from "./Layout/NewNav";
 
 const Layout = ({ children }) => {
-    const siteTitle = "Violet Verse | Web3 content outlet powered by Flow";
+    const siteTitle = "Violet Verse | A Token-Gated Web3 Lifestyle Platform ";
     const siteDescription =
-        "Violet Verse is a Web3 Dapp powered by Flow. The best place to get your crypto news!";
+        "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
 
     return (
-        <div>
+        <>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <title>{siteTitle}</title>
@@ -43,13 +43,13 @@ const Layout = ({ children }) => {
                         lg: "0px 15%",
                         xl: "0px 20%",
                     },
-                    marginTop: "50px",
+                    marginTop: "10px",
                 }}
             >
                 {children}
             </Box>
             <Footer />
-        </div>
+        </>
     );
 };
 
