@@ -3,8 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
 import React from "react";
-import EmbedVideo from "../components/EmbedVideo";
 import ArticleGrid from "../components/ArticleGrid";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 export const getStaticProps = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -37,7 +38,13 @@ const Home = ({ posts }) => {
                 <Grid item>
                     <Link href="/posts">
                         <a>
-                            <EmbedVideo className="video" src="/video.mp4" />
+                            <ReactPlayer
+                                url="/video.mp4"
+                                width="100%"
+                                height="100%"
+                                muted={true}
+                                playing
+                            />
                         </a>
                     </Link>
                 </Grid>
