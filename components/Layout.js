@@ -43,7 +43,7 @@ const Layout = ({ children }) => {
                         lg: "0px 15%",
                         xl: "0px 20%",
                     },
-                    marginTop: "50px",
+                    marginTop: "10px",
                 }}
             >
                 {children}

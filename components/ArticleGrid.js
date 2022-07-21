@@ -98,7 +98,7 @@ const ArticleGrid = (props) => {
                 container
                 spacing={2}
                 align="center"
-                sx={{ marginTop: "25px" }}
+                sx={{ marginTop: "25px", px: { xs: 10, sm: 0 } }}
                 justifyContent="center"
             >
                 {livePosts?.slice(0, props.maximum).map((post) => (
@@ -130,7 +130,7 @@ const ArticleGrid = (props) => {
                     </Grid>
                 ))}
                 {props.seeAll && (
-                    <Box sx={{ mt: 2 }}>
+                    <Grid item xs={12} sx={{ mt: 2 }}>
                         <Button
                             color="primary"
                             variant="contained"
@@ -139,7 +139,7 @@ const ArticleGrid = (props) => {
                         >
                             View All
                         </Button>
-                    </Box>
+                    </Grid>
                 )}
             </Grid>
         </>
