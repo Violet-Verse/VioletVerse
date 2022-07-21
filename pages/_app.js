@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React from "react";
 import { NextUIProvider } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-
 import Layout from "../components/Layout";
 import { UserContext } from "../components/UserContext";
 import { useUser } from "../hooks/useAuth";
@@ -26,6 +25,7 @@ function MyApp({ Component, pageProps }) {
                 styleOverrides: {
                     root: {
                         borderRadius: 100,
+                        fontSize: "18px",
                     },
                 },
             },
@@ -69,15 +69,15 @@ function MyApp({ Component, pageProps }) {
     }
 
     return (
-        <NextUIProvider>
-            <UserContext.Provider value={user}>
-                <ThemeProvider theme={theme}>
+        <UserContext.Provider value={user}>
+            <ThemeProvider theme={theme}>
+                <NextUIProvider>
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
-                </ThemeProvider>
-            </UserContext.Provider>
-        </NextUIProvider>
+                </NextUIProvider>
+            </ThemeProvider>
+        </UserContext.Provider>
     );
 }
 

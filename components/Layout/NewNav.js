@@ -13,6 +13,7 @@ import {
     Tooltip,
     Avatar,
     Icon,
+    TextField,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,13 +56,13 @@ const NewNav = () => {
     return (
         <nav>
             <AppBar position="static" elevation={0}>
-                <Container maxWidth="xl">
+                <Container maxWidth="lg">
                     <Toolbar disableGutters>
-                        {/* Logo | Medium or larger */}
+                        {/* Logo | All Breakpoints */}
                         <Box
                             sx={{
                                 mr: 2,
-                                display: { xs: "flex", md: "none" },
+                                display: { xs: "flex" },
                                 flexGrow: 1,
                             }}
                         >
@@ -81,6 +82,7 @@ const NewNav = () => {
                             sx={{
                                 flexGrow: 1,
                                 display: { xs: "none", md: "flex" },
+                                mr: 4,
                             }}
                         >
                             <Link href="/posts">
@@ -166,9 +168,8 @@ const NewNav = () => {
                             >
                                 <IconButton
                                     size="large"
-                                    aria-label="account of current user"
+                                    aria-label="account"
                                     aria-controls="menu-appbar"
-                                    aria-haspopup="true"
                                     color="inherit"
                                     onClick={() => Router.push("/login")}
                                 >
@@ -252,7 +253,7 @@ const NewNav = () => {
                             </Menu>
                         </Box>
                         {/* Logo | Medium or larger */}
-                        <Box
+                        {/* <Box
                             sx={{
                                 mr: 2,
                                 display: { xs: "none", md: "flex" },
@@ -269,7 +270,7 @@ const NewNav = () => {
                                     />
                                 </a>
                             </Link>
-                        </Box>
+                        </Box> */}
                         {/* VV Tokens | Medium or larger */}
                         {/* Connect Wallet | Medium or larger */}
                         {user ? (
@@ -354,7 +355,7 @@ const NewNav = () => {
                                             disableElevation
                                             variant="contained"
                                             sx={{
-                                                padding: "15px 15px",
+                                                py: 2,
                                                 display: "block",
                                                 fontFamily: "Ogg",
                                                 fontSize: "18px",
