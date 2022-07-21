@@ -57,7 +57,7 @@ const NewNav = () => {
             <AppBar position="static" elevation={0}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        {/* Medium or larger | Logo */}
+                        {/* Logo | Medium or larger */}
                         <Box
                             sx={{
                                 mr: 2,
@@ -76,7 +76,7 @@ const NewNav = () => {
                                 </a>
                             </Link>
                         </Box>
-                        {/* Medium or larger | Menu Items */}
+                        {/* Menu Items | Medium or larger */}
                         <Box
                             sx={{
                                 flexGrow: 1,
@@ -159,6 +159,7 @@ const NewNav = () => {
                         {!user && (
                             <Box
                                 sx={{
+                                    mr: 1,
                                     flexGrow: 0,
                                     display: { xs: "flex", md: "none" },
                                 }}
@@ -171,14 +172,15 @@ const NewNav = () => {
                                     color="inherit"
                                     onClick={() => Router.push("/login")}
                                 >
-                                    <PersonOutlineSharpIcon />
+                                    <PersonOutlineSharpIcon
+                                        sx={{ fontSize: "32px" }}
+                                    />
                                 </IconButton>
                             </Box>
                         )}
                         {/* Menu Dropdown | XS Breakpoint */}
                         <Box
                             sx={{
-                                mr: 2,
                                 flexGrow: 0,
                                 display: { xs: "flex", md: "none" },
                             }}
@@ -191,7 +193,7 @@ const NewNav = () => {
                                 onClick={handleOpenNavMenu}
                                 color="inherit"
                             >
-                                <MenuIcon />
+                                <MenuIcon sx={{ fontSize: "32px" }} />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -346,27 +348,24 @@ const NewNav = () => {
                                     display: { xs: "none", md: "flex" },
                                 }}
                             >
-                                <Button
-                                    disableElevation
-                                    sx={{
-                                        my: 2,
-                                        padding: "15px 15px",
-                                        color: "#43226D",
-                                        bgcolor: "#DED1F7",
-                                        display: "block",
-                                        mr: "15px",
-                                        fontFamily: "Ogg",
-                                        fontSize: "18px",
-                                        lineHeight: "130%",
-                                        letterSpacing: "-0.005em",
-                                        "&:hover": {
-                                            backgroundColor: "#C9BDDF",
-                                        },
-                                    }}
-                                    href="/login"
-                                >
-                                    Connect Wallet
-                                </Button>
+                                <Link href="/login">
+                                    <a>
+                                        <Button
+                                            disableElevation
+                                            variant="contained"
+                                            sx={{
+                                                padding: "15px 15px",
+                                                display: "block",
+                                                fontFamily: "Ogg",
+                                                fontSize: "18px",
+                                                lineHeight: "130%",
+                                                letterSpacing: "-0.005em",
+                                            }}
+                                        >
+                                            Connect Wallet
+                                        </Button>
+                                    </a>
+                                </Link>
                             </Box>
                         )}
                     </Toolbar>
