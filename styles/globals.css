@@ -134,7 +134,7 @@ p {
     filter: brightness(100%);
     -webkit-filter: brightness(100%);
     transition: 0.3s ease;
-    border-radius: 4px;
+    border-radius: 0px;
 }
 
 .video:hover {

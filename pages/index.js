@@ -16,6 +16,25 @@ export const getStaticProps = async () => {
 };
 
 const Home = ({ posts }) => {
+    const EmbedVideo = function (props) {
+        return (
+            <div
+                dangerouslySetInnerHTML={{
+                    __html: `
+             <video
+               loop
+               muted
+               autoplay
+               playsinline
+               width="100%"
+               src="${props.src}"
+               class="${props.className}"
+             />,
+           `,
+                }}
+            ></div>
+        );
+    };
     return (
         <>
             {/* Top Section */}
@@ -37,15 +56,7 @@ const Home = ({ posts }) => {
                 <Grid item>
                     <Link href="/posts">
                         <a>
-                            <video
-                                className="video"
-                                autoPlay
-                                muted
-                                loop
-                                width="100%"
-                            >
-                                <source src="/video.mp4" type="video/mp4" />
-                            </video>
+                            <EmbedVideo className="video" src="/video.mp4" />
                         </a>
                     </Link>
                 </Grid>
