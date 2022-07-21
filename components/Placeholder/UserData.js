@@ -29,7 +29,7 @@ export const members = [
         facebook: "",
         twitter: "",
         linkedIn: "",
-        photo: "/team/Avalon.png",
+        photo: "/team/Avalon.jpg",
     },
     {
         name: "Morgan",
