@@ -147,6 +147,7 @@ const Home = ({ posts }) => {
                 </Grid>
                 <Grid item xl={3}>
                     <ButtonGroup
+                        color="secondary"
                         aria-label="outlined primary button group"
                         size="medium"
                         fullWidth={true}
@@ -172,7 +173,10 @@ const Home = ({ posts }) => {
                     </ButtonGroup>
                 </Grid>
                 <Grid item>
-                    <Button onClick={() => Router.push("/posts")}>
+                    <Button
+                        color="secondary"
+                        onClick={() => Router.push("/posts")}
+                    >
                         See All
                     </Button>
                 </Grid>

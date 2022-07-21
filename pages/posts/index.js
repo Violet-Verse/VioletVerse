@@ -65,7 +65,7 @@ const Posts = ({ posts }) => {
                 </Grid>
                 <Grid item xl={3}>
                     <ButtonGroup
-                        aria-label="outlined primary button group"
+                        color="secondary"
                         size="medium"
                         fullWidth={true}
                     >

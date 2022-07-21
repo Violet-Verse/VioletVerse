@@ -34,10 +34,7 @@ const Resources = () => {
                     </p>
                 </Grid>
                 <Grid item>
-                    <ButtonGroup
-                        aria-label="outlined primary button group"
-                        size="large"
-                    >
+                    <ButtonGroup size="large" color="secondary">
                         <Button
                             onClick={() => handleCategory(1)}
                             variant={category == 1 ? "contained" : "outlined"}

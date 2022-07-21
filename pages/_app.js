@@ -30,9 +30,6 @@ function MyApp({ Component, pageProps }) {
                 },
             },
         },
-        // shape: {
-        //     borderRadius: 100,
-        // },
         typography: {
             button: {
                 textTransform: "none",
@@ -42,13 +39,10 @@ function MyApp({ Component, pageProps }) {
         },
         palette: {
             primary: {
-                main: "#DED1F7",
                 light: "#E5DBF9",
+                main: "#DED1F7",
                 dark: "#B3A8C6",
                 contrastText: "#43226D",
-            },
-            secondary: {
-                main: "#f50057",
             },
         },
     });
