@@ -44,6 +44,7 @@ const Home = ({ posts }) => {
                                 height="100%"
                                 muted={true}
                                 playing
+                                playsinline
                             />
                         </a>
                     </Link>
