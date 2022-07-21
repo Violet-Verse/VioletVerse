@@ -34,39 +34,40 @@ const ArticleGrid = (props) => {
                 container
                 justifyContent={{
                     xs: "center",
-                    lg: "center",
-                    xl: "space-between",
                 }}
                 alignItems="center"
-                direction="row"
+                direction="column"
                 sx={{
-                    marginTop: {
-                        xs: "75px",
-                        md: "75px",
-                        lg: "100px",
-                    },
-                    textAlign: { xs: "center", md: "center", lg: "left" },
+                    textAlign: { xs: "center" },
                 }}
             >
-                <Grid item xs={12} lg={12} xl={7}>
+                <Grid item>
                     <Box
                         sx={{
                             marginBottom: {
                                 xs: "30px",
-                                lg: "30px",
-                                xl: "0px",
                             },
                             textAlign: {
                                 xs: "center",
-                                lg: "center",
-                                xl: "left",
                             },
                         }}
                     >
+                        {/* <Image
+                            src="/line1.svg"
+                            alt="line"
+                            height={1}
+                            width={100}
+                        /> */}
                         <h2>{props.title}</h2>
+                        {/* <Image
+                            src="/line1.svg"
+                            alt="line"
+                            height={1}
+                            width={100}
+                        /> */}
                     </Box>
                 </Grid>
-                <Grid item xl={3}>
+                <Grid item>
                     <ButtonGroup
                         color="secondary"
                         size="large"
@@ -92,14 +93,6 @@ const ArticleGrid = (props) => {
                         </Button>
                     </ButtonGroup>
                 </Grid>
-                <Grid item>
-                    <Button
-                        color="secondary"
-                        onClick={() => Router.push("/posts")}
-                    >
-                        See All
-                    </Button>
-                </Grid>
             </Grid>
             <Grid
                 container
@@ -110,46 +103,44 @@ const ArticleGrid = (props) => {
             >
                 {livePosts?.slice(0, props.maximum).map((post) => (
                     <Grid item xs={12} sm={6} md={4} key={post.id}>
-                        <CardActionArea sx={{ maxWidth: "370px" }}>
-                            <Link href={"/posts/" + post.id}>
-                                <a>
-                                    <Image
-                                        src={
-                                            `/placeholder/` +
-                                            whichCategory(post.userId) +
-                                            `.jpg`
-                                        }
-                                        alt="Placeholder Image"
-                                        width={370}
-                                        height={158}
-                                        className="imageSm"
-                                    />
-                                    <h4 style={{ textAlign: "left" }}>
-                                        {post.title}
-                                    </h4>
-                                    <h5
-                                        style={{
-                                            textAlign: "left",
-                                            color: "#693E9A",
-                                        }}
-                                    >
-                                        Content Creator |{" "}
-                                        {whichCategory(post.userId)}
-                                    </h5>
-                                    <p
-                                        style={{
-                                            textAlign: "left",
-                                            color: "#A4B0C0",
-                                            // fontWeight: "400",
-                                        }}
-                                    >
-                                        {post.body}
-                                    </p>
-                                </a>
-                            </Link>
-                        </CardActionArea>
+                        <Link href={"/posts/" + post.id}>
+                            <a>
+                                <Image
+                                    src={
+                                        `/placeholder/` +
+                                        whichCategory(post.userId) +
+                                        `.png`
+                                    }
+                                    alt="Placeholder Image"
+                                    width={304}
+                                    height={304}
+                                    objectFit={"cover"}
+                                    className="imageArticle"
+                                />
+                                <h4>{post.title}</h4>
+                                <h5
+                                    style={{
+                                        color: "#693E9A",
+                                    }}
+                                >
+                                    In {whichCategory(post.userId)}
+                                </h5>
+                            </a>
+                        </Link>
                     </Grid>
                 ))}
+                {props.seeAll && (
+                    <Box sx={{ mt: 2 }}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            disableElevation
+                            onClick={() => Router.push("/posts")}
+                        >
+                            View All
+                        </Button>
+                    </Box>
+                )}
             </Grid>
         </>
     );

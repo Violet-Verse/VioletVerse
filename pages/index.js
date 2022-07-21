@@ -24,11 +24,12 @@ const Home = ({ posts }) => {
             <Grid
                 container
                 direction="column"
-                spacing={6}
+                spacing={2}
                 sx={{
                     textAlign: {
                         xs: "center",
                     },
+                    mb: 16,
                 }}
             >
                 {/* Image Banner */}
@@ -51,8 +52,15 @@ const Home = ({ posts }) => {
 
                 {/* Typography */}
 
-                <Grid item>
+                <Grid item sx={{ mt: "30px" }}>
                     <h1>Violet Verse at ETH Barcelona</h1>
+                </Grid>
+
+                <Grid item>
+                    <Image src="/line1.svg" alt="line" height={1} width={100} />
+                </Grid>
+
+                <Grid item>
                     <p
                         style={{
                             fontFamily: "stratos-lights",
@@ -77,7 +85,7 @@ const Home = ({ posts }) => {
                         disableElevation
                         onClick={() => Router.push("/posts")}
                     >
-                        Discover
+                        Watch Now
                     </Button>
                 </Grid>
             </Grid>
@@ -88,6 +96,7 @@ const Home = ({ posts }) => {
                 title="Curated Content Marketplace"
                 posts={posts}
                 maximum={3}
+                seeAll={true}
             />
         </>
     );
