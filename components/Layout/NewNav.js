@@ -246,6 +246,10 @@ const NewNav = () => {
                                     bgcolor: "#DED1F7",
                                     display: "block",
                                     mr: "15px",
+                                    fontFamily: "Ogg",
+                                    fontSize: "18px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.005em",
                                     "&:hover": {
                                         backgroundColor: "#C9BDDF",
                                     },
