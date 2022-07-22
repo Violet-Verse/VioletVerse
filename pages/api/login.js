@@ -60,15 +60,12 @@ export default async function login(req, res) {
             }
         );
 
-    // console.log(req.body);
-    // console.log(user);
-
     // Author a couple of cookies to persist a user's session
     const token = await Iron.seal(
         user,
         process.env.TOKEN_SECRET,
         Iron.defaults
     );
-    CookieService.setTokenCookie(res, token);
+    CookieService(res, token);
     res.end();
 }
