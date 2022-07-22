@@ -20,6 +20,7 @@
     "@onflow/fcl": "^1.1.0",
     "airtable": "^0.11.4",
     "cookie": "^0.5.0",
+    "editor.js": "^0.1.0",
     "magic-sdk": "^8.1.1",
     "next": "12.2.0",
     "react": "18.2.0",
