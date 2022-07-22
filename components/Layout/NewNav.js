@@ -19,12 +19,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
 import React, { useState } from "react";
-import { useUser } from "../../components/UserContext";
+import { useUser } from "../../hooks/useAuth";
 
 const settings = ["Profile", "Logout"];
 
 const NewNav = () => {
-    const { user } = useUser();
+    const { user, loaded } = useUser();
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -158,7 +158,7 @@ const NewNav = () => {
                             </Link>
                         </Box>
                         {/* Connect Wallet | XS Breakpoint */}
-                        {!user && (
+                        {!user && loaded && (
                             <Box
                                 sx={{
                                     mr: 1,
@@ -252,28 +252,8 @@ const NewNav = () => {
                                 </MenuItem>
                             </Menu>
                         </Box>
-                        {/* Logo | Medium or larger */}
-                        {/* <Box
-                            sx={{
-                                mr: 2,
-                                display: { xs: "none", md: "flex" },
-                                flexGrow: 1,
-                            }}
-                        >
-                            <Link href="/">
-                                <a>
-                                    <Image
-                                        src="/Logo.png"
-                                        alt="Violet Verse"
-                                        height={66}
-                                        width={117}
-                                    />
-                                </a>
-                            </Link>
-                        </Box> */}
-                        {/* VV Tokens | Medium or larger */}
-                        {/* Connect Wallet | Medium or larger */}
-                        {user ? (
+                        {/* Connect Wallet + VV Tokens | Medium or larger */}
+                        {user && loaded && (
                             <>
                                 <Box
                                     sx={{
@@ -342,7 +322,8 @@ const NewNav = () => {
                                     </Box>
                                 </Box>
                             </>
-                        ) : (
+                        )}
+                        {!user && loaded && (
                             <Box
                                 sx={{
                                     flexGrow: 0,

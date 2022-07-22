@@ -27,5 +27,5 @@ export function useUser({ redirectTo, redirectIfFound } = {}) {
         }
     }, [redirectTo, redirectIfFound, finished, hasUser]);
 
-    return error ? null : user;
+    return { user: error ? null : user, loaded: finished || null };
 }

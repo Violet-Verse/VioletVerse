@@ -9,7 +9,7 @@ import "../styles/fonts.css";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-    const user = useUser();
+    const { user } = useUser();
 
     const theme = createTheme({
         components: {
@@ -49,9 +49,15 @@ function MyApp({ Component, pageProps }) {
 
     if (pageProps.protected && !user) {
         return (
-            <Layout>
-                <span className="loading">Loading...</span>
-            </Layout>
+            <UserContext.Provider value={user}>
+                <ThemeProvider theme={theme}>
+                    <NextUIProvider>
+                        <Layout>
+                            <span>Loading...</span>
+                        </Layout>
+                    </NextUIProvider>
+                </ThemeProvider>
+            </UserContext.Provider>
         );
     }
 
@@ -62,9 +68,17 @@ function MyApp({ Component, pageProps }) {
         pageProps.userTypes.indexOf(user.type) === -1
     ) {
         return (
-            <Layout>
-                <p>Sorry, you don&apos;t have access {user.issuer}</p>
-            </Layout>
+            <UserContext.Provider value={user}>
+                <ThemeProvider theme={theme}>
+                    <NextUIProvider>
+                        <Layout>
+                            <p>
+                                Sorry, you don&apos;t have access {user.issuer}
+                            </p>
+                        </Layout>
+                    </NextUIProvider>
+                </ThemeProvider>
+            </UserContext.Provider>
         );
     }
 

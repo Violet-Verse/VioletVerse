@@ -1,17 +1,18 @@
 import { Button } from "@mui/material";
 import Router from "next/router";
 
-import { useUser } from "../components/UserContext";
+import { useUser } from "../hooks/useAuth";
 
-export async function getStaticProps(context) {
-    return {
-        props: {
-            protected: true,
-        },
-    };
-}
+// export async function getStaticProps(context) {
+//     return {
+//         props: {
+//             protected: true,
+//         },
+//     };
+// }
 
 const Profile = () => {
+    useUser({ redirectTo: "/login" });
     const { user } = useUser();
     console.log(user);
 
@@ -35,10 +36,9 @@ const Profile = () => {
 
     return (
         <>
-            <h1>Profile</h1>
-
             {user && (
                 <>
+                    <h1>Profile</h1>
                     <p>Your session:</p>
                     <pre>{JSON.stringify(user, null, 2)}</pre>
                     <Button onClick={() => handleLogout()}>Logout</Button>

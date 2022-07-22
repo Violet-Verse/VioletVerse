@@ -12,7 +12,6 @@ import { useUser } from "../hooks/useAuth";
 export default function LoginPage() {
     const { mutate } = useSWRConfig();
 
-    useEffect(() => {}, []);
     useUser({ redirectTo: "/", redirectIfFound: true });
     const {
         register,
