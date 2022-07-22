@@ -44,6 +44,7 @@ const Home = ({ posts }) => {
                                 muted={true}
                                 playing
                                 playsinline
+                                loop
                             />
                         </Grid>
 
