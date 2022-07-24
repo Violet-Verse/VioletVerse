@@ -1,5 +1,5 @@
 import React from "react";
-import Editor from "../Components/Editor";
+import Editor from "../components/Editor";
 
 const EditorPage = () => {
     const initialValue =
