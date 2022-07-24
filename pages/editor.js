@@ -9,7 +9,13 @@ const EditorPage = () => {
 
     return (
         <>
-            <Grid container direction="row" sx={{ mb: 4 }}>
+            <Grid
+                container
+                direction="row"
+                alignContent="center"
+                justifyContent="center"
+                sx={{ mb: 4 }}
+            >
                 <Grid item sx={{ display: "flex", flexGrow: 1 }}>
                     <TextField
                         variant="outlined"
@@ -19,7 +25,14 @@ const EditorPage = () => {
                     />
                 </Grid>
                 <Grid item sx={{ display: "flex", flexGrow: 0, ml: 4 }}>
-                    <Button variant="contained">Submit</Button>
+                    <Button
+                        variant="contained"
+                        disableElevation
+                        color="success"
+                        sx={{ borderRadius: "4px" }}
+                    >
+                        Create Post
+                    </Button>
                 </Grid>
             </Grid>
             <Editor
