@@ -8,7 +8,7 @@ export const members = [
         facebook: "",
         twitter: "melwritesmiami",
         linkedIn: "melissa-a-henderson-",
-        photo: "/team/Mel.jpg",
+        photo: "https://i.imgur.com/sQ78S1P.jpg",
     },
     {
         name: "Dani",
@@ -18,7 +18,7 @@ export const members = [
         facebook: "",
         twitter: "koriixyz",
         linkedIn: "",
-        photo: "/team/Dani.png",
+        photo: "https://i.imgur.com/q0CQ63l.png",
     },
     {
         name: "Avalon",
@@ -29,7 +29,7 @@ export const members = [
         facebook: "",
         twitter: "",
         linkedIn: "",
-        photo: "/team/Avalon.jpg",
+        photo: "https://i.imgur.com/sLc5w7e.jpg",
     },
     {
         name: "Morgan",
@@ -39,6 +39,6 @@ export const members = [
         facebook: "",
         twitter: "morgymorgg_nft",
         linkedIn: "",
-        photo: "/team/Morgan.png",
+        photo: "https://i.imgur.com/YraRGLa.png",
     },
 ];
