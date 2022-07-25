@@ -83,20 +83,22 @@ const Article = ({ posts }) => {
                         textAlign: "center",
                     }}
                 >
-                    <p
-                        style={{
-                            fontFamily: "stratos-lights",
-                            fontStyle: "italic",
-                            fontWeight: "200",
-                            fontSize: "28px",
-                            lineHeight: "130%",
-                            letterSpacing: "-0.01em",
-                            color: "#0A0510",
-                            maxWidth: "700px",
-                        }}
-                    >
-                        {posts.subtitle}
-                    </p>
+                    <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                        <p
+                            style={{
+                                fontFamily: "stratos-lights",
+                                fontStyle: "italic",
+                                fontWeight: "200",
+                                fontSize: "28px",
+                                lineHeight: "130%",
+                                letterSpacing: "-0.01em",
+                                color: "#0A0510",
+                                maxWidth: "700px",
+                            }}
+                        >
+                            {posts.subtitle}
+                        </p>
+                    </Box>
                 </Grid>
                 <Grid
                     container
@@ -133,33 +135,37 @@ const Article = ({ posts }) => {
                     />
                 </Grid>
                 <Grid item>
-                    <p
-                        style={{
-                            fontFamily: "Test Calibre",
-                            fontStyle: "italic",
-                            fontWeight: "300",
-                            fontSize: "28px",
-                            lineHeight: "130%",
-                            letterSpacing: "-0.01em",
-                            color: "#0A0510",
-                            textAlign: "justify",
-                        }}
-                    >
-                        Over the next 20 years, banking as we know it could
-                        disappear. Katherine Davis speaks on what it means for
-                        society and the future of decentralized finance.
-                    </p>
+                    <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                        <p
+                            style={{
+                                fontFamily: "Test Calibre",
+                                fontStyle: "italic",
+                                fontWeight: "300",
+                                fontSize: "28px",
+                                lineHeight: "130%",
+                                letterSpacing: "-0.01em",
+                                color: "#0A0510",
+                                textAlign: "center",
+                            }}
+                        >
+                            Over the next 20 years, banking as we know it could
+                            disappear. Katherine Davis speaks on what it means
+                            for society and the future of decentralized finance.
+                        </p>
+                    </Box>
                 </Grid>
                 <Grid
                     item
                     sx={{
-                        textAlign: "justify",
+                        textAlign: "left",
                     }}
                 >
-                    <section
-                        className="postBody"
-                        dangerouslySetInnerHTML={{ __html: clean }}
-                    />
+                    <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                        <section
+                            className="postBody"
+                            dangerouslySetInnerHTML={{ __html: clean }}
+                        />
+                    </Box>
                 </Grid>
                 <Button
                     sx={{
