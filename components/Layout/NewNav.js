@@ -286,7 +286,7 @@ const NewNav = () => {
                                             >
                                                 <Avatar
                                                     alt={user.email.toUpperCase()}
-                                                    src="/static/images/avatar/2.jpg"
+                                                    src={user?.picture}
                                                 />
                                             </IconButton>
                                         </Tooltip>
