@@ -38,7 +38,7 @@ const Article = ({ posts }) => {
     const clean = DOMPurify.sanitize(posts.body);
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
-    const siteDescription = posts.body;
+    const siteDescription = posts.subtitle;
     const siteImage = "https://i.imgur.com/XEGTddm.png";
     return (
         <Box sx={{ mt: 12 }}>
