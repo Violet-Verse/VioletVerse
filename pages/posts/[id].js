@@ -6,39 +6,6 @@ import useSWR from "swr";
 import DOMPurify from "isomorphic-dompurify";
 import { server } from "../../components/config";
 
-// export const getStaticPaths = async () => {
-//     const res = await fetch(`${server}/api/database/getAllPosts`);
-//     const data = await res.json();
-
-//     const paths = data.map((posts) => {
-//         return {
-//             params: { id: posts.id.toString() },
-//         };
-//     });
-
-//     return {
-//         paths,
-//         fallback: false,
-//     };
-// };
-
-// export const getStaticProps = async (context) => {
-//     const id = context.params.id;
-//     const res = await fetch(
-//         `${server}/api/database/getPostsByID?` +
-//             new URLSearchParams({
-//                 id: id,
-//             })
-//     );
-//     const data = await res.json();
-
-//     return {
-//         props: { posts: data[0] },
-//     };
-// };
-
-33;
-
 export async function getServerSideProps(context) {
     const id = context.params.id;
     const res = await fetch(
