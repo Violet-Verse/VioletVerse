@@ -118,7 +118,7 @@ const Team = ({ member }) => {
                 <Image
                     width={345.13}
                     height={400}
-                    src="https://i.imgur.com/q0CQ63l.png"
+                    src={member.photo}
                     alt="Default Image"
                     className="imageSm"
                     objectFit={"contain"}
