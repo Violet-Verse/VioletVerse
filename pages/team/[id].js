@@ -27,7 +27,7 @@ export const getStaticPaths = async () => {
 const Team = ({ member }) => {
     const siteTitle = `${member.name} | Violet Verse Team`;
     const siteDescription = `${member.bio}`;
-    const siteImage = `{member.photo}`;
+    const siteImage = `${member.photo}`;
     return (
         <>
             <Head>
