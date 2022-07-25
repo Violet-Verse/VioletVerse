@@ -8,14 +8,14 @@ import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { server } from "../components/config";
 
-// export const getStaticProps = async () => {
-//     const res = await fetch(`${server}/api/database/getAllPosts`);
-//     const data = await res.json();
+export const getStaticProps = async () => {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+    const data = await res.json();
 
-//     return {
-//         props: { posts: data },
-//     };
-// };
+    return {
+        props: { posts: data },
+    };
+};
 
 const Home = ({ posts }) => {
     return (
@@ -96,12 +96,12 @@ const Home = ({ posts }) => {
             </Grid>
             {/* Curated Content Marketplace */}
 
-            {/* <ArticleGrid
+            <ArticleGrid
                 title="Curated Content Marketplace"
                 posts={posts}
                 maximum={3}
                 seeAll={true}
-            /> */}
+            />
         </>
     );
 };
