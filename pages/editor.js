@@ -23,7 +23,7 @@ export async function getStaticProps(context) {
 
 const EditorPage = () => {
     const initialValue =
-        "<h1>Into the Violet Verse</h1><p>Start writing your post here.</p>";
+        "<h1>Into the Violet Verse</h1><p>Posting is currently disabled.</p>";
     const [value, setValue] = React.useState(initialValue);
     const [category, setCategory] = React.useState("");
     const handleChange = (event) => {
@@ -71,6 +71,7 @@ const EditorPage = () => {
                 </Grid>
                 <Grid item>
                     <Button
+                        disabled
                         variant="contained"
                         disableElevation
                         color="success"
@@ -89,7 +90,7 @@ const EditorPage = () => {
                 //     ["sup", "sub"],
                 // ]}
             />
-            {value}
+            {/* {value} */}
         </Box>
     );
 };
