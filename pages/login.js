@@ -3,7 +3,7 @@ import { Box, Button, Container, TextField } from "@mui/material";
 import * as fcl from "@onflow/fcl";
 import { Magic } from "magic-sdk";
 import Router from "next/router";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
 
@@ -11,6 +11,8 @@ import { useUser } from "../hooks/useAuth";
 
 export default function LoginPage() {
     const { mutate } = useSWRConfig();
+
+    const [loading, setLoading] = useState(false);
 
     useUser({ redirectTo: "/", redirectIfFound: true });
     const {
@@ -38,6 +40,8 @@ export default function LoginPage() {
             ],
         });
 
+        setLoading(true);
+
         const didToken = await magic.auth.loginWithMagicLink({ email });
         const { publicAddress } = await magic.user.getMetadata();
         const authRequest = await fetch("/api/login", {
@@ -58,6 +62,13 @@ export default function LoginPage() {
             /* handle errors */
         }
     };
+
+    if (loading)
+        return (
+            <>
+                <h1>Loading...</h1>
+            </>
+        );
 
     return (
         <div>

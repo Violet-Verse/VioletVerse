@@ -57,42 +57,46 @@ const ArticleGrid = (props) => {
                         /> */}
                     </Box>
                 </Grid>
-                <Grid item>
-                    <ButtonGroup
-                        color="secondary"
-                        size="large"
-                        fullWidth={true}
-                    >
-                        <Button
-                            variant={
-                                category == "Tech" ? "contained" : "outlined"
-                            }
-                            onClick={() => handleCategory("Tech")}
+                {!props.buttonDisabled && (
+                    <Grid item>
+                        <ButtonGroup
+                            color="secondary"
+                            size="large"
+                            fullWidth={true}
                         >
-                            Tech
-                        </Button>
-                        <Button
-                            variant={
-                                category == "Lifestyle"
-                                    ? "contained"
-                                    : "outlined"
-                            }
-                            onClick={() => handleCategory("Lifestyle")}
-                        >
-                            Lifestyle
-                        </Button>
-                        <Button
-                            variant={
-                                category == "Education"
-                                    ? "contained"
-                                    : "outlined"
-                            }
-                            onClick={() => handleCategory("Education")}
-                        >
-                            Education
-                        </Button>
-                    </ButtonGroup>
-                </Grid>
+                            <Button
+                                variant={
+                                    category == "Tech"
+                                        ? "contained"
+                                        : "outlined"
+                                }
+                                onClick={() => handleCategory("Tech")}
+                            >
+                                Tech
+                            </Button>
+                            <Button
+                                variant={
+                                    category == "Lifestyle"
+                                        ? "contained"
+                                        : "outlined"
+                                }
+                                onClick={() => handleCategory("Lifestyle")}
+                            >
+                                Lifestyle
+                            </Button>
+                            <Button
+                                variant={
+                                    category == "Education"
+                                        ? "contained"
+                                        : "outlined"
+                                }
+                                onClick={() => handleCategory("Education")}
+                            >
+                                Education
+                            </Button>
+                        </ButtonGroup>
+                    </Grid>
+                )}
             </Grid>
             <Grid
                 container

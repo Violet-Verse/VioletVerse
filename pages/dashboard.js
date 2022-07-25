@@ -1,7 +1,19 @@
 import { Button, Grid } from "@mui/material";
 import Link from "next/link";
+import ArticleGrid from "../components/ArticleGrid";
+import { server } from "../components/config";
 
-const Dashboard = () => {
+export async function getServerSideProps() {
+    try {
+        const res = await fetch(`${server}/api/database/getUserPosts`);
+        const data = await res.json();
+        return { props: { posts: data } };
+    } catch (err) {
+        return { props: {} };
+    }
+}
+
+const Dashboard = ({ posts }) => {
     return (
         <div>
             <Grid
@@ -23,7 +35,12 @@ const Dashboard = () => {
                     </Link>
                 </Grid>
                 <Grid item>
-                    <h2>Your Posts:</h2>
+                    <ArticleGrid
+                        title="Your Posts"
+                        posts={posts}
+                        maximum={20}
+                        buttonDisabled
+                    />
                 </Grid>
             </Grid>
         </div>
