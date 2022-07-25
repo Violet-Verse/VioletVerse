@@ -1,19 +1,20 @@
 import { Button, Grid } from "@mui/material";
 import Link from "next/link";
 import ArticleGrid from "../components/ArticleGrid";
-import { server } from "../components/config";
+import { usePosts } from "../hooks/useAuth";
 
-export async function getServerSideProps() {
-    try {
-        const res = await fetch(`${server}/api/database/getUserPosts`);
-        const data = await res.json();
-        return { props: { posts: data } };
-    } catch (err) {
-        return { props: {} };
-    }
+export async function getStaticProps(context) {
+    return {
+        props: {
+            protected: true,
+            userTypes: ["admin", "collaborator"],
+        },
+    };
 }
 
-const Dashboard = ({ posts }) => {
+const Dashboard = () => {
+    const { posts, loaded } = usePosts();
+
     return (
         <div>
             <Grid
@@ -34,14 +35,16 @@ const Dashboard = ({ posts }) => {
                         </a>
                     </Link>
                 </Grid>
-                <Grid item>
-                    <ArticleGrid
-                        title="Your Posts"
-                        posts={posts}
-                        maximum={20}
-                        buttonDisabled
-                    />
-                </Grid>
+                {loaded && (
+                    <Grid item>
+                        <ArticleGrid
+                            title="Your Posts"
+                            posts={posts}
+                            maximum={20}
+                            buttonDisabled
+                        />
+                    </Grid>
+                )}
             </Grid>
         </div>
     );

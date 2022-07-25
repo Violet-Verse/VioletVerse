@@ -11,6 +11,7 @@ export async function getServerSideProps() {
 }
 
 const Posts = ({ posts }) => {
+    console.log(posts);
     return (
         <ArticleGrid
             title="Curated Content Marketplace"

@@ -1,5 +1,5 @@
 const dev = process.env.NODE_ENV !== "production" || "preview";
 
 export const server = dev
-    ? "https://violet-verse-chi.vercel.app/"
+    ? "http://localhost:3000/"
     : "https://violet-verse-chi.vercel.app/";
