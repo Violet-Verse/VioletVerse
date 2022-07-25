@@ -12,8 +12,6 @@ import {
     Typography,
     Tooltip,
     Avatar,
-    Icon,
-    TextField,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,6 +45,9 @@ const NewNav = () => {
             setAnchorElUser(null);
         } else if (setting === "profile") {
             Router.push("/" + setting);
+            setAnchorElUser(null);
+        } else if (setting === "dashboard") {
+            Router.push("/dashboard");
             setAnchorElUser(null);
         } else {
             setAnchorElUser(null);
@@ -103,7 +104,7 @@ const NewNav = () => {
                                     </Button>
                                 </a>
                             </Link>
-                            <Link href="resources">
+                            <Link href="#">
                                 <a>
                                     <Button
                                         sx={{
@@ -224,7 +225,7 @@ const NewNav = () => {
                                     </Link>
                                 </MenuItem>
                                 <MenuItem onClick={handleCloseNavMenu}>
-                                    <Link href="/resources">
+                                    <Link href="#">
                                         <a>
                                             <Typography textAlign="center">
                                                 Web3 Resources
@@ -262,18 +263,22 @@ const NewNav = () => {
                                         flexGrow: 0,
                                     }}
                                 >
-                                    <Button
-                                        variant="contained"
-                                        disableElevation
-                                    >
-                                        <Image
-                                            alt="edit"
-                                            src="/star.svg"
-                                            height={16}
-                                            width={16}
-                                        />
-                                        &nbsp;0 VV Tokens
-                                    </Button>
+                                    <Link href="/profile">
+                                        <a>
+                                            <Button
+                                                variant="contained"
+                                                disableElevation
+                                            >
+                                                <Image
+                                                    alt="edit"
+                                                    src="/star.svg"
+                                                    height={16}
+                                                    width={16}
+                                                />
+                                                &nbsp;0 VV Tokens
+                                            </Button>
+                                        </a>
+                                    </Link>
                                 </Box>
                                 <Box sx={{ flexGrow: 0 }}>
                                     <Box sx={{ flexGrow: 0 }}>
@@ -284,7 +289,7 @@ const NewNav = () => {
                                             >
                                                 <Avatar
                                                     alt={user.email.toUpperCase()}
-                                                    src="/static/images/avatar/2.jpg"
+                                                    src={user?.picture}
                                                 />
                                             </IconButton>
                                         </Tooltip>
@@ -304,6 +309,19 @@ const NewNav = () => {
                                             open={Boolean(anchorElUser)}
                                             onClose={handleCloseUserMenu}
                                         >
+                                            {user?.role === "admin" && (
+                                                <MenuItem
+                                                    onClick={() =>
+                                                        handleCloseUserMenu(
+                                                            "dashboard"
+                                                        )
+                                                    }
+                                                >
+                                                    <Typography textAlign="center">
+                                                        Dashboard
+                                                    </Typography>
+                                                </MenuItem>
+                                            )}
                                             {settings.map((setting) => (
                                                 <MenuItem
                                                     key={setting}

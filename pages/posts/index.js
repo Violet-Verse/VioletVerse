@@ -1,13 +1,14 @@
 import ArticleGrid from "../../components/ArticleGrid";
+import { server } from "../../components/config";
 
-export const getStaticProps = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+export async function getServerSideProps() {
+    const res = await fetch(`${server}/api/database/getAllPosts`);
     const data = await res.json();
 
     return {
         props: { posts: data },
     };
-};
+}
 
 const Posts = ({ posts }) => {
     return (

@@ -5,27 +5,17 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 const ArticleGrid = (props) => {
-    const whichCategory = (id) => {
-        if (id == 1) {
-            return "Tech";
-        } else if (id == 2) {
-            return "Lifestyle";
-        } else {
-            return "Education";
-        }
-    };
-
     const posts = props.posts;
 
     const [livePosts, setLivePosts] = useState(posts);
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState("");
     const handleCategory = (newCategory) => {
         if (category == newCategory) {
-            setCategory(0);
+            setCategory("");
             setLivePosts(posts);
         } else {
             setCategory(newCategory);
-            setLivePosts(posts?.filter((x) => x.userId === newCategory));
+            setLivePosts(posts?.filter((x) => x.category === newCategory));
         }
     };
     return (
@@ -74,20 +64,30 @@ const ArticleGrid = (props) => {
                         fullWidth={true}
                     >
                         <Button
-                            variant={category == 1 ? "contained" : "outlined"}
-                            onClick={() => handleCategory(1)}
+                            variant={
+                                category == "Tech" ? "contained" : "outlined"
+                            }
+                            onClick={() => handleCategory("Tech")}
                         >
                             Tech
                         </Button>
                         <Button
-                            variant={category == 2 ? "contained" : "outlined"}
-                            onClick={() => handleCategory(2)}
+                            variant={
+                                category == "Lifestyle"
+                                    ? "contained"
+                                    : "outlined"
+                            }
+                            onClick={() => handleCategory("Lifestyle")}
                         >
                             Lifestyle
                         </Button>
                         <Button
-                            variant={category == 3 ? "contained" : "outlined"}
-                            onClick={() => handleCategory(3)}
+                            variant={
+                                category == "Education"
+                                    ? "contained"
+                                    : "outlined"
+                            }
+                            onClick={() => handleCategory("Education")}
                         >
                             Education
                         </Button>
@@ -107,9 +107,7 @@ const ArticleGrid = (props) => {
                             <a>
                                 <Image
                                     src={
-                                        `/placeholder/` +
-                                        whichCategory(post.userId) +
-                                        `.png`
+                                        `/placeholder/` + post.category + `.png`
                                     }
                                     alt="Placeholder Image"
                                     width={304}
@@ -123,7 +121,7 @@ const ArticleGrid = (props) => {
                                         color: "#693E9A",
                                     }}
                                 >
-                                    In {whichCategory(post.userId)}
+                                    In {post.category}
                                 </h5>
                             </a>
                         </Link>
