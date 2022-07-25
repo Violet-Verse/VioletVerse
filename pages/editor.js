@@ -1,22 +1,37 @@
-import { Button, Grid, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+} from "@mui/material";
 import React from "react";
-import Editor from "../components/Editor";
+
+import RichTextEditor from "../components/Editor";
 
 const EditorPage = () => {
     const initialValue =
         "<h1>Into the Violet Verse</h1><p>Start writing your post here.</p>";
     const [value, setValue] = React.useState(initialValue);
+    const [category, setCategory] = React.useState("");
+    const handleChange = (event) => {
+        setCategory(event.target.value);
+    };
 
     return (
-        <>
+        <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
             <Grid
                 container
                 direction="row"
-                alignContent="center"
-                justifyContent="center"
+                alignItems="center"
+                justifyContent={{ xs: "center", md: "space-between" }}
+                spacing={4}
                 sx={{ mb: 4 }}
             >
-                <Grid item sx={{ display: "flex", flexGrow: 1 }}>
+                <Grid item xs={6} md={6}>
                     <TextField
                         variant="outlined"
                         label="Post Title"
@@ -24,7 +39,28 @@ const EditorPage = () => {
                         autoFocus
                     />
                 </Grid>
-                <Grid item sx={{ display: "flex", flexGrow: 0, ml: 4 }}>
+                <Grid item xs={6} md={3}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-helper-label">
+                            Category
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-helper-label"
+                            value={category}
+                            id="demo-simple-select-helper"
+                            label="Age"
+                            onChange={handleChange}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={"Tech"}>Tech</MenuItem>
+                            <MenuItem value={"Lifestyle"}>Lifestyle</MenuItem>
+                            <MenuItem value={"Education"}>Education</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item>
                     <Button
                         variant="contained"
                         disableElevation
@@ -35,17 +71,17 @@ const EditorPage = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <Editor
+            <RichTextEditor
                 value={value}
                 onChange={setValue}
-                controls={[
-                    ["bold", "italic", "underline", "link", "image"],
-                    ["unorderedList", "h1", "h2", "h3"],
-                    ["sup", "sub"],
-                ]}
+                // controls={[
+                //     ["bold", "italic", "underline", "link", "image"],
+                //     ["unorderedList", "h1", "h2", "h3"],
+                //     ["sup", "sub"],
+                // ]}
             />
             {value}
-        </>
+        </Box>
     );
 };
 

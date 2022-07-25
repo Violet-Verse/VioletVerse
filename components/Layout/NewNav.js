@@ -12,8 +12,6 @@ import {
     Typography,
     Tooltip,
     Avatar,
-    Icon,
-    TextField,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -262,18 +260,22 @@ const NewNav = () => {
                                         flexGrow: 0,
                                     }}
                                 >
-                                    <Button
-                                        variant="contained"
-                                        disableElevation
-                                    >
-                                        <Image
-                                            alt="edit"
-                                            src="/star.svg"
-                                            height={16}
-                                            width={16}
-                                        />
-                                        &nbsp;0 VV Tokens
-                                    </Button>
+                                    <Link href="/profile">
+                                        <a>
+                                            <Button
+                                                variant="contained"
+                                                disableElevation
+                                            >
+                                                <Image
+                                                    alt="edit"
+                                                    src="/star.svg"
+                                                    height={16}
+                                                    width={16}
+                                                />
+                                                &nbsp;0 VV Tokens
+                                            </Button>
+                                        </a>
+                                    </Link>
                                 </Box>
                                 <Box sx={{ flexGrow: 0 }}>
                                     <Box sx={{ flexGrow: 0 }}>
