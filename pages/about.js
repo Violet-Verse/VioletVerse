@@ -15,6 +15,7 @@ const About = () => {
     return (
         <>
             <Head>
+                <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
                 <meta
@@ -22,6 +23,8 @@ const About = () => {
                     content="https://i.imgur.com/HOcgWqo.png"
                 />
                 <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="800" />
+                <meta property="og:image:height" content="420" />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:site" content="@TheVioletVerse" />
                 <meta name="twitter:title" content={siteTitle} />

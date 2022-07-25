@@ -37,11 +37,12 @@ const Article = ({ posts }) => {
     });
     const clean = DOMPurify.sanitize(posts.body);
     const postDate = dateTimeFormat.format(readableDate);
-    const siteTitle = `${posts.title} + | by Violet Verse`;
+    const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.body;
     return (
         <Box sx={{ mt: 12 }}>
             <Head>
+                <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
                 <meta
@@ -49,6 +50,8 @@ const Article = ({ posts }) => {
                     content="https://i.imgur.com/HOcgWqo.png"
                 />
                 <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="800" />
+                <meta property="og:image:height" content="420" />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:site" content="@TheVioletVerse" />
                 <meta name="twitter:title" content={siteTitle} />
