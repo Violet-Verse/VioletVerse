@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }) {
         typography: {
             button: {
                 textTransform: "none",
-                fontWeight: 600,
+                fontWeight: 500,
                 fontFamily: "Test Calibre",
             },
         },

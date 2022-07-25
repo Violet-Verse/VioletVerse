@@ -46,6 +46,9 @@ const NewNav = () => {
         } else if (setting === "profile") {
             Router.push("/" + setting);
             setAnchorElUser(null);
+        } else if (setting === "dashboard") {
+            Router.push("/dashboard");
+            setAnchorElUser(null);
         } else {
             setAnchorElUser(null);
         }
@@ -101,7 +104,7 @@ const NewNav = () => {
                                     </Button>
                                 </a>
                             </Link>
-                            <Link href="resources">
+                            <Link href="#">
                                 <a>
                                     <Button
                                         sx={{
@@ -222,7 +225,7 @@ const NewNav = () => {
                                     </Link>
                                 </MenuItem>
                                 <MenuItem onClick={handleCloseNavMenu}>
-                                    <Link href="/resources">
+                                    <Link href="#">
                                         <a>
                                             <Typography textAlign="center">
                                                 Web3 Resources
@@ -306,6 +309,19 @@ const NewNav = () => {
                                             open={Boolean(anchorElUser)}
                                             onClose={handleCloseUserMenu}
                                         >
+                                            {user?.role === "admin" && (
+                                                <MenuItem
+                                                    onClick={() =>
+                                                        handleCloseUserMenu(
+                                                            "dashboard"
+                                                        )
+                                                    }
+                                                >
+                                                    <Typography textAlign="center">
+                                                        Dashboard
+                                                    </Typography>
+                                                </MenuItem>
+                                            )}
                                             {settings.map((setting) => (
                                                 <MenuItem
                                                     key={setting}

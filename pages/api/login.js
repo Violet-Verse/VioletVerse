@@ -2,7 +2,7 @@ import Iron from "@hapi/iron";
 import { Magic } from "@magic-sdk/admin";
 
 import CookieService from "../../lib/cookie";
-import { table } from "./utils/Airtable";
+import { table } from "./utils/userTable";
 
 let magic = new Magic(process.env.MAGIC_SECRET_KEY);
 

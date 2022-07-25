@@ -16,7 +16,6 @@ import Link from "next/link";
 const Profile = () => {
     useUser({ redirectTo: "/login" });
     const { user } = useUser();
-    console.log(user);
     const clean = DOMPurify.sanitize(user?.bio);
     return (
         <>
@@ -29,7 +28,7 @@ const Profile = () => {
                     <p>VV Tokens: 0</p>
                     <p>Role: {user.role}</p>
                     {user.role === "admin" && (
-                        <Link href="/editor">
+                        <Link href="/dashboard">
                             <a>
                                 <Button variant="contained" disableElevation>
                                     Go to Creator Dashboard
@@ -37,9 +36,9 @@ const Profile = () => {
                             </a>
                         </Link>
                     )}
-                    {/* <p>Your session:</p> */}
-                    {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-                    {/* <section
+                    {/* <p>Your session:</p>
+                    <pre>{JSON.stringify(user, null, 2)}</pre>
+                    <section
                         className="not-found-controller"
                         dangerouslySetInnerHTML={{ __html: clean }}
                     />

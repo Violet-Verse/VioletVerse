@@ -6,9 +6,10 @@ import React from "react";
 import ArticleGrid from "../components/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+import { server } from "../components/config";
 
 export const getStaticProps = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const res = await fetch(`${server}/api/database/getAllPosts`);
     const data = await res.json();
 
     return {

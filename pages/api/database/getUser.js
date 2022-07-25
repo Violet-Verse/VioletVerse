@@ -1,5 +1,5 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { table } from "../utils/Airtable";
+import { table } from "../utils/userTable";
 
 export default async function getUser(req, res) {
     const session = await getLoginSession(req);

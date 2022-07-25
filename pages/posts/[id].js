@@ -2,9 +2,12 @@ import { Button, Grid, Avatar, Box } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
+import useSWR from "swr";
+import DOMPurify from "isomorphic-dompurify";
+import { server } from "../../components/config";
 
 export const getStaticPaths = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const res = await fetch(`${server}/api/database/getAllPosts`);
     const data = await res.json();
 
     const paths = data.map((posts) => {
@@ -21,15 +24,35 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
     const id = context.params.id;
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/` + id);
+    const res = await fetch(
+        `${server}/api/database/getPostsByID?` +
+            new URLSearchParams({
+                id: id,
+            })
+    );
     const data = await res.json();
 
     return {
-        props: { posts: data },
+        props: { posts: data[0] },
     };
 };
 
 const Article = ({ posts }) => {
+    const fetchWithId = (url, id) =>
+        fetch(`${url}?id=${id}`).then((r) => r.json());
+    const { data, error } = useSWR(
+        ["/api/database/getUserForPost", posts.createdBy],
+        fetchWithId
+    );
+    const user = data?.user;
+    var readableDate = new Date(posts.created);
+    const dateTimeFormat = new Intl.DateTimeFormat("en", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+    const clean = DOMPurify.sanitize(posts.body);
+    const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} + | by Violet Verse`;
     const siteDescription = posts.body;
     return (
@@ -88,7 +111,7 @@ const Article = ({ posts }) => {
                             maxWidth: "700px",
                         }}
                     >
-                        {posts.title}
+                        {posts.subtitle}
                     </p>
                 </Grid>
                 <Grid
@@ -99,15 +122,10 @@ const Article = ({ posts }) => {
                     spacing={2}
                 >
                     <Grid item>
-                        <Avatar
-                            alt="Username"
-                            src="/static/images/avatar/2.jpg"
-                        />
+                        <Avatar alt={user?.name} src={user?.picture} />
                     </Grid>
                     <Grid item>
-                        <p style={{ color: "#693E9A" }}>
-                            By User {posts.userId}
-                        </p>
+                        <p style={{ color: "#693E9A" }}>By {user?.name}</p>
                     </Grid>
                     <Grid item sx={{ display: "flex" }}>
                         <Image
@@ -118,7 +136,7 @@ const Article = ({ posts }) => {
                         />
                     </Grid>
                     <Grid item>
-                        <p style={{ color: "#693E9A" }}>July 20th, 2022 </p>
+                        <p style={{ color: "#693E9A" }}>{postDate}</p>
                     </Grid>
                 </Grid>
                 <Grid item sx={{ margin: "50px 0px" }}>
@@ -154,49 +172,10 @@ const Article = ({ posts }) => {
                         textAlign: "justify",
                     }}
                 >
-                    <p className="postBody">
-                        When you hear the word “banking,” what do you think of?
-                        Maybe it’s heading to an ATM, writing a check in your
-                        checkbook, or going to the bank. All of these actions
-                        happen daily for millions of people, but what if someone
-                        told you that this will all be gone in as early as next
-                        decade. This is what Katherine Davis, co-founder of
-                        Lumen Protocol, believes.
-                        <br />
-                        <br />
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum. Lorem ipsum dolor sit amet,
-                        consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris
-                        nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                        dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia
-                        deserunt mollit anim id est laborum.
-                        <br />
-                        <br />
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum. Lorem ipsum dolor sit amet,
-                        consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris
-                        nisi ut aliquip ex ea commodo consequat.
-                    </p>
+                    <section
+                        className="postBody"
+                        dangerouslySetInnerHTML={{ __html: clean }}
+                    />
                 </Grid>
                 <Button
                     sx={{
