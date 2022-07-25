@@ -12,6 +12,15 @@ import React from "react";
 
 import RichTextEditor from "../components/Editor";
 
+export async function getStaticProps(context) {
+    return {
+        props: {
+            protected: true,
+            userTypes: ["admin", "collaborator"],
+        },
+    };
+}
+
 const EditorPage = () => {
     const initialValue =
         "<h1>Into the Violet Verse</h1><p>Start writing your post here.</p>";

@@ -65,7 +65,7 @@ function MyApp({ Component, pageProps }) {
         pageProps.protected &&
         user &&
         pageProps.userTypes &&
-        pageProps.userTypes.indexOf(user.type) === -1
+        pageProps.userTypes.indexOf(user.role) === -1
     ) {
         return (
             <UserContext.Provider value={user}>
