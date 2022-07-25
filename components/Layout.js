@@ -16,10 +16,6 @@ const Layout = ({ children }) => {
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
-                <meta
-                    property="og:image"
-                    content="https://i.imgur.com/yhNmGo8.png"
-                />
                 <meta property="og:image:type" content="image/png" />
                 <meta property="og:image:width" content="800" />
                 <meta property="og:image:height" content="420" />
@@ -28,10 +24,6 @@ const Layout = ({ children }) => {
                 <meta name="twitter:title" content={siteTitle} />
                 <meta name="twitter:description" content={siteDescription} />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:image:src"
-                    content="https://i.imgur.com/yhNmGo8.png"
-                />
             </Head>
             <Navbar />
             <Box

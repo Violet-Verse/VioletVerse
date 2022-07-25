@@ -7,6 +7,7 @@ import ArticleGrid from "../components/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { server } from "../components/config";
+import Head from "next/head";
 
 export async function getServerSideProps() {
     const res = await fetch(`${server}/api/database/getAllPosts`);
@@ -20,6 +21,16 @@ export async function getServerSideProps() {
 const Home = ({ posts }) => {
     return (
         <>
+            <Head>
+                <meta
+                    property="og:image"
+                    content="https://i.imgur.com/yhNmGo8.png"
+                />
+                <meta
+                    name="twitter:image:src"
+                    content="https://i.imgur.com/yhNmGo8.png"
+                />
+            </Head>
             {/* Top Section */}
             {/* Welcome to the Violet Verse */}
             <Grid

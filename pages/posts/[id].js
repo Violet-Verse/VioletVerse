@@ -39,16 +39,14 @@ const Article = ({ posts }) => {
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.body;
+    const siteImage = "https://i.imgur.com/XEGTddm.png";
     return (
         <Box sx={{ mt: 12 }}>
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
-                <meta
-                    property="og:image"
-                    content="https://i.imgur.com/HOcgWqo.png"
-                />
+                <meta property="og:image" content={siteImage} />
                 <meta property="og:image:type" content="image/png" />
                 <meta property="og:image:width" content="800" />
                 <meta property="og:image:height" content="420" />
@@ -57,10 +55,7 @@ const Article = ({ posts }) => {
                 <meta name="twitter:title" content={siteTitle} />
                 <meta name="twitter:description" content={siteDescription} />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:image:src"
-                    content="https://i.imgur.com/HOcgWqo.png"
-                />
+                <meta name="twitter:image:src" content={siteImage} />
             </Head>
             <Grid
                 container
