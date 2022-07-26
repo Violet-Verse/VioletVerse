@@ -4,6 +4,8 @@ import Image from "next/image";
 import Router from "next/router";
 import useSWR from "swr";
 import DOMPurify from "isomorphic-dompurify";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { server } from "../../components/config";
 
 export async function getServerSideProps(context) {
@@ -124,16 +126,26 @@ const Article = ({ posts }) => {
                     </Grid>
                 </Grid>
                 <Grid item sx={{ margin: "50px 0px" }}>
-                    <Image
-                        src={posts.banner}
-                        alt="Violet Verse Banner"
-                        width={1920}
-                        height={1080}
-                        objectFit={"cover"}
-                        className="image"
-                        placeholder="blur"
-                        blurDataURL={posts.banner}
-                    />
+                    {!posts.video && (
+                        <Image
+                            src={posts.banner}
+                            alt="Violet Verse Banner"
+                            width={1920}
+                            height={1080}
+                            objectFit={"cover"}
+                            className="image"
+                            placeholder="blur"
+                            blurDataURL={posts.banner}
+                        />
+                    )}
+                    {posts.video && (
+                        <ReactPlayer
+                            url={posts.video}
+                            width="100%"
+                            height="100%"
+                            controls
+                        />
+                    )}
                 </Grid>
                 <Grid item>
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
@@ -149,9 +161,7 @@ const Article = ({ posts }) => {
                                 textAlign: "center",
                             }}
                         >
-                            Over the next 20 years, banking as we know it could
-                            disappear. Katherine Davis speaks on what it means
-                            for society and the future of decentralized finance.
+                            {posts.tldr}
                         </p>
                     </Box>
                 </Grid>

@@ -73,7 +73,7 @@ const Home = ({ posts }) => {
                 </Grid>
 
                 <Grid item>
-                    <Link href="/posts">
+                    <Link href="/posts/11">
                         <a>
                             <p
                                 style={{
@@ -95,14 +95,17 @@ const Home = ({ posts }) => {
                 {/* Button */}
 
                 <Grid item>
-                    <Button
-                        size="large"
-                        variant="contained"
-                        disableElevation
-                        onClick={() => Router.push("/posts")}
-                    >
-                        Watch Now
-                    </Button>
+                    <Link href="/posts/11">
+                        <a>
+                            <Button
+                                size="large"
+                                variant="contained"
+                                disableElevation
+                            >
+                                Watch Now
+                            </Button>
+                        </a>
+                    </Link>
                 </Grid>
             </Grid>
             {/* Curated Content Marketplace */}
