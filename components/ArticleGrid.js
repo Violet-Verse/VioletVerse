@@ -42,19 +42,7 @@ const ArticleGrid = (props) => {
                             },
                         }}
                     >
-                        {/* <Image
-                            src="/line1.svg"
-                            alt="line"
-                            height={1}
-                            width={100}
-                        /> */}
                         <h2>{props.title}</h2>
-                        {/* <Image
-                            src="/line1.svg"
-                            alt="line"
-                            height={1}
-                            width={100}
-                        /> */}
                     </Box>
                 </Grid>
                 {!props.buttonDisabled && (
@@ -116,6 +104,8 @@ const ArticleGrid = (props) => {
                                     height={304}
                                     objectFit={"cover"}
                                     className="imageArticle"
+                                    placeholder="blur"
+                                    blurDataURL={post.banner}
                                 />
                                 <h4>{post.title}</h4>
                                 <h5

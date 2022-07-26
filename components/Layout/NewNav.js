@@ -74,6 +74,8 @@ const NewNav = () => {
                                         alt="Violet Verse"
                                         height={59}
                                         width={105}
+                                        placeholder="blur"
+                                        blurDataURL="/Logo.png"
                                     />
                                 </a>
                             </Link>
@@ -274,6 +276,8 @@ const NewNav = () => {
                                                     src="/star.svg"
                                                     height={16}
                                                     width={16}
+                                                    placeholder="blur"
+                                                    blurDataURL="/star.svg"
                                                 />
                                                 &nbsp;0 VV Tokens
                                             </Button>

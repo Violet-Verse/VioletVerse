@@ -122,6 +122,8 @@ const Team = ({ member }) => {
                     alt="Default Image"
                     className="imageSm"
                     objectFit={"contain"}
+                    placeholder="blur"
+                    blurDataURL={member.photo}
                 />
                 <Box sx={{ padding: "0px 15%" }}>
                     <p>{member.bio}</p>

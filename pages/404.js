@@ -29,7 +29,8 @@ const NotFound = () => {
                     src="/banners/Photography_1.png"
                     alt="Default Image"
                     className="image"
-                    // layout="responsive"
+                    placeholder="blur"
+                    blurDataURL="/banners/Photography_1.png"
                 />
             </Box>
             <p>

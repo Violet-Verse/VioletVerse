@@ -69,6 +69,8 @@ const About = () => {
                         src="/banners/Photography_2.png"
                         alt="Default Image"
                         className="image"
+                        placeholder="blur"
+                        blurDataURL="/banners/Photography_2.png"
                     />
                 </Grid>
             </Grid>
@@ -104,6 +106,8 @@ const About = () => {
                                     alt="Default Image"
                                     className="image"
                                     objectFit={"cover"}
+                                    placeholder="blur"
+                                    blurDataURL={member.photo}
                                 />
                             </a>
                         </Link>

@@ -131,6 +131,8 @@ const Article = ({ posts }) => {
                         height={1080}
                         objectFit={"cover"}
                         className="image"
+                        placeholder="blur"
+                        blurDataURL={posts.banner}
                     />
                 </Grid>
                 <Grid item>
