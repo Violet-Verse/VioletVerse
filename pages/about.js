@@ -53,10 +53,14 @@ const About = () => {
                     </h1>
                     <Box sx={{ padding: { xs: "0px 5%", md: "0px" } }}>
                         <p>
-                            Strong, sweet, cup americano spoon blue mountain{" "}
-                            <br />
-                            black robusta breve. Skinny variety to go white
-                            rich, redeye crema breve whipped. <br />
+                            The Violet Verse was birthed by Violet Summer Zine
+                            and its global community of urban lifestyle
+                            enthusiasts. We are creators, web3 operators,
+                            technologists, innovators, travel enthusiasts. Our
+                            mission is to document the spirit and personality of
+                            crypto and Web3 culture of our generation—the people
+                            who are making their mark on the world and changing
+                            it for the better with every decision they make.
                         </p>
                     </Box>
                     <Grid container direction="row" spacing={2}></Grid>
