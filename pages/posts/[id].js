@@ -37,7 +37,10 @@ const Article = ({ posts }) => {
         month: "long",
         day: "numeric",
     });
-    const clean = DOMPurify.sanitize(posts.body);
+    const clean = DOMPurify.sanitize(posts.body, {
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
+    });
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
@@ -126,7 +129,7 @@ const Article = ({ posts }) => {
                     </Grid>
                 </Grid>
                 <Grid item sx={{ margin: "50px 0px" }}>
-                    {!posts.video && (
+                    {!posts.video && posts.banner && (
                         <Image
                             src={posts.banner}
                             alt="Violet Verse Banner"
@@ -173,7 +176,11 @@ const Article = ({ posts }) => {
                 >
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                         <section
-                            className="postBody"
+                            className={
+                                posts.noLargeLetter
+                                    ? "postBodyNoLetter"
+                                    : "postBody"
+                            }
                             dangerouslySetInnerHTML={{ __html: clean }}
                         />
                     </Box>

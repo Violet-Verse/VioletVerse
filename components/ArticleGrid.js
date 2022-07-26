@@ -98,14 +98,22 @@ const ArticleGrid = (props) => {
                         <Link href={"/posts/" + post.id}>
                             <a>
                                 <Image
-                                    src={post.banner}
+                                    src={
+                                        post.banner
+                                            ? post.banner
+                                            : "/placeholder/Squared.png"
+                                    }
                                     alt="Placeholder Image"
                                     width={304}
                                     height={304}
                                     objectFit={"cover"}
                                     className="imageArticle"
                                     placeholder="blur"
-                                    blurDataURL={post.banner}
+                                    blurDataURL={
+                                        post.banner
+                                            ? post.banner
+                                            : "/placeholder/Squared.png"
+                                    }
                                 />
                                 <h4>{post.title}</h4>
                                 <h5

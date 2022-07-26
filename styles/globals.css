@@ -107,6 +107,16 @@ p {
     color: #0a0510;
 }
 
+.postBodyNoLetter {
+    font-family: "stratos-lights";
+    /* font-style: normal; */
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 130%;
+    letter-spacing: -0.01em;
+    color: #0a0510;
+}
+
 .postBody:first-child:first-letter {
     color: #000000;
     float: left;

@@ -74,8 +74,6 @@ const NewNav = () => {
                                         alt="Violet Verse"
                                         height={59}
                                         width={105}
-                                        placeholder="blur"
-                                        blurDataURL="/Logo.png"
                                     />
                                 </a>
                             </Link>

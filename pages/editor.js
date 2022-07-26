@@ -90,7 +90,7 @@ const EditorPage = () => {
                 //     ["sup", "sub"],
                 // ]}
             />
-            {/* {value} */}
+            <pre>{value}</pre>
         </Box>
     );
 };
