@@ -39,7 +39,7 @@ const Article = ({ posts }) => {
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
-    const siteImage = "https://i.imgur.com/XEGTddm.png";
+    const siteImage = posts.banner;
     return (
         <Box sx={{ mt: 12 }}>
             <Head>
@@ -125,7 +125,7 @@ const Article = ({ posts }) => {
                 </Grid>
                 <Grid item sx={{ margin: "50px 0px" }}>
                     <Image
-                        src="/banners/Photography_2.png"
+                        src={posts.banner}
                         alt="Violet Verse Banner"
                         width={1920}
                         height={1080}

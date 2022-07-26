@@ -110,9 +110,7 @@ const ArticleGrid = (props) => {
                         <Link href={"/posts/" + post.id}>
                             <a>
                                 <Image
-                                    src={
-                                        `/placeholder/` + post.category + `.png`
-                                    }
+                                    src={post.banner}
                                     alt="Placeholder Image"
                                     width={304}
                                     height={304}
