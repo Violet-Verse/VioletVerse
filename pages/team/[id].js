@@ -9,7 +9,7 @@ import Image from "next/image";
 import { members } from "../../components/Placeholder/UserData";
 
 export const getStaticProps = async ({ params }) => {
-    const member = members.filter((m) => m.id.toString() == params.id);
+    const member = members.filter((m) => m.name.toLowerCase() == params.id);
     return {
         props: {
             member: member[0],
@@ -19,7 +19,7 @@ export const getStaticProps = async ({ params }) => {
 
 export const getStaticPaths = async () => {
     const paths = members.map((member) => ({
-        params: { id: member.id.toString() },
+        params: { id: member.name.toLowerCase() },
     }));
     return { paths, fallback: false };
 };

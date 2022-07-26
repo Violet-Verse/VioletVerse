@@ -97,7 +97,7 @@ const About = () => {
                 </Grid>
                 {members.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Link href={"/team/" + member.id}>
+                        <Link href={"/team/" + member.name.toLowerCase()}>
                             <a>
                                 <Image
                                     width={1000}
