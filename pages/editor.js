@@ -26,13 +26,10 @@ export async function getStaticProps(context) {
 const EditorPage = () => {
     const initialValue =
         "<h1>Into the Violet Verse</h1><p>Posting is currently disabled.</p>";
-    const [value, setValue] = React.useState(initialValue);
-    const [category, setCategory] = React.useState("");
-    const handleChange = (event) => {
-        setCategory(event.target.value);
-    };
 
-    const { register, handleSubmit, control } = useForm();
+    const { register, handleSubmit, control } = useForm({
+        defaultValues: { body: initialValue },
+    });
     const onSubmit = (data) => console.log(data);
 
     // const onSubmit = async ({ title, subtitle, tldr, category, body }) => {
@@ -112,10 +109,16 @@ const EditorPage = () => {
                         </Button>
                     </Grid>
                 </Grid>
-                <RichTextEditor value={value} onChange={setValue} />
+                <Controller
+                    control={control}
+                    name="body"
+                    render={({ field: { onChange, value } }) => (
+                        <RichTextEditor value={value} onChange={onChange} />
+                    )}
+                />
+
                 {/* Mantine - RTE https://mantine.dev/others/rte/ */}
             </form>
-            <pre>{value}</pre>
         </Box>
     );
 };
