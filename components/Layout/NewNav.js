@@ -106,38 +106,42 @@ const NewNav = () => {
                             </Link>
                             <Link href="#">
                                 <a>
-                                    <Button
-                                        sx={{
-                                            my: 2,
-                                            color: "#0A0510",
-                                            display: "block",
-                                            mr: "15px",
-                                            fontFamily: "Ogg",
-                                            fontSize: "18px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.005em",
-                                        }}
-                                    >
-                                        Web3 Resources
-                                    </Button>
+                                    <Tooltip title="Coming Soon">
+                                        <Button
+                                            sx={{
+                                                my: 2,
+                                                color: "#0A0510",
+                                                display: "block",
+                                                mr: "15px",
+                                                fontFamily: "Ogg",
+                                                fontSize: "18px",
+                                                lineHeight: "130%",
+                                                letterSpacing: "-0.005em",
+                                            }}
+                                        >
+                                            Web3 Resources
+                                        </Button>
+                                    </Tooltip>
                                 </a>
                             </Link>
                             <Link href="#">
                                 <a>
-                                    <Button
-                                        sx={{
-                                            my: 2,
-                                            color: "#0A0510",
-                                            display: "block",
-                                            mr: "15px",
-                                            fontFamily: "Ogg",
-                                            fontSize: "18px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.005em",
-                                        }}
-                                    >
-                                        VV VR
-                                    </Button>
+                                    <Tooltip title="Coming Soon">
+                                        <Button
+                                            sx={{
+                                                my: 2,
+                                                color: "#0A0510",
+                                                display: "block",
+                                                mr: "15px",
+                                                fontFamily: "Ogg",
+                                                fontSize: "18px",
+                                                lineHeight: "130%",
+                                                letterSpacing: "-0.005em",
+                                            }}
+                                        >
+                                            VV VR
+                                        </Button>
+                                    </Tooltip>
                                 </a>
                             </Link>
                             <Link href="/about">

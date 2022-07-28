@@ -9,6 +9,8 @@ import {
     TextField,
 } from "@mui/material";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import RichTextEditor from "../components/Editor";
 
@@ -30,66 +32,89 @@ const EditorPage = () => {
         setCategory(event.target.value);
     };
 
+    const { register, handleSubmit, control } = useForm();
+    const onSubmit = (data) => console.log(data);
+
+    // const onSubmit = async ({ title, subtitle, tldr, category, body }) => {
+    //     try {
+    //         table.create([
+    //             {
+    //                 fields: {
+    //                     title: ``,
+    //                     subtitle: ``,
+    //                     tldr: ``,
+    //                     category: ``,
+    //                     body: ``,
+    //                 },
+    //             },
+    //         ]);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
+
     return (
         <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
-            <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justifyContent={{ xs: "center", md: "space-between" }}
-                spacing={4}
-                sx={{ mb: 4 }}
-            >
-                <Grid item xs={6} md={6}>
-                    <TextField
-                        variant="outlined"
-                        label="Post Title"
-                        fullWidth
-                        autoFocus
-                    />
-                </Grid>
-                <Grid item xs={6} md={3}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-helper-label">
-                            Category
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            value={category}
-                            id="demo-simple-select-helper"
-                            label="Age"
-                            onChange={handleChange}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Grid
+                    container
+                    direction="row"
+                    alignItems="center"
+                    justifyContent={{ xs: "center", md: "space-between" }}
+                    spacing={4}
+                    sx={{ mb: 4 }}
+                >
+                    <Grid item xs={6} md={6}>
+                        <TextField
+                            variant="outlined"
+                            label="Post Title"
+                            fullWidth
+                            autoFocus
+                            {...register("title")}
+                        />
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-helper-label">
+                                Category
+                            </InputLabel>
+                            <Controller
+                                render={({ field }) => (
+                                    <Select {...field}>
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={"Tech"}>Tech</MenuItem>
+                                        <MenuItem value={"Lifestyle"}>
+                                            Lifestyle
+                                        </MenuItem>
+                                        <MenuItem value={"Education"}>
+                                            Education
+                                        </MenuItem>
+                                    </Select>
+                                )}
+                                control={control}
+                                name="category"
+                                defaultValue={""}
+                            />
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <Button
+                            type="submit"
+                            // disabled
+                            variant="contained"
+                            disableElevation
+                            color="success"
+                            sx={{ borderRadius: "4px" }}
                         >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={"Tech"}>Tech</MenuItem>
-                            <MenuItem value={"Lifestyle"}>Lifestyle</MenuItem>
-                            <MenuItem value={"Education"}>Education</MenuItem>
-                        </Select>
-                    </FormControl>
+                            Create Post
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <Button
-                        disabled
-                        variant="contained"
-                        disableElevation
-                        color="success"
-                        sx={{ borderRadius: "4px" }}
-                    >
-                        Create Post
-                    </Button>
-                </Grid>
-            </Grid>
-            <RichTextEditor
-                value={value}
-                onChange={setValue}
-                // controls={[
-                //     ["bold", "italic", "underline", "link", "image"],
-                //     ["unorderedList", "h1", "h2", "h3"],
-                //     ["sup", "sub"],
-                // ]}
-            />
+                <RichTextEditor value={value} onChange={setValue} />
+                {/* Mantine - RTE https://mantine.dev/others/rte/ */}
+            </form>
             <pre>{value}</pre>
         </Box>
     );
