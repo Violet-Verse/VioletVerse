@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
-
+// import { table } from "../pages/api/utils/postsTable";
 import RichTextEditor from "../components/Editor";
 
 export async function getStaticProps(context) {
@@ -29,19 +29,21 @@ const EditorPage = () => {
 
     const { register, handleSubmit, control } = useForm({
         defaultValues: { body: initialValue },
+        
     });
-    const onSubmit = (data) => console.log(data);
+
+    const onSubmit = (data) => console.log(data); // Made for testing in console
 
     // const onSubmit = async ({ title, subtitle, tldr, category, body }) => {
     //     try {
     //         table.create([
     //             {
     //                 fields: {
-    //                     title: ``,
-    //                     subtitle: ``,
-    //                     tldr: ``,
-    //                     category: ``,
-    //                     body: ``,
+    //                     title: `${title}`,
+    //                     subtitle: `${subtitle}`,
+    //                     tldr: `${tldr}`,
+    //                     category: `${category}`,
+    //                     body: `${body}`,
     //                 },
     //             },
     //         ]);
@@ -109,6 +111,16 @@ const EditorPage = () => {
                         </Button>
                     </Grid>
                 </Grid>
+                <Grid item xs={12} sx={{mb:4}}>
+                        <TextField
+                            variant="outlined"
+                            label="Summary"
+                            fullWidth
+                            autoFocus
+                            {...register("tldr")}
+                        />
+                    </Grid>
+                
                 <Controller
                     control={control}
                     name="body"
