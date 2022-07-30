@@ -4,9 +4,11 @@ import { NextUIProvider } from "@nextui-org/react";
 import Layout from "../components/Layout";
 import { UserContext } from "../components/UserContext";
 import { useUser } from "../hooks/useAuth";
+import ReactLoading from "react-loading";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
+import { Grid } from "@mui/material";
 
 function MyApp({ Component, pageProps }) {
     const { user } = useUser();
@@ -53,7 +55,20 @@ function MyApp({ Component, pageProps }) {
                 <ThemeProvider theme={theme}>
                     <NextUIProvider>
                         <Layout>
-                            <span>Loading...</span>
+                            <Grid
+                                container
+                                spacing={0}
+                                direction="column"
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                <ReactLoading
+                                    type={"bars"}
+                                    color={"#03fc4e"}
+                                    height={100}
+                                    width={100}
+                                />
+                            </Grid>
                         </Layout>
                     </NextUIProvider>
                 </ThemeProvider>
