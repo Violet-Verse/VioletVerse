@@ -21,7 +21,7 @@ const Footer = () => {
                     </Grid>
                     <Grid item sx={{ textAlign: "left" }}>
                         <h3 style={{ color: "white", fontSize: "18px" }}>
-                            Market
+                            Zine
                         </h3>
                         <p style={{ color: "white", fontSize: "16px" }}>
                             See tech content

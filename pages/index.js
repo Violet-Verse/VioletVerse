@@ -111,7 +111,7 @@ const Home = ({ posts }) => {
             {/* Curated Content Marketplace */}
 
             <ArticleGrid
-                title="Curated Content Marketplace"
+                title="Layers of The Verse"
                 posts={posts}
                 maximum={3}
                 seeAll={true}

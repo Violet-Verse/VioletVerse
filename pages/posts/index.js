@@ -13,11 +13,7 @@ export async function getServerSideProps() {
 const Posts = ({ posts }) => {
     console.log(posts);
     return (
-        <ArticleGrid
-            title="Curated Content Marketplace"
-            posts={posts}
-            maximum={100}
-        />
+        <ArticleGrid title="Layers of The Verse" posts={posts} maximum={100} />
     );
 };
 

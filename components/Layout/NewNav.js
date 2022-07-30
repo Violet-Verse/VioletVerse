@@ -103,7 +103,7 @@ const NewNav = () => {
                                             letterSpacing: "-0.005em",
                                         }}
                                     >
-                                        Market
+                                        Zine
                                     </Button>
                                 </a>
                             </Link>
@@ -226,7 +226,7 @@ const NewNav = () => {
                                     <Link href="/posts">
                                         <a>
                                             <Typography textAlign="center">
-                                                Market
+                                                Zine
                                             </Typography>
                                         </a>
                                     </Link>
