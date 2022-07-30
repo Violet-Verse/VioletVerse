@@ -29,7 +29,7 @@ const Dashboard = () => {
                     <h1>Contributor Dashboard</h1>
                 </Grid>
                 <Grid item>
-                    <Link href="/editor">
+                    <Link href="/posts/create">
                         <a>
                             <Button variant="contained">Create Post</Button>
                         </a>

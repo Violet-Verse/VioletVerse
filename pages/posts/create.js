@@ -13,8 +13,7 @@ import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
-// import { table } from "../pages/api/utils/postsTable";
-import RichTextEditor from "../components/Editor";
+import RichTextEditor from "../../components/Editor";
 import useSWR from "swr";
 
 export async function getStaticProps(context) {
