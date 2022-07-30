@@ -27,6 +27,7 @@ const Layout = ({ children }) => {
             </Head>
             <Navbar />
             <Box
+                className="pageContainer"
                 sx={{
                     padding: {
                         xs: "0px 0px",
