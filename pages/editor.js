@@ -27,7 +27,12 @@ const EditorPage = () => {
     const initialValue =
         "<h1>Into the Violet Verse</h1><p>Posting is currently disabled.</p>";
 
-    const { register, handleSubmit, control } = useForm({
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm({
         defaultValues: { body: initialValue },
     });
     const onSubmit = (data) => console.log(data);
@@ -67,7 +72,13 @@ const EditorPage = () => {
                             label="Post Title"
                             fullWidth
                             autoFocus
-                            {...register("title")}
+                            {...register("title", {
+                                required: "Required field",
+                            })}
+                            error={!!errors?.title}
+                            helperText={
+                                errors?.title ? errors.title.message : null
+                            }
                         />
                     </Grid>
                     <Grid item xs={6} md={3}>
