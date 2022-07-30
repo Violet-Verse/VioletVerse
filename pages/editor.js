@@ -29,7 +29,6 @@ const EditorPage = () => {
 
     const { register, handleSubmit, control } = useForm({
         defaultValues: { body: initialValue },
-        
     });
 
     const onSubmit = (data) => console.log(data); // Made for testing in console
@@ -111,16 +110,16 @@ const EditorPage = () => {
                         </Button>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sx={{mb:4}}>
-                        <TextField
-                            variant="outlined"
-                            label="Summary"
-                            fullWidth
-                            autoFocus
-                            {...register("tldr")}
-                        />
-                    </Grid>
-                
+                <Grid item xs={12} sx={{ mb: 4 }}>
+                    <TextField
+                        variant="outlined"
+                        label="Summary"
+                        fullWidth
+                        autoFocus
+                        {...register("tldr")}
+                    />
+                </Grid>
+
                 <Controller
                     control={control}
                     name="body"
