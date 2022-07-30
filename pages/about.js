@@ -39,6 +39,7 @@ const About = () => {
                 spacing={8}
                 justifyContent="space-around"
                 alignItems="center"
+                sx={{ mt: 1 }}
             >
                 <Grid
                     item
