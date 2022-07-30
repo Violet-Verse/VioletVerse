@@ -19,7 +19,7 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 
-const settings = ["Profile", "Logout"];
+const settings = ["Profile", "Settings", "Logout"];
 
 const NewNav = () => {
     const { user, loaded } = useUser();
@@ -48,6 +48,9 @@ const NewNav = () => {
             setAnchorElUser(null);
         } else if (setting === "dashboard") {
             Router.push("/dashboard");
+            setAnchorElUser(null);
+        } else if (setting === "settings") {
+            Router.push("/profile/edit");
             setAnchorElUser(null);
         } else {
             setAnchorElUser(null);

@@ -60,8 +60,8 @@ const EditorPage = () => {
             .then((response) => response.json())
             .then((newData) => {
                 mutate("/api/database/getUserPosts", [...data, newData]);
-                // Router.push(`/posts/${newData.id}`);
-                Router.push("/dashboard");
+                Router.push(`/posts/${newData.id}`);
+                // Router.push("/dashboard");
             });
     };
 
