@@ -7,12 +7,15 @@ import {
     MenuItem,
     Select,
     TextField,
+    FormHelperText,
 } from "@mui/material";
+import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 // import { table } from "../pages/api/utils/postsTable";
 import RichTextEditor from "../components/Editor";
+import useSWR from "swr";
 
 export async function getStaticProps(context) {
     return {
@@ -23,9 +26,12 @@ export async function getStaticProps(context) {
     };
 }
 
+const postFetcher = (url) => fetch(url).then((r) => r.json());
+
 const EditorPage = () => {
+    const { data, mutate } = useSWR(`/api/database/getUserPosts`, postFetcher);
     const initialValue =
-        "<h1>Into the Violet Verse</h1><p>Posting is currently disabled.</p>";
+        "<h1>Into the Violet Verse</h1><p>This is a test post.</p>";
 
     const {
         register,
@@ -36,25 +42,28 @@ const EditorPage = () => {
         defaultValues: { body: initialValue },
     });
 
-    const onSubmit = (data) => console.log(data); // Made for testing in console
+    // const onSubmit = (data) => console.log(data); // Made for testing in console
 
-    // const onSubmit = async ({ title, subtitle, tldr, category, body }) => {
-    //     try {
-    //         table.create([
-    //             {
-    //                 fields: {
-    //                     title: `${title}`,
-    //                     subtitle: `${subtitle}`,
-    //                     tldr: `${tldr}`,
-    //                     category: `${category}`,
-    //                     body: `${body}`,
-    //                 },
-    //             },
-    //         ]);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+    const onSubmit = async ({ title, category, body, tldr }) => {
+        await fetch("/api/database/createPost", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: title,
+                category: category,
+                body: body,
+                tldr: tldr,
+            }),
+        })
+            .then((response) => response.json())
+            .then((newData) => {
+                mutate("/api/database/getUserPosts", [...data, newData]);
+                // Router.push(`/posts/${newData.id}`);
+                Router.push("/dashboard");
+            });
+    };
 
     return (
         <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
@@ -67,10 +76,10 @@ const EditorPage = () => {
                     spacing={4}
                     sx={{ mb: 4 }}
                 >
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={9}>
                         <TextField
                             variant="outlined"
-                            label="Post Title"
+                            label="Title"
                             fullWidth
                             autoFocus
                             {...register("title", {
@@ -90,9 +99,6 @@ const EditorPage = () => {
                             <Controller
                                 render={({ field }) => (
                                     <Select {...field}>
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
                                         <MenuItem value={"Tech"}>Tech</MenuItem>
                                         <MenuItem value={"Lifestyle"}>
                                             Lifestyle
@@ -104,33 +110,42 @@ const EditorPage = () => {
                                 )}
                                 control={control}
                                 name="category"
-                                defaultValue={""}
+                                defaultValue={"Tech"}
                             />
+                            <FormHelperText>
+                                {errors?.title ? " " : null}
+                            </FormHelperText>
                         </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            type="submit"
-                            // disabled
-                            variant="contained"
-                            disableElevation
-                            color="success"
-                            sx={{ borderRadius: "4px" }}
-                        >
-                            Create Post
-                        </Button>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
                     <TextField
                         variant="outlined"
-                        label="Summary"
+                        label="Subtitle"
                         fullWidth
                         autoFocus
-                        {...register("tldr")}
+                        {...register("subtitle", {
+                            required: "Required field",
+                        })}
+                        error={!!errors?.subtitle}
+                        helperText={
+                            errors?.subtitle ? errors.subtitle.message : null
+                        }
                     />
                 </Grid>
-
+                <Grid item xs={12} sx={{ mb: 4 }}>
+                    <TextField
+                        variant="outlined"
+                        label="TLDR"
+                        fullWidth
+                        autoFocus
+                        {...register("tldr", {
+                            required: "Required field",
+                        })}
+                        error={!!errors?.subtitle}
+                        helperText={errors?.tldr ? errors.tldr.message : null}
+                    />
+                </Grid>
                 <Controller
                     control={control}
                     name="body"
@@ -138,6 +153,18 @@ const EditorPage = () => {
                         <RichTextEditor value={value} onChange={onChange} />
                     )}
                 />
+                <Grid item sx={{ mt: 4 }}>
+                    <Button
+                        type="submit"
+                        // disabled
+                        variant="contained"
+                        disableElevation
+                        color="success"
+                        sx={{ borderRadius: "4px" }}
+                    >
+                        Create Post
+                    </Button>
+                </Grid>
 
                 {/* Mantine - RTE https://mantine.dev/others/rte/ */}
             </form>
