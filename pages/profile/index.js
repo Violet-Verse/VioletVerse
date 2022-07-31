@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import Router from "next/router";
 
 import { useUser } from "../../hooks/useAuth";
@@ -10,7 +10,7 @@ const Profile = () => {
     return (
         <>
             {user && (
-                <>
+                <Box sx={{ mt: 2 }}>
                     <Grid container direction="row" spacing={2}>
                         <Grid item xs={12}>
                             <h1>Welcome, {user.name || user.email}!</h1>
@@ -55,7 +55,7 @@ const Profile = () => {
                             </p>
                         </Grid>
                     </Grid>
-                </>
+                </Box>
             )}
         </>
     );

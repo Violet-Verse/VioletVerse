@@ -1,8 +1,18 @@
 import { useForm } from "react-hook-form";
-import { useUser } from "../../hooks/useAuth";
-import { Button, Grid, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    Grid,
+    TextField,
+    Alert,
+    IconButton,
+    Collapse,
+    Snackbar,
+} from "@mui/material";
 import useSWR from "swr";
 import Link from "next/link";
+import CloseIcon from "@mui/icons-material/Close";
+import React, { useState } from "react";
 
 export async function getStaticProps(context) {
     return {
@@ -42,7 +52,8 @@ const Profile = () => {
         })
             .then((response) => response.json())
             .then((newData) => {
-                mutate("/api/database/getUser", { ...users.user, newData });
+                handleClick();
+                // mutate("/api/database/getUser", { ...users.user, newData });
             });
     };
     var readableLastUpdated = new Date(user.lastUpdated);
@@ -54,10 +65,24 @@ const Profile = () => {
         hour: "numeric",
         minute: "numeric",
     });
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpen(false);
+    };
+
     return (
         <>
             {user && (
-                <>
+                <Box sx={{ mt: 2 }}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction="column" spacing={4}>
                             <Grid item>
@@ -133,8 +158,22 @@ const Profile = () => {
                             </Grid>
                         </Grid>
                     </form>
-                </>
+                </Box>
             )}
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                >
+                    Successfully saved profile!
+                </Alert>
+            </Snackbar>
         </>
     );
 };
