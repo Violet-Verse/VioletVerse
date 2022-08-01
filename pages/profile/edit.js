@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Avatar, Box, Button, Grid, TextField } from "@mui/material";
 import useSWR from "swr";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 export async function getStaticProps(context) {
     return {
@@ -27,7 +28,44 @@ const Profile = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = async ({ name, bio, picture }) => {
+
+    const onPictureSubmit = async () => {
+        const formData = new FormData();
+        formData.append("image", selectedImage);
+        try {
+            await fetch(
+                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            )
+                .then((response) => response.json())
+                .then((result) => {
+                    fetch("/api/database/updateProfile", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            picture: `${result.data.url}`,
+                        }),
+                    })
+                        .then((response) => response.json())
+                        .then((newData) => {
+                            mutate("/api/database/getUser", {
+                                ...users.user,
+                                newData,
+                            });
+                        });
+                })
+                .catch((err) => console.error(err));
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const onSubmit = async ({ name, bio }) => {
         try {
             await fetch("/api/database/updateProfile", {
                 method: "PUT",
@@ -37,17 +75,28 @@ const Profile = () => {
                 body: JSON.stringify({
                     name: `${name}`,
                     bio: `${bio}`,
-                    picture: `${picture}`,
                 }),
             })
                 .then((response) => response.json())
                 .then((newData) => {
-                    mutate("/api/database/getUser", { ...users.user, newData });
+                    mutate("/api/database/getUser", {
+                        ...users.user,
+                        newData,
+                    });
                 });
         } catch (err) {
             console.log(err);
         }
     };
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+
+    useEffect(() => {
+        if (selectedImage) {
+            setImageUrl(URL.createObjectURL(selectedImage));
+        }
+    }, [selectedImage]);
+
     var readableLastUpdated = new Date(user.lastUpdated);
     var readableCreated = new Date(user.created);
     const dateTimeFormat = new Intl.DateTimeFormat("en", {
@@ -73,6 +122,43 @@ const Profile = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
+                                <input
+                                    accept="image/*"
+                                    type="file"
+                                    onChange={(e) =>
+                                        setSelectedImage(e.target.files[0])
+                                    }
+                                    id="select-image"
+                                    style={{ display: "none" }}
+                                />
+                                <label htmlFor="select-image">
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        component="span"
+                                        sx={{ borderRadius: "4px" }}
+                                    >
+                                        Change Profile Picture{" "}
+                                        {imageUrl && selectedImage && (
+                                            <Box sx={{ ml: 2 }}>
+                                                <Avatar
+                                                    alt={selectedImage.name}
+                                                    src={imageUrl}
+                                                />
+                                            </Box>
+                                        )}
+                                    </Button>
+                                </label>
+                                {imageUrl && selectedImage && (
+                                    <Button
+                                        color="secondary"
+                                        onClick={() => onPictureSubmit()}
+                                    >
+                                        Submit
+                                    </Button>
+                                )}
+                            </Grid>
+                            <Grid item>
                                 <TextField
                                     variant="outlined"
                                     label="Name"
@@ -92,28 +178,6 @@ const Profile = () => {
                                     maxRows={4}
                                     defaultValue={user?.bio || ""}
                                     {...register("bio")}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <TextField
-                                    variant="outlined"
-                                    label="Image URL (Imgur)"
-                                    fullWidth
-                                    autoFocus
-                                    defaultValue={user?.picture || ""}
-                                    {...register("picture", {
-                                        pattern: {
-                                            value: /(https?:\/\/(.+?\.)?i\.imgur\.com(\/[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;\=]*)?)/g,
-                                            message:
-                                                "Must be an imgur link (temporary)",
-                                        },
-                                    })}
-                                    error={!!errors?.picture}
-                                    helperText={
-                                        errors?.picture
-                                            ? errors.picture.message
-                                            : null
-                                    }
                                 />
                             </Grid>
                             <Grid item>

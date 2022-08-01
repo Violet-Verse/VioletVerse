@@ -20,15 +20,19 @@ export default async function updateUser(req, res) {
 
     const id = userData[0].id;
 
+    const name = req.body.name;
+    const bio = req.body.bio;
+    const picture = req.body.picture;
+
     try {
         table.update(
             [
                 {
                     id: id,
                     fields: {
-                        name: `${req.body.name}`,
-                        bio: `${req.body.bio}`,
-                        picture: `${req.body.picture}`,
+                        ...(name && { name }),
+                        ...(bio && { bio }),
+                        ...(picture && { picture }),
                     },
                 },
             ],
@@ -36,10 +40,10 @@ export default async function updateUser(req, res) {
                 if (err) {
                     console.error(err);
                     return res.status(405).end();
-                    return;
+                } else {
+                    // console.log(records[0].fields);
+                    return res.status(200).json(records[0].fields || null);
                 }
-                // console.log(records[0].fields);
-                return res.status(200).json(records[0].fields);
             }
         );
     } catch (err) {

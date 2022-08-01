@@ -281,8 +281,6 @@ const NewNav = () => {
                                                     src="/star.svg"
                                                     height={16}
                                                     width={16}
-                                                    placeholder="blur"
-                                                    blurDataURL="/star.svg"
                                                 />
                                                 &nbsp;0 VV Tokens
                                             </Button>
