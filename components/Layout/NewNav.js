@@ -245,7 +245,7 @@ const NewNav = () => {
                                         </MenuItem>
                                     </a>
                                 </Link>
-                                <Link href="#">
+                                {/* <Link href="#">
                                     <a>
                                         <MenuItem onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">
@@ -253,8 +253,8 @@ const NewNav = () => {
                                             </Typography>
                                         </MenuItem>
                                     </a>
-                                </Link>
-                                <Link href="#">
+                                </Link> */}
+                                {/* <Link href="#">
                                     <a>
                                         <MenuItem onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">
@@ -262,7 +262,7 @@ const NewNav = () => {
                                             </Typography>
                                         </MenuItem>
                                     </a>
-                                </Link>
+                                </Link> */}
                                 <Link href="/about">
                                     <a>
                                         <MenuItem onClick={handleCloseNavMenu}>
