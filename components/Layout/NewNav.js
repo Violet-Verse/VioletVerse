@@ -223,42 +223,55 @@ const NewNav = () => {
                                     display: { xs: "block", md: "none" },
                                 }}
                             >
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Link href="/posts">
+                                {!user && loaded && (
+                                    <Link href="/login">
                                         <a>
+                                            <MenuItem
+                                                onClick={handleCloseNavMenu}
+                                            >
+                                                <Typography textAlign="center">
+                                                    Login
+                                                </Typography>
+                                            </MenuItem>
+                                        </a>
+                                    </Link>
+                                )}
+                                <Link href="/posts">
+                                    <a>
+                                        <MenuItem onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">
                                                 Zine
                                             </Typography>
-                                        </a>
-                                    </Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Link href="#">
-                                        <a>
+                                        </MenuItem>
+                                    </a>
+                                </Link>
+                                <Link href="#">
+                                    <a>
+                                        <MenuItem onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">
                                                 Web3 Resources
                                             </Typography>
-                                        </a>
-                                    </Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Link href="#">
-                                        <a>
+                                        </MenuItem>
+                                    </a>
+                                </Link>
+                                <Link href="#">
+                                    <a>
+                                        <MenuItem onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">
                                                 VV VR
                                             </Typography>
-                                        </a>
-                                    </Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Link href="/about">
-                                        <a>
+                                        </MenuItem>
+                                    </a>
+                                </Link>
+                                <Link href="/about">
+                                    <a>
+                                        <MenuItem onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">
                                                 Community
                                             </Typography>
-                                        </a>
-                                    </Link>
-                                </MenuItem>
+                                        </MenuItem>
+                                    </a>
+                                </Link>
                             </Menu>
                         </Box>
                         {/* Connect Wallet + VV Tokens | Medium or larger */}
