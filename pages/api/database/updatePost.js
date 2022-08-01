@@ -1,7 +1,7 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { table } from "../utils/userTable";
+import { table } from "../utils/postsTable";
 
-export default async function updateUser(req, res) {
+export default async function updatePost(req, res) {
     if (req.method !== "PUT") return res.status(405).end();
     const session = await getLoginSession(req);
 
@@ -12,13 +12,17 @@ export default async function updateUser(req, res) {
         return res.status(405).end();
     }
 
-    const userData = await table
+    if (session?.issuer !== req.body.issuer) {
+        return res.status(405).end();
+    }
+
+    const postData = await table
         .select({
-            filterByFormula: `{userId} = "${session?.issuer}"`,
+            filterByFormula: `{id} = "${req.body.id}"`,
         })
         .firstPage();
 
-    const id = userData[0].id;
+    const id = postData[0].id;
 
     try {
         table.update(
@@ -26,9 +30,12 @@ export default async function updateUser(req, res) {
                 {
                     id: id,
                     fields: {
-                        name: `${req.body.name}`,
-                        bio: `${req.body.bio}`,
-                        picture: `${req.body.picture}`,
+                        title: `${req.body.title}`,
+                        subtitle: `${req.body.tldr}`,
+                        tldr: `${req.body.tldr}`,
+                        category: `${req.body.category}`,
+                        body: `${req.body.body}`,
+                        noLargeLetter: `${req.body.noLargeLetter}`,
                     },
                 },
             ],
@@ -36,10 +43,9 @@ export default async function updateUser(req, res) {
                 if (err) {
                     console.error(err);
                     return res.status(405).end();
-                    return;
                 }
-                // console.log(records[0].fields);
-                return res.status(200).json(records[0].fields);
+                console.log(records[0].fields);
+                return res.status(200).json(records[0].fields || null);
             }
         );
     } catch (err) {

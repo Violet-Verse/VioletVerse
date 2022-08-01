@@ -10,29 +10,54 @@ import {
     FormHelperText,
     FormControlLabel,
     Checkbox,
+    Snackbar,
+    Alert,
 } from "@mui/material";
+import useSWR from "swr";
 import Router from "next/router";
-import React from "react";
+import Link from "next/link";
+import { useUser } from "../../hooks/useAuth";
+import { server } from "../../components/config";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
+import React, { useState } from "react";
 import RichTextEditor from "../../components/Editor";
-import useSWR from "swr";
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
+    const id = context.params.id;
+    const res = await fetch(
+        `${server}/api/database/getPostsByID?` +
+            new URLSearchParams({
+                id: id,
+            })
+    );
+
+    const data = await res.json();
+
+    if (!data) {
+        return { notFound: true, props: { posts: {} } };
+    }
+
     return {
         props: {
+            posts: data[0],
             protected: true,
             userTypes: ["admin", "collaborator"],
         },
     };
 }
 
-const postFetcher = (url) => fetch(url).then((r) => r.json());
+const EditArticle = ({ posts }) => {
+    const { user } = useUser();
+    const fetchWithId = (url, id) =>
+        fetch(`${url}?id=${id}`).then((r) => r.json());
+    const { data, error } = useSWR(
+        ["/api/database/getUserForPost", posts.createdBy],
+        fetchWithId
+    );
+    const author = data?.user;
 
-const EditorPage = () => {
-    const { data, mutate } = useSWR(`/api/database/getUserPosts`, postFetcher);
-    const initialValue =
-        "<h1>Into the Violet Verse</h1><p>This is a test post.</p>";
+    const initialValue = posts.body;
 
     const {
         register,
@@ -44,30 +69,74 @@ const EditorPage = () => {
     });
 
     const onSubmit = async ({ title, category, body, tldr, noLargeLetter }) => {
-        await fetch("/api/database/createPost", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title: title,
-                category: category,
-                body: body,
-                tldr: tldr,
-                noLargeLetter: noLargeLetter,
-            }),
-        })
-            .then((response) => response.json())
-            .then((newData) => {
-                mutate("/api/database/getUserPosts", [...data, newData]);
-                Router.push(`/posts/${newData.id}`);
-                // Router.push("/dashboard");
-            });
+        try {
+            await fetch("/api/database/updatePost", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: posts.id,
+                    issuer: author?.userId,
+                    title: title,
+                    category: category,
+                    body: body,
+                    tldr: tldr,
+                    noLargeLetter: noLargeLetter,
+                }),
+            })
+                .then((response) => response.json())
+                .then((newData) => {
+                    Router.push(`/posts/${newData.id}`);
+                });
+        } catch (err) {
+            console.log(err);
+            handleClick();
+        }
     };
+
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const allowed =
+        user?.userId == author?.userId && user?.userId !== undefined;
+
+    // const onSubmit = (data) => console.log({ ...data, id: posts.id }); // Made for testing in console
 
     return (
         <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                >
+                    Error: Not Allowed!
+                </Alert>
+            </Snackbar>
+            {/* user?.userId == author?.userId && user?.userId !== undefined ? */}
             <form onSubmit={handleSubmit(onSubmit)}>
+                <Link href={`/posts/` + posts.id}>
+                    <a>
+                        <p>Back to Post</p>
+                    </a>
+                </Link>
                 <Grid
                     container
                     direction="row"
@@ -78,9 +147,11 @@ const EditorPage = () => {
                 >
                     <Grid item xs={6} md={9}>
                         <TextField
+                            disabled={!allowed}
                             variant="outlined"
                             label="Title"
                             fullWidth
+                            defaultValue={posts?.title}
                             autoFocus
                             {...register("title", {
                                 required: "Required field",
@@ -98,7 +169,7 @@ const EditorPage = () => {
                             </InputLabel>
                             <Controller
                                 render={({ field }) => (
-                                    <Select {...field}>
+                                    <Select {...field} disabled={!allowed}>
                                         <MenuItem value={"Tech"}>Tech</MenuItem>
                                         <MenuItem value={"Lifestyle"}>
                                             Lifestyle
@@ -110,7 +181,7 @@ const EditorPage = () => {
                                 )}
                                 control={control}
                                 name="category"
-                                defaultValue={"Tech"}
+                                defaultValue={posts?.category}
                             />
                             <FormHelperText>
                                 {errors?.title ? " " : null}
@@ -120,10 +191,12 @@ const EditorPage = () => {
                 </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
                     <TextField
+                        disabled={!allowed}
                         variant="outlined"
                         label="Subtitle"
                         fullWidth
                         autoFocus
+                        defaultValue={posts?.subtitle}
                         {...register("subtitle", {
                             required: "Required field",
                         })}
@@ -135,10 +208,12 @@ const EditorPage = () => {
                 </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
                     <TextField
+                        disabled={!allowed}
                         variant="outlined"
                         label="TLDR"
                         fullWidth
                         autoFocus
+                        defaultValue={posts?.tldr}
                         {...register("tldr", {
                             required: "Required field",
                         })}
@@ -150,26 +225,44 @@ const EditorPage = () => {
                     <Controller
                         name="noLargeLetter"
                         control={control}
-                        defaultValue={false}
+                        defaultValue={
+                            posts?.noLargeLetter == "true" ? true : false
+                        }
                         render={({ field }) => (
                             <FormControlLabel
-                                control={<Checkbox {...field} />}
+                                control={
+                                    <Checkbox
+                                        disabled={!allowed}
+                                        {...field}
+                                        defaultChecked={
+                                            posts?.noLargeLetter == "true"
+                                                ? true
+                                                : false
+                                        }
+                                    />
+                                }
                                 label="Disable Drop Cap"
                             />
                         )}
                     />
                 </Grid>
-                <Grid item>
-                    <Controller
-                        control={control}
-                        name="body"
-                        render={({ field: { onChange, value } }) => (
-                            <RichTextEditor value={value} onChange={onChange} />
-                        )}
-                    />
-                </Grid>
+                {allowed && (
+                    <Grid item>
+                        <Controller
+                            control={control}
+                            name="body"
+                            render={({ field: { onChange, value } }) => (
+                                <RichTextEditor
+                                    value={value}
+                                    onChange={onChange}
+                                />
+                            )}
+                        />
+                    </Grid>
+                )}
                 <Grid item sx={{ mt: 4 }}>
                     <Button
+                        disabled={!allowed}
                         type="submit"
                         // disabled
                         variant="contained"
@@ -177,14 +270,12 @@ const EditorPage = () => {
                         color="success"
                         sx={{ borderRadius: "4px" }}
                     >
-                        Create Post
+                        Save
                     </Button>
                 </Grid>
-
-                {/* Mantine - RTE https://mantine.dev/others/rte/ */}
             </form>
         </Box>
     );
 };
 
-export default EditorPage;
+export default EditArticle;

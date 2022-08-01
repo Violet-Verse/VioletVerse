@@ -9,7 +9,7 @@ export default async function createPost(req, res) {
     // Now get user data.....
 
     if (!session?.issuer) {
-        res.status(405).end();
+        return res.status(405).end();
     }
 
     try {
@@ -31,15 +31,13 @@ export default async function createPost(req, res) {
             function (err, records) {
                 if (err) {
                     console.error(err);
-                    return;
+                    return res.status(405).end();
                 }
                 console.log(records[0].fields);
-                res.status(200).json(records[0].fields || null);
+                return res.status(200).json(records[0].fields || null);
             }
         );
     } catch (err) {
         console.log(err);
     }
-
-    // res.redirect(307, "/dashboard");
 }

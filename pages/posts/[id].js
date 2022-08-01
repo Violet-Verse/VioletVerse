@@ -146,7 +146,7 @@ const Article = ({ posts }) => {
                                 />
                             </Grid>
                             <Grid item>
-                                <Link href="#">
+                                <Link href={`/edit/` + posts.id}>
                                     <a>
                                         <p style={{ color: "#693E9A" }}>Edit</p>
                                     </a>

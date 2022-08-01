@@ -28,21 +28,25 @@ const Profile = () => {
         formState: { errors },
     } = useForm();
     const onSubmit = async ({ name, bio, picture }) => {
-        await fetch("/api/database/updateProfile", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name: `${name}`,
-                bio: `${bio}`,
-                picture: `${picture}`,
-            }),
-        })
-            .then((response) => response.json())
-            .then((newData) => {
-                mutate("/api/database/getUser", { ...users.user, newData });
-            });
+        try {
+            await fetch("/api/database/updateProfile", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: `${name}`,
+                    bio: `${bio}`,
+                    picture: `${picture}`,
+                }),
+            })
+                .then((response) => response.json())
+                .then((newData) => {
+                    mutate("/api/database/getUser", { ...users.user, newData });
+                });
+        } catch (err) {
+            console.log(err);
+        }
     };
     var readableLastUpdated = new Date(user.lastUpdated);
     var readableCreated = new Date(user.created);
