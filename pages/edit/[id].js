@@ -68,7 +68,14 @@ const EditArticle = ({ posts }) => {
         defaultValues: { body: initialValue },
     });
 
-    const onSubmit = async ({ title, category, body, tldr, noLargeLetter }) => {
+    const onSubmit = async ({
+        title,
+        category,
+        body,
+        tldr,
+        noLargeLetter,
+        hidden,
+    }) => {
         try {
             await fetch("/api/database/updatePost", {
                 method: "PUT",
@@ -83,6 +90,7 @@ const EditArticle = ({ posts }) => {
                     body: body,
                     tldr: tldr,
                     noLargeLetter: noLargeLetter,
+                    hidden: hidden,
                 }),
             })
                 .then((response) => response.json())
@@ -242,6 +250,27 @@ const EditArticle = ({ posts }) => {
                                     />
                                 }
                                 label="Disable Drop Cap"
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="hidden"
+                        control={control}
+                        defaultValue={posts?.hiden == "true" ? true : false}
+                        render={({ field }) => (
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        disabled={!allowed}
+                                        {...field}
+                                        defaultChecked={
+                                            posts?.hidden == "true"
+                                                ? true
+                                                : false
+                                        }
+                                    />
+                                }
+                                label="Hide Post"
                             />
                         )}
                     />

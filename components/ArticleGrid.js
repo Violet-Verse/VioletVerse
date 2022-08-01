@@ -115,7 +115,13 @@ const ArticleGrid = (props) => {
                                             : "/placeholder/Squared.png"
                                     }
                                 />
-                                <h4>{post.title}</h4>
+                                <h4>
+                                    {post?.hidden == "true" ? (
+                                        <strike>{post.title}</strike>
+                                    ) : (
+                                        post.title
+                                    )}
+                                </h4>
                                 <h5
                                     style={{
                                         color: "#693E9A",

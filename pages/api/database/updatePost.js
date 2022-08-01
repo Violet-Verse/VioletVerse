@@ -36,6 +36,7 @@ export default async function updatePost(req, res) {
                         category: `${req.body.category}`,
                         body: `${req.body.body}`,
                         noLargeLetter: `${req.body.noLargeLetter}`,
+                        hidden: `${req.body.hidden}`,
                     },
                 },
             ],

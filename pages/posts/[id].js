@@ -152,18 +152,6 @@ const Article = ({ posts }) => {
                                     </a>
                                 </Link>
                             </Grid>
-                            <Grid item>
-                                <p style={{ color: "#693E9A" }}> / </p>
-                            </Grid>
-                            <Grid item>
-                                <Link href="#">
-                                    <a>
-                                        <p style={{ color: "#693E9A" }}>
-                                            Delete
-                                        </p>
-                                    </a>
-                                </Link>
-                            </Grid>
                         </>
                     )}
                 </Grid>
