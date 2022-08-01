@@ -1,11 +1,12 @@
 import { FlowExtension } from "@magic-ext/flow";
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField, Grid } from "@mui/material";
 import * as fcl from "@onflow/fcl";
 import { Magic } from "magic-sdk";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
+import ReactLoading from "react-loading";
 
 import { useUser } from "../hooks/useAuth";
 
@@ -65,9 +66,20 @@ export default function LoginPage() {
 
     if (loading)
         return (
-            <>
-                <h1>Loading...</h1>
-            </>
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+            >
+                <ReactLoading
+                    type={"bars"}
+                    color={"#03fc4e"}
+                    height={100}
+                    width={100}
+                />
+            </Grid>
         );
 
     return (

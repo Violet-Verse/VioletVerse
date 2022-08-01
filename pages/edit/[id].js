@@ -95,7 +95,7 @@ const EditArticle = ({ posts }) => {
             })
                 .then((response) => response.json())
                 .then((newData) => {
-                    Router.push(`/posts/${newData.id}`);
+                    Router.push(`/dashboard`);
                 });
         } catch (err) {
             console.log(err);
