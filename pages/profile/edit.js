@@ -175,7 +175,6 @@ const Profile = () => {
                                     fullWidth
                                     autoFocus
                                     multiline
-                                    maxRows={4}
                                     defaultValue={user?.bio || ""}
                                     {...register("bio")}
                                 />

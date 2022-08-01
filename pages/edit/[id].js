@@ -204,6 +204,7 @@ const EditArticle = ({ posts }) => {
                         label="Subtitle"
                         fullWidth
                         autoFocus
+                        multiline
                         defaultValue={posts?.subtitle}
                         {...register("subtitle", {
                             required: "Required field",
@@ -221,6 +222,7 @@ const EditArticle = ({ posts }) => {
                         label="TLDR"
                         fullWidth
                         autoFocus
+                        multiline
                         defaultValue={posts?.tldr}
                         {...register("tldr", {
                             required: "Required field",
