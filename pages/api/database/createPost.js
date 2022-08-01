@@ -1,7 +1,7 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
 import { table } from "../utils/postsTable";
 
-export default async function getUser(req, res) {
+export default async function createPost(req, res) {
     if (req.method !== "POST") return res.status(405).end();
     const session = await getLoginSession(req);
 
@@ -22,6 +22,7 @@ export default async function getUser(req, res) {
                         tldr: `${req.body.tldr}`,
                         category: `${req.body.category}`,
                         body: `${req.body.body}`,
+                        noLargeLetter: `${req.body.noLargeLetter}`,
                         banner: `https://i.imgur.com/DGN3WU9.png`,
                         createdBy: `${session?.issuer}`,
                     },

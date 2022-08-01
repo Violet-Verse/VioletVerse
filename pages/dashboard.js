@@ -31,7 +31,9 @@ const Dashboard = () => {
                 <Grid item>
                     <Link href="/posts/create">
                         <a>
-                            <Button variant="contained">Create Post</Button>
+                            <Button variant="contained" disableElevation>
+                                Create Post
+                            </Button>
                         </a>
                     </Link>
                 </Grid>

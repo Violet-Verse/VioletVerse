@@ -7,6 +7,10 @@ export default async function getPostsByID(req, res) {
         })
         .firstPage();
 
+    if (posts.length === 0) {
+        res.status(200).json(null);
+    }
+
     const minifiedRecords = minifyRecords(posts);
 
     res.status(200).json(minifiedRecords || null);

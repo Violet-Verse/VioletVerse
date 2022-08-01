@@ -2,10 +2,12 @@ import { Button, Grid, Avatar, Box } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
+import Link from "next/link";
 import useSWR from "swr";
 import DOMPurify from "isomorphic-dompurify";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+import { useUser } from "../../hooks/useAuth";
 import { server } from "../../components/config";
 
 export async function getServerSideProps(context) {
@@ -16,7 +18,12 @@ export async function getServerSideProps(context) {
                 id: id,
             })
     );
+
     const data = await res.json();
+
+    if (!data) {
+        return { notFound: true, props: { posts: {} } };
+    }
 
     return {
         props: { posts: data[0] },
@@ -24,13 +31,14 @@ export async function getServerSideProps(context) {
 }
 
 const Article = ({ posts }) => {
+    const { user } = useUser();
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
     const { data, error } = useSWR(
         ["/api/database/getUserForPost", posts.createdBy],
         fetchWithId
     );
-    const user = data?.user;
+    const author = data?.user;
     var readableDate = new Date(posts.created);
     const dateTimeFormat = new Intl.DateTimeFormat("en", {
         year: "numeric",
@@ -111,10 +119,10 @@ const Article = ({ posts }) => {
                     spacing={2}
                 >
                     <Grid item>
-                        <Avatar alt={user?.name} src={user?.picture} />
+                        <Avatar alt={author?.name} src={author?.picture} />
                     </Grid>
                     <Grid item>
-                        <p style={{ color: "#693E9A" }}>By {user?.name}</p>
+                        <p style={{ color: "#693E9A" }}>By {author?.name}</p>
                     </Grid>
                     <Grid item sx={{ display: "flex" }}>
                         <Image
@@ -127,6 +135,37 @@ const Article = ({ posts }) => {
                     <Grid item>
                         <p style={{ color: "#693E9A" }}>{postDate}</p>
                     </Grid>
+                    {user?.userId == author?.userId && (
+                        <>
+                            <Grid item sx={{ display: "flex" }}>
+                                <Image
+                                    alt="edit"
+                                    src="/star.svg"
+                                    height={20}
+                                    width={20}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Link href="#">
+                                    <a>
+                                        <p style={{ color: "#693E9A" }}>Edit</p>
+                                    </a>
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <p style={{ color: "#693E9A" }}> / </p>
+                            </Grid>
+                            <Grid item>
+                                <Link href="#">
+                                    <a>
+                                        <p style={{ color: "#693E9A" }}>
+                                            Delete
+                                        </p>
+                                    </a>
+                                </Link>
+                            </Grid>
+                        </>
+                    )}
                 </Grid>
                 <Grid item sx={{ margin: "50px 0px" }}>
                     {!posts.video && posts.banner && (
@@ -177,7 +216,7 @@ const Article = ({ posts }) => {
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                         <section
                             className={
-                                posts.noLargeLetter
+                                posts.noLargeLetter == "true"
                                     ? "postBodyNoLetter"
                                     : "postBody"
                             }

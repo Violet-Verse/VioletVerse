@@ -1,6 +1,5 @@
 import { Box, Button, Grid } from "@mui/material";
 import Router from "next/router";
-
 import { useUser } from "../../hooks/useAuth";
 import Link from "next/link";
 

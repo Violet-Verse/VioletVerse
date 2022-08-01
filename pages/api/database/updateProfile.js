@@ -1,7 +1,7 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
 import { table } from "../utils/userTable";
 
-export default async function getUser(req, res) {
+export default async function updateUser(req, res) {
     if (req.method !== "POST") return res.status(405).end();
     const session = await getLoginSession(req);
 

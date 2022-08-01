@@ -1,18 +1,7 @@
 import { useForm } from "react-hook-form";
-import {
-    Box,
-    Button,
-    Grid,
-    TextField,
-    Alert,
-    IconButton,
-    Collapse,
-    Snackbar,
-} from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import useSWR from "swr";
 import Link from "next/link";
-import CloseIcon from "@mui/icons-material/Close";
-import React, { useState } from "react";
 
 export async function getStaticProps(context) {
     return {
@@ -52,8 +41,7 @@ const Profile = () => {
         })
             .then((response) => response.json())
             .then((newData) => {
-                handleClick();
-                // mutate("/api/database/getUser", { ...users.user, newData });
+                mutate("/api/database/getUser", { ...users.user, newData });
             });
     };
     var readableLastUpdated = new Date(user.lastUpdated);
@@ -65,19 +53,6 @@ const Profile = () => {
         hour: "numeric",
         minute: "numeric",
     });
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === "clickaway") {
-            return;
-        }
-
-        setOpen(false);
-    };
 
     return (
         <>
@@ -109,6 +84,8 @@ const Profile = () => {
                                     label="Bio"
                                     fullWidth
                                     autoFocus
+                                    multiline
+                                    maxRows={4}
                                     defaultValue={user?.bio || ""}
                                     {...register("bio")}
                                 />
@@ -160,20 +137,6 @@ const Profile = () => {
                     </form>
                 </Box>
             )}
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "top", horizontal: "left" }}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    sx={{ width: "100%" }}
-                >
-                    Successfully saved profile!
-                </Alert>
-            </Snackbar>
         </>
     );
 };

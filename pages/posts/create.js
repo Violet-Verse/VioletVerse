@@ -8,6 +8,8 @@ import {
     Select,
     TextField,
     FormHelperText,
+    FormControlLabel,
+    Checkbox,
 } from "@mui/material";
 import Router from "next/router";
 import React from "react";
@@ -43,7 +45,7 @@ const EditorPage = () => {
 
     // const onSubmit = (data) => console.log(data); // Made for testing in console
 
-    const onSubmit = async ({ title, category, body, tldr }) => {
+    const onSubmit = async ({ title, category, body, tldr, noLargeLetter }) => {
         await fetch("/api/database/createPost", {
             method: "POST",
             headers: {
@@ -54,6 +56,7 @@ const EditorPage = () => {
                 category: category,
                 body: body,
                 tldr: tldr,
+                noLargeLetter: noLargeLetter,
             }),
         })
             .then((response) => response.json())
@@ -145,13 +148,28 @@ const EditorPage = () => {
                         helperText={errors?.tldr ? errors.tldr.message : null}
                     />
                 </Grid>
-                <Controller
-                    control={control}
-                    name="body"
-                    render={({ field: { onChange, value } }) => (
-                        <RichTextEditor value={value} onChange={onChange} />
-                    )}
-                />
+                <Grid item sx={{ mb: 4 }}>
+                    <Controller
+                        name="noLargeLetter"
+                        control={control}
+                        defaultValue={false}
+                        render={({ field }) => (
+                            <FormControlLabel
+                                control={<Checkbox {...field} />}
+                                label="Disable Drop Cap"
+                            />
+                        )}
+                    />
+                </Grid>
+                <Grid item>
+                    <Controller
+                        control={control}
+                        name="body"
+                        render={({ field: { onChange, value } }) => (
+                            <RichTextEditor value={value} onChange={onChange} />
+                        )}
+                    />
+                </Grid>
                 <Grid item sx={{ mt: 4 }}>
                     <Button
                         type="submit"
