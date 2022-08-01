@@ -18,6 +18,7 @@ import Link from "next/link";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
+import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
 const settings = ["Profile", "Settings", "Logout"];
 
@@ -294,10 +295,22 @@ const NewNav = () => {
                                                 onClick={handleOpenUserMenu}
                                                 sx={{ p: 0 }}
                                             >
-                                                <Avatar
-                                                    alt={user.email.toUpperCase()}
-                                                    src={user?.picture}
-                                                />
+                                                {user?.picture ? (
+                                                    <Avatar
+                                                        alt={user.email.toUpperCase()}
+                                                        src={user?.picture}
+                                                        style={{
+                                                            border: "0.1px solid lightgray",
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <Jazzicon
+                                                        diameter={40}
+                                                        seed={jsNumberForAddress(
+                                                            user.userId.slice(9)
+                                                        )}
+                                                    />
+                                                )}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu
