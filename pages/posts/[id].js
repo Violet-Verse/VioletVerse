@@ -185,7 +185,10 @@ const Article = ({ posts }) => {
                             url={posts.video}
                             width="100%"
                             height="100%"
+                            muted
+                            playing
                             controls
+                            playsinline
                         />
                     )}
                 </Grid>
