@@ -5,6 +5,7 @@ import Router from "next/router";
 import Link from "next/link";
 import useSWR from "swr";
 import DOMPurify from "isomorphic-dompurify";
+import Jazzicon from "react-jazzicon";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../../hooks/useAuth";
@@ -31,7 +32,7 @@ export async function getServerSideProps(context) {
 }
 
 const Article = ({ posts }) => {
-    const { user } = useUser();
+    const { user, loaded } = useUser();
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
     const { data, error } = useSWR(
@@ -119,7 +120,20 @@ const Article = ({ posts }) => {
                     spacing={2}
                 >
                     <Grid item>
-                        <Avatar alt={author?.name} src={author?.picture} />
+                        {author?.picture && loaded && (
+                            <Avatar
+                                alt={author?.name || "author"}
+                                src={author?.picture}
+                            />
+                        )}
+                        {!author?.picture && loaded && (
+                            <Box sx={{ pt: 0.5 }}>
+                                <Jazzicon
+                                    diameter={40}
+                                    seed={author?.uniqueId}
+                                />
+                            </Box>
+                        )}
                     </Grid>
                     <Grid item>
                         <p style={{ color: "#693E9A" }}>By {author?.name}</p>

@@ -65,6 +65,22 @@ const Profile = () => {
         }
     };
 
+    const clearPicture = async () => {
+        const formData = new FormData();
+        formData.append("image", selectedImage);
+        await fetch("/api/database/clearPicture", {
+            method: "PUT",
+        })
+            .then((response) => response.json())
+            .then((newData) => {
+                mutate("/api/database/getUser", {
+                    ...users.user,
+                    newData,
+                });
+            })
+            .catch((err) => console.error(err));
+    };
+
     const onSubmit = async ({ name, bio }) => {
         try {
             await fetch("/api/database/updateProfile", {
@@ -89,7 +105,7 @@ const Profile = () => {
         }
     };
     const [selectedImage, setSelectedImage] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [imageUrl, setImageUrl] = useState(user?.picture || null);
 
     useEffect(() => {
         if (selectedImage) {
@@ -142,7 +158,21 @@ const Profile = () => {
                                         {imageUrl && selectedImage && (
                                             <Box sx={{ ml: 2 }}>
                                                 <Avatar
-                                                    alt={selectedImage.name}
+                                                    alt={
+                                                        selectedImage?.name ||
+                                                        "current profile picture"
+                                                    }
+                                                    src={imageUrl}
+                                                />
+                                            </Box>
+                                        )}
+                                        {user?.picture && !selectedImage && (
+                                            <Box sx={{ ml: 2 }}>
+                                                <Avatar
+                                                    alt={
+                                                        selectedImage?.name ||
+                                                        "current profile picture"
+                                                    }
                                                     src={imageUrl}
                                                 />
                                             </Box>
@@ -155,6 +185,11 @@ const Profile = () => {
                                         onClick={() => onPictureSubmit()}
                                     >
                                         Submit
+                                    </Button>
+                                )}
+                                {user?.picture && (
+                                    <Button onClick={() => clearPicture()}>
+                                        Reset Picture
                                     </Button>
                                 )}
                             </Grid>
