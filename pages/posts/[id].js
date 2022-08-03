@@ -50,10 +50,22 @@ const Article = ({ posts }) => {
         ADD_TAGS: ["iframe"],
         ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
     });
+
+    function youtube_parser(url) {
+        var regExp =
+            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = url.match(regExp);
+        return match && match[7].length == 11 ? match[7] : false;
+    }
+
+    const YouTubeID = youtube_parser(posts.video);
+
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
-    const siteImage = posts.banner;
+    const siteImage = YouTubeID
+        ? `http://img.youtube.com/vi/${YouTubeID}/maxresdefault.jpg`
+        : posts.banner;
     return (
         <Box sx={{ mt: 12 }}>
             <Head>
@@ -71,7 +83,6 @@ const Article = ({ posts }) => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
-
             <Grid
                 container
                 justifyContent="center"
