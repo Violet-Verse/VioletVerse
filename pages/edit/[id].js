@@ -327,7 +327,7 @@ const EditArticle = ({ posts }) => {
                                         }
                                     />
                                 }
-                                label="Disable Drop Cap"
+                                label="Drop Cap"
                             />
                         )}
                     />

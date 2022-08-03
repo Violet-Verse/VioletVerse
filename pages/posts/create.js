@@ -253,7 +253,7 @@ const EditorPage = () => {
                         render={({ field }) => (
                             <FormControlLabel
                                 control={<Checkbox {...field} />}
-                                label="Disable Drop Cap"
+                                label="Drop Cap"
                             />
                         )}
                     />
