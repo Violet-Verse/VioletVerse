@@ -16,7 +16,7 @@ export default async function createPost(req, res) {
     const tldr = req.body.tldr;
     const category = req.body.category;
     const body = req.body.body;
-    const largeLetter = req.body.largeLetter;
+    const largeLetter = req.body.largeLetter || "false";
     const hidden = req.body.hidden;
     const banner = req.body.banner || "https://i.ibb.co/tDBm1Vj/Squared.png";
 

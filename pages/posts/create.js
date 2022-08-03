@@ -91,7 +91,7 @@ const EditorPage = () => {
                 subtitle: subtitle,
                 body: body,
                 tldr: tldr,
-                largeLetter: largeLetter.toString(),
+                largeLetter: largeLetter?.toString(),
                 hidden: hidden,
                 banner: banner,
             }),
