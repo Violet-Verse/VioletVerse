@@ -10,17 +10,17 @@ import {
     FormHelperText,
     FormControlLabel,
     Checkbox,
-    Snackbar,
     Alert,
 } from "@mui/material";
 import useSWR from "swr";
+import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
 import { useUser } from "../../hooks/useAuth";
 import { server } from "../../components/config";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RichTextEditor from "../../components/Editor";
 
 export async function getServerSideProps(context) {
@@ -68,6 +68,31 @@ const EditArticle = ({ posts }) => {
         defaultValues: { body: initialValue },
     });
 
+    const handlePictureSubmit = async () => {
+        if (imageUrl && selectedImage) {
+            const formData = new FormData();
+            formData.append("image", selectedImage);
+
+            return fetch(
+                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            )
+                .then((response) => response.json())
+                .then((result) => {
+                    return result.data.url;
+                })
+                .catch((err) => {
+                    console.error(err);
+                    return null;
+                });
+        } else {
+            return null;
+        }
+    };
+
     const onSubmit = async ({
         title,
         category,
@@ -76,68 +101,51 @@ const EditArticle = ({ posts }) => {
         noLargeLetter,
         hidden,
     }) => {
-        try {
-            await fetch("/api/database/updatePost", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    id: posts.id,
-                    issuer: author?.userId,
-                    title: title,
-                    category: category,
-                    body: body,
-                    tldr: tldr,
-                    noLargeLetter: noLargeLetter,
-                    hidden: hidden,
-                }),
+        const banner = await handlePictureSubmit();
+        console.log(banner);
+
+        await fetch("/api/database/updatePost", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: posts.id,
+                issuer: author?.userId,
+                title: title,
+                category: category,
+                body: body,
+                tldr: tldr,
+                noLargeLetter: noLargeLetter.toString(),
+                hidden: hidden,
+                banner: banner,
+            }),
+        })
+            .then((response) => response.json())
+            .then((newData) => {
+                Router.push(`/posts/${newData.id}`);
             })
-                .then((response) => response.json())
-                .then((newData) => {
-                    Router.push(`/dashboard`);
-                });
-        } catch (err) {
-            console.log(err);
-            handleClick();
-        }
-    };
-
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === "clickaway") {
-            return;
-        }
-
-        setOpen(false);
+            .catch((err) => console.log(err));
     };
 
     const allowed =
         user?.userId == author?.userId && user?.userId !== undefined;
 
-    // const onSubmit = (data) => console.log({ ...data, id: posts.id }); // Made for testing in console
+    const clearPicture = () => {
+        setImageUrl(posts?.banner);
+    };
+
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState(posts?.banner || null);
+
+    useEffect(() => {
+        if (selectedImage) {
+            setImageUrl(URL.createObjectURL(selectedImage));
+        }
+    }, [selectedImage]);
 
     return (
         <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "top", horizontal: "left" }}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity="error"
-                    sx={{ width: "100%" }}
-                >
-                    Error: Not Allowed!
-                </Alert>
-            </Snackbar>
             {/* user?.userId == author?.userId && user?.userId !== undefined ? */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Link href={`/posts/` + posts.id}>
@@ -154,20 +162,26 @@ const EditArticle = ({ posts }) => {
                     sx={{ mb: 4 }}
                 >
                     <Grid item xs={6} md={9}>
-                        <TextField
-                            disabled={!allowed}
-                            variant="outlined"
-                            label="Title"
-                            fullWidth
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="Title"
+                                    fullWidth
+                                    autoFocus
+                                    error={!!errors?.subtitle}
+                                    helperText={
+                                        errors?.subtitle
+                                            ? errors.subtitle.message
+                                            : null
+                                    }
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            name="title"
+                            rules={{ required: "Required field" }}
                             defaultValue={posts?.title}
-                            autoFocus
-                            {...register("title", {
-                                required: "Required field",
-                            })}
-                            error={!!errors?.title}
-                            helperText={
-                                errors?.title ? errors.title.message : null
-                            }
                         />
                     </Grid>
                     <Grid item xs={6} md={3}>
@@ -177,7 +191,7 @@ const EditArticle = ({ posts }) => {
                             </InputLabel>
                             <Controller
                                 render={({ field }) => (
-                                    <Select {...field} disabled={!allowed}>
+                                    <Select {...field}>
                                         <MenuItem value={"Tech"}>Tech</MenuItem>
                                         <MenuItem value={"Lifestyle"}>
                                             Lifestyle
@@ -198,37 +212,99 @@ const EditArticle = ({ posts }) => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
-                    <TextField
-                        disabled={!allowed}
-                        variant="outlined"
-                        label="Subtitle"
-                        fullWidth
-                        autoFocus
-                        multiline
+                    <Controller
+                        render={({ field }) => (
+                            <TextField
+                                variant="outlined"
+                                label="Subtitle"
+                                fullWidth
+                                autoFocus
+                                multiline
+                                error={!!errors?.subtitle}
+                                helperText={
+                                    errors?.subtitle
+                                        ? errors.subtitle.message
+                                        : null
+                                }
+                                {...field}
+                            />
+                        )}
+                        control={control}
+                        name="subtitle"
+                        rules={{ required: "Required field" }}
                         defaultValue={posts?.subtitle}
-                        {...register("subtitle", {
-                            required: "Required field",
-                        })}
-                        error={!!errors?.subtitle}
-                        helperText={
-                            errors?.subtitle ? errors.subtitle.message : null
-                        }
                     />
                 </Grid>
+                <Grid item>
+                    <input
+                        accept="image/*"
+                        type="file"
+                        onChange={(e) => setSelectedImage(e.target.files[0])}
+                        id="select-image"
+                        style={{ display: "none" }}
+                    />
+                    <label htmlFor="select-image">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            component="span"
+                            sx={{ borderRadius: "4px" }}
+                        >
+                            Change Banner{" "}
+                            {imageUrl && selectedImage && (
+                                <Box sx={{ ml: 2 }}>
+                                    <Image
+                                        alt={
+                                            selectedImage?.name ||
+                                            "current banner"
+                                        }
+                                        width={1920}
+                                        height={1080}
+                                        objectFit={"cover"}
+                                        src={imageUrl}
+                                    />
+                                </Box>
+                            )}
+                            {posts?.banner && !selectedImage && (
+                                <Box sx={{ ml: 2 }}>
+                                    <Image
+                                        alt={
+                                            selectedImage?.name ||
+                                            "current post banner"
+                                        }
+                                        width={1920}
+                                        height={1080}
+                                        objectFit={"cover"}
+                                        src={imageUrl}
+                                    />
+                                </Box>
+                            )}
+                        </Button>
+                    </label>
+                    {posts?.banner && (
+                        <Button onClick={() => clearPicture()}>
+                            Reset Picture
+                        </Button>
+                    )}
+                </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
-                    <TextField
-                        disabled={!allowed}
-                        variant="outlined"
-                        label="TLDR"
-                        fullWidth
-                        autoFocus
-                        multiline
+                    <Controller
+                        render={({ field }) => (
+                            <TextField
+                                variant="outlined"
+                                label="TLDR"
+                                fullWidth
+                                autoFocus
+                                multiline
+                                error={!!errors?.tldr}
+                                helperText={errors?.tldr ? errors.tldr : null}
+                                {...field}
+                            />
+                        )}
+                        control={control}
+                        name="tldr"
+                        rules={{ required: "Required field" }}
                         defaultValue={posts?.tldr}
-                        {...register("tldr", {
-                            required: "Required field",
-                        })}
-                        error={!!errors?.subtitle}
-                        helperText={errors?.tldr ? errors.tldr.message : null}
                     />
                 </Grid>
                 <Grid item sx={{ mb: 4 }}>
@@ -242,7 +318,6 @@ const EditArticle = ({ posts }) => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        disabled={!allowed}
                                         {...field}
                                         defaultChecked={
                                             posts?.noLargeLetter == "true"
@@ -263,7 +338,6 @@ const EditArticle = ({ posts }) => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        disabled={!allowed}
                                         {...field}
                                         defaultChecked={
                                             posts?.hidden == "true"
@@ -277,25 +351,19 @@ const EditArticle = ({ posts }) => {
                         )}
                     />
                 </Grid>
-                {allowed && (
-                    <Grid item>
-                        <Controller
-                            control={control}
-                            name="body"
-                            render={({ field: { onChange, value } }) => (
-                                <RichTextEditor
-                                    value={value}
-                                    onChange={onChange}
-                                />
-                            )}
-                        />
-                    </Grid>
-                )}
+                <Grid item>
+                    <Controller
+                        control={control}
+                        name="body"
+                        render={({ field: { onChange, value } }) => (
+                            <RichTextEditor value={value} onChange={onChange} />
+                        )}
+                    />
+                </Grid>
                 <Grid item sx={{ mt: 4 }}>
                     <Button
                         disabled={!allowed}
                         type="submit"
-                        // disabled
                         variant="contained"
                         disableElevation
                         color="success"
