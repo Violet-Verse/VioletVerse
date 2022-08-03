@@ -257,24 +257,29 @@ const EditorPage = () => {
                         />
                     </Grid>
                 )}
-                {bannerType == "image" && (
-                    <Grid item xs={12} sx={{ mb: 4 }}>
-                        <Controller
-                            render={({ field }) => (
-                                <TextField
-                                    variant="outlined"
-                                    label="Subtitle"
-                                    fullWidth
-                                    autoFocus
-                                    multiline
-                                    {...field}
-                                />
-                            )}
-                            control={control}
-                            name="subtitle"
-                        />
-                    </Grid>
-                )}
+                <Grid item xs={12} sx={{ mb: 4 }}>
+                    <Controller
+                        render={({ field }) => (
+                            <TextField
+                                variant="outlined"
+                                label="Subtitle"
+                                fullWidth
+                                autoFocus
+                                multiline
+                                error={!!errors?.subtitle}
+                                helperText={
+                                    errors?.subtitle
+                                        ? errors.subtitle.message
+                                        : null
+                                }
+                                {...field}
+                            />
+                        )}
+                        control={control}
+                        rules={{ required: "Required field" }}
+                        name="subtitle"
+                    />
+                </Grid>
                 {bannerType == "image" && (
                     <Grid item xs={12} sx={{ mb: 4 }}>
                         <Controller
