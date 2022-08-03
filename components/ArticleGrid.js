@@ -93,10 +93,17 @@ const ArticleGrid = (props) => {
                 spacing={2}
                 align="center"
                 sx={{ marginTop: "25px", px: { xs: 10, sm: 0 } }}
-                justifyContent="center"
+                justifyContent="left"
             >
                 {livePosts?.slice(0, props.maximum).map((post) => (
-                    <Grid item xs={12} sm={6} md={4} key={post.id}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        key={post.id}
+                        sx={{ minWidth: "200px" }}
+                    >
                         <Link href={"/posts/" + post.id}>
                             <a>
                                 <Image

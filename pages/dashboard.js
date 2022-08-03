@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import Link from "next/link";
 import ArticleGrid from "../components/ArticleGrid";
 import { usePosts } from "../hooks/useAuth";
@@ -16,7 +16,7 @@ const Dashboard = () => {
     const { posts, loaded } = usePosts();
 
     return (
-        <div>
+        <Box sx={{ mt: 4 }}>
             <Grid
                 container
                 direction="column"
@@ -48,7 +48,7 @@ const Dashboard = () => {
                     </Grid>
                 )}
             </Grid>
-        </div>
+        </Box>
     );
 };
 
