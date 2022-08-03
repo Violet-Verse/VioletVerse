@@ -12,11 +12,12 @@ import {
     Checkbox,
 } from "@mui/material";
 import Router from "next/router";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import RichTextEditor from "../../components/Editor";
 import useSWR from "swr";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
 
 export async function getStaticProps(context) {
     return {
@@ -35,7 +36,6 @@ const EditorPage = () => {
         "<h1>Into the Violet Verse</h1><p>This is a test post.</p>";
 
     const {
-        register,
         handleSubmit,
         control,
         formState: { errors },
@@ -43,7 +43,43 @@ const EditorPage = () => {
         defaultValues: { body: initialValue },
     });
 
-    const onSubmit = async ({ title, category, body, tldr, noLargeLetter }) => {
+    const handlePictureSubmit = async () => {
+        if (imageUrl && selectedImage) {
+            const formData = new FormData();
+            formData.append("image", selectedImage);
+
+            return fetch(
+                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            )
+                .then((response) => response.json())
+                .then((result) => {
+                    return result.data.url;
+                })
+                .catch((err) => {
+                    console.error(err);
+                    return null;
+                });
+        } else {
+            return null;
+        }
+    };
+
+    const onSubmit = async ({
+        title,
+        category,
+        body,
+        tldr,
+        noLargeLetter,
+        hidden,
+        subtitle,
+    }) => {
+        const banner = await handlePictureSubmit();
+        console.log(banner);
+
         await fetch("/api/database/createPost", {
             method: "POST",
             headers: {
@@ -52,18 +88,29 @@ const EditorPage = () => {
             body: JSON.stringify({
                 title: title,
                 category: category,
+                subtitle: subtitle,
                 body: body,
                 tldr: tldr,
-                noLargeLetter: noLargeLetter,
+                noLargeLetter: noLargeLetter.toString(),
+                hidden: hidden,
+                banner: banner,
             }),
         })
             .then((response) => response.json())
             .then((newData) => {
                 mutate("/api/database/getUserPosts", [...data, newData]);
                 Router.push(`/posts/${newData.id}`);
-                // Router.push("/dashboard");
             });
     };
+
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+
+    useEffect(() => {
+        if (selectedImage) {
+            setImageUrl(URL.createObjectURL(selectedImage));
+        }
+    }, [selectedImage]);
 
     return (
         <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
@@ -77,18 +124,25 @@ const EditorPage = () => {
                     sx={{ mb: 4 }}
                 >
                     <Grid item xs={6} md={9}>
-                        <TextField
-                            variant="outlined"
-                            label="Title"
-                            fullWidth
-                            autoFocus
-                            {...register("title", {
-                                required: "Required field",
-                            })}
-                            error={!!errors?.title}
-                            helperText={
-                                errors?.title ? errors.title.message : null
-                            }
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="Title"
+                                    fullWidth
+                                    autoFocus
+                                    error={!!errors?.subtitle}
+                                    helperText={
+                                        errors?.subtitle
+                                            ? errors.subtitle.message
+                                            : null
+                                    }
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            name="title"
+                            rules={{ required: "Required field" }}
                         />
                     </Grid>
                     <Grid item xs={6} md={3}>
@@ -110,7 +164,6 @@ const EditorPage = () => {
                                 )}
                                 control={control}
                                 name="category"
-                                defaultValue={"Tech"}
                             />
                             <FormHelperText>
                                 {errors?.title ? " " : null}
@@ -119,42 +172,98 @@ const EditorPage = () => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
-                    <TextField
-                        variant="outlined"
-                        label="Subtitle"
-                        fullWidth
-                        autoFocus
-                        {...register("subtitle", {
-                            required: "Required field",
-                        })}
-                        error={!!errors?.subtitle}
-                        helperText={
-                            errors?.subtitle ? errors.subtitle.message : null
-                        }
+                    <Controller
+                        render={({ field }) => (
+                            <TextField
+                                variant="outlined"
+                                label="Subtitle"
+                                fullWidth
+                                autoFocus
+                                multiline
+                                error={!!errors?.subtitle}
+                                helperText={
+                                    errors?.subtitle
+                                        ? errors.subtitle.message
+                                        : null
+                                }
+                                {...field}
+                            />
+                        )}
+                        control={control}
+                        name="subtitle"
+                        rules={{ required: "Required field" }}
                     />
                 </Grid>
+                <Grid item>
+                    <input
+                        accept="image/*"
+                        type="file"
+                        onChange={(e) => setSelectedImage(e.target.files[0])}
+                        id="select-image"
+                        style={{ display: "none" }}
+                    />
+                    <label htmlFor="select-image">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            component="span"
+                            sx={{ borderRadius: "4px", mb: 4 }}
+                        >
+                            Select Banner{" "}
+                            {imageUrl && selectedImage && (
+                                <Box sx={{ ml: 2 }}>
+                                    <Image
+                                        alt={
+                                            selectedImage?.name ||
+                                            "current banner"
+                                        }
+                                        width={1920}
+                                        height={1080}
+                                        objectFit={"cover"}
+                                        src={imageUrl}
+                                    />
+                                </Box>
+                            )}
+                        </Button>
+                    </label>
+                </Grid>
                 <Grid item xs={12} sx={{ mb: 4 }}>
-                    <TextField
-                        variant="outlined"
-                        label="TLDR"
-                        fullWidth
-                        autoFocus
-                        {...register("tldr", {
-                            required: "Required field",
-                        })}
-                        error={!!errors?.subtitle}
-                        helperText={errors?.tldr ? errors.tldr.message : null}
+                    <Controller
+                        render={({ field }) => (
+                            <TextField
+                                variant="outlined"
+                                label="TLDR"
+                                fullWidth
+                                autoFocus
+                                multiline
+                                error={!!errors?.tldr}
+                                helperText={errors?.tldr ? errors.tldr : null}
+                                {...field}
+                            />
+                        )}
+                        control={control}
+                        name="tldr"
+                        rules={{ required: "Required field" }}
                     />
                 </Grid>
                 <Grid item sx={{ mb: 4 }}>
                     <Controller
                         name="noLargeLetter"
                         control={control}
-                        defaultValue={false}
                         render={({ field }) => (
                             <FormControlLabel
                                 control={<Checkbox {...field} />}
                                 label="Disable Drop Cap"
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="hidden"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControlLabel
+                                control={<Checkbox {...field} />}
+                                label="Hide Post to Public"
                             />
                         )}
                     />
@@ -171,17 +280,14 @@ const EditorPage = () => {
                 <Grid item sx={{ mt: 4 }}>
                     <Button
                         type="submit"
-                        // disabled
                         variant="contained"
                         disableElevation
                         color="success"
                         sx={{ borderRadius: "4px" }}
                     >
-                        Create Post
+                        Create
                     </Button>
                 </Grid>
-
-                {/* Mantine - RTE https://mantine.dev/others/rte/ */}
             </form>
         </Box>
     );

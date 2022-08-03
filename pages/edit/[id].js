@@ -57,6 +57,9 @@ const EditArticle = ({ posts }) => {
     );
     const author = data?.user;
 
+    const allowed =
+        user?.userId == author?.userId && user?.userId !== undefined;
+
     const initialValue = posts.body;
 
     const {
@@ -100,9 +103,9 @@ const EditArticle = ({ posts }) => {
         tldr,
         noLargeLetter,
         hidden,
+        subtitle,
     }) => {
         const banner = await handlePictureSubmit();
-        console.log(banner);
 
         await fetch("/api/database/updatePost", {
             method: "PUT",
@@ -116,6 +119,7 @@ const EditArticle = ({ posts }) => {
                 category: category,
                 body: body,
                 tldr: tldr,
+                subtitle: subtitle,
                 noLargeLetter: noLargeLetter.toString(),
                 hidden: hidden,
                 banner: banner,
@@ -127,9 +131,6 @@ const EditArticle = ({ posts }) => {
             })
             .catch((err) => console.log(err));
     };
-
-    const allowed =
-        user?.userId == author?.userId && user?.userId !== undefined;
 
     const clearPicture = () => {
         setImageUrl(posts?.banner);
@@ -333,7 +334,7 @@ const EditArticle = ({ posts }) => {
                     <Controller
                         name="hidden"
                         control={control}
-                        defaultValue={posts?.hiden == "true" ? true : false}
+                        defaultValue={posts?.hidden == "true" ? true : false}
                         render={({ field }) => (
                             <FormControlLabel
                                 control={
@@ -367,7 +368,7 @@ const EditArticle = ({ posts }) => {
                         variant="contained"
                         disableElevation
                         color="success"
-                        sx={{ borderRadius: "4px" }}
+                        sx={{ borderRadius: "4px", mb: 4 }}
                     >
                         Save
                     </Button>

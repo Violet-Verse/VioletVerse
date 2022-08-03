@@ -5,25 +5,34 @@ export default async function createPost(req, res) {
     if (req.method !== "POST") return res.status(405).end();
     const session = await getLoginSession(req);
 
-    // Retrieved Session
-    // Now get user data.....
-
+    // Reject request if no user signed in
     if (!session?.issuer) {
         return res.status(405).end();
     }
+
+    // Allowed Parameters
+    const title = req.body.title;
+    const subtitle = req.body.subtitle;
+    const tldr = req.body.tldr;
+    const category = req.body.category;
+    const body = req.body.body;
+    const noLargeLetter = req.body.noLargeLetter;
+    const hidden = req.body.hidden;
+    const banner = req.body.banner || "https://i.ibb.co/tDBm1Vj/Squared.png";
 
     try {
         table.create(
             [
                 {
                     fields: {
-                        title: `${req.body.title}`,
-                        subtitle: `${req.body.tldr}`,
-                        tldr: `${req.body.tldr}`,
-                        category: `${req.body.category}`,
-                        body: `${req.body.body}`,
-                        noLargeLetter: `${req.body.noLargeLetter}`,
-                        banner: `https://i.imgur.com/DGN3WU9.png`,
+                        ...(title && { title }),
+                        ...(subtitle && { subtitle }),
+                        ...(tldr && { tldr }),
+                        ...(category && { category }),
+                        ...(body && { body }),
+                        ...(noLargeLetter && { noLargeLetter }),
+                        ...(hidden && { hidden }),
+                        ...(banner && { banner }),
                         createdBy: `${session?.issuer}`,
                     },
                 },
