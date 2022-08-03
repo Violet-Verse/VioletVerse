@@ -71,6 +71,7 @@ const Article = ({ posts }) => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
+
             <Grid
                 container
                 justifyContent="center"
@@ -169,8 +170,28 @@ const Article = ({ posts }) => {
                         </>
                     )}
                 </Grid>
-                <Grid item sx={{ margin: "50px 0px" }}>
-                    {!posts.video && posts.banner && (
+            </Grid>
+            {posts.video && (
+                <Box className="player-wrapper" sx={{ my: 4 }}>
+                    <ReactPlayer
+                        className="react-player"
+                        url={posts.video}
+                        width="100%"
+                        height="100%"
+                        controls
+                        playsinline
+                    />
+                </Box>
+            )}
+            <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+                spacing={3}
+            >
+                {!posts.video && (
+                    <Grid item sx={{ margin: "50px 0px" }}>
                         <Image
                             src={posts.banner}
                             alt="Violet Verse Banner"
@@ -181,19 +202,8 @@ const Article = ({ posts }) => {
                             placeholder="blur"
                             blurDataURL={posts.banner}
                         />
-                    )}
-                    {posts.video && (
-                        <ReactPlayer
-                            url={posts.video}
-                            width="100%"
-                            height="100%"
-                            muted
-                            playing
-                            controls
-                            playsinline
-                        />
-                    )}
-                </Grid>
+                    </Grid>
+                )}
                 <Grid item>
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                         <p

@@ -33,6 +33,15 @@ const Home = ({ posts }) => {
             </Head>
             {/* Top Section */}
             {/* Welcome to the Violet Verse */}
+            <ReactPlayer
+                url="/video.mp4"
+                width="100%"
+                height="100%"
+                muted={true}
+                playing
+                playsinline
+                loop
+            />
             <Grid
                 container
                 direction="column"
@@ -45,18 +54,6 @@ const Home = ({ posts }) => {
                 }}
             >
                 {/* Image Banner */}
-
-                <Grid item>
-                    <ReactPlayer
-                        url="/video.mp4"
-                        width="100%"
-                        height="100%"
-                        muted={true}
-                        playing
-                        playsinline
-                        loop
-                    />
-                </Grid>
 
                 {/* Typography */}
 
