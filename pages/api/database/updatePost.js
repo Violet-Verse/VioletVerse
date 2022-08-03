@@ -29,7 +29,7 @@ export default async function updatePost(req, res) {
     const tldr = req.body.tldr;
     const category = req.body.category;
     const body = req.body.body;
-    const noLargeLetter = req.body.noLargeLetter;
+    const largeLetter = req.body.largeLetter;
     const hidden = req.body.hidden;
     const banner = req.body.banner;
 
@@ -44,7 +44,7 @@ export default async function updatePost(req, res) {
                         ...(tldr && { tldr }),
                         ...(category && { category }),
                         ...(body && { body }),
-                        ...(noLargeLetter && { noLargeLetter }),
+                        ...(largeLetter && { largeLetter }),
                         ...(hidden && { hidden }),
                         ...(banner && { banner }),
                     },

@@ -73,7 +73,7 @@ const EditorPage = () => {
         category,
         body,
         tldr,
-        noLargeLetter,
+        largeLetter,
         hidden,
         subtitle,
     }) => {
@@ -91,7 +91,7 @@ const EditorPage = () => {
                 subtitle: subtitle,
                 body: body,
                 tldr: tldr,
-                noLargeLetter: noLargeLetter.toString(),
+                largeLetter: largeLetter.toString(),
                 hidden: hidden,
                 banner: banner,
             }),
@@ -248,7 +248,7 @@ const EditorPage = () => {
                 </Grid>
                 <Grid item sx={{ mb: 4 }}>
                     <Controller
-                        name="noLargeLetter"
+                        name="largeLetter"
                         control={control}
                         render={({ field }) => (
                             <FormControlLabel

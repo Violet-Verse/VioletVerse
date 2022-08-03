@@ -16,7 +16,7 @@ export default async function createPost(req, res) {
     const tldr = req.body.tldr;
     const category = req.body.category;
     const body = req.body.body;
-    const noLargeLetter = req.body.noLargeLetter;
+    const largeLetter = req.body.largeLetter;
     const hidden = req.body.hidden;
     const banner = req.body.banner || "https://i.ibb.co/tDBm1Vj/Squared.png";
 
@@ -30,7 +30,7 @@ export default async function createPost(req, res) {
                         ...(tldr && { tldr }),
                         ...(category && { category }),
                         ...(body && { body }),
-                        ...(noLargeLetter && { noLargeLetter }),
+                        ...(largeLetter && { largeLetter }),
                         ...(hidden && { hidden }),
                         ...(banner && { banner }),
                         createdBy: `${session?.issuer}`,

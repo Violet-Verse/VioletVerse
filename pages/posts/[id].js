@@ -231,7 +231,7 @@ const Article = ({ posts }) => {
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                         <section
                             className={
-                                posts.noLargeLetter == "true"
+                                posts.largeLetter == "false"
                                     ? "postBodyNoLetter"
                                     : "postBody"
                             }

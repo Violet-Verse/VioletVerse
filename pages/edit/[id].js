@@ -101,7 +101,7 @@ const EditArticle = ({ posts }) => {
         category,
         body,
         tldr,
-        noLargeLetter,
+        largeLetter,
         hidden,
         subtitle,
     }) => {
@@ -120,7 +120,7 @@ const EditArticle = ({ posts }) => {
                 body: body,
                 tldr: tldr,
                 subtitle: subtitle,
-                noLargeLetter: noLargeLetter.toString(),
+                largeLetter: largeLetter.toString(),
                 hidden: hidden,
                 banner: banner,
             }),
@@ -310,10 +310,10 @@ const EditArticle = ({ posts }) => {
                 </Grid>
                 <Grid item sx={{ mb: 4 }}>
                     <Controller
-                        name="noLargeLetter"
+                        name="largeLetter"
                         control={control}
                         defaultValue={
-                            posts?.noLargeLetter == "true" ? true : false
+                            posts?.largeLetter == "true" ? true : false
                         }
                         render={({ field }) => (
                             <FormControlLabel
@@ -321,7 +321,7 @@ const EditArticle = ({ posts }) => {
                                     <Checkbox
                                         {...field}
                                         defaultChecked={
-                                            posts?.noLargeLetter == "true"
+                                            posts?.largeLetter == "true"
                                                 ? true
                                                 : false
                                         }
