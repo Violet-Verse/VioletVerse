@@ -162,7 +162,7 @@ const EditorPage = () => {
                             </InputLabel>
                             <Controller
                                 render={({ field }) => (
-                                    <Select {...field} defaultValue={"Tech"}>
+                                    <Select {...field} defaultValue="Tech">
                                         <MenuItem value={"Tech"}>Tech</MenuItem>
                                         <MenuItem value={"Lifestyle"}>
                                             Lifestyle
@@ -173,6 +173,7 @@ const EditorPage = () => {
                                     </Select>
                                 )}
                                 control={control}
+                                defaultValue="Tech"
                                 name="category"
                             />
                             <FormHelperText>
