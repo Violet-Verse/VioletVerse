@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../../hooks/useAuth";
 import { server } from "../../components/config";
+import youtubeParser from "../../lib/getYouTubeThumbnail";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
@@ -51,21 +52,12 @@ const Article = ({ posts }) => {
         ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
     });
 
-    function youtube_parser(url) {
-        var regExp =
-            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        var match = url.match(regExp);
-        return match && match[7].length == 11 ? match[7] : false;
-    }
-
-    const YouTubeID = youtube_parser(posts.video || "none");
+    const YouTubeID = youtubeParser(posts.video);
 
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
-    const siteImage = YouTubeID
-        ? `http://img.youtube.com/vi/${YouTubeID}/maxresdefault.jpg`
-        : posts.banner;
+    const siteImage = YouTubeID ? YouTubeID : posts.banner;
     return (
         <Box sx={{ mt: 12 }}>
             <Head>

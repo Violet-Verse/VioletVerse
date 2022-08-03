@@ -3,6 +3,7 @@ import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
 import React, { useState } from "react";
+import youtubeParser from "../lib/getYouTubeThumbnail";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
@@ -18,6 +19,7 @@ const ArticleGrid = (props) => {
             setLivePosts(posts?.filter((x) => x.category === newCategory));
         }
     };
+
     return (
         <>
             <Grid
@@ -99,9 +101,9 @@ const ArticleGrid = (props) => {
                             <a>
                                 <Image
                                     src={
-                                        post.banner
-                                            ? post.banner
-                                            : "/placeholder/Squared.png"
+                                        youtubeParser(post.video)
+                                            ? youtubeParser(post.video)
+                                            : post.banner
                                     }
                                     alt="Placeholder Image"
                                     width={304}
@@ -110,9 +112,9 @@ const ArticleGrid = (props) => {
                                     className="imageArticle"
                                     placeholder="blur"
                                     blurDataURL={
-                                        post.banner
-                                            ? post.banner
-                                            : "/placeholder/Squared.png"
+                                        youtubeParser(post.video)
+                                            ? youtubeParser(post.video)
+                                            : post.banner
                                     }
                                 />
                                 <h4>
