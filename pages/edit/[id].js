@@ -77,7 +77,9 @@ const EditArticle = ({ posts }) => {
     );
 
     const handleBannerTypeChange = (event, newType) => {
-        setBannerType(newType);
+        if (newType !== null) {
+            setBannerType(newType);
+        }
     };
 
     const handlePictureSubmit = async () => {

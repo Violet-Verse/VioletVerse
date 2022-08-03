@@ -48,7 +48,9 @@ const EditorPage = () => {
     const [bannerType, setBannerType] = useState("image");
 
     const handleBannerTypeChange = (event, newType) => {
-        setBannerType(newType);
+        if (newType !== null) {
+            setBannerType(newType);
+        }
     };
 
     const handlePictureSubmit = async () => {
