@@ -145,6 +145,24 @@ const EditArticle = ({ posts }) => {
             .catch((err) => console.log(err));
     };
 
+    const deletePost = async () => {
+        try {
+            await fetch("/api/database/deletePost", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: posts.id,
+                    issuer: author?.userId,
+                }),
+            });
+            Router.push("/posts");
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const clearPicture = () => {
         setImageUrl(posts?.banner);
     };
@@ -414,6 +432,14 @@ const EditArticle = ({ posts }) => {
                         sx={{ borderRadius: "4px", mb: 4 }}
                     >
                         Save
+                    </Button>
+                    <Button
+                        sx={{ borderRadius: "4px", mb: 4, ml: 2 }}
+                        variant="contained"
+                        color="error"
+                        onClick={() => deletePost()}
+                    >
+                        Delete Post
                     </Button>
                 </Grid>
             </form>

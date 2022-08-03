@@ -290,13 +290,19 @@ const NewNav = () => {
                                                 variant="contained"
                                                 disableElevation
                                             >
+                                                {/* <Image
+                                                    alt="edit"
+                                                    src="/star.svg"
+                                                    height={16}
+                                                    width={16}
+                                                /> */}
                                                 <Image
                                                     alt="edit"
                                                     src="/star.svg"
                                                     height={16}
                                                     width={16}
                                                 />
-                                                &nbsp;0 VV Tokens
+                                                &nbsp;&nbsp;0 $VV Tokens
                                             </Button>
                                         </a>
                                     </Link>
