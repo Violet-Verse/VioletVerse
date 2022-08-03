@@ -29,7 +29,7 @@ const Team = ({ member }) => {
     const siteDescription = `${member.bio}`;
     const siteImage = `${member.photo}`;
     return (
-        <>
+        <Box sx={{ mt: 4 }}>
             <Head>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
@@ -47,89 +47,106 @@ const Team = ({ member }) => {
                 direction="column"
                 align="center"
                 alignContent="center"
+                spacing={1}
             >
-                <h1>{member.name}</h1>
-                <h4>{member.title}</h4>
-                <Grid
-                    container
-                    direction="row"
-                    align="center"
-                    justifyContent="center"
-                >
-                    {member?.website && (
-                        <a
-                            href={member.website}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <LanguageIcon
-                                sx={{
-                                    margin: "0px 3px",
-                                    color: "#73839C",
-                                }}
-                            />
-                        </a>
-                    )}
-                    {member?.twitter && (
-                        <a
-                            href={`https://www.twitter.com/` + member.twitter}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <TwitterIcon
-                                sx={{
-                                    margin: "0px 3px",
-                                    color: "#73839C",
-                                }}
-                            />
-                        </a>
-                    )}
-                    {member?.linkedIn && (
-                        <a
-                            href={
-                                `https://www.linkedin.com/in/` + member.linkedIn
-                            }
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <LinkedInIcon
-                                sx={{
-                                    margin: "0px 3px",
-                                    color: "#73839C",
-                                }}
-                            />
-                        </a>
-                    )}
-                    {member?.facebook && (
-                        <a
-                            href={`https://www.facebook.com/` + member.facebook}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <FacebookIcon
-                                sx={{
-                                    margin: "0px 3px",
-                                    color: "#73839C",
-                                }}
-                            />
-                        </a>
-                    )}
+                <Grid item>
+                    <h1>{member.name}</h1>
                 </Grid>
-                <Image
-                    width={345.13}
-                    height={400}
-                    src={member.photo}
-                    alt="Default Image"
-                    className="imageSm"
-                    objectFit={"contain"}
-                    placeholder="blur"
-                    blurDataURL={member.photo}
-                />
-                <Box sx={{ padding: "0px 15%" }}>
-                    <p>{member.bio}</p>
-                </Box>
+                <Grid item>
+                    <h4>{member.title}</h4>
+                </Grid>
+                <Grid item>
+                    <Grid
+                        container
+                        direction="row"
+                        align="center"
+                        justifyContent="center"
+                    >
+                        {member?.website && (
+                            <a
+                                href={member.website}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <LanguageIcon
+                                    sx={{
+                                        margin: "0px 3px",
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                        )}
+                        {member?.twitter && (
+                            <a
+                                href={
+                                    `https://www.twitter.com/` + member.twitter
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <TwitterIcon
+                                    sx={{
+                                        margin: "0px 3px",
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                        )}
+                        {member?.linkedIn && (
+                            <a
+                                href={
+                                    `https://www.linkedin.com/in/` +
+                                    member.linkedIn
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <LinkedInIcon
+                                    sx={{
+                                        margin: "0px 3px",
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                        )}
+                        {member?.facebook && (
+                            <a
+                                href={
+                                    `https://www.facebook.com/` +
+                                    member.facebook
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FacebookIcon
+                                    sx={{
+                                        margin: "0px 3px",
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                        )}
+                    </Grid>
+                </Grid>
+                <Grid item>
+                    <Image
+                        width={345.13}
+                        height={400}
+                        src={member.photo}
+                        alt="Default Image"
+                        className="imageSm"
+                        objectFit="cover"
+                        placeholder="blur"
+                        blurDataURL={member.photo}
+                    />
+                </Grid>
+                <Grid item>
+                    <Box sx={{ padding: "0px 15%" }}>
+                        <p>{member.bio}</p>
+                    </Box>
+                </Grid>
             </Grid>
-        </>
+        </Box>
     );
 };
 
