@@ -120,7 +120,7 @@ const EditArticle = ({ posts }) => {
                 body: body,
                 tldr: tldr,
                 subtitle: subtitle,
-                largeLetter: largeLetter.toString(),
+                largeLetter: largeLetter,
                 hidden: hidden,
                 banner: banner,
             }),
