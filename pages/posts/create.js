@@ -10,6 +10,8 @@ import {
     FormHelperText,
     FormControlLabel,
     Checkbox,
+    ToggleButtonGroup,
+    ToggleButton,
 } from "@mui/material";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
@@ -42,6 +44,12 @@ const EditorPage = () => {
     } = useForm({
         defaultValues: { body: initialValue },
     });
+
+    const [bannerType, setBannerType] = useState("image");
+
+    const handleBannerTypeChange = (event, newType) => {
+        setBannerType(newType);
+    };
 
     const handlePictureSubmit = async () => {
         if (imageUrl && selectedImage) {
@@ -76,6 +84,7 @@ const EditorPage = () => {
         largeLetter,
         hidden,
         subtitle,
+        video,
     }) => {
         const banner = await handlePictureSubmit();
         console.log(banner);
@@ -94,6 +103,7 @@ const EditorPage = () => {
                 largeLetter: largeLetter,
                 hidden: hidden,
                 banner: banner,
+                video: video,
             }),
         })
             .then((response) => response.json())
@@ -131,10 +141,10 @@ const EditorPage = () => {
                                     label="Title"
                                     fullWidth
                                     autoFocus
-                                    error={!!errors?.subtitle}
+                                    error={!!errors?.title}
                                     helperText={
-                                        errors?.subtitle
-                                            ? errors.subtitle.message
+                                        errors?.title
+                                            ? errors.title.message
                                             : null
                                     }
                                     {...field}
@@ -152,7 +162,7 @@ const EditorPage = () => {
                             </InputLabel>
                             <Controller
                                 render={({ field }) => (
-                                    <Select {...field}>
+                                    <Select {...field} defaultValue={"Tech"}>
                                         <MenuItem value={"Tech"}>Tech</MenuItem>
                                         <MenuItem value={"Lifestyle"}>
                                             Lifestyle
@@ -171,81 +181,118 @@ const EditorPage = () => {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sx={{ mb: 4 }}>
-                    <Controller
-                        render={({ field }) => (
-                            <TextField
-                                variant="outlined"
-                                label="Subtitle"
-                                fullWidth
-                                autoFocus
-                                multiline
-                                error={!!errors?.subtitle}
-                                helperText={
-                                    errors?.subtitle
-                                        ? errors.subtitle.message
-                                        : null
-                                }
-                                {...field}
-                            />
-                        )}
-                        control={control}
-                        name="subtitle"
-                        rules={{ required: "Required field" }}
-                    />
+                <Grid item sx={{ mb: 2 }}>
+                    <ToggleButtonGroup
+                        color="secondary"
+                        value={bannerType}
+                        exclusive
+                        onChange={handleBannerTypeChange}
+                    >
+                        <ToggleButton value="image">Image</ToggleButton>
+                        <ToggleButton value="video">Video</ToggleButton>
+                    </ToggleButtonGroup>
                 </Grid>
-                <Grid item>
-                    <input
-                        accept="image/*"
-                        type="file"
-                        onChange={(e) => setSelectedImage(e.target.files[0])}
-                        id="select-image"
-                        style={{ display: "none" }}
-                    />
-                    <label htmlFor="select-image">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            component="span"
-                            sx={{ borderRadius: "4px", mb: 4 }}
-                        >
-                            Select Banner{" "}
-                            {imageUrl && selectedImage && (
-                                <Box sx={{ ml: 2 }}>
-                                    <Image
-                                        alt={
-                                            selectedImage?.name ||
-                                            "current banner"
-                                        }
-                                        width={1920}
-                                        height={1080}
-                                        objectFit={"cover"}
-                                        src={imageUrl}
-                                    />
-                                </Box>
+                {bannerType == "image" ? (
+                    <Grid item>
+                        <input
+                            accept="image/*"
+                            type="file"
+                            onChange={(e) =>
+                                setSelectedImage(e.target.files[0])
+                            }
+                            id="select-image"
+                            style={{ display: "none" }}
+                        />
+                        <label htmlFor="select-image">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                component="span"
+                                sx={{ borderRadius: "4px", mb: 4 }}
+                            >
+                                Select Banner{" "}
+                                {imageUrl && selectedImage && (
+                                    <Box sx={{ ml: 2 }}>
+                                        <Image
+                                            alt={
+                                                selectedImage?.name ||
+                                                "current banner"
+                                            }
+                                            width={1920}
+                                            height={1080}
+                                            objectFit={"cover"}
+                                            src={imageUrl}
+                                        />
+                                    </Box>
+                                )}
+                            </Button>
+                        </label>
+                    </Grid>
+                ) : (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="YouTube URL"
+                                    fullWidth
+                                    autoFocus
+                                    error={!!errors?.video}
+                                    helperText={
+                                        errors?.video
+                                            ? errors.video.message
+                                            : null
+                                    }
+                                    {...field}
+                                />
                             )}
-                        </Button>
-                    </label>
-                </Grid>
-                <Grid item xs={12} sx={{ mb: 4 }}>
-                    <Controller
-                        render={({ field }) => (
-                            <TextField
-                                variant="outlined"
-                                label="TLDR"
-                                fullWidth
-                                autoFocus
-                                multiline
-                                error={!!errors?.tldr}
-                                helperText={errors?.tldr ? errors.tldr : null}
-                                {...field}
-                            />
-                        )}
-                        control={control}
-                        name="tldr"
-                        rules={{ required: "Required field" }}
-                    />
-                </Grid>
+                            control={control}
+                            name="video"
+                            rules={{
+                                pattern: {
+                                    value: /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/gm,
+                                    message: "Invalid YouTube URL",
+                                },
+                            }}
+                        />
+                    </Grid>
+                )}
+                {bannerType == "image" && (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="Subtitle"
+                                    fullWidth
+                                    autoFocus
+                                    multiline
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            name="subtitle"
+                        />
+                    </Grid>
+                )}
+                {bannerType == "image" && (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="TLDR"
+                                    fullWidth
+                                    autoFocus
+                                    multiline
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            name="tldr"
+                        />
+                    </Grid>
+                )}
                 <Grid item sx={{ mb: 4 }}>
                     <Controller
                         name="largeLetter"

@@ -10,7 +10,8 @@ import {
     FormHelperText,
     FormControlLabel,
     Checkbox,
-    Alert,
+    ToggleButtonGroup,
+    ToggleButton,
 } from "@mui/material";
 import useSWR from "swr";
 import Image from "next/image";
@@ -71,6 +72,12 @@ const EditArticle = ({ posts }) => {
         defaultValues: { body: initialValue },
     });
 
+    const [bannerType, setBannerType] = useState("image");
+
+    const handleBannerTypeChange = (event, newType) => {
+        setBannerType(newType);
+    };
+
     const handlePictureSubmit = async () => {
         if (imageUrl && selectedImage) {
             const formData = new FormData();
@@ -104,6 +111,7 @@ const EditArticle = ({ posts }) => {
         largeLetter,
         hidden,
         subtitle,
+        video,
     }) => {
         const banner = await handlePictureSubmit();
 
@@ -123,6 +131,7 @@ const EditArticle = ({ posts }) => {
                 largeLetter: largeLetter,
                 hidden: hidden,
                 banner: banner,
+                video: video,
             }),
         })
             .then((response) => response.json())
@@ -147,7 +156,6 @@ const EditArticle = ({ posts }) => {
 
     return (
         <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
-            {/* user?.userId == author?.userId && user?.userId !== undefined ? */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Link href={`/posts/` + posts.id}>
                     <a>
@@ -170,10 +178,10 @@ const EditArticle = ({ posts }) => {
                                     label="Title"
                                     fullWidth
                                     autoFocus
-                                    error={!!errors?.subtitle}
+                                    error={!!errors?.title}
                                     helperText={
-                                        errors?.subtitle
-                                            ? errors.subtitle.message
+                                        errors?.title
+                                            ? errors.title.message
                                             : null
                                     }
                                     {...field}
@@ -212,102 +220,127 @@ const EditArticle = ({ posts }) => {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sx={{ mb: 4 }}>
-                    <Controller
-                        render={({ field }) => (
-                            <TextField
-                                variant="outlined"
-                                label="Subtitle"
-                                fullWidth
-                                autoFocus
-                                multiline
-                                error={!!errors?.subtitle}
-                                helperText={
-                                    errors?.subtitle
-                                        ? errors.subtitle.message
-                                        : null
-                                }
-                                {...field}
-                            />
+                <Grid item sx={{ mb: 2 }}>
+                    <ToggleButtonGroup
+                        color="secondary"
+                        value={bannerType}
+                        exclusive
+                        onChange={handleBannerTypeChange}
+                    >
+                        <ToggleButton value="image">Image</ToggleButton>
+                        <ToggleButton value="video">Video</ToggleButton>
+                    </ToggleButtonGroup>
+                </Grid>
+                {bannerType == "image" ? (
+                    <Grid item>
+                        <input
+                            accept="image/*"
+                            type="file"
+                            onChange={(e) =>
+                                setSelectedImage(e.target.files[0])
+                            }
+                            id="select-image"
+                            style={{ display: "none" }}
+                        />
+                        <label htmlFor="select-image">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                component="span"
+                                sx={{ borderRadius: "4px" }}
+                            >
+                                Select Banner{" "}
+                                {imageUrl && selectedImage && (
+                                    <Box sx={{ ml: 2 }}>
+                                        <Image
+                                            alt={
+                                                selectedImage?.name ||
+                                                "current banner"
+                                            }
+                                            width={1920}
+                                            height={1080}
+                                            objectFit={"cover"}
+                                            src={imageUrl}
+                                        />
+                                    </Box>
+                                )}
+                                {posts?.banner && !selectedImage && (
+                                    <Box sx={{ ml: 2 }}>
+                                        <Image
+                                            alt={
+                                                selectedImage?.name ||
+                                                "current post banner"
+                                            }
+                                            width={1920}
+                                            height={1080}
+                                            objectFit={"cover"}
+                                            src={imageUrl}
+                                        />
+                                    </Box>
+                                )}
+                            </Button>
+                        </label>
+                        {posts?.banner && (
+                            <Button onClick={() => clearPicture()}>
+                                Reset Picture
+                            </Button>
                         )}
-                        control={control}
-                        name="subtitle"
-                        rules={{ required: "Required field" }}
-                        defaultValue={posts?.subtitle}
-                    />
-                </Grid>
-                <Grid item>
-                    <input
-                        accept="image/*"
-                        type="file"
-                        onChange={(e) => setSelectedImage(e.target.files[0])}
-                        id="select-image"
-                        style={{ display: "none" }}
-                    />
-                    <label htmlFor="select-image">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            component="span"
-                            sx={{ borderRadius: "4px" }}
-                        >
-                            Change Banner{" "}
-                            {imageUrl && selectedImage && (
-                                <Box sx={{ ml: 2 }}>
-                                    <Image
-                                        alt={
-                                            selectedImage?.name ||
-                                            "current banner"
-                                        }
-                                        width={1920}
-                                        height={1080}
-                                        objectFit={"cover"}
-                                        src={imageUrl}
-                                    />
-                                </Box>
+                    </Grid>
+                ) : (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="YouTube URL"
+                                    fullWidth
+                                    autoFocus
+                                    {...field}
+                                />
                             )}
-                            {posts?.banner && !selectedImage && (
-                                <Box sx={{ ml: 2 }}>
-                                    <Image
-                                        alt={
-                                            selectedImage?.name ||
-                                            "current post banner"
-                                        }
-                                        width={1920}
-                                        height={1080}
-                                        objectFit={"cover"}
-                                        src={imageUrl}
-                                    />
-                                </Box>
+                            control={control}
+                            name="video"
+                        />
+                    </Grid>
+                )}
+                {bannerType == "image" && (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="Subtitle"
+                                    fullWidth
+                                    autoFocus
+                                    multiline
+                                    {...field}
+                                />
                             )}
-                        </Button>
-                    </label>
-                    {posts?.banner && (
-                        <Button onClick={() => clearPicture()}>
-                            Reset Picture
-                        </Button>
-                    )}
-                </Grid>
-                <Grid item xs={12} sx={{ mb: 4 }}>
-                    <Controller
-                        render={({ field }) => (
-                            <TextField
-                                variant="outlined"
-                                label="TLDR"
-                                fullWidth
-                                autoFocus
-                                multiline
-                                error={!!errors?.tldr}
-                                helperText={errors?.tldr ? errors.tldr : null}
-                                {...field}
-                            />
-                        )}
-                        control={control}
-                        name="tldr"
-                        rules={{ required: "Required field" }}
-                        defaultValue={posts?.tldr}
-                    />
-                </Grid>
+                            control={control}
+                            name="subtitle"
+                            defaultValue={posts?.subtitle}
+                        />
+                    </Grid>
+                )}
+                {bannerType == "image" && (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="TLDR"
+                                    fullWidth
+                                    autoFocus
+                                    multiline
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            name="tldr"
+                            defaultValue={posts?.tldr}
+                        />
+                    </Grid>
+                )}
                 <Grid item sx={{ mb: 4 }}>
                     <Controller
                         name="largeLetter"

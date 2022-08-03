@@ -58,7 +58,7 @@ const Article = ({ posts }) => {
         return match && match[7].length == 11 ? match[7] : false;
     }
 
-    const YouTubeID = youtube_parser(posts.video);
+    const YouTubeID = youtube_parser(posts.video || "none");
 
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
