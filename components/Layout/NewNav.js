@@ -61,33 +61,89 @@ const NewNav = () => {
     return (
         <nav>
             <AppBar position="static" elevation={0}>
-                <Container maxWidth="lg">
-                    <Toolbar disableGutters>
-                        {/* Logo | All Breakpoints */}
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters sx={{ px: 4 }}>
+                        {/* Menu Dropdown | XS Breakpoint */}
+
                         <Box
                             sx={{
-                                mr: 2,
-                                display: { xs: "flex" },
-                                flexGrow: 1,
+                                flex: 1,
+                                display: { xs: "flex", lg: "none" },
+                                justifyContent: "start",
                             }}
                         >
-                            <Link href="/">
-                                <a>
-                                    <Image
-                                        src="/Logo.png"
-                                        alt="Violet Verse"
-                                        height={59}
-                                        width={105}
-                                    />
-                                </a>
-                            </Link>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon sx={{ fontSize: "32px" }} />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "left",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "left",
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: {
+                                        xs: "block",
+                                        lg: "none",
+                                    },
+                                }}
+                            >
+                                {!user && loaded && (
+                                    <Link href="/login">
+                                        <a>
+                                            <MenuItem
+                                                onClick={handleCloseNavMenu}
+                                            >
+                                                <Typography textAlign="center">
+                                                    Connect
+                                                </Typography>
+                                            </MenuItem>
+                                        </a>
+                                    </Link>
+                                )}
+                                <Link href="/posts">
+                                    <a>
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">
+                                                Zine
+                                            </Typography>
+                                        </MenuItem>
+                                    </a>
+                                </Link>
+                                <Link href="/about">
+                                    <a>
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">
+                                                Community
+                                            </Typography>
+                                        </MenuItem>
+                                    </a>
+                                </Link>
+                            </Menu>
                         </Box>
+
                         {/* Menu Items | Medium or larger */}
+
                         <Box
                             sx={{
-                                flexGrow: 1,
-                                display: { xs: "none", md: "flex" },
-                                mr: 4,
+                                flex: 1,
+                                display: { xs: "none", lg: "flex" },
+                                justifyContent: "start",
                             }}
                         >
                             <Link href="/posts">
@@ -166,122 +222,42 @@ const NewNav = () => {
                                 </a>
                             </Link>
                         </Box>
-                        {/* Connect Wallet | XS Breakpoint */}
-                        {!user && loaded && (
-                            <Box
-                                sx={{
-                                    mr: 1,
-                                    flexGrow: 0,
-                                    display: { xs: "flex", md: "none" },
-                                }}
-                            >
-                                <IconButton
-                                    size="large"
-                                    aria-label="account"
-                                    aria-controls="menu-appbar"
-                                    color="inherit"
-                                    onClick={() => Router.push("/login")}
-                                >
-                                    <PersonOutlineSharpIcon
-                                        sx={{ fontSize: "32px" }}
-                                    />
-                                </IconButton>
-                            </Box>
-                        )}
-                        {/* Menu Dropdown | XS Breakpoint */}
+
+                        {/* Logo | All Breakpoints */}
+
                         <Box
                             sx={{
-                                flexGrow: 0,
-                                display: { xs: "flex", md: "none" },
+                                justifyContent: "center",
                             }}
                         >
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon sx={{ fontSize: "32px" }} />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: "bottom",
-                                    horizontal: "left",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "left",
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: "block", md: "none" },
-                                }}
-                            >
-                                {!user && loaded && (
-                                    <Link href="/login">
-                                        <a>
-                                            <MenuItem
-                                                onClick={handleCloseNavMenu}
-                                            >
-                                                <Typography textAlign="center">
-                                                    Connect
-                                                </Typography>
-                                            </MenuItem>
-                                        </a>
-                                    </Link>
-                                )}
-                                <Link href="/posts">
-                                    <a>
-                                        <MenuItem onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">
-                                                Zine
-                                            </Typography>
-                                        </MenuItem>
-                                    </a>
-                                </Link>
-                                {/* <Link href="#">
-                                    <a>
-                                        <MenuItem onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">
-                                                Web3 Resources
-                                            </Typography>
-                                        </MenuItem>
-                                    </a>
-                                </Link> */}
-                                {/* <Link href="#">
-                                    <a>
-                                        <MenuItem onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">
-                                                VV VR
-                                            </Typography>
-                                        </MenuItem>
-                                    </a>
-                                </Link> */}
-                                <Link href="/about">
-                                    <a>
-                                        <MenuItem onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">
-                                                Community
-                                            </Typography>
-                                        </MenuItem>
-                                    </a>
-                                </Link>
-                            </Menu>
+                            <Link href="/">
+                                <a>
+                                    <Image
+                                        src="/Logo.svg"
+                                        alt="Violet Verse"
+                                        height={59}
+                                        width={105}
+                                    />
+                                </a>
+                            </Link>
                         </Box>
-                        {/* Connect Wallet + VV Tokens | Medium or larger */}
+
+                        {/* Connect Wallet + VV Tokens || Logged In*/}
+
                         {user && loaded && (
-                            <>
+                            <Box
+                                sx={{
+                                    display: { xs: "flex" },
+                                    flex: 1,
+                                    justifyContent: "end",
+                                }}
+                            >
+                                {/* VV Tokens | Large or larger */}
+
                                 <Box
                                     sx={{
-                                        mr: 4,
-                                        display: { xs: "none", md: "flex" },
-                                        flexGrow: 0,
+                                        display: { xs: "none", lg: "flex" },
+                                        mr: { xs: 0, lg: 6 },
                                     }}
                                 >
                                     <Link href="/profile">
@@ -307,99 +283,137 @@ const NewNav = () => {
                                         </a>
                                     </Link>
                                 </Box>
-                                <Box sx={{ flexGrow: 0 }}>
-                                    <Box sx={{ flexGrow: 0 }}>
-                                        <Tooltip title="Open settings">
-                                            <IconButton
-                                                onClick={handleOpenUserMenu}
-                                                sx={{ p: 0 }}
-                                            >
-                                                {user?.picture ? (
-                                                    <Avatar
-                                                        alt={user.email.toUpperCase()}
-                                                        src={user?.picture}
-                                                    />
-                                                ) : (
-                                                    <Jazzicon
-                                                        diameter={40}
-                                                        seed={user?.uniqueId}
-                                                    />
-                                                )}
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Menu
-                                            sx={{ mt: "45px" }}
-                                            id="menu-appbar"
-                                            anchorEl={anchorElUser}
-                                            anchorOrigin={{
-                                                vertical: "top",
-                                                horizontal: "right",
-                                            }}
-                                            keepMounted
-                                            transformOrigin={{
-                                                vertical: "top",
-                                                horizontal: "right",
-                                            }}
-                                            open={Boolean(anchorElUser)}
-                                            onClose={handleCloseUserMenu}
+
+                                {/* Profile Avatar Menu | All Breakpoints */}
+
+                                <Box
+                                    sx={{
+                                        display: { xs: "flex" },
+                                    }}
+                                >
+                                    <Tooltip title="Open settings">
+                                        <IconButton
+                                            onClick={handleOpenUserMenu}
+                                            sx={{ p: 0 }}
                                         >
-                                            {user?.role === "admin" && (
-                                                <MenuItem
-                                                    onClick={() =>
-                                                        handleCloseUserMenu(
-                                                            "dashboard"
-                                                        )
-                                                    }
-                                                >
-                                                    <Typography textAlign="center">
-                                                        Dashboard
-                                                    </Typography>
-                                                </MenuItem>
+                                            {user?.picture ? (
+                                                <Avatar
+                                                    alt={user.email.toUpperCase()}
+                                                    src={user?.picture}
+                                                />
+                                            ) : (
+                                                <Jazzicon
+                                                    diameter={40}
+                                                    seed={user?.uniqueId}
+                                                />
                                             )}
-                                            {settings.map((setting) => (
-                                                <MenuItem
-                                                    key={setting}
-                                                    onClick={() =>
-                                                        handleCloseUserMenu(
-                                                            setting.toLowerCase()
-                                                        )
-                                                    }
-                                                >
-                                                    <Typography textAlign="center">
-                                                        {setting}
-                                                    </Typography>
-                                                </MenuItem>
-                                            ))}
-                                        </Menu>
-                                    </Box>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Menu
+                                        sx={{ mt: "45px" }}
+                                        id="menu-appbar"
+                                        anchorEl={anchorElUser}
+                                        anchorOrigin={{
+                                            vertical: "top",
+                                            horizontal: "right",
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: "top",
+                                            horizontal: "right",
+                                        }}
+                                        open={Boolean(anchorElUser)}
+                                        onClose={handleCloseUserMenu}
+                                    >
+                                        {user?.role === "admin" && (
+                                            <MenuItem
+                                                onClick={() =>
+                                                    handleCloseUserMenu(
+                                                        "dashboard"
+                                                    )
+                                                }
+                                            >
+                                                <Typography textAlign="center">
+                                                    Dashboard
+                                                </Typography>
+                                            </MenuItem>
+                                        )}
+                                        {settings.map((setting) => (
+                                            <MenuItem
+                                                key={setting}
+                                                onClick={() =>
+                                                    handleCloseUserMenu(
+                                                        setting.toLowerCase()
+                                                    )
+                                                }
+                                            >
+                                                <Typography textAlign="center">
+                                                    {setting}
+                                                </Typography>
+                                            </MenuItem>
+                                        ))}
+                                    </Menu>
                                 </Box>
-                            </>
+                            </Box>
                         )}
+
+                        {/* Connect Wallet || Logged Out */}
+
                         {!user && loaded && (
                             <Box
                                 sx={{
-                                    flexGrow: 0,
-                                    display: { xs: "none", md: "flex" },
+                                    display: { xs: "flex" },
+                                    flex: 1,
+                                    justifyContent: "end",
                                 }}
                             >
-                                <Link href="/login">
-                                    <a>
-                                        <Button
-                                            disableElevation
-                                            variant="contained"
-                                            sx={{
-                                                py: 2,
-                                                display: "block",
-                                                fontFamily: "Ogg",
-                                                fontSize: "18px",
-                                                lineHeight: "130%",
-                                                letterSpacing: "-0.005em",
-                                            }}
-                                        >
-                                            Connect Wallet
-                                        </Button>
-                                    </a>
-                                </Link>
+                                {/* Connect Wallet | XS Breakpoint */}
+
+                                <Box
+                                    sx={{
+                                        display: { xs: "flex", lg: "none" },
+                                        mr: { xs: 0, lg: 6 },
+                                    }}
+                                >
+                                    <IconButton
+                                        size="large"
+                                        aria-label="account"
+                                        aria-controls="menu-appbar"
+                                        color="inherit"
+                                        onClick={() => Router.push("/login")}
+                                    >
+                                        <PersonOutlineSharpIcon
+                                            sx={{ fontSize: "32px" }}
+                                        />
+                                    </IconButton>
+                                </Box>
+
+                                {/* Connect Wallet | Large or larger */}
+                                <Box
+                                    sx={{
+                                        display: { xs: "none", lg: "flex" },
+                                        mr: { xs: 0, lg: 6 },
+                                    }}
+                                >
+                                    <Link href="/login">
+                                        <a>
+                                            <Button
+                                                disableElevation
+                                                variant="contained"
+                                                sx={{
+                                                    py: 2,
+                                                    display: "block",
+                                                    fontFamily: "Ogg",
+                                                    fontSize: "18px",
+                                                    lineHeight: "130%",
+                                                    letterSpacing: "-0.005em",
+                                                }}
+                                            >
+                                                Connect Wallet
+                                            </Button>
+                                        </a>
+                                    </Link>
+                                </Box>
                             </Box>
                         )}
                     </Toolbar>
