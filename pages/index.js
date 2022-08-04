@@ -1,7 +1,6 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import Router from "next/router";
 import React from "react";
 import ArticleGrid from "../components/ArticleGrid";
 import dynamic from "next/dynamic";
@@ -31,9 +30,76 @@ const Home = ({ posts }) => {
                     content="https://i.imgur.com/yhNmGo8.png"
                 />
             </Head>
-            {/* Top Section */}
-            {/* Welcome to the Violet Verse */}
+
+            {/* Video with Text Overlay | XS to MD */}
+
+            <Box
+                className="content"
+                sx={{ display: { xs: "none", md: "flex" } }}
+            >
+                <Grid
+                    className="overlay"
+                    container
+                    direction="column"
+                    spacing={2}
+                    sx={{
+                        px: {
+                            xs: "0",
+                            sm: "5%",
+                            md: "10%",
+                            lg: "10%",
+                            xl: "10%",
+                        },
+                        mt: 12,
+                        maxWidth: "1040px",
+                    }}
+                >
+                    <Grid item>
+                        <Link href="/posts">
+                            <a>
+                                <h1 style={{ color: "white" }}>
+                                    Violet Verse at ETH Barcelona
+                                </h1>
+                            </a>
+                        </Link>
+                    </Grid>
+                    <Grid item>
+                        <Link href="/posts/11">
+                            <a>
+                                <p
+                                    style={{
+                                        fontFamily: "stratos-lights",
+                                        color: "white",
+                                        fontStyle: "italic",
+                                        fontWeight: "200",
+                                        fontSize: "28px",
+                                        lineHeight: "130%",
+                                        letterSpacing: "-0.01em",
+                                    }}
+                                >
+                                    Exclusive interviews with trailblazing
+                                    pioneers in the crypto space.
+                                </p>
+                            </a>
+                        </Link>
+                    </Grid>
+                    <Grid item>
+                        <Link href="/posts/11">
+                            <a>
+                                <Button
+                                    size="large"
+                                    variant="contained"
+                                    disableElevation
+                                >
+                                    Watch Now
+                                </Button>
+                            </a>
+                        </Link>
+                    </Grid>
+                </Grid>
+            </Box>
             <ReactPlayer
+                className="video"
                 url="/video.mp4"
                 width="100%"
                 height="100%"
@@ -42,77 +108,102 @@ const Home = ({ posts }) => {
                 playsinline
                 loop
             />
-            <Grid
-                container
-                direction="column"
-                spacing={2}
+
+            {/* Section under video */}
+
+            <Box
                 sx={{
-                    textAlign: {
-                        xs: "center",
+                    px: {
+                        xs: "0",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
                     },
-                    mb: 16,
+                    mt: 6,
                 }}
             >
-                {/* Image Banner */}
+                {/* Top Section under video | MD and larger*/}
 
-                {/* Typography */}
+                <Box
+                    className="content"
+                    sx={{ display: { xs: "flex", md: "none" } }}
+                >
+                    <Grid
+                        container
+                        direction="column"
+                        spacing={2}
+                        sx={{
+                            textAlign: {
+                                xs: "center",
+                            },
+                            mb: 16,
+                        }}
+                    >
+                        <Grid item sx={{ mt: "30px" }}>
+                            <Link href="/posts">
+                                <a>
+                                    <h1>Violet Verse at ETH Barcelona</h1>
+                                </a>
+                            </Link>
+                        </Grid>
 
-                <Grid item sx={{ mt: "30px" }}>
-                    <Link href="/posts">
-                        <a>
-                            <h1>Violet Verse at ETH Barcelona</h1>
-                        </a>
-                    </Link>
-                </Grid>
+                        <Grid item>
+                            <Image
+                                src="/line1.svg"
+                                alt="line"
+                                height={1}
+                                width={100}
+                            />
+                        </Grid>
 
-                <Grid item>
-                    <Image src="/line1.svg" alt="line" height={1} width={100} />
-                </Grid>
+                        <Grid item>
+                            <Link href="/posts/11">
+                                <a>
+                                    <p
+                                        style={{
+                                            fontFamily: "stratos-lights",
+                                            fontStyle: "italic",
+                                            fontWeight: "200",
+                                            fontSize: "28px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.01em",
+                                        }}
+                                    >
+                                        Exclusive interviews with trailblazing
+                                        pioneers in the crypto space.
+                                    </p>
+                                </a>
+                            </Link>
+                        </Grid>
 
-                <Grid item>
-                    <Link href="/posts/11">
-                        <a>
-                            <p
-                                style={{
-                                    fontFamily: "stratos-lights",
-                                    fontStyle: "italic",
-                                    fontWeight: "200",
-                                    fontSize: "28px",
-                                    lineHeight: "130%",
-                                    letterSpacing: "-0.01em",
-                                }}
-                            >
-                                Exclusive interviews with trailblazing pioneers
-                                in the crypto space.
-                            </p>
-                        </a>
-                    </Link>
-                </Grid>
+                        {/* Button */}
 
-                {/* Button */}
+                        <Grid item>
+                            <Link href="/posts/11">
+                                <a>
+                                    <Button
+                                        size="large"
+                                        variant="contained"
+                                        disableElevation
+                                    >
+                                        Watch Now
+                                    </Button>
+                                </a>
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
 
-                <Grid item>
-                    <Link href="/posts/11">
-                        <a>
-                            <Button
-                                size="large"
-                                variant="contained"
-                                disableElevation
-                            >
-                                Watch Now
-                            </Button>
-                        </a>
-                    </Link>
-                </Grid>
-            </Grid>
-            {/* Curated Content Marketplace */}
+                {/* Curated Content Marketplace */}
 
-            <ArticleGrid
-                title="Layers of The Verse"
-                posts={posts}
-                maximum={3}
-                seeAll={true}
-            />
+                <ArticleGrid
+                    title="Layers of The Verse"
+                    posts={posts}
+                    maximum={3}
+                    seeAll={true}
+                />
+            </Box>
         </>
     );
 };

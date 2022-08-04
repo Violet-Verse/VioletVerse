@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import ArticleGrid from "../../components/ArticleGrid";
 import { server } from "../../components/config";
 
@@ -13,7 +14,23 @@ export async function getServerSideProps() {
 const Posts = ({ posts }) => {
     console.log(posts);
     return (
-        <ArticleGrid title="Layers of The Verse" posts={posts} maximum={100} />
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
+            <ArticleGrid
+                title="Layers of The Verse"
+                posts={posts}
+                maximum={100}
+            />
+        </Box>
     );
 };
 

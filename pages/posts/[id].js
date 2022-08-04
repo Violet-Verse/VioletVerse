@@ -59,7 +59,17 @@ const Article = ({ posts }) => {
     const siteDescription = posts.subtitle;
     const siteImage = YouTubeID ? YouTubeID : posts.banner;
     return (
-        <Box sx={{ mt: 12 }}>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />

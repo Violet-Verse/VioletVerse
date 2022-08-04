@@ -12,6 +12,25 @@ a {
     text-decoration: none;
 }
 
+.container {
+    position: relative;
+}
+.video {
+    position: relative;
+    z-index: 0;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.inner-container {
+    border: 1px solid black;
+    display: inline-block;
+    position: relative;
+}
+
 footer {
     /* position: absolute; */
     bottom: 0;
@@ -170,20 +189,6 @@ p {
     filter: brightness(85%);
     -webkit-filter: brightness(85%);
     transition: 0.3s ease;
-}
-
-.video {
-    filter: brightness(100%);
-    -webkit-filter: brightness(100%);
-    transition: 0.3s ease;
-    border-radius: 0px;
-}
-
-.video:hover {
-    filter: brightness(55%);
-    -webkit-filter: brightness(55%);
-    transition: 0.3s ease;
-    border-radius: 16px;
 }
 
 a p,

@@ -14,7 +14,17 @@ const About = () => {
     const siteDescription = `Learn more about the team building Violet Verse.`;
     const siteImage = "https://i.imgur.com/HOcgWqo.png";
     return (
-        <>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
@@ -225,7 +235,7 @@ const About = () => {
                     </Grid>
                 ))}
             </Grid>
-        </>
+        </Box>
     );
 };
 

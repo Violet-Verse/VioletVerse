@@ -125,7 +125,17 @@ const EditorPage = () => {
     }, [selectedImage]);
 
     return (
-        <Box sx={{ px: { xs: "5%", sm: "0px" } }}>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid
                     container

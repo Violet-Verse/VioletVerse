@@ -16,7 +16,17 @@ const Dashboard = () => {
     const { posts, loaded } = usePosts();
 
     return (
-        <Box sx={{ mt: 4 }}>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <Grid
                 container
                 direction="column"

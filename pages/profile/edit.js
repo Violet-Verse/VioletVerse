@@ -126,7 +126,17 @@ const Profile = () => {
     return (
         <>
             {user && (
-                <Box sx={{ mt: 2 }}>
+                <Box
+                    sx={{
+                        px: {
+                            xs: "0",
+                            sm: "5%",
+                            md: "10%",
+                            lg: "15%",
+                            xl: "20%",
+                        },
+                    }}
+                >
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction="column" spacing={4}>
                             <Grid item>

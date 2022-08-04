@@ -29,7 +29,17 @@ const Team = ({ member }) => {
     const siteDescription = `${member.bio}`;
     const siteImage = `${member.photo}`;
     return (
-        <Box sx={{ mt: 4 }}>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <Head>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
