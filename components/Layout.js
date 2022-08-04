@@ -29,13 +29,6 @@ const Layout = ({ children }) => {
             <Box
                 className="pageContainer"
                 sx={{
-                    // padding: {
-                    //     xs: "0px 0px",
-                    //     sm: "0px 5%",
-                    //     md: "0px 10%",
-                    //     lg: "0px 15%",
-                    //     xl: "0px 20%",
-                    // },
                     mt: 4,
                 }}
             >

@@ -419,13 +419,11 @@ const NewNav = () => {
                                                         variant="contained"
                                                         sx={{
                                                             py: 1.5,
-                                                            display: "block",
                                                             fontFamily: "Ogg",
-                                                            fontSize: "18px",
                                                             fontWeight: "500",
                                                             lineHeight: "130%",
                                                             letterSpacing:
-                                                                "-0.005em",
+                                                                "-0.03em",
                                                         }}
                                                     >
                                                         Connect Wallet
