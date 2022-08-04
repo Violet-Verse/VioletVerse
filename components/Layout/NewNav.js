@@ -229,7 +229,6 @@ const NewNav = () => {
                             sx={{
                                 justifyContent: "center",
                             }}
-                            className="hvr-grow-rotate"
                         >
                             <Link href="/">
                                 <a>
