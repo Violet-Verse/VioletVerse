@@ -2,6 +2,39 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import url("https://use.typekit.net/rya3oai.css");
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* button */
+::-webkit-scrollbar-button {
+    background: #222;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #333;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #000;
+}
+/* The track NOT covered by the handle.
+::-webkit-scrollbar-track-piece {
+    background: #000; 
+}
+/* Corner */
+::-webkit-scrollbar-corner {
+    background: #999;
+}
+/* Resizer */
+::-webkit-resizer {
+    background: #111;
+}
+
 .pageContainer {
     position: relative;
     min-height: 100vh;

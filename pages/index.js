@@ -32,97 +32,98 @@ const Home = ({ posts }) => {
             </Head>
 
             {/* Video with Text Overlay | XS to MD */}
+            <Box sx={{ mt: -4 }}>
+                <Box
+                    className="content"
+                    sx={{ display: { xs: "none", md: "flex" } }}
+                >
+                    <Grid
+                        className="overlay"
+                        container
+                        direction="column"
+                        spacing={2}
+                        sx={{
+                            px: {
+                                xs: "0",
+                                sm: "5%",
+                                md: "10%",
+                                lg: "10%",
+                                xl: "10%",
+                            },
+                            mt: 12,
+                            maxWidth: "1040px",
+                        }}
+                    >
+                        <Grid item>
+                            <Link href="/posts/11">
+                                <a>
+                                    <h1 style={{ color: "white" }}>
+                                        Violet Verse at ETH Barcelona
+                                    </h1>
+                                </a>
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="/posts/11">
+                                <a>
+                                    <p
+                                        style={{
+                                            fontFamily: "stratos-lights",
+                                            color: "white",
+                                            fontStyle: "italic",
+                                            fontWeight: "200",
+                                            fontSize: "28px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.01em",
+                                        }}
+                                    >
+                                        Exclusive interviews with trailblazing
+                                        pioneers in the crypto space.
+                                    </p>
+                                </a>
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="/posts/11">
+                                <a>
+                                    <Button
+                                        size="large"
+                                        variant="contained"
+                                        disableElevation
+                                    >
+                                        Watch Now
+                                    </Button>
+                                </a>
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
+                <ReactPlayer
+                    className="video"
+                    url="/video.mp4"
+                    width="100%"
+                    height="100%"
+                    muted={true}
+                    playing
+                    playsinline
+                    loop
+                />
 
-            <Box
-                className="content"
-                sx={{ display: { xs: "none", md: "flex" } }}
-            >
-                <Grid
-                    className="overlay"
-                    container
-                    direction="column"
-                    spacing={2}
+                {/* Section under video */}
+
+                <Box
                     sx={{
                         px: {
                             xs: "0",
                             sm: "5%",
                             md: "10%",
-                            lg: "10%",
-                            xl: "10%",
+                            lg: "15%",
+                            xl: "20%",
                         },
-                        mt: 12,
-                        maxWidth: "1040px",
+                        mt: 6,
                     }}
-                >
-                    <Grid item>
-                        <Link href="/posts">
-                            <a>
-                                <h1 style={{ color: "white" }}>
-                                    Violet Verse at ETH Barcelona
-                                </h1>
-                            </a>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        <Link href="/posts/11">
-                            <a>
-                                <p
-                                    style={{
-                                        fontFamily: "stratos-lights",
-                                        color: "white",
-                                        fontStyle: "italic",
-                                        fontWeight: "200",
-                                        fontSize: "28px",
-                                        lineHeight: "130%",
-                                        letterSpacing: "-0.01em",
-                                    }}
-                                >
-                                    Exclusive interviews with trailblazing
-                                    pioneers in the crypto space.
-                                </p>
-                            </a>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        <Link href="/posts/11">
-                            <a>
-                                <Button
-                                    size="large"
-                                    variant="contained"
-                                    disableElevation
-                                >
-                                    Watch Now
-                                </Button>
-                            </a>
-                        </Link>
-                    </Grid>
-                </Grid>
-            </Box>
-            <ReactPlayer
-                className="video"
-                url="/video.mp4"
-                width="100%"
-                height="100%"
-                muted={true}
-                playing
-                playsinline
-                loop
-            />
+                ></Box>
 
-            {/* Section under video */}
-
-            <Box
-                sx={{
-                    px: {
-                        xs: "0",
-                        sm: "5%",
-                        md: "10%",
-                        lg: "15%",
-                        xl: "20%",
-                    },
-                    mt: 6,
-                }}
-            >
                 {/* Top Section under video | MD and larger*/}
 
                 <Box
