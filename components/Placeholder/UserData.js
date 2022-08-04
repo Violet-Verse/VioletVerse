@@ -45,7 +45,7 @@ export const members = [
 {/*This part is the users for the contributors*/}
 export const contributor = [
     {
-        name: "Dani",
+        name: "Contributor 1",
         id: 2,
         title: "Design Partner",
         bio: "Born a digital nomad, Dani is an entrepreneur and seasoned product strategist with over seven years of experience as a digital product designer. She specializes in consumer-facing experiences and strives to understand, design, test, and build products that allow for a better Web3 onboarding experience. Dani is a life-long learner Web3 enthusiast.",
@@ -55,7 +55,7 @@ export const contributor = [
         photo: "https://i.imgur.com/q0CQ63l.png",
     },
     {
-        name: "Melissa",
+        name: "Contributor 2",
         id: 1,
         title: "Founder",
         bio: "Professional writer and businesswoman with over 10 years of experience in publishing, marketing and developing technology-driven writing products. Mel Writes about blockchain, lifestyle, travel and how it affects our everyday lives. She is very passionate about storytelling and building community. She holds a BA in Political Science from The George Washington University and currently resides in Miami, Florida.",
@@ -66,7 +66,7 @@ export const contributor = [
         photo: "https://i.imgur.com/sQ78S1P.jpg",
     },
     {
-        name: "Morgan",
+        name: "Contributor 3",
         id: 4,
         title: "Operations Partner",
         bio: "Over the past several years, Morgan has worked in the beauty and financial industry, cultivating relationships in the procurement and project management spaces. She brings her organizational and people management skills to Web3. She fell down the crypto rabbit hole in 2022 and is eager to work with creators of all forms.",
@@ -76,7 +76,7 @@ export const contributor = [
         photo: "https://i.imgur.com/YraRGLa.png",
     },
     {
-        name: "Avalon",
+        name: "Contributor 4",
         id: 3,
         title: "Editorial Partner",
         bio: "A professional writer with extensive experience in the media, communications, and tech industries. Her goal is to help clients build their  brand presence online.  From DJing a morning show on 91.1 WMUA to reporting the news in New Hampshire to working through the pandemic in New York City, Avalon has just about done it all.",
