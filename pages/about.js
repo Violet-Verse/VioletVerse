@@ -7,7 +7,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import { members } from "../components/Placeholder/UserData";
+import { members, contributor } from "../components/Placeholder/UserData";
 
 const About = () => {
     const siteTitle = `About The Team | Violet Verse`;
@@ -25,6 +25,8 @@ const About = () => {
                 },
             }}
         >
+            {/* Our Team */}
+
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
@@ -40,6 +42,24 @@ const About = () => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
+
+            {/* Contributor Section */}
+            <Head>
+                <title>{siteTitle}</title>
+                <meta property="og:image" content={siteImage} />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="800" />
+                <meta property="og:image:height" content="420" />
+                <meta property="og:type" content="website" />
+                <meta name="og:title" content={siteTitle} />
+                <meta name="og:description" content={siteDescription} />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image:src" content={siteImage} />
+            </Head>
+
             {/* First section */}
             {/* About the Violet Verse */}
 
@@ -146,6 +166,144 @@ const About = () => {
                                     </h4>
                                 </a>
                             </Link>
+                            <h3
+                                style={{
+                                    fontFamily: "Test Calibre",
+                                    fontWeight: "400",
+                                    fontSize: "18px",
+                                }}
+                            >
+                                {member.title}
+                            </h3>
+                            <Grid
+                                container
+                                direction="row"
+                                spacing={1}
+                                justifyContent={{ xs: "center", sm: "left" }}
+                            >
+                                {member?.website && (
+                                    <Grid item>
+                                        <a
+                                            href={member.website}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <LanguageIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.twitter && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.twitter.com/` +
+                                                member.twitter
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <TwitterIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.linkedIn && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.linkedin.com/in/` +
+                                                member.linkedIn
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <LinkedInIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.facebook && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.facebook.com/` +
+                                                member.facebook
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <FacebookIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                            </Grid>
+                        </Box>
+                    </Grid>
+                ))}
+            </Grid>
+            {/*Our Contributors section*/}
+
+            {/*Spacing between previous containter 'Our Teams'*/}
+
+            <Grid
+                container
+                spacing={2}
+                align="center"
+                sx={{ marginTop: { xs: "30px", md: "30px", lg: "40px" } }}
+                justifyContent="center"
+            >
+                <Grid
+                    item
+                    xs={12}
+                    sx={{
+                        textAlign: { xs: "center", md: "center", lg: "left" },
+                        marginBottom: { xs: "30px", md: "30px", lg: "50px" },
+                    }}
+                >
+                    <h1>Our Contributors</h1>
+                </Grid>
+                {contributor.map((member) => (
+                    <Grid item xs={12} sm={6} lg={3} key={member.id}>
+                        <Image
+                            width={1000}
+                            height={1159}
+                            src={member.photo}
+                            alt="Default Image"
+                            className="imageSm"
+                            objectFit={"cover"}
+                            placeholder="blur"
+                            blurDataURL={member.photo}
+                        />
+                        <Box
+                            sx={{
+                                textAlign: {
+                                    xs: "center",
+                                    sm: "left",
+                                    lg: "left",
+                                },
+                            }}
+                        >
+                            <h4
+                                style={{
+                                    marginTop: "15px",
+                                }}
+                            >
+                                {member.name}
+                            </h4>
                             <h3
                                 style={{
                                     fontFamily: "Test Calibre",

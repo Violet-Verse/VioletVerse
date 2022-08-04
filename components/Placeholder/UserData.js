@@ -42,3 +42,52 @@ export const members = [
         photo: "https://i.imgur.com/YraRGLa.png",
     },
 ];
+
+/*This part is the users for the contributors*/
+
+export const contributor = [
+    {
+        name: "Contributor 1",
+        id: 2,
+        title: "",
+        bio: "",
+        website: "",
+        facebook: "",
+        twitter: "",
+        linkedIn: "",
+        photo: "/team/Default.png",
+    },
+    {
+        name: "Contributor 2",
+        id: 1,
+        title: "",
+        bio: "",
+        website: "",
+        facebook: "",
+        twitter: "",
+        linkedIn: "",
+        photo: "/team/Default.png",
+    },
+    {
+        name: "Contributor 3",
+        id: 4,
+        title: "",
+        bio: "",
+        website: "",
+        facebook: "",
+        twitter: "",
+        linkedIn: "",
+        photo: "/team/Default.png",
+    },
+    {
+        name: "Contributor 4",
+        id: 3,
+        title: "",
+        bio: "",
+        website: "",
+        facebook: "",
+        twitter: "",
+        linkedIn: "",
+        photo: "/team/Default.png",
+    },
+];
