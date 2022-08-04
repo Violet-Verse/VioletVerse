@@ -62,7 +62,7 @@ const NewNav = () => {
         <nav>
             <AppBar position="static" elevation={0}>
                 <Container maxWidth="xl">
-                    <Toolbar disableGutters sx={{ px: 4 }}>
+                    <Toolbar disableGutters sx={{ px: { xs: 0, md: 4 } }}>
                         {/* Menu Dropdown | XS Breakpoint */}
 
                         <Box
