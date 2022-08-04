@@ -278,6 +278,9 @@ const NewNav = () => {
                                                     <Button
                                                         variant="contained"
                                                         disableElevation
+                                                        sx={{
+                                                            fontWeight: "400",
+                                                        }}
                                                     >
                                                         <Image
                                                             alt="edit"
