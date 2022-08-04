@@ -15,8 +15,7 @@ const About = () => {
     const siteImage = "https://i.imgur.com/HOcgWqo.png";
     return (
         <>
-
-         {/* Our Team */}
+            {/* Our Team */}
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
@@ -33,7 +32,7 @@ const About = () => {
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
 
-             {/* Contributor Section */}
+            {/* Contributor Section */}
             <Head>
                 <title>{siteTitle}</title>
                 <meta property="og:image" content={siteImage} />
@@ -268,20 +267,16 @@ const About = () => {
                 </Grid>
                 {contributor.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Link href={"/team/" + member.name.toLowerCase()}>
-                            <a>
-                                <Image
-                                    width={1000}
-                                    height={1159}
-                                    src={member.photo}
-                                    alt="Default Image"
-                                    className="image"
-                                    objectFit={"cover"}
-                                    placeholder="blur"
-                                    blurDataURL={member.photo}
-                                />
-                            </a>
-                        </Link>
+                        <Image
+                            width={1000}
+                            height={1159}
+                            src={member.photo}
+                            alt="Default Image"
+                            className="imageSm"
+                            objectFit={"cover"}
+                            placeholder="blur"
+                            blurDataURL={member.photo}
+                        />
                         <Box
                             sx={{
                                 textAlign: {
@@ -291,17 +286,13 @@ const About = () => {
                                 },
                             }}
                         >
-                            <Link href={"/team/" + member.id}>
-                                <a>
-                                    <h4
-                                        style={{
-                                            marginTop: "15px",
-                                        }}
-                                    >
-                                        {member.name}
-                                    </h4>
-                                </a>
-                            </Link>
+                            <h4
+                                style={{
+                                    marginTop: "15px",
+                                }}
+                            >
+                                {member.name}
+                            </h4>
                             <h3
                                 style={{
                                     fontFamily: "Test Calibre",
