@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }) {
             button: {
                 textTransform: "none",
                 fontWeight: 500,
-                fontFamily: "Test Calibre",
+                fontFamily: "stratos",
             },
         },
         palette: {

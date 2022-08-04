@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Grid } from "@mui/material";
+import { Button, ButtonGroup, Grid, Box } from "@mui/material";
 import React, { useState } from "react";
 
 import styles from "../styles/Home.module.css";
@@ -14,7 +14,17 @@ const Resources = () => {
     };
 
     return (
-        <>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <Grid
                 container
                 direction="column"
@@ -56,7 +66,7 @@ const Resources = () => {
                     </ButtonGroup>
                 </Grid>
             </Grid>
-        </>
+        </Box>
     );
 };
 

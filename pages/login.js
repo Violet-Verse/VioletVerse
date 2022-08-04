@@ -83,9 +83,19 @@ export default function LoginPage() {
         );
 
     return (
-        <div>
-            <Container maxWidth="xs">
-                <h1>Login with Flow</h1>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
+            <Container maxWidth="sm">
+                <h1>Connect with Flow</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box mb={2}>
                         <TextField
@@ -114,10 +124,10 @@ export default function LoginPage() {
                         fullWidth
                         disableElevation
                     >
-                        Login / Sign Up
+                        Connect Wallet
                     </Button>
                 </form>
             </Container>
-        </div>
+        </Box>
     );
 }

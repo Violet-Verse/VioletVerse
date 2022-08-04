@@ -9,7 +9,17 @@ const Profile = () => {
     return (
         <>
             {user && (
-                <Box sx={{ mt: 2 }}>
+                <Box
+                    sx={{
+                        px: {
+                            xs: "0",
+                            sm: "5%",
+                            md: "10%",
+                            lg: "15%",
+                            xl: "20%",
+                        },
+                    }}
+                >
                     <Grid container direction="row" spacing={2}>
                         <Grid item xs={12}>
                             <h1>Welcome, {user.name || user.email}!</h1>

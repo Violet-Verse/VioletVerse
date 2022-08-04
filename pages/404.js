@@ -19,10 +19,20 @@ const NotFound = () => {
     });
 
     return (
-        <>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <h1>Ooops...</h1>
             <h2>That page cannot be found.</h2>
-            <Box sx={{ margin: "25px 0px" }}>
+            <Box sx={{ mt: 3 }}>
                 <Image
                     width={1920}
                     height={1080}
@@ -40,7 +50,7 @@ const NotFound = () => {
                 </Link>{" "}
                 in {seconds}...
             </p>
-        </>
+        </Box>
     );
 };
 

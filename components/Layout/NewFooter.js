@@ -13,7 +13,7 @@ const Footer = () => {
                 >
                     <Grid item>
                         <Image
-                            src="/LogoWhite.png"
+                            src="/Logo.svg"
                             alt="logo light"
                             height={80}
                             width={143}

@@ -1,15 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
-@import url("https://use.typekit.net/rya3oai.css");
+@import url("https://use.typekit.net/urg4uzx.css");
 
 .pageContainer {
     position: relative;
     min-height: 100vh;
-}
-
-a {
-    color: #333;
-    text-decoration: none;
 }
 
 footer {
@@ -26,14 +21,8 @@ footer {
     background-color: #0a0510;
 }
 
-.not-found {
-    text-align: center;
-    font-size: large;
-}
-
-.not-found a {
-    color: #4979ff;
-    text-decoration: underline;
+ul li {
+    list-style-type: disc;
 }
 
 h1 {
@@ -104,7 +93,7 @@ p {
     font-size: 20px;
     line-height: 130%;
     letter-spacing: 0.005em;
-    color: #73839c;
+    color: #0a0510;
 }
 
 .postBody {
@@ -172,20 +161,6 @@ p {
     transition: 0.3s ease;
 }
 
-.video {
-    filter: brightness(100%);
-    -webkit-filter: brightness(100%);
-    transition: 0.3s ease;
-    border-radius: 0px;
-}
-
-.video:hover {
-    filter: brightness(55%);
-    -webkit-filter: brightness(55%);
-    transition: 0.3s ease;
-    border-radius: 16px;
-}
-
 a p,
 a h1 {
     opacity: 100%;
@@ -196,4 +171,15 @@ a p:hover,
 a h1:hover {
     opacity: 70%;
     transition: 0.3s ease;
+}
+
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* 720 / 1280 = 0.5625 */
+}
+
+.react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
 }

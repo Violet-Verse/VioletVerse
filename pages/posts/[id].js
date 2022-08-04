@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../../hooks/useAuth";
 import { server } from "../../components/config";
+import youtubeParser from "../../lib/getYouTubeThumbnail";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
@@ -50,12 +51,25 @@ const Article = ({ posts }) => {
         ADD_TAGS: ["iframe"],
         ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
     });
+
+    const YouTubeID = youtubeParser(posts.video);
+
     const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
-    const siteImage = posts.banner;
+    const siteImage = YouTubeID ? YouTubeID : posts.banner;
     return (
-        <Box sx={{ mt: 12 }}>
+        <Box
+            sx={{
+                px: {
+                    xs: "0",
+                    sm: "5%",
+                    md: "10%",
+                    lg: "15%",
+                    xl: "20%",
+                },
+            }}
+        >
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
@@ -169,8 +183,28 @@ const Article = ({ posts }) => {
                         </>
                     )}
                 </Grid>
-                <Grid item sx={{ margin: "50px 0px" }}>
-                    {!posts.video && posts.banner && (
+            </Grid>
+            {posts.video && (
+                <Box className="player-wrapper" sx={{ my: 4 }}>
+                    <ReactPlayer
+                        className="react-player"
+                        url={posts.video}
+                        width="100%"
+                        height="100%"
+                        controls
+                        playsinline
+                    />
+                </Box>
+            )}
+            <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+                spacing={3}
+            >
+                {!posts.video && (
+                    <Grid item sx={{ margin: "50px 0px" }}>
                         <Image
                             src={posts.banner}
                             alt="Violet Verse Banner"
@@ -181,19 +215,8 @@ const Article = ({ posts }) => {
                             placeholder="blur"
                             blurDataURL={posts.banner}
                         />
-                    )}
-                    {posts.video && (
-                        <ReactPlayer
-                            url={posts.video}
-                            width="100%"
-                            height="100%"
-                            muted
-                            playing
-                            controls
-                            playsinline
-                        />
-                    )}
-                </Grid>
+                    </Grid>
+                )}
                 <Grid item>
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                         <p
@@ -221,7 +244,7 @@ const Article = ({ posts }) => {
                     <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                         <section
                             className={
-                                posts.noLargeLetter == "true"
+                                posts.largeLetter == "false"
                                     ? "postBodyNoLetter"
                                     : "postBody"
                             }
