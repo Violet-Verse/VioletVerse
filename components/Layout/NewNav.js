@@ -230,7 +230,7 @@ const NewNav = () => {
                                                 onClick={handleCloseNavMenu}
                                             >
                                                 <Typography textAlign="center">
-                                                    Login
+                                                    Connect
                                                 </Typography>
                                             </MenuItem>
                                         </a>

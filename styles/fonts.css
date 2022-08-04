@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: "Ogg";
-    src: url("/fonts/Ogg/Ogg-Medium.ttf") format("truetype");
+    src: url("/fonts/Ogg/Ogg-Medium.woff2") format("woff2");
     font-weight: 500;
     font-style: normal;
 }
