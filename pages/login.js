@@ -1,5 +1,5 @@
 import { FlowExtension } from "@magic-ext/flow";
-import { Box, Button, Container, TextField, Grid } from "@mui/material";
+import { Box, Button, Stack, TextField, Grid } from "@mui/material";
 import * as fcl from "@onflow/fcl";
 import { Magic } from "magic-sdk";
 import Router from "next/router";
@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
 import ReactLoading from "react-loading";
+import Image from "next/image";
 
 import { useUser } from "../hooks/useAuth";
 
@@ -92,42 +93,85 @@ export default function LoginPage() {
                     lg: "15%",
                     xl: "20%",
                 },
+                mt: 10,
             }}
         >
-            <Container maxWidth="sm">
-                <h1>Connect with Flow</h1>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Box mb={2}>
-                        <TextField
-                            variant="outlined"
-                            label="email"
-                            fullWidth
-                            autoComplete="email"
-                            autoFocus
-                            {...register("email", {
-                                required: "Required field",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Invalid email address",
-                                },
-                            })}
-                            error={!!errors?.email}
-                            helperText={
-                                errors?.email ? errors.email.message : null
-                            }
-                        />
-                    </Box>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        disableElevation
-                    >
-                        Connect Wallet
-                    </Button>
-                </form>
-            </Container>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Grid
+                    container
+                    direction="column"
+                    alignContent="center"
+                    align="center"
+                    spacing={8}
+                >
+                    <Grid item>
+                        <Grid container>
+                            <Grid item>
+                                <h1>Connect to the Verse</h1>
+                            </Grid>
+                            <Grid item sx={{ mt: 0.8, ml: 0.2 }}>
+                                <Image
+                                    alt="edit"
+                                    src="/starblack.svg"
+                                    height={18}
+                                    width={18}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        <div className="TextField-without-border-radius">
+                            <TextField
+                                variant="outlined"
+                                label="Email"
+                                fullWidth
+                                sx={{ maxWidth: "370px" }}
+                                autoComplete="email"
+                                autoFocus
+                                {...register("email", {
+                                    required: "Required field",
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: "Invalid email address",
+                                    },
+                                })}
+                                error={!!errors?.email}
+                                helperText={
+                                    errors?.email ? errors.email.message : null
+                                }
+                            />
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            disableElevation
+                            sx={{ px: 4, py: 1.5 }}
+                        >
+                            Connect Wallet
+                        </Button>
+                    </Grid>
+                    <Grid item sx={{ mt: 10 }}>
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={3}
+                        >
+                            <h6>Powered by Flow</h6>
+                            <span />
+                            <Image
+                                alt="flow logo"
+                                src="/FlowLogo.svg"
+                                height={60}
+                                width={60}
+                            />
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </form>
         </Box>
     );
 }

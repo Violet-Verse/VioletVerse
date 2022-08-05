@@ -77,13 +77,12 @@ h5 {
 }
 
 h6 {
-    font-family: "Ogg";
-    font-style: normal;
+    font-family: "Stratos";
     font-weight: 500;
-    font-size: 20px;
-    color: #0a0510;
+    font-size: 24px;
+    line-height: 130%;
     letter-spacing: -0.01em;
-    line-height: 120%;
+    color: #0a0510;
 }
 
 p {
@@ -182,4 +181,8 @@ a h1:hover {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.TextField-without-border-radius fieldset {
+    border-radius: 100px;
 }
