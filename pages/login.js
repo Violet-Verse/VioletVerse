@@ -106,17 +106,36 @@ export default function LoginPage() {
                 >
                     <Grid item>
                         <Grid container>
-                            <Grid item>
-                                <h1>Connect to the Verse</h1>
-                            </Grid>
-                            <Grid item sx={{ mt: 0.8, ml: 0.2 }}>
-                                <Image
-                                    alt="edit"
-                                    src="/starblack.svg"
-                                    height={18}
-                                    width={18}
-                                />
-                            </Grid>
+                            {/* SM or Larger */}
+                            <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+                                <Grid item>
+                                    <h1>Connect to the Verse</h1>
+                                </Grid>
+                                <Grid item sx={{ mt: 0.8, ml: 0.2 }}>
+                                    <Image
+                                        alt="edit"
+                                        src="/starblack.svg"
+                                        height={18}
+                                        width={18}
+                                    />
+                                </Grid>
+                            </Box>
+                            {/* XS Only */}
+                            <Box sx={{ display: { xs: "flex", sm: "none" } }}>
+                                <Grid item>
+                                    <h1 style={{ fontSize: "34px" }}>
+                                        Connect to the Verse
+                                    </h1>
+                                </Grid>
+                                <Grid item sx={{ mt: 0.2, ml: 0.2 }}>
+                                    <Image
+                                        alt="edit"
+                                        src="/starblack.svg"
+                                        height={14}
+                                        width={14}
+                                    />
+                                </Grid>
+                            </Box>
                         </Grid>
                     </Grid>
                     <Grid item>
