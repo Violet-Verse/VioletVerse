@@ -20,6 +20,12 @@ export async function getServerSideProps() {
 }
 
 const Home = ({ posts }) => {
+    const spotlightPost = {
+        title: "Violet Verse at ETH Barcelona",
+        subtitle:
+            "Exclusive interviews with trailblazing pioneers in the crypto space.",
+        url: "/posts/11",
+    };
     return (
         <Box sx={{ mt: -4 }}>
             <Head>
@@ -34,40 +40,35 @@ const Home = ({ posts }) => {
             </Head>
 
             {/* Video with Text Overlay | XS to MD */}
-
-            <Box
-                className={styles.content}
-                sx={{ display: { xs: "none", md: "flex" } }}
-            >
-                <Grid
-                    className={styles.overlay}
-                    container
-                    direction="column"
-                    spacing={2}
-                    sx={{
-                        px: {
-                            xs: "0",
-                            sm: "5%",
-                            md: "10%",
-                            lg: "10%",
-                            xl: "10%",
-                        },
-                        mt: 12,
-                        maxWidth: "1040px",
-                    }}
-                >
-                    <Grid item>
-                        <Link href="/posts/11">
-                            <a>
+            <Link href={spotlightPost.url}>
+                <a>
+                    <Box
+                        className={styles.content}
+                        sx={{ display: { xs: "none", md: "flex" } }}
+                    >
+                        <Grid
+                            className={styles.overlay}
+                            container
+                            direction="column"
+                            spacing={2}
+                            sx={{
+                                px: {
+                                    xs: "0",
+                                    sm: "5%",
+                                    md: "10%",
+                                    lg: "10%",
+                                    xl: "10%",
+                                },
+                                mt: 12,
+                                maxWidth: "1040px",
+                            }}
+                        >
+                            <Grid item>
                                 <h1 style={{ color: "white" }}>
-                                    Violet Verse at ETH Barcelona
+                                    {spotlightPost.title}
                                 </h1>
-                            </a>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        <Link href="/posts/11">
-                            <a>
+                            </Grid>
+                            <Grid item>
                                 <p
                                     style={{
                                         fontFamily: "stratos-lights",
@@ -79,15 +80,11 @@ const Home = ({ posts }) => {
                                         letterSpacing: "-0.01em",
                                     }}
                                 >
-                                    Exclusive interviews with trailblazing
-                                    pioneers in the crypto space.
+                                    {spotlightPost.subtitle}
                                 </p>
-                            </a>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        <Link href="/posts/11">
-                            <a>
+                            </Grid>
+
+                            <Grid item>
                                 <Button
                                     size="large"
                                     variant="contained"
@@ -95,21 +92,21 @@ const Home = ({ posts }) => {
                                 >
                                     Watch Now
                                 </Button>
-                            </a>
-                        </Link>
-                    </Grid>
-                </Grid>
-            </Box>
-            <ReactPlayer
-                className={styles.video}
-                url="/video.mp4"
-                width="100%"
-                height="100%"
-                muted={true}
-                playing
-                playsinline
-                loop
-            />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <ReactPlayer
+                        className={styles.video}
+                        url="/video.mp4"
+                        width="100%"
+                        height="100%"
+                        muted={true}
+                        playing
+                        playsinline
+                        loop
+                    />
+                </a>
+            </Link>
 
             {/* Section under video */}
 
@@ -124,40 +121,33 @@ const Home = ({ posts }) => {
                     },
                 }}
             >
-                {/* Top Section under video | MD and larger*/}
+                {/* Top Section under video | MD or smaller */}
 
-                <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                    <Grid
-                        container
-                        direction="column"
-                        spacing={2}
-                        sx={{
-                            textAlign: {
-                                xs: "center",
-                            },
-                            mb: 16,
-                        }}
-                    >
-                        <Grid item sx={{ mt: "30px" }}>
-                            <Link href="/posts">
-                                <a>
-                                    <h1>Violet Verse at ETH Barcelona</h1>
-                                </a>
-                            </Link>
-                        </Grid>
-
-                        <Grid item>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={100}
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <Link href="/posts/11">
-                                <a>
+                <Box sx={{ display: { xs: "flex", md: "none" }, mt: 10 }}>
+                    <Link href={spotlightPost.url}>
+                        <a>
+                            <Grid
+                                container
+                                direction="column"
+                                spacing={2}
+                                sx={{
+                                    textAlign: {
+                                        xs: "center",
+                                    },
+                                }}
+                            >
+                                <Grid item sx={{ mt: "30px" }}>
+                                    <h1>{spotlightPost.title}</h1>
+                                </Grid>
+                                <Grid item>
+                                    <Image
+                                        src="/line1.svg"
+                                        alt="line"
+                                        height={1}
+                                        width={100}
+                                    />
+                                </Grid>
+                                <Grid item>
                                     <p
                                         style={{
                                             fontFamily: "stratos-lights",
@@ -168,18 +158,10 @@ const Home = ({ posts }) => {
                                             letterSpacing: "-0.01em",
                                         }}
                                     >
-                                        Exclusive interviews with trailblazing
-                                        pioneers in the crypto space.
+                                        {spotlightPost.subtitle}
                                     </p>
-                                </a>
-                            </Link>
-                        </Grid>
-
-                        {/* Button */}
-
-                        <Grid item>
-                            <Link href="/posts/11">
-                                <a>
+                                </Grid>
+                                <Grid item>
                                     <Button
                                         size="large"
                                         variant="contained"
@@ -187,10 +169,10 @@ const Home = ({ posts }) => {
                                     >
                                         Watch Now
                                     </Button>
-                                </a>
-                            </Link>
-                        </Grid>
-                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </a>
+                    </Link>
                 </Box>
 
                 {/* Curated Content Marketplace */}
