@@ -2,6 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import url("https://use.typekit.net/urg4uzx.css");
 
+.siteContainer {
+    background-color: #fafafa;
+}
+
 .pageContainer {
     position: relative;
     min-height: 100vh;
@@ -34,6 +38,7 @@ h1 {
     letter-spacing: -0.01em;
     line-height: 120%;
     margin: 0px;
+    margin: 0;
 }
 
 h2 {
@@ -44,6 +49,7 @@ h2 {
     color: #0a0510;
     letter-spacing: -0.01em;
     line-height: 120%;
+    margin: 0;
 }
 
 h3 {
@@ -54,6 +60,7 @@ h3 {
     color: #0a0510;
     letter-spacing: -0.01em;
     line-height: 120%;
+    margin: 0;
 }
 
 h4 {
@@ -64,6 +71,7 @@ h4 {
     color: #0a0510;
     letter-spacing: -0.01em;
     line-height: 120%;
+    margin: 0;
 }
 
 h5 {
@@ -74,6 +82,7 @@ h5 {
     color: #0a0510;
     letter-spacing: -0.01em;
     line-height: 120%;
+    margin: 0;
 }
 
 h6 {
@@ -83,6 +92,7 @@ h6 {
     line-height: 130%;
     letter-spacing: -0.01em;
     color: #0a0510;
+    margin: 0;
 }
 
 p {

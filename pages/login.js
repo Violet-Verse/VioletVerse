@@ -144,7 +144,7 @@ export default function LoginPage() {
                                 variant="outlined"
                                 label="Email"
                                 fullWidth
-                                sx={{ maxWidth: "370px" }}
+                                sx={{ maxWidth: { xs: "100%", sm: "370px" } }}
                                 autoComplete="email"
                                 autoFocus
                                 {...register("email", {

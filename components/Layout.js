@@ -25,16 +25,18 @@ const Layout = ({ children }) => {
                 <meta name="twitter:description" content={siteDescription} />
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
-            <Navbar />
-            <Box
-                className="pageContainer"
-                sx={{
-                    mt: 4,
-                }}
-            >
-                {children}
+            <Box className="siteContainer">
+                <Navbar />
+                <Box
+                    className="pageContainer"
+                    sx={{
+                        mt: 4,
+                    }}
+                >
+                    {children}
+                </Box>
+                <Footer />
             </Box>
-            <Footer />
         </>
     );
 };

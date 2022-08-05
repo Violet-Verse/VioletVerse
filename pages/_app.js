@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }) {
             MuiAppBar: {
                 styleOverrides: {
                     colorPrimary: {
-                        backgroundColor: "white",
+                        backgroundColor: "#FAFAFA",
                         padding: "15px 0px",
                     },
                 },
