@@ -139,29 +139,29 @@ export default function LoginPage() {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        {/* <Box
+                        <Box
                             className="TextField-without-border-radius"
                             sx={{ px: { xs: 0, sm: 5 } }}
-                        > */}
-                        <TextField
-                            variant="outlined"
-                            label="Email"
-                            fullWidth
-                            autoComplete="email"
-                            autoFocus
-                            {...register("email", {
-                                required: "Required field",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Invalid email address",
-                                },
-                            })}
-                            error={!!errors?.email}
-                            helperText={
-                                errors?.email ? errors.email.message : null
-                            }
-                        />
-                        {/* </Box> */}
+                        >
+                            <TextField
+                                variant="outlined"
+                                label="Email"
+                                fullWidth
+                                autoComplete="email"
+                                autoFocus
+                                {...register("email", {
+                                    required: "Required field",
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: "Invalid email address",
+                                    },
+                                })}
+                                error={!!errors?.email}
+                                helperText={
+                                    errors?.email ? errors.email.message : null
+                                }
+                            />
+                        </Box>
                     </Grid>
                     <Grid item>
                         <Button
