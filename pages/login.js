@@ -139,12 +139,14 @@ export default function LoginPage() {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <div className="TextField-without-border-radius">
+                        <Box
+                            className="TextField-without-border-radius"
+                            sx={{ px: { xs: 0, sm: 5 } }}
+                        >
                             <TextField
                                 variant="outlined"
                                 label="Email"
                                 fullWidth
-                                sx={{ maxWidth: { xs: "100%", sm: "370px" } }}
                                 autoComplete="email"
                                 autoFocus
                                 {...register("email", {
@@ -159,7 +161,7 @@ export default function LoginPage() {
                                     errors?.email ? errors.email.message : null
                                 }
                             />
-                        </div>
+                        </Box>
                     </Grid>
                     <Grid item>
                         <Button
