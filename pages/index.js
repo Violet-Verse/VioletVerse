@@ -122,7 +122,6 @@ const Home = ({ posts }) => {
                         lg: "15%",
                         xl: "20%",
                     },
-                    mt: 6,
                 }}
             >
                 {/* Top Section under video | MD and larger*/}
@@ -201,11 +200,12 @@ const Home = ({ posts }) => {
                     posts={posts}
                     maximum={3}
                     seeAll={true}
+                    mt={15}
                 />
 
                 {/* New to Web3? */}
 
-                <InfoBlock title="New to Web3?" />
+                <InfoBlock title="New to Web3?" my={15} />
             </Box>
         </Box>
     );

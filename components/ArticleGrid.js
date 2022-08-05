@@ -22,7 +22,7 @@ const ArticleGrid = (props) => {
     };
 
     return (
-        <>
+        <Box sx={{ mt: props.mt, mb: props.mb, my: props.my }}>
             <Grid
                 container
                 justifyContent={{
@@ -181,7 +181,7 @@ const ArticleGrid = (props) => {
                     </Grid>
                 )}
             </Grid>
-        </>
+        </Box>
     );
 };
 

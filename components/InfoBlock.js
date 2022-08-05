@@ -25,13 +25,12 @@ const InfoBlock = (props) => {
     ];
 
     return (
-        <>
+        <Box sx={{ mt: props.mt, mb: props.mb, my: props.my }}>
             <Grid
                 container
                 justifyContent="center"
                 alignItems="center"
                 direction="column"
-                sx={{ mt: 10 }}
             >
                 <Grid item sx={{ mb: { xs: 4 } }}>
                     <Grid container direction="row">
@@ -119,7 +118,7 @@ const InfoBlock = (props) => {
                     </Grid>
                 ))}
             </Grid>
-        </>
+        </Box>
     );
 };
 
