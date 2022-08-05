@@ -47,17 +47,17 @@ const Dashboard = () => {
                         </a>
                     </Link>
                 </Grid>
-                {loaded && (
-                    <Grid item>
-                        <ArticleGrid
-                            title="Your Posts"
-                            posts={posts}
-                            maximum={20}
-                            buttonDisabled
-                        />
-                    </Grid>
-                )}
             </Grid>
+            {loaded && (
+                <Box sx={{ mt: 10 }}>
+                    <ArticleGrid
+                        title="Your Posts"
+                        posts={posts}
+                        maximum={20}
+                        buttonDisabled
+                    />
+                </Box>
+            )}
         </Box>
     );
 };
