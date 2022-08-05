@@ -19,7 +19,11 @@ export default async function createPost(req, res) {
     const largeLetter = req.body.largeLetter || "false";
     const hidden = req.body.hidden;
     const video = req.body.video;
-    const banner = req.body.banner || "https://i.ibb.co/tDBm1Vj/Squared.png";
+    const banner =
+        !req.body.banner && !req.body.video
+            ? "https://i.ibb.co/tDBm1Vj/Squared.png"
+            : req.body.banner;
+    // const banner = req.body.banner || "https://i.ibb.co/tDBm1Vj/Squared.png";
 
     try {
         table.create(

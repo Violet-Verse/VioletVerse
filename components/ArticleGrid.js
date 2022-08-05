@@ -125,7 +125,8 @@ const ArticleGrid = (props) => {
                                 <Box className={styles.container}>
                                     <Image
                                         src={
-                                            youtubeParser(post.video)
+                                            youtubeParser(post.video) &&
+                                            !post.banner
                                                 ? youtubeParser(post.video)
                                                 : post.banner
                                         }
@@ -136,7 +137,8 @@ const ArticleGrid = (props) => {
                                         className={styles.image}
                                         placeholder="blur"
                                         blurDataURL={
-                                            youtubeParser(post.video)
+                                            youtubeParser(post.video) &&
+                                            !post.banner
                                                 ? youtubeParser(post.video)
                                                 : post.banner
                                         }
