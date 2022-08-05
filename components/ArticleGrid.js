@@ -34,19 +34,41 @@ const ArticleGrid = (props) => {
                     textAlign: { xs: "center" },
                 }}
             >
-                <Grid item>
-                    <Box
-                        sx={{
-                            marginBottom: {
-                                xs: "30px",
-                            },
-                            textAlign: {
-                                xs: "center",
-                            },
-                        }}
-                    >
-                        <h2>{props.title}</h2>
-                    </Box>
+                <Grid item sx={{ mb: { xs: 4 } }}>
+                    <Grid container direction="row">
+                        {/* MD Breakpoint */}
+                        <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                            <Image
+                                src="/line1.svg"
+                                alt="line"
+                                height={1}
+                                width={100}
+                            />
+                            <h2 style={{ margin: "0 35px" }}>{props.title}</h2>
+                            <Image
+                                src="/line1.svg"
+                                alt="line"
+                                height={1}
+                                width={100}
+                            />
+                        </Box>
+                        {/* XS Breakpoint */}
+                        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                            <Image
+                                src="/line1.svg"
+                                alt="line"
+                                height={1}
+                                width={40}
+                            />
+                            <h2 style={{ margin: "0 15px" }}>{props.title}</h2>
+                            <Image
+                                src="/line1.svg"
+                                alt="line"
+                                height={1}
+                                width={40}
+                            />
+                        </Box>
+                    </Grid>
                 </Grid>
                 {!props.buttonDisabled && (
                     <Grid item>
@@ -93,7 +115,7 @@ const ArticleGrid = (props) => {
                 container
                 spacing={2}
                 align="center"
-                sx={{ marginTop: "25px", px: { xs: 10, sm: 0 } }}
+                sx={{ mt: 4, px: { xs: 10, sm: 0 } }}
                 justifyContent="left"
             >
                 {livePosts?.slice(0, props.maximum).map((post) => (

@@ -8,6 +8,7 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { server } from "../components/config";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import InfoBlock from "../components/InfoBlock";
 
 export async function getServerSideProps() {
     const res = await fetch(`${server}/api/database/getAllPosts`);
@@ -201,6 +202,10 @@ const Home = ({ posts }) => {
                     maximum={3}
                     seeAll={true}
                 />
+
+                {/* New to Web3? */}
+
+                <InfoBlock title="New to Web3?" />
             </Box>
         </Box>
     );
