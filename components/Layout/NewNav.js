@@ -280,6 +280,9 @@ const NewNav = () => {
                                                         disableElevation
                                                         sx={{
                                                             fontWeight: "400",
+                                                            fontSize: "16px",
+                                                            py: 1.5,
+                                                            px: 2.5,
                                                         }}
                                                     >
                                                         <Image
@@ -387,7 +390,6 @@ const NewNav = () => {
                                                     xs: "flex",
                                                     lg: "none",
                                                 },
-                                                mr: { xs: 0, lg: 6 },
                                             }}
                                         >
                                             <IconButton
@@ -412,7 +414,6 @@ const NewNav = () => {
                                                     xs: "none",
                                                     lg: "flex",
                                                 },
-                                                mr: { xs: 0, lg: 6 },
                                             }}
                                         >
                                             <Link href="/login">
@@ -422,11 +423,9 @@ const NewNav = () => {
                                                         variant="contained"
                                                         sx={{
                                                             py: 1.5,
-                                                            fontFamily: "Ogg",
-                                                            fontWeight: "500",
-                                                            lineHeight: "130%",
-                                                            letterSpacing:
-                                                                "-0.03em",
+                                                            px: 2.5,
+                                                            fontWeight: "400",
+                                                            fontSize: "16px",
                                                         }}
                                                     >
                                                         Connect Wallet

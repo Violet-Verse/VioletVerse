@@ -4,6 +4,7 @@ import Router from "next/router";
 import Link from "next/link";
 import React, { useState } from "react";
 import youtubeParser from "../lib/getYouTubeThumbnail";
+import styles from "../styles/ArticleGrid.module.css";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
@@ -99,24 +100,34 @@ const ArticleGrid = (props) => {
                     <Grid item xs={12} sm={6} md={4} key={post.id}>
                         <Link href={"/posts/" + post.id}>
                             <a>
-                                <Image
-                                    src={
-                                        youtubeParser(post.video)
-                                            ? youtubeParser(post.video)
-                                            : post.banner
-                                    }
-                                    alt="Placeholder Image"
-                                    width={304}
-                                    height={304}
-                                    objectFit={"cover"}
-                                    className="imageArticle"
-                                    placeholder="blur"
-                                    blurDataURL={
-                                        youtubeParser(post.video)
-                                            ? youtubeParser(post.video)
-                                            : post.banner
-                                    }
-                                />
+                                <Box className={styles.container}>
+                                    <Image
+                                        src={
+                                            youtubeParser(post.video)
+                                                ? youtubeParser(post.video)
+                                                : post.banner
+                                        }
+                                        alt="Placeholder Image"
+                                        width={304}
+                                        height={304}
+                                        objectFit="cover"
+                                        className={styles.image}
+                                        placeholder="blur"
+                                        blurDataURL={
+                                            youtubeParser(post.video)
+                                                ? youtubeParser(post.video)
+                                                : post.banner
+                                        }
+                                    />
+                                    <Box className={styles.overlay}>
+                                        <h4 className={styles.text}>
+                                            {post.video
+                                                ? "Watch Video"
+                                                : "Read More"}
+                                        </h4>
+                                    </Box>
+                                </Box>
+
                                 <h4>
                                     {post?.hidden == "true" ? (
                                         <strike>{post.title}</strike>
