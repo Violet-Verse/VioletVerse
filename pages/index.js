@@ -2,7 +2,7 @@ import { Button, Grid, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import ArticleGrid from "../components/posts/ArticleGrid";
+import ArticleGrid from "../components/Posts/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { server } from "../components/config";
