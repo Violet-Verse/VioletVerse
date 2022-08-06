@@ -36,7 +36,7 @@ const Dashboard = () => {
                 spacing={4}
             >
                 <Grid item>
-                    <h1>Contributor Dashboard</h1>
+                    <h1>Creator Dashboard</h1>
                 </Grid>
                 <Grid item>
                     <Link href="/posts/create">

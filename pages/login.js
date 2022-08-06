@@ -181,7 +181,7 @@ export default function LoginPage() {
                             alignItems="center"
                             spacing={3}
                         >
-                            <h6>Powered by Flow</h6>
+                            <h6>Built on Flow</h6>
                             <span />
                             <Image
                                 alt="flow logo"
