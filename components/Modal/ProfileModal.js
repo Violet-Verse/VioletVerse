@@ -1,14 +1,10 @@
 import React from "react";
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import UserAvatar from "../UserAvatar";
+import dateFormatter from "../../lib/dateFormatter";
 const ProfileModal = (props) => {
     const user = props.data;
-    const readableCreated = new Date(user?.created);
-    const dateTimeFormat = new Intl.DateTimeFormat("en", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const dateJoined = dateFormatter(user?.created);
 
     if (user)
         return (
@@ -20,9 +16,7 @@ const ProfileModal = (props) => {
                 </Modal.Header>
                 <Modal.Body css={{ textAlign: "center" }}>
                     <p>{user?.bio}</p>
-                    <p>
-                        Member Since: {dateTimeFormat.format(readableCreated)}
-                    </p>
+                    <p>Member Since: {dateJoined}</p>
                 </Modal.Body>
             </Modal>
         );

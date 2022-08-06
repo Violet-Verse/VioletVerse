@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import ArticleGrid from "../../components/ArticleGrid";
+import ArticleGrid from "../../components/posts/ArticleGrid";
 import { server } from "../../components/config";
 
 export async function getServerSideProps() {

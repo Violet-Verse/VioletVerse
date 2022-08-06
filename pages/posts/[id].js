@@ -4,7 +4,6 @@ import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
 import useSWR from "swr";
-import DOMPurify from "isomorphic-dompurify";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../../hooks/useAuth";
@@ -13,6 +12,8 @@ import youtubeParser from "../../lib/getYouTubeThumbnail";
 import ProfileModal from "../../components/Modal/ProfileModal";
 import React, { useState } from "react";
 import UserAvatar from "../../components/UserAvatar";
+import dateFormatter from "../../lib/dateFormatter";
+import purifyHTML from "../../lib/purifyHTML";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
@@ -38,7 +39,7 @@ const Article = ({ posts }) => {
     const { user, loaded } = useUser();
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
-    const { data, error } = useSWR(
+    const { data } = useSWR(
         ["/api/database/getUserForPost", posts.createdBy],
         fetchWithId
     );
@@ -46,22 +47,11 @@ const Article = ({ posts }) => {
     const [profileModalShow, setProfileModalShow] = useState(false);
 
     const author = data?.user;
-    var readableDate = new Date(posts.created);
-    const dateTimeFormat = new Intl.DateTimeFormat("en", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-    const clean = DOMPurify.sanitize(posts.body, {
-        ADD_TAGS: ["iframe"],
-        ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
-    });
+    const postDate = dateFormatter(posts.created);
 
-    const YouTubeID = youtubeParser(posts.video);
-
-    const postDate = dateTimeFormat.format(readableDate);
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
+    const YouTubeID = youtubeParser(posts.video);
     const siteImage = YouTubeID ? YouTubeID : posts.banner;
     return (
         <Box
@@ -245,7 +235,9 @@ const Article = ({ posts }) => {
                                     ? "postBodyNoLetter"
                                     : "postBody"
                             }
-                            dangerouslySetInnerHTML={{ __html: clean }}
+                            dangerouslySetInnerHTML={{
+                                __html: purifyHTML(posts.body),
+                            }}
                         />
                     </Box>
                 </Grid>

@@ -1,6 +1,6 @@
 import { Button, Grid, Box } from "@mui/material";
 import Link from "next/link";
-import ArticleGrid from "../components/ArticleGrid";
+import ArticleGrid from "../components/posts/ArticleGrid";
 import { usePosts } from "../hooks/useAuth";
 
 export async function getStaticProps(context) {

@@ -23,11 +23,11 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import React, { useState, useEffect } from "react";
-import RichTextEditor from "../../components/Editor";
+import RichTextEditor from "./Editor";
 
 const postFetcher = (url) => fetch(url).then((r) => r.json());
 
-const PostEditor = (props) => {
+const PostEditorPage = (props) => {
     const posts = props?.data;
     const editorMode = props?.editorMode;
     const author = props?.author;
@@ -517,4 +517,4 @@ const PostEditor = (props) => {
     );
 };
 
-export default PostEditor;
+export default PostEditorPage;

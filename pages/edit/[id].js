@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { server } from "../../components/config";
 import React, { useState, useEffect } from "react";
-import PostEditor from "../../components/Posts/PostEditor";
+import PostEditor from "../../components/Posts/PostEditorPage";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;

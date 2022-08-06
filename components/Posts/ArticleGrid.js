@@ -1,17 +1,10 @@
-import {
-    CardActionArea,
-    Grid,
-    ButtonGroup,
-    Button,
-    Box,
-    Stack,
-} from "@mui/material";
+import { Grid, ButtonGroup, Button, Box, Stack } from "@mui/material";
 import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
 import React, { useState } from "react";
-import youtubeParser from "../lib/getYouTubeThumbnail";
-import styles from "../styles/ArticleGrid.module.css";
+import youtubeParser from "../../lib/getYouTubeThumbnail";
+import styles from "../../styles/ArticleGrid.module.css";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;

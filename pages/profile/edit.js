@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Grid, TextField } from "@mui/material";
 import useSWR from "swr";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import dateFormatter from "../../lib/dateFormatter";
 
 export async function getStaticProps(context) {
     return {
@@ -113,15 +114,8 @@ const Profile = () => {
         }
     }, [selectedImage]);
 
-    var readableLastUpdated = new Date(user.lastUpdated);
-    var readableCreated = new Date(user.created);
-    const dateTimeFormat = new Intl.DateTimeFormat("en", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-    });
+    var accountLastUpdated = dateFormatter(user.lastUpdated, true);
+    var accountCreated = dateFormatter(user.created, true);
 
     return (
         <>
@@ -236,14 +230,8 @@ const Profile = () => {
                                 </Button>
                             </Grid>
                             <Grid item>
-                                <p>
-                                    Account Created:{" "}
-                                    {dateTimeFormat.format(readableCreated)}
-                                </p>
-                                <p>
-                                    Last Updated:{" "}
-                                    {dateTimeFormat.format(readableLastUpdated)}
-                                </p>
+                                <p>Account Created: {accountCreated}</p>
+                                <p>Last Updated: {accountLastUpdated}</p>
                             </Grid>
                         </Grid>
                     </form>
