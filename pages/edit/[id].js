@@ -1,18 +1,10 @@
 import useSWR from "swr";
-import { server } from "../../components/config";
-import React, { useState, useEffect } from "react";
 import PostEditor from "../../components/Posts/PostEditorPage";
+import { getPostsByID } from "../api/database/getPostsByID";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
-    const res = await fetch(
-        `${server}/api/database/getPostsByID?` +
-            new URLSearchParams({
-                id: id,
-            })
-    );
-
-    const data = await res.json();
+    const data = await getPostsByID(id);
 
     if (!data) {
         return { notFound: true, props: { posts: {} } };

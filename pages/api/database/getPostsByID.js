@@ -1,17 +1,23 @@
 import { table, minifyRecords } from "../utils/postsTable";
 
-export default async function getPostsByID(req, res) {
+export async function getPostsByID(id) {
     const posts = await table
         .select({
-            filterByFormula: `{id} = "${req.query.id}"`,
+            filterByFormula: `{id} = "${id}"`,
         })
         .firstPage();
 
     if (posts.length === 0) {
-        res.status(200).json(null);
+        return null;
     }
 
     const minifiedRecords = minifyRecords(posts);
 
-    res.status(200).json(minifiedRecords || null);
+    return minifiedRecords;
+}
+
+export default async function handler(req, res) {
+    const jsonData = await getPostsByID(req.query.id);
+
+    res.status(200).json(jsonData || null);
 }
