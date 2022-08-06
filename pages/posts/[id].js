@@ -7,24 +7,17 @@ import useSWR from "swr";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../../hooks/useAuth";
-import { server } from "../../components/config";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
 import ProfileModal from "../../components/Modal/ProfileModal";
 import React, { useState } from "react";
 import UserAvatar from "../../components/UserAvatar";
 import dateFormatter from "../../lib/dateFormatter";
 import purifyHTML from "../../lib/purifyHTML";
+import { getPostsByID } from "../api/database/getPostsByID";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
-    const res = await fetch(
-        `${server}/api/database/getPostsByID?` +
-            new URLSearchParams({
-                id: id,
-            })
-    );
-
-    const data = await res.json();
+    const data = await getPostsByID(id);
 
     if (!data) {
         return { notFound: true, props: { posts: {} } };

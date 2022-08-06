@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Head from "next/head";
 import Footer from "./Layout/Footer";
-import Navbar from "./Layout/NewNav";
+import Navbar from "./Layout/Navbar";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from "../components/UserContext";

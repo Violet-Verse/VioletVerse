@@ -1,10 +1,9 @@
 import { Box } from "@mui/material";
 import ArticleGrid from "../../components/Posts/ArticleGrid";
-import { server } from "../../components/config";
+import { getAllPosts } from "../api/database/getAllPosts";
 
 export async function getServerSideProps() {
-    const res = await fetch(`${server}/api/database/getAllPosts`);
-    const data = await res.json();
+    const data = await getAllPosts();
 
     return {
         props: { posts: data },

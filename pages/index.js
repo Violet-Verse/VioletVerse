@@ -5,14 +5,13 @@ import React from "react";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-import { server } from "../components/config";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import InfoBlock from "../components/InfoBlock";
+import { getAllPosts } from "./api/database/getAllPosts";
 
 export async function getServerSideProps() {
-    const res = await fetch(`${server}/api/database/getAllPosts`);
-    const data = await res.json();
+    const data = await getAllPosts();
 
     return {
         props: { posts: data },
