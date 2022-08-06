@@ -1,16 +1,18 @@
-import { Button, Grid, Avatar, Box } from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
 import useSWR from "swr";
 import DOMPurify from "isomorphic-dompurify";
-import Jazzicon from "react-jazzicon";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../../hooks/useAuth";
 import { server } from "../../components/config";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
+import ProfileModal from "../../components/Modal/ProfileModal";
+import React, { useState } from "react";
+import UserAvatar from "../../components/UserAvatar";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
@@ -40,6 +42,9 @@ const Article = ({ posts }) => {
         ["/api/database/getUserForPost", posts.createdBy],
         fetchWithId
     );
+
+    const [profileModalShow, setProfileModalShow] = useState(false);
+
     const author = data?.user;
     var readableDate = new Date(posts.created);
     const dateTimeFormat = new Intl.DateTimeFormat("en", {
@@ -133,24 +138,16 @@ const Article = ({ posts }) => {
                     alignItems="center"
                     spacing={2}
                 >
+                    <Grid item>{loaded && <UserAvatar user={author} />}</Grid>
                     <Grid item>
-                        {author?.picture && loaded && (
-                            <Avatar
-                                alt={author?.name || "author"}
-                                src={author?.picture}
-                            />
-                        )}
-                        {!author?.picture && loaded && (
-                            <Box sx={{ pt: 0.5 }}>
-                                <Jazzicon
-                                    diameter={40}
-                                    seed={author?.uniqueId}
-                                />
-                            </Box>
-                        )}
-                    </Grid>
-                    <Grid item>
-                        <p style={{ color: "#693E9A" }}>By {author?.name}</p>
+                        <a>
+                            <p
+                                onClick={() => setProfileModalShow(true)}
+                                style={{ color: "#693E9A" }}
+                            >
+                                By {author?.name}
+                            </p>
+                        </a>
                     </Grid>
                     <Grid item sx={{ display: "flex" }}>
                         <Image
@@ -264,6 +261,11 @@ const Article = ({ posts }) => {
                     See more posts
                 </Button>
             </Grid>
+            <ProfileModal
+                open={profileModalShow}
+                onClose={() => setProfileModalShow(false)}
+                data={author}
+            />
         </Box>
     );
 };

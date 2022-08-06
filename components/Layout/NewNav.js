@@ -11,14 +11,13 @@ import {
     Toolbar,
     Typography,
     Tooltip,
-    Avatar,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
-import Jazzicon from "react-jazzicon";
+import UserAvatar from "../UserAvatar";
 
 const settings = ["Profile", "Settings", "Logout"];
 
@@ -309,19 +308,7 @@ const NewNav = () => {
                                                     onClick={handleOpenUserMenu}
                                                     sx={{ p: 0 }}
                                                 >
-                                                    {user?.picture ? (
-                                                        <Avatar
-                                                            alt={user.email.toUpperCase()}
-                                                            src={user?.picture}
-                                                        />
-                                                    ) : (
-                                                        <Jazzicon
-                                                            diameter={40}
-                                                            seed={
-                                                                user?.uniqueId
-                                                            }
-                                                        />
-                                                    )}
+                                                    <UserAvatar user={user} />
                                                 </IconButton>
                                             </Tooltip>
                                             <Menu
