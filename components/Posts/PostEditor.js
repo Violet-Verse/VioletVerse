@@ -12,6 +12,9 @@ import {
     Checkbox,
     ToggleButtonGroup,
     ToggleButton,
+    CircularProgress,
+    Alert,
+    AlertTitle,
 } from "@mui/material";
 import useSWR from "swr";
 import Image from "next/image";
@@ -28,6 +31,10 @@ const PostEditor = (props) => {
     const posts = props?.data;
     const editorMode = props?.editorMode;
     const author = props?.author;
+
+    const [loading, setLoading] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
 
     const { data, mutate } = useSWR(`/api/database/getUserPosts`, postFetcher);
 
@@ -72,6 +79,7 @@ const PostEditor = (props) => {
                 })
                 .catch((err) => {
                     console.error(err);
+                    setErrorMessage(err);
                     return null;
                 });
         } else {
@@ -89,6 +97,10 @@ const PostEditor = (props) => {
         subtitle,
         video,
     }) => {
+        if (loading) {
+            return;
+        }
+        setLoading(true);
         const banner = await handlePictureSubmit();
 
         await fetch(
@@ -117,16 +129,23 @@ const PostEditor = (props) => {
         )
             .then((response) => response.json())
             .then((newData) => {
+                setLoading(false);
                 mutate("/api/database/getUserPosts", [...data, newData]);
                 Router.push(`/posts/${newData.id}`);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                setLoading(false);
+                setErrorMessage(err);
+                console.log(err);
+            });
     };
 
     const deletePost = async () => {
         if (!editorMode) {
             return;
         }
+        setDeleting(true);
+        setLoading(true);
         try {
             await fetch("/api/database/deletePost", {
                 method: "DELETE",
@@ -138,8 +157,13 @@ const PostEditor = (props) => {
                     issuer: author?.userId,
                 }),
             });
+            setDeleting(false);
+            setLoading(false);
             Router.push("/posts");
         } catch (err) {
+            setDeleting(false);
+            setLoading(false);
+            setErrorMessage(err);
             console.log(err);
         }
     };
@@ -419,7 +443,7 @@ const PostEditor = (props) => {
                     />
                 </Grid>
                 <Grid item sx={{ mt: 4 }}>
-                    <Button
+                    {/* <Button
                         type="submit"
                         variant="contained"
                         disableElevation
@@ -427,18 +451,67 @@ const PostEditor = (props) => {
                         sx={{ borderRadius: "4px", mb: 4 }}
                     >
                         {editorMode ? "Save" : "Create"}
-                    </Button>
-                    {editorMode && (
-                        <Button
-                            sx={{ borderRadius: "4px", mb: 4, ml: 2 }}
-                            variant="contained"
-                            color="error"
-                            onClick={() => deletePost()}
-                        >
-                            Delete Post
-                        </Button>
-                    )}
+                    </Button> */}
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Box sx={{ position: "relative" }}>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                disableElevation
+                                color="success"
+                                sx={{ borderRadius: "4px", mb: 4 }}
+                                disabled={loading}
+                            >
+                                {editorMode ? "Save" : "Create"}
+                            </Button>
+                            {editorMode && (
+                                <Button
+                                    sx={{ borderRadius: "4px", mb: 4, ml: 2 }}
+                                    variant="contained"
+                                    color="error"
+                                    onClick={() => deletePost()}
+                                    disabled={loading}
+                                >
+                                    Delete Post
+                                </Button>
+                            )}
+                            {loading && !deleting && (
+                                <CircularProgress
+                                    size={24}
+                                    sx={{
+                                        color: "green",
+                                        position: "absolute",
+                                        top: "30%",
+                                        left: editorMode ? "16%" : "47%",
+                                        marginTop: "-12px",
+                                        marginLeft: "-12px",
+                                    }}
+                                />
+                            )}
+                            {loading && deleting && (
+                                <CircularProgress
+                                    size={24}
+                                    sx={{
+                                        color: "red",
+                                        position: "absolute",
+                                        top: "30%",
+                                        left: "70%",
+                                        marginTop: "-12px",
+                                        marginLeft: "-12px",
+                                    }}
+                                />
+                            )}
+                        </Box>
+                    </Box>
                 </Grid>
+                {errorMessage && (
+                    <Grid item>
+                        <Alert severity="error">
+                            <AlertTitle>Error</AlertTitle>
+                            {errorMessage}
+                        </Alert>
+                    </Grid>
+                )}
             </form>
         </Box>
     );
