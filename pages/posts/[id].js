@@ -120,69 +120,79 @@ const Article = ({ posts }) => {
                         </p>
                     </Box>
                 </Grid>
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={2}
-                >
-                    <Grid item>
-                        {loaded && <UserAvatar user={contributor || author} />}
+                {loaded && (
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Grid item>
+                            <UserAvatar user={contributor || author} />
+                        </Grid>
+                        <Grid item>
+                            <Tooltip
+                                title={
+                                    contributor ? "Community Contributor" : ""
+                                }
+                            >
+                                <a>
+                                    <p
+                                        onClick={() =>
+                                            setProfileModalShow(true)
+                                        }
+                                        style={{
+                                            color: contributor
+                                                ? "gray"
+                                                : "#693E9A",
+                                        }}
+                                    >
+                                        By {contributor?.name || author?.name}{" "}
+                                        {contributor && (
+                                            <InfoOutlinedIcon
+                                                sx={{ fontSize: "16px" }}
+                                                color="gray"
+                                            />
+                                        )}
+                                    </p>
+                                </a>
+                            </Tooltip>
+                        </Grid>
+                        <Grid item sx={{ display: "flex" }}>
+                            <Image
+                                alt="edit"
+                                src="/star.svg"
+                                height={20}
+                                width={20}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <p style={{ color: "#693E9A" }}>{postDate}</p>
+                        </Grid>
+                        {user?.userId == author?.userId && (
+                            <>
+                                <Grid item sx={{ display: "flex" }}>
+                                    <Image
+                                        alt="edit"
+                                        src="/star.svg"
+                                        height={20}
+                                        width={20}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Link href={`/edit/` + posts.id}>
+                                        <a>
+                                            <p style={{ color: "#693E9A" }}>
+                                                Edit
+                                            </p>
+                                        </a>
+                                    </Link>
+                                </Grid>
+                            </>
+                        )}
                     </Grid>
-                    <Grid item>
-                        <Tooltip
-                            title={contributor ? "Community Contributor" : ""}
-                        >
-                            <a>
-                                <p
-                                    onClick={() => setProfileModalShow(true)}
-                                    style={{
-                                        color: contributor ? "gray" : "#693E9A",
-                                    }}
-                                >
-                                    By {contributor?.name || author?.name}{" "}
-                                    {contributor && (
-                                        <InfoOutlinedIcon
-                                            sx={{ fontSize: "16px" }}
-                                            color="gray"
-                                        />
-                                    )}
-                                </p>
-                            </a>
-                        </Tooltip>
-                    </Grid>
-                    <Grid item sx={{ display: "flex" }}>
-                        <Image
-                            alt="edit"
-                            src="/star.svg"
-                            height={20}
-                            width={20}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <p style={{ color: "#693E9A" }}>{postDate}</p>
-                    </Grid>
-                    {user?.userId == author?.userId && (
-                        <>
-                            <Grid item sx={{ display: "flex" }}>
-                                <Image
-                                    alt="edit"
-                                    src="/star.svg"
-                                    height={20}
-                                    width={20}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <Link href={`/edit/` + posts.id}>
-                                    <a>
-                                        <p style={{ color: "#693E9A" }}>Edit</p>
-                                    </a>
-                                </Link>
-                            </Grid>
-                        </>
-                    )}
-                </Grid>
+                )}
             </Grid>
             {posts.video && (
                 <Box className="player-wrapper" sx={{ my: 4 }}>
