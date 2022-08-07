@@ -50,7 +50,7 @@ export default async function updatePost(req, res) {
                         ...(hidden && { hidden }),
                         ...(banner && { banner }),
                         ...(video && { video }),
-                        ...(contributor && { contributor }),
+                        contributor: `${contributor}`,
                     },
                 },
             ],
