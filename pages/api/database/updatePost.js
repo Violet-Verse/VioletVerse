@@ -32,6 +32,7 @@ export default async function updatePost(req, res) {
     const largeLetter = req.body.largeLetter;
     const hidden = req.body.hidden;
     const video = req.body.video;
+    const contributor = req.body.contributor;
     const banner = req.body.banner;
 
     try {
@@ -49,6 +50,7 @@ export default async function updatePost(req, res) {
                         ...(hidden && { hidden }),
                         ...(banner && { banner }),
                         ...(video && { video }),
+                        ...(contributor && { contributor }),
                     },
                 },
             ],

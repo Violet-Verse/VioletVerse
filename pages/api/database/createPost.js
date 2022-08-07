@@ -19,6 +19,7 @@ export default async function createPost(req, res) {
     const largeLetter = req.body.largeLetter || "false";
     const hidden = req.body.hidden;
     const video = req.body.video;
+    const contributor = req.body.contributor;
     const banner =
         !req.body.banner && !req.body.video
             ? "https://i.ibb.co/tDBm1Vj/Squared.png"
@@ -39,6 +40,7 @@ export default async function createPost(req, res) {
                         ...(hidden && { hidden }),
                         ...(banner && { banner }),
                         ...(video && { video }),
+                        ...(contributor && { contributor }),
                         createdBy: `${session?.issuer}`,
                     },
                 },

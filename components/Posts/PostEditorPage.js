@@ -96,6 +96,7 @@ const PostEditorPage = (props) => {
         hidden,
         subtitle,
         video,
+        contributor,
     }) => {
         if (loading) {
             return;
@@ -124,6 +125,7 @@ const PostEditorPage = (props) => {
                     hidden: hidden,
                     banner: banner,
                     video: video,
+                    contributor: contributor,
                 }),
             }
         )
@@ -257,6 +259,34 @@ const PostEditorPage = (props) => {
                                 {errors?.title ? " " : null}
                             </FormHelperText>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="Contributor Email (Optional)"
+                                    fullWidth
+                                    multiline
+                                    error={!!errors?.contributor}
+                                    helperText={
+                                        errors?.contributor
+                                            ? errors.contributor.message
+                                            : null
+                                    }
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            rules={{
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Invalid email address",
+                                },
+                            }}
+                            name="contributor"
+                            defaultValue={posts?.contributor}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item sx={{ mb: 4 }}>

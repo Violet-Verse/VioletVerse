@@ -1,4 +1,4 @@
-import { Button, Grid, Box } from "@mui/material";
+import { Button, Grid, Box, Tooltip } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -14,6 +14,7 @@ import UserAvatar from "../../components/UserAvatar";
 import dateFormatter from "../../lib/dateFormatter";
 import purifyHTML from "../../lib/purifyHTML";
 import { getPostsByID } from "../api/database/getPostsByID";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
@@ -32,14 +33,19 @@ const Article = ({ posts }) => {
     const { user, loaded } = useUser();
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
-    const { data } = useSWR(
+    const { data: contributorData } = useSWR(
+        ["/api/database/getUserByEmail", posts.contributor],
+        fetchWithId
+    );
+    const { data: authorData } = useSWR(
         ["/api/database/getUserForPost", posts.createdBy],
         fetchWithId
     );
 
     const [profileModalShow, setProfileModalShow] = useState(false);
 
-    const author = data?.user;
+    const author = authorData?.user;
+    const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
 
     const siteTitle = `${posts.title} | by Violet Verse`;
@@ -121,16 +127,30 @@ const Article = ({ posts }) => {
                     alignItems="center"
                     spacing={2}
                 >
-                    <Grid item>{loaded && <UserAvatar user={author} />}</Grid>
                     <Grid item>
-                        <a>
-                            <p
-                                onClick={() => setProfileModalShow(true)}
-                                style={{ color: "#693E9A" }}
-                            >
-                                By {author?.name}
-                            </p>
-                        </a>
+                        {loaded && <UserAvatar user={contributor || author} />}
+                    </Grid>
+                    <Grid item>
+                        <Tooltip
+                            title={contributor ? "Community Contributor" : ""}
+                        >
+                            <a>
+                                <p
+                                    onClick={() => setProfileModalShow(true)}
+                                    style={{
+                                        color: contributor ? "gray" : "#693E9A",
+                                    }}
+                                >
+                                    By {contributor?.name || author?.name}{" "}
+                                    {contributor && (
+                                        <InfoOutlinedIcon
+                                            sx={{ fontSize: "16px" }}
+                                            color="gray"
+                                        />
+                                    )}
+                                </p>
+                            </a>
+                        </Tooltip>
                     </Grid>
                     <Grid item sx={{ display: "flex" }}>
                         <Image
@@ -249,7 +269,7 @@ const Article = ({ posts }) => {
             <ProfileModal
                 open={profileModalShow}
                 onClose={() => setProfileModalShow(false)}
-                data={author}
+                data={contributor || author}
             />
         </Box>
     );

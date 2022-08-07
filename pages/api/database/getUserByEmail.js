@@ -1,10 +1,10 @@
 import { table } from "../utils/userTable";
 
-export default async function getUserForPost(req, res) {
-    const id = req.query.id;
+export default async function getUserbyEmail(req, res) {
+    const email = req.query.id;
     const userData = await table
         .select({
-            filterByFormula: `{userId} = "${id}"`,
+            filterByFormula: `{email} = "${email}"`,
         })
         .firstPage();
 
