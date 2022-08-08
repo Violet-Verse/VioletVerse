@@ -1,27 +1,39 @@
-import { Grid, ButtonGroup, Button, Box, Stack } from "@mui/material";
+import {
+    Grid,
+    ButtonGroup,
+    Button,
+    Box,
+    Stack,
+    ToggleButtonGroup,
+    ToggleButton,
+} from "@mui/material";
 import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
 import styles from "../../styles/ArticleGrid.module.css";
+import { styled } from "@mui/material/styles";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
 
     const [livePosts, setLivePosts] = useState(posts);
+    const hasPosts = livePosts.length !== 0;
     const [category, setCategory] = useState("");
-    const handleCategory = (newCategory) => {
-        if (category == newCategory) {
-            setCategory("");
-            setLivePosts(posts);
-        } else {
-            setCategory(newCategory);
-            setLivePosts(posts?.filter((x) => x.category === newCategory));
-        }
+    const handleCategory = (event, newCategory) => {
+        setCategory(newCategory);
+        console.log(newCategory);
     };
 
-    const hasPosts = livePosts.length !== 0;
+    // Filter posts based on selected category
+    useEffect(() => {
+        if (category === null) {
+            setLivePosts(posts);
+        } else {
+            setLivePosts(posts?.filter((x) => x.category === category));
+        }
+    }, [category, posts]);
 
     return (
         <Box sx={{ mt: props.mt, mb: props.mb, my: props.my }}>
@@ -74,42 +86,28 @@ const ArticleGrid = (props) => {
                 </Grid>
                 {!props.buttonDisabled && (
                     <Grid item>
-                        <ButtonGroup
-                            color="secondary"
-                            size="large"
-                            fullWidth={true}
+                        <ToggleButtonGroup
+                            value={category}
+                            exclusive
+                            onChange={handleCategory}
+                            aria-label="category-selector"
                         >
-                            <Button
-                                variant={
-                                    category == "Tech"
-                                        ? "contained"
-                                        : "outlined"
-                                }
-                                onClick={() => handleCategory("Tech")}
-                            >
+                            <ToggleButton value="Tech" aria-label="tech">
                                 Tech
-                            </Button>
-                            <Button
-                                variant={
-                                    category == "Lifestyle"
-                                        ? "contained"
-                                        : "outlined"
-                                }
-                                onClick={() => handleCategory("Lifestyle")}
+                            </ToggleButton>
+                            <ToggleButton
+                                value="Lifestyle"
+                                aria-label="lifestyle"
                             >
                                 Lifestyle
-                            </Button>
-                            <Button
-                                variant={
-                                    category == "Education"
-                                        ? "contained"
-                                        : "outlined"
-                                }
-                                onClick={() => handleCategory("Education")}
+                            </ToggleButton>
+                            <ToggleButton
+                                value="Education"
+                                aria-label="education"
                             >
                                 Education
-                            </Button>
-                        </ButtonGroup>
+                            </ToggleButton>
+                        </ToggleButtonGroup>
                     </Grid>
                 )}
             </Grid>
