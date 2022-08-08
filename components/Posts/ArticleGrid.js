@@ -13,17 +13,15 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
 import styles from "../../styles/ArticleGrid.module.css";
-import { styled } from "@mui/material/styles";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
 
     const [livePosts, setLivePosts] = useState(posts);
     const hasPosts = livePosts.length !== 0;
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState(null);
     const handleCategory = (event, newCategory) => {
         setCategory(newCategory);
-        console.log(newCategory);
     };
 
     // Filter posts based on selected category
@@ -32,6 +30,9 @@ const ArticleGrid = (props) => {
             setLivePosts(posts);
         } else {
             setLivePosts(posts?.filter((x) => x.category === category));
+            console.log(hasPosts);
+            console.log(livePosts);
+            console.log(category);
         }
     }, [category, posts]);
 
