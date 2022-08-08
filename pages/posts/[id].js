@@ -47,6 +47,7 @@ const Article = ({ posts }) => {
     const author = authorData?.user;
     const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
+    const updateDate = dateFormatter(posts.lastUpdated);
 
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
@@ -170,6 +171,19 @@ const Article = ({ posts }) => {
                         <Grid item>
                             <p style={{ color: "#693E9A" }}>{postDate}</p>
                         </Grid>
+                        <Grid item sx={{ display: "flex" }}>
+                            <Image
+                                alt="edit"
+                                src="/star.svg"
+                                height={20}
+                                width={20}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <p style={{ color: "#693E9A" }}>
+                                Last updated {updateDate}
+                            </p>
+                        </Grid>
                         {user?.userId == author?.userId && (
                             <>
                                 <Grid item sx={{ display: "flex" }}>
@@ -238,7 +252,7 @@ const Article = ({ posts }) => {
                                 lineHeight: "130%",
                                 letterSpacing: "-0.01em",
                                 color: "#0A0510",
-                                textAlign: "center",
+                                textAlign: "left",
                             }}
                         >
                             {posts.tldr}

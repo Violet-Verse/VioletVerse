@@ -92,6 +92,7 @@ const ArticleGrid = (props) => {
                             exclusive
                             onChange={handleCategory}
                             aria-label="category-selector"
+                            size="large"
                         >
                             <ToggleButton value="Tech" aria-label="tech">
                                 Tech
