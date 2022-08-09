@@ -58,11 +58,11 @@ const Article = ({ posts, allPosts, authorData }) => {
         <Box
             sx={{
                 px: {
-                    xs: "0",
+                    xs: "5%",
                     sm: "5%",
-                    md: "10%",
-                    lg: "15%",
-                    xl: "20%",
+                    md: "15%",
+                    lg: "18%",
+                    xl: "22%",
                 },
             }}
         >
