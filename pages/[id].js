@@ -6,21 +6,21 @@ import Link from "next/link";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-import { useUser } from "../../hooks/useAuth";
-import youtubeParser from "../../lib/getYouTubeThumbnail";
-import ProfileModal from "../../components/Modal/ProfileModal";
+import { useUser } from "../hooks/useAuth";
+import youtubeParser from "../lib/getYouTubeThumbnail";
+import ProfileModal from "../components/Modal/ProfileModal";
 import React, { useState } from "react";
-import UserAvatar from "../../components/UserAvatar";
-import dateFormatter from "../../lib/dateFormatter";
-import purifyHTML from "../../lib/purifyHTML";
-import { getPostsByID } from "../api/database/getPostsByID";
+import UserAvatar from "../components/UserAvatar";
+import dateFormatter from "../lib/dateFormatter";
+import purifyHTML from "../lib/purifyHTML";
+import { getPostsBySlug } from "./api/database/getPostsByID";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ArticleGrid from "../../components/Posts/ArticleGrid";
-import { getAllPosts } from "../api/database/getAllPosts";
+import ArticleGrid from "../components/Posts/ArticleGrid";
+import { getAllPosts } from "./api/database/getAllPosts";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
-    const data = await getPostsByID(id);
+    const data = await getPostsBySlug(id);
     const allPosts = await getAllPosts();
 
     if (!data) {

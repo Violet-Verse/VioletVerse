@@ -23,7 +23,7 @@ const Home = ({ posts }) => {
         title: "Violet Verse at ETH Barcelona",
         subtitle:
             "Exclusive interviews with trailblazing pioneers in the crypto space.",
-        url: "/posts/11",
+        url: "/violet-verse-at-eth-barcelona-p3W1QjLI7P",
     };
     return (
         <Box sx={{ mt: -4 }}>

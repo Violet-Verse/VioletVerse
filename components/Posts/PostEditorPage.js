@@ -134,7 +134,7 @@ const PostEditorPage = (props) => {
             .then((newData) => {
                 setLoading(false);
                 mutate("/api/database/getUserPosts", [...data, newData]);
-                Router.push(`/posts/${newData.id}`);
+                Router.push(`/${newData.slug}`);
             })
             .catch((err) => {
                 setLoading(false);
@@ -207,7 +207,7 @@ const PostEditorPage = (props) => {
             />
             <form onSubmit={handleSubmit(onSubmit)}>
                 {editorMode && (
-                    <Link href={`/posts/` + posts.id}>
+                    <Link href={`/` + posts.slug}>
                         <a>
                             <p>Back to Post</p>
                         </a>
