@@ -152,7 +152,7 @@ const Team = ({ member }) => {
                 </Grid>
                 <Grid item>
                     <Box sx={{ padding: "0px 15%" }}>
-                        <p>{member.bio}</p>
+                        <p className="secondary">{member.bio}</p>
                     </Box>
                 </Grid>
             </Grid>

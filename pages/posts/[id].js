@@ -153,6 +153,7 @@ const Article = ({ posts }) => {
                             >
                                 <a>
                                     <p
+                                        className="secondary"
                                         onClick={() =>
                                             setProfileModalShow(true)
                                         }
@@ -182,7 +183,12 @@ const Article = ({ posts }) => {
                             />
                         </Grid>
                         <Grid item>
-                            <p style={{ color: "#693E9A" }}>{postDate}</p>
+                            <p
+                                className="secondary"
+                                style={{ color: "#693E9A" }}
+                            >
+                                {postDate}
+                            </p>
                         </Grid>
                         <Grid item sx={{ display: "flex" }}>
                             <Image
@@ -193,7 +199,10 @@ const Article = ({ posts }) => {
                             />
                         </Grid>
                         <Grid item>
-                            <p style={{ color: "#693E9A" }}>
+                            <p
+                                className="secondary"
+                                style={{ color: "#693E9A" }}
+                            >
                                 Last updated {updateDate}
                             </p>
                         </Grid>

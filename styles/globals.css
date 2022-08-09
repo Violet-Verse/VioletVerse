@@ -95,7 +95,19 @@ h6 {
     margin: 0;
 }
 
-p {
+p,
+ol,
+ul {
+    font-family: "stratos-lights";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: -0.01em;
+    color: #0a0510;
+}
+
+p.secondary {
     font-family: "Test Calibre";
     font-style: normal;
     font-weight: 300;

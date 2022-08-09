@@ -83,7 +83,7 @@ const About = () => {
                         {"About the \nViolet Verse"}
                     </h1>
                     <Box sx={{ padding: { xs: "0px 5%", md: "0px" } }}>
-                        <p>
+                        <p className="secondary">
                             The Violet Verse was birthed by Violet Summer Zine
                             and its global community of urban lifestyle
                             enthusiasts. We are creators, web3 operators,
