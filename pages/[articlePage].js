@@ -19,7 +19,7 @@ import ArticleGrid from "../components/Posts/ArticleGrid";
 import { getAllPosts } from "./api/database/getAllPosts";
 
 export async function getServerSideProps(context) {
-    const id = context.params.id;
+    const id = context.params.articlePage;
     const data = await getPostsBySlug(id);
     const allPosts = await getAllPosts();
 
@@ -55,7 +55,7 @@ const Article = ({ posts, allPosts }) => {
     const siteTitle = `${posts.title} | by Violet Verse`;
     const siteDescription = posts.subtitle;
     const YouTubeID = youtubeParser(posts.video);
-    const siteImage = YouTubeID ? YouTubeID : posts.banner;
+    const siteImage = YouTubeID && !posts.banner ? YouTubeID : posts.banner;
     return (
         <Box
             sx={{
