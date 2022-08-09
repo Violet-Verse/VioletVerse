@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import React, { useState, useEffect } from "react";
 import RichTextEditor from "./Editor";
+import DeleteConfirmation from "../Modal/ConfirmDelete";
 
 const postFetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -142,7 +143,10 @@ const PostEditorPage = (props) => {
             });
     };
 
+    const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
+
     const deletePost = async () => {
+        setConfirmDeleteDialog(false);
         if (!editorMode) {
             return;
         }
@@ -195,6 +199,12 @@ const PostEditorPage = (props) => {
                 },
             }}
         >
+            <DeleteConfirmation
+                title={posts?.title}
+                open={confirmDeleteDialog}
+                handleClose={() => setConfirmDeleteDialog(false)}
+                handleDelete={() => deletePost()}
+            />
             <form onSubmit={handleSubmit(onSubmit)}>
                 {editorMode && (
                     <Link href={`/posts/` + posts.id}>
@@ -495,7 +505,7 @@ const PostEditorPage = (props) => {
                                     sx={{ borderRadius: "4px", mb: 4, ml: 2 }}
                                     variant="contained"
                                     color="error"
-                                    onClick={() => deletePost()}
+                                    onClick={() => setConfirmDeleteDialog(true)}
                                     disabled={loading}
                                 >
                                     Delete Post

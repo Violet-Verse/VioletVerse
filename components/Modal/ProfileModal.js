@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
+import { Modal } from "@nextui-org/react";
 import UserAvatar from "../UserAvatar";
 import dateFormatter from "../../lib/dateFormatter";
 const ProfileModal = (props) => {
