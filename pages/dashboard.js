@@ -39,9 +39,19 @@ const Dashboard = () => {
                     <h1>Creator Dashboard</h1>
                 </Grid>
                 <Grid item>
+                    <p>
+                        Create and manage your article posts on the Violet
+                        Verse.
+                    </p>
+                </Grid>
+                <Grid item>
                     <Link href="/posts/create">
                         <a>
-                            <Button variant="contained" disableElevation>
+                            <Button
+                                variant="contained"
+                                disableElevation
+                                sx={{ px: 5, py: 1 }}
+                            >
                                 Create Post
                             </Button>
                         </a>

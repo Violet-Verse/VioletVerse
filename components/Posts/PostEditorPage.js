@@ -125,7 +125,7 @@ const PostEditorPage = (props) => {
                     hidden: hidden.toString(),
                     banner: banner,
                     video: video,
-                    contributor: contributor,
+                    contributor: contributor || "",
                 }),
             }
         )
@@ -235,36 +235,28 @@ const PostEditorPage = (props) => {
                         />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-helper-label">
-                                Category
-                            </InputLabel>
-                            <Controller
-                                render={({ field }) => (
-                                    <Select {...field}>
-                                        <MenuItem value={"Tech"}>Tech</MenuItem>
-                                        <MenuItem value={"Lifestyle"}>
-                                            Lifestyle
-                                        </MenuItem>
-                                        <MenuItem value={"Education"}>
-                                            Education
-                                        </MenuItem>
-                                    </Select>
-                                )}
-                                control={control}
-                                name="category"
-                                defaultValue={posts?.category}
-                            />
-                            <FormHelperText>
-                                {errors?.title ? " " : null}
-                            </FormHelperText>
-                        </FormControl>
+                        <TextField
+                            select
+                            fullWidth
+                            label="Category"
+                            defaultValue={posts?.category}
+                            inputProps={register("category", {
+                                required: "Please choose a category",
+                            })}
+                            error={errors.category}
+                            helperText={errors.category?.message}
+                        >
+                            <MenuItem value={"Tech"}>Tech</MenuItem>
+                            <MenuItem value={"Lifestyle"}>Lifestyle</MenuItem>
+                            <MenuItem value={"Education"}>Education</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item xs={12} sx={{ mb: 4 }}>
                         <Controller
                             render={({ field }) => (
                                 <TextField
-                                    variant="outlined"
+                                    variant="filled"
+                                    color="secondary"
                                     label="Contributor Email (Optional)"
                                     fullWidth
                                     multiline
@@ -365,14 +357,27 @@ const PostEditorPage = (props) => {
                         <Controller
                             render={({ field }) => (
                                 <TextField
-                                    variant="outlined"
+                                    variant="filled"
+                                    color="secondary"
                                     label="YouTube URL"
                                     fullWidth
+                                    error={errors?.video}
+                                    helperText={
+                                        errors?.video
+                                            ? errors.video.message
+                                            : null
+                                    }
                                     {...field}
                                 />
                             )}
                             control={control}
                             defaultValue={posts?.video}
+                            rules={{
+                                pattern: {
+                                    value: /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/gm,
+                                    message: "Invalid YouTube URL",
+                                },
+                            }}
                             name="video"
                         />
                     </Grid>
@@ -473,15 +478,6 @@ const PostEditorPage = (props) => {
                     />
                 </Grid>
                 <Grid item sx={{ mt: 4 }}>
-                    {/* <Button
-                        type="submit"
-                        variant="contained"
-                        disableElevation
-                        color="success"
-                        sx={{ borderRadius: "4px", mb: 4 }}
-                    >
-                        {editorMode ? "Save" : "Create"}
-                    </Button> */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Box sx={{ position: "relative" }}>
                             <Button
