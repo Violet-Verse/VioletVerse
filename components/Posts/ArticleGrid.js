@@ -53,40 +53,110 @@ const ArticleGrid = (props) => {
                 }}
             >
                 <Grid item sx={{ mb: { xs: 4 } }}>
-                    <Grid container direction="row">
-                        {/* MD Breakpoint */}
-                        <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={100}
-                            />
-                            <h2 style={{ margin: "0 35px" }}>{props.title}</h2>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={100}
-                            />
-                        </Box>
-                        {/* XS Breakpoint */}
-                        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={40}
-                            />
-                            <h2 style={{ margin: "0 15px" }}>{props.title}</h2>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={40}
-                            />
-                        </Box>
-                    </Grid>
+                    {/* props.filter is when ArticleGrid is shown on individual article pages */}
+
+                    {!props.filter ? (
+                        <Grid container direction="row">
+                            {/* MD Breakpoint */}
+                            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={100}
+                                />
+                                <h2 style={{ margin: "0 35px" }}>
+                                    {props.title}
+                                </h2>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={100}
+                                />
+                            </Box>
+                            {/* XS Breakpoint */}
+                            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={40}
+                                />
+                                <h2 style={{ margin: "0 15px" }}>
+                                    {props.title}
+                                </h2>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={40}
+                                />
+                            </Box>
+                        </Grid>
+                    ) : (
+                        <>
+                            <Grid container direction="row">
+                                {/* MD Breakpoint */}
+                                <Box
+                                    sx={{ display: { xs: "none", md: "flex" } }}
+                                >
+                                    <Image
+                                        src="/line1.svg"
+                                        alt="line"
+                                        height={1}
+                                        width={100}
+                                    />
+                                    <p
+                                        style={{
+                                            margin: "0 35px",
+                                            fontWeight: "500",
+                                            fontSize: "16px",
+                                            fontFamily: "stratos",
+                                        }}
+                                    >
+                                        More From
+                                    </p>
+                                    <Image
+                                        src="/line1.svg"
+                                        alt="line"
+                                        height={1}
+                                        width={100}
+                                    />
+                                </Box>
+                                {/* XS Breakpoint */}
+                                <Box
+                                    sx={{ display: { xs: "flex", md: "none" } }}
+                                >
+                                    <Image
+                                        src="/line1.svg"
+                                        alt="line"
+                                        height={1}
+                                        width={60}
+                                    />
+                                    <p
+                                        style={{
+                                            margin: "0 15px",
+                                            fontWeight: "500",
+                                            fontSize: "16px",
+                                            fontFamily: "stratos",
+                                        }}
+                                    >
+                                        More From
+                                    </p>
+                                    <Image
+                                        src="/line1.svg"
+                                        alt="line"
+                                        height={1}
+                                        width={60}
+                                    />
+                                </Box>
+                            </Grid>
+                            <Box sx={{ mt: 2 }}>
+                                <h2>{props.title}</h2>
+                            </Box>
+                        </>
+                    )}
                 </Grid>
                 {!props.buttonDisabled && (
                     <Grid item>
@@ -121,7 +191,7 @@ const ArticleGrid = (props) => {
                     container
                     spacing={2}
                     align="center"
-                    sx={{ mt: 4, px: { xs: 10, sm: 0 } }}
+                    sx={{ mt: props.filter ? 0 : 4, px: { xs: 10, sm: 0 } }}
                     justifyContent="left"
                 >
                     {livePosts?.slice(0, props.maximum).map((post) => (

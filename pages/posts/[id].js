@@ -305,7 +305,7 @@ const Article = ({ posts, allPosts }) => {
                 </Grid>
             </Grid>
             <ArticleGrid
-                title={`More from ${posts?.category}`}
+                title={posts?.category}
                 posts={allPosts}
                 maximum={3}
                 seeAll={false}
