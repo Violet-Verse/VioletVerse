@@ -257,7 +257,7 @@ const About = () => {
             </Grid>
             {/*Our Contributors section*/}
 
-            {/*Spacing between previous containter 'Our Teams'*/}
+            {/*Spacing between previous containter 'Contributors' */}
 
             <Grid
                 container

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Head from "next/head";
-import Footer from "./Layout/Footer";
+import Footer from "./Layout/NewFooter";
 import Navbar from "./Layout/Navbar";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";

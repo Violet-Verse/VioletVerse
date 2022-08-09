@@ -1,5 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import Image from "next/image";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 const Footer = () => {
     return (
@@ -9,15 +11,35 @@ const Footer = () => {
                     container
                     direction="row"
                     justifyContent="center"
-                    spacing={20}
+                    spacing={12}
                 >
-                    <Grid item>
+                    <Grid itemsx={{ textAlign: "left" }}>
                         <Image
                             src="/Logo.svg"
                             alt="logo light"
                             height={80}
                             width={143}
                         />
+                        <div class="insta">
+                            <a
+                                href="https://www.youtube.com/c/jamesqquick"
+                                className="instagram"
+                            >
+                                <InstagramIcon/>
+                            </a>
+                        </div>
+                        <Box item sx={{py: 2}}>
+                        <div class="twitter">
+                            <a
+                                href="https://www.youtube.com/c/jamesqquick"
+                                className="twitter"
+                            >
+                                <TwitterIcon/>
+                            </a>
+                        
+                        </div>
+                        </Box>
+                    
                     </Grid>
                     <Grid item sx={{ textAlign: "left" }}>
                         <h3 style={{ color: "white", fontSize: "18px" }}>
