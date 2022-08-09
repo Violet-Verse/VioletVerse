@@ -22,7 +22,7 @@ const Footer = () => {
                         />
                         <div class="insta">
                             <a
-                                href="https://www.youtube.com/c/jamesqquick"
+                                href=""
                                 className="instagram"
                             >
                                 <InstagramIcon/>
@@ -31,7 +31,7 @@ const Footer = () => {
                         <Box item sx={{py: 2}}>
                         <div class="twitter">
                             <a
-                                href="https://www.youtube.com/c/jamesqquick"
+                                href=""
                                 className="twitter"
                             >
                                 <TwitterIcon/>
