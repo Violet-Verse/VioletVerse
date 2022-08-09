@@ -65,6 +65,8 @@ const Article = ({ posts }) => {
                 },
             }}
         >
+            {/* Head Tags - SEO */}
+
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={siteTitle} />
@@ -80,6 +82,17 @@ const Article = ({ posts }) => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
+
+            {/* Modals */}
+
+            <ProfileModal
+                open={profileModalShow}
+                onClose={() => setProfileModalShow(false)}
+                data={contributor || author}
+            />
+
+            {/* Main Content */}
+
             <Grid
                 container
                 justifyContent="center"
@@ -278,23 +291,19 @@ const Article = ({ posts }) => {
                         />
                     </Box>
                 </Grid>
-                <Button
-                    sx={{
-                        marginTop: "50px",
-                    }}
-                    size="large"
-                    variant="contained"
-                    onClick={() => Router.push("/posts")}
-                    disableElevation
-                >
-                    See more posts
-                </Button>
             </Grid>
-            <ProfileModal
-                open={profileModalShow}
-                onClose={() => setProfileModalShow(false)}
-                data={contributor || author}
-            />
+            <Grid container justifyContent="center" sx={{ mt: 8 }}>
+                <Grid item>
+                    <Button
+                        size="large"
+                        variant="contained"
+                        onClick={() => Router.push("/posts")}
+                        disableElevation
+                    >
+                        See more posts
+                    </Button>
+                </Grid>
+            </Grid>
         </Box>
     );
 };
