@@ -201,7 +201,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 Last updated {updateDate}
                             </p>
                         </Grid>
-                        {user?.userId == author?.userId && (
+                        {user?.userId == posts?.createdBy && (
                             <>
                                 <Grid item sx={{ display: "flex" }}>
                                     <Image
@@ -214,7 +214,10 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 <Grid item>
                                     <Link href={`/edit/` + posts.id}>
                                         <a>
-                                            <p style={{ color: "#693E9A" }}>
+                                            <p
+                                                className="secondary"
+                                                style={{ color: "#693E9A" }}
+                                            >
                                                 Edit
                                             </p>
                                         </a>
