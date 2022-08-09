@@ -36,11 +36,17 @@ export async function getServerSideProps(context) {
 
 const Article = ({ posts, allPosts, authorData }) => {
     const { user, loaded } = useUser();
+    const fetchWithId = (url, id) =>
+        fetch(`${url}?id=${id}`).then((r) => r.json());
+    const { data: contributorData } = useSWR(
+        ["/api/database/getUserByEmail", posts.contributor],
+        fetchWithId
+    );
 
     const [profileModalShow, setProfileModalShow] = useState(false);
 
     const author = authorData?.user;
-    const contributor = posts?.contributor;
+    const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
     const updateDate = dateFormatter(posts.lastUpdated);
 
@@ -83,7 +89,7 @@ const Article = ({ posts, allPosts, authorData }) => {
             <ProfileModal
                 open={profileModalShow}
                 onClose={() => setProfileModalShow(false)}
-                data={author}
+                data={contributor || author}
             />
 
             {/* Main Content */}
@@ -129,7 +135,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                         </p>
                     </Box>
                 </Grid>
-                {loaded && (
+                {contributorData && (
                     <Grid
                         container
                         direction="row"
@@ -138,7 +144,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                         spacing={2}
                     >
                         <Grid item>
-                            <UserAvatar user={author} />
+                            <UserAvatar user={contributor || author} />
                         </Grid>
                         <Grid item>
                             <Tooltip
@@ -158,7 +164,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                                                 : "#693E9A",
                                         }}
                                     >
-                                        By {author?.name}{" "}
+                                        By {contributor?.name || author?.name}{" "}
                                         {contributor && (
                                             <InfoOutlinedIcon
                                                 sx={{ fontSize: "16px" }}
@@ -171,7 +177,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                         </Grid>
                         <Grid item sx={{ display: "flex" }}>
                             <Image
-                                alt="edit"
+                                alt="star"
                                 src="/star.svg"
                                 height={20}
                                 width={20}
@@ -187,7 +193,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                         </Grid>
                         <Grid item sx={{ display: "flex" }}>
                             <Image
-                                alt="edit"
+                                alt="star"
                                 src="/star.svg"
                                 height={20}
                                 width={20}
@@ -201,11 +207,11 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 Last updated {updateDate}
                             </p>
                         </Grid>
-                        {user?.userId == posts?.createdBy && (
+                        {user?.userId == author?.userId && (
                             <>
                                 <Grid item sx={{ display: "flex" }}>
                                     <Image
-                                        alt="edit"
+                                        alt="star"
                                         src="/star.svg"
                                         height={20}
                                         width={20}

@@ -37,7 +37,7 @@ const ArticleGrid = (props) => {
         } else {
             setLivePosts(posts?.filter((x) => x.category === category));
         }
-    }, [category, posts]);
+    }, [category, posts, props.postId]);
 
     return (
         <Box sx={{ mt: props.mt, mb: props.mb, my: props.my }}>

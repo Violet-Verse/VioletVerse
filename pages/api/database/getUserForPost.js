@@ -15,29 +15,14 @@ export async function getAuthorForPost(id) {
     const minifiedRecord = minifyRecords(posts);
 
     const userId = minifiedRecord[0].createdBy;
-    const contributor = minifiedRecord[0]?.contributor;
 
-    console.log(contributor);
-
-    // Get Author Data First
     const authorData = await table
         .select({
             filterByFormula: `{userId} = "${userId}"`,
         })
         .firstPage();
 
-    // If contributor field exists...
-    if (contributor !== undefined) {
-        const contibutorData = await table
-            .select({
-                filterByFormula: `{email} = "${contributor}"`,
-            })
-            .firstPage();
-
-        return { user: contibutorData[0]?.fields || authorData[0]?.fields };
-    } else {
-        return { user: authorData[0]?.fields };
-    }
+    return { user: authorData[0]?.fields };
 }
 
 export default async function handler(req, res) {
