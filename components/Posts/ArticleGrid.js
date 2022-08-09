@@ -137,8 +137,8 @@ const ArticleGrid = (props) => {
                                                     : post.banner
                                             }
                                             alt="Placeholder Image"
-                                            width={304}
-                                            height={304}
+                                            width={450}
+                                            height={300}
                                             objectFit="cover"
                                             className={styles.image}
                                             placeholder="blur"
