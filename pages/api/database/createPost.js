@@ -1,5 +1,5 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { table } from "../utils/postsTable";
+import { postTable } from "../utils/postsTable";
 import { nanoid } from "nanoid";
 
 function string_to_slug(str) {
@@ -50,7 +50,7 @@ export default async function createPost(req, res) {
     const slug = `${preSlug}-${nanoid(10)}`;
 
     try {
-        table.create(
+        postTable.create(
             [
                 {
                     fields: {

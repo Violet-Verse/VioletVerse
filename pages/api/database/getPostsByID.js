@@ -1,7 +1,7 @@
-import { table, minifyRecords } from "../utils/postsTable";
+import { postTable, minifyRecords } from "../utils/postsTable";
 
 export async function getPostsByID(id) {
-    const posts = await table
+    const posts = await postTable
         .select({
             filterByFormula: `{id} = "${id}"`,
         })
@@ -17,7 +17,7 @@ export async function getPostsByID(id) {
 }
 
 export async function getPostsBySlug(id) {
-    const posts = await table
+    const posts = await postTable
         .select({
             filterByFormula: `{slug} = "${id}"`,
         })

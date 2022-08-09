@@ -1,5 +1,5 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { table, getMinifiedRecord } from "../utils/postsTable";
+import { postTable } from "../utils/postsTable";
 
 export default async function deletePost(req, res) {
     if (req.method !== "DELETE") return res.status(405).end();
@@ -16,7 +16,7 @@ export default async function deletePost(req, res) {
     }
 
     // Get Airtable ID of the edited post
-    const postData = await table
+    const postData = await postTable
         .select({
             filterByFormula: `{id} = "${req.body.id}"`,
         })
@@ -24,7 +24,7 @@ export default async function deletePost(req, res) {
     const id = postData[0].id;
 
     try {
-        await table.destroy([id]);
+        await postTable.destroy([id]);
         return res.status(200).json("");
     } catch (err) {
         console.log(err);

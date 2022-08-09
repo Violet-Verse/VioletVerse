@@ -1,7 +1,7 @@
-import { table, minifyRecords } from "../utils/postsTable";
+import { postTable, minifyRecords } from "../utils/postsTable";
 
 export async function getAllPosts() {
-    const posts = await table
+    const posts = await postTable
         .select({ filterByFormula: `{hidden} != "true"` })
         .firstPage();
 

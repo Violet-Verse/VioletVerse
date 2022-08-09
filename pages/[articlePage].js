@@ -17,38 +17,30 @@ import { getPostsBySlug } from "./api/database/getPostsByID";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import { getAllPosts } from "./api/database/getAllPosts";
+import { getAuthorForPost } from "./api/database/getUserForPost";
 
 export async function getServerSideProps(context) {
     const id = context.params.articlePage;
     const data = await getPostsBySlug(id);
     const allPosts = await getAllPosts();
+    const authorData = await getAuthorForPost(id);
 
     if (!data) {
         return { notFound: true, props: { posts: {} } };
     }
 
     return {
-        props: { posts: data[0], allPosts: allPosts },
+        props: { posts: data[0], allPosts: allPosts, authorData: authorData },
     };
 }
 
-const Article = ({ posts, allPosts }) => {
+const Article = ({ posts, allPosts, authorData }) => {
     const { user, loaded } = useUser();
-    const fetchWithId = (url, id) =>
-        fetch(`${url}?id=${id}`).then((r) => r.json());
-    const { data: contributorData } = useSWR(
-        ["/api/database/getUserByEmail", posts.contributor],
-        fetchWithId
-    );
-    const { data: authorData } = useSWR(
-        ["/api/database/getUserForPost", posts.createdBy],
-        fetchWithId
-    );
 
     const [profileModalShow, setProfileModalShow] = useState(false);
 
     const author = authorData?.user;
-    const contributor = contributorData?.user;
+    const contributor = posts?.contributor;
     const postDate = dateFormatter(posts.created);
     const updateDate = dateFormatter(posts.lastUpdated);
 
@@ -91,7 +83,7 @@ const Article = ({ posts, allPosts }) => {
             <ProfileModal
                 open={profileModalShow}
                 onClose={() => setProfileModalShow(false)}
-                data={contributor || author}
+                data={author}
             />
 
             {/* Main Content */}
@@ -146,7 +138,7 @@ const Article = ({ posts, allPosts }) => {
                         spacing={2}
                     >
                         <Grid item>
-                            <UserAvatar user={contributor || author} />
+                            <UserAvatar user={author} />
                         </Grid>
                         <Grid item>
                             <Tooltip
@@ -166,7 +158,7 @@ const Article = ({ posts, allPosts }) => {
                                                 : "#693E9A",
                                         }}
                                     >
-                                        By {contributor?.name || author?.name}{" "}
+                                        By {author?.name}{" "}
                                         {contributor && (
                                             <InfoOutlinedIcon
                                                 sx={{ fontSize: "16px" }}

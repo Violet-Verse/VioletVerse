@@ -1,9 +1,9 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { table, minifyRecords } from "../utils/postsTable";
+import { postTable, minifyRecords } from "../utils/postsTable";
 
 export default async function getUserPosts(req, res) {
     const session = await getLoginSession(req);
-    const posts = await table
+    const posts = await postTable
         .select({
             filterByFormula: `{createdBy} = "${session?.issuer}"`,
         })

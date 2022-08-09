@@ -1,5 +1,5 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { table } from "../utils/postsTable";
+import { postTable } from "../utils/postsTable";
 
 export default async function updatePost(req, res) {
     if (req.method !== "PUT") return res.status(405).end();
@@ -16,7 +16,7 @@ export default async function updatePost(req, res) {
     }
 
     // Get Airtable ID of the edited post
-    const postData = await table
+    const postData = await postTable
         .select({
             filterByFormula: `{id} = "${req.body.id}"`,
         })
@@ -36,7 +36,7 @@ export default async function updatePost(req, res) {
     const banner = req.body.banner;
 
     try {
-        table.update(
+        postTable.update(
             [
                 {
                     id: id,
