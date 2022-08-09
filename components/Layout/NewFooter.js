@@ -20,6 +20,7 @@ const Footer = () => {
                             height={80}
                             width={143}
                         />
+                        {/*Here is the social media section of the footer*/}
                         <div class="insta">
                             <a
                                 href=""
