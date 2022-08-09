@@ -144,6 +144,16 @@ blockquote:after {
     left: 230px;
 }
 
+pre {
+    /*border-radius:10px;*/
+    padding: 10px 10px;
+    width: 500px;
+    margin: 0 auto;
+    padding: 10px 15px;
+    overflow: auto;
+    background-color: rgb(236, 236, 236);
+}
+
 .postBody {
     font-family: "stratos-lights";
     /* font-style: normal; */
