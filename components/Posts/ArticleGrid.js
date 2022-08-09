@@ -137,6 +137,7 @@ const ArticleGrid = (props) => {
                                                     : post.banner
                                             }
                                             alt="Placeholder Image"
+                                            style={{ borderRadius: "6px" }}
                                             width={450}
                                             height={300}
                                             objectFit="cover"
@@ -184,7 +185,7 @@ const ArticleGrid = (props) => {
                                             letterSpacing: "-0.01em",
                                         }}
                                     >
-                                        In {post.category}
+                                        in {post.category}
                                     </h5>
                                 </a>
                             </Link>

@@ -16,6 +16,11 @@ const Layout = ({ children }) => {
 
     const theme = createTheme({
         components: {
+            MuiToggleButton: {
+                styleOverrides: {
+                    root: { borderRadius: "15px", padding: "10px 35px" },
+                },
+            },
             MuiAppBar: {
                 styleOverrides: {
                     colorPrimary: {
