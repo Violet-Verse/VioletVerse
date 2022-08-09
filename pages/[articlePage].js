@@ -52,7 +52,7 @@ const Article = ({ posts, allPosts }) => {
     const postDate = dateFormatter(posts.created);
     const updateDate = dateFormatter(posts.lastUpdated);
 
-    const siteTitle = `${posts.title} | by Violet Verse`;
+    const siteTitle = `${posts.title} | by ${author?.name}`;
     const siteDescription = posts.subtitle;
     const YouTubeID = youtubeParser(posts.video);
     const siteImage = YouTubeID && !posts.banner ? YouTubeID : posts.banner;
