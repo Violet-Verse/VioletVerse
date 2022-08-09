@@ -19,7 +19,7 @@ const ArticleGrid = (props) => {
 
     const [livePosts, setLivePosts] = useState(posts);
     const hasPosts = livePosts.length !== 0;
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState(props?.filter || null);
     const handleCategory = (event, newCategory) => {
         setCategory(newCategory);
     };
@@ -28,11 +28,14 @@ const ArticleGrid = (props) => {
     useEffect(() => {
         if (category === null) {
             setLivePosts(posts);
+        } else if (props?.postId) {
+            setLivePosts(
+                posts
+                    ?.filter((x) => x.category === category)
+                    .filter((x) => x.id !== props?.postId)
+            );
         } else {
             setLivePosts(posts?.filter((x) => x.category === category));
-            console.log(hasPosts);
-            console.log(livePosts);
-            console.log(category);
         }
     }, [category, posts]);
 
@@ -155,7 +158,16 @@ const ArticleGrid = (props) => {
                                         </Box>
                                     </Box>
 
-                                    <h4>
+                                    <h4
+                                        style={{
+                                            marginTop: "20px",
+                                            fontFamily: "Ogg",
+                                            fontWeight: "500",
+                                            fontSize: "22px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.01em",
+                                        }}
+                                    >
                                         {post?.hidden == "true" ? (
                                             <strike>{post.title}</strike>
                                         ) : (
@@ -164,7 +176,12 @@ const ArticleGrid = (props) => {
                                     </h4>
                                     <h5
                                         style={{
-                                            color: "#693E9A",
+                                            marginTop: "20px",
+                                            fontFamily: "Stratos",
+                                            fontWeight: "500",
+                                            fontSize: "16px",
+                                            lineHeight: "130%",
+                                            letterSpacing: "-0.01em",
                                         }}
                                     >
                                         In {post.category}
@@ -200,7 +217,9 @@ const ArticleGrid = (props) => {
                             textAlign: "center",
                         }}
                     >
-                        No posts made yet
+                        {props.filter
+                            ? `No other posts in ${category}`
+                            : "No posts made yet"}
                     </h3>
                 </Stack>
             )}

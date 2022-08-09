@@ -15,21 +15,24 @@ import dateFormatter from "../../lib/dateFormatter";
 import purifyHTML from "../../lib/purifyHTML";
 import { getPostsByID } from "../api/database/getPostsByID";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ArticleGrid from "../../components/Posts/ArticleGrid";
+import { getAllPosts } from "../api/database/getAllPosts";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
     const data = await getPostsByID(id);
+    const allPosts = await getAllPosts();
 
     if (!data) {
         return { notFound: true, props: { posts: {} } };
     }
 
     return {
-        props: { posts: data[0] },
+        props: { posts: data[0], allPosts: allPosts },
     };
 }
 
-const Article = ({ posts }) => {
+const Article = ({ posts, allPosts }) => {
     const { user, loaded } = useUser();
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
@@ -301,6 +304,16 @@ const Article = ({ posts }) => {
                     </Box>
                 </Grid>
             </Grid>
+            <ArticleGrid
+                title={`More from ${posts?.category}`}
+                posts={allPosts}
+                maximum={3}
+                seeAll={false}
+                mt={15}
+                buttonDisabled
+                filter={posts?.category}
+                postId={posts?.id}
+            />
             <Grid container justifyContent="center" sx={{ mt: 8 }}>
                 <Grid item>
                     <Button
