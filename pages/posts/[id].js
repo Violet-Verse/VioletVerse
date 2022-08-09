@@ -223,7 +223,7 @@ const Article = ({ posts }) => {
             <Grid
                 container
                 justifyContent="center"
-                alignItems="center"
+                alignItems="left"
                 direction="column"
                 spacing={3}
             >
