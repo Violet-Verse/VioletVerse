@@ -123,7 +123,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                             textAlign: "center",
                         }}
                     >
-                        <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                        <Box>
                             <p
                                 style={{
                                     fontFamily: "stratos-lights",
@@ -189,8 +189,10 @@ const Article = ({ posts, allPosts, authorData }) => {
                                     direction="row"
                                     spacing={2}
                                     alignItems="center"
+                                    justifyContent="center"
                                     sx={{
                                         display: { xs: "flex", sm: "none" },
+                                        textAlign: "center",
                                     }}
                                 >
                                     <Tooltip
@@ -269,6 +271,29 @@ const Article = ({ posts, allPosts, authorData }) => {
                             <Grid
                                 item
                                 sx={{
+                                    display: { xs: "flex", sm: "none" },
+                                }}
+                            >
+                                <Link href={`/edit/` + posts.id}>
+                                    <a>
+                                        <Button
+                                            variant="contained"
+                                            disableElevation
+                                            style={{
+                                                color: "#693E9A",
+                                                marginTop: "0",
+                                                fontSize: "16px",
+                                                padding: "4px 40px",
+                                            }}
+                                        >
+                                            Edit
+                                        </Button>
+                                    </a>
+                                </Link>
+                            </Grid>
+                            <Grid
+                                item
+                                sx={{
                                     display: { xs: "none", sm: "flex" },
                                 }}
                             >
@@ -307,7 +332,12 @@ const Article = ({ posts, allPosts, authorData }) => {
                                             width={20}
                                         />
                                     </Grid>
-                                    <Grid item>
+                                    <Grid
+                                        item
+                                        sx={{
+                                            display: { xs: "none", sm: "flex" },
+                                        }}
+                                    >
                                         <Link href={`/edit/` + posts.id}>
                                             <a>
                                                 <p
