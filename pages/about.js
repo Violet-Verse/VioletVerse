@@ -11,6 +11,7 @@ import { members, contributor } from "../components/Placeholder/UserData";
 
 const About = () => {
     const siteTitle = `About The Team | Violet Verse`;
+    const metaTitle = `About The Team`;
     const siteDescription = `Learn more about the team building Violet Verse.`;
     const siteImage = "https://i.imgur.com/HOcgWqo.png";
     return (
@@ -29,7 +30,7 @@ const About = () => {
 
             <Head>
                 <title>{siteTitle}</title>
-                <meta name="og:title" content={siteTitle} />
+                <meta name="og:title" content={metaTitle} />
                 <meta name="og:description" content={siteDescription} />
                 <meta property="og:image" content={siteImage} />
                 <meta property="og:image:type" content="image/png" />
@@ -37,24 +38,7 @@ const About = () => {
                 <meta property="og:image:height" content="420" />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:site" content="@TheVioletVerse" />
-                <meta name="twitter:title" content={siteTitle} />
-                <meta name="twitter:description" content={siteDescription} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:image:src" content={siteImage} />
-            </Head>
-
-            {/* Contributor Section */}
-            <Head>
-                <title>{siteTitle}</title>
-                <meta property="og:image" content={siteImage} />
-                <meta property="og:image:type" content="image/png" />
-                <meta property="og:image:width" content="800" />
-                <meta property="og:image:height" content="420" />
-                <meta property="og:type" content="website" />
-                <meta name="og:title" content={siteTitle} />
-                <meta name="og:description" content={siteDescription} />
-                <meta name="twitter:site" content="@TheVioletVerse" />
-                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:title" content={metaTitle} />
                 <meta name="twitter:description" content={siteDescription} />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image:src" content={siteImage} />
