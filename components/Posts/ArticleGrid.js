@@ -191,7 +191,7 @@ const ArticleGrid = (props) => {
                     container
                     spacing={2}
                     align="center"
-                    sx={{ mt: props.filter ? 0 : 4, px: { xs: 10, sm: 0 } }}
+                    sx={{ mt: props.filter ? 0 : 4, px: { xs: 5, sm: 0 } }}
                     justifyContent="left"
                 >
                     {livePosts?.slice(0, props.maximum).map((post) => (
