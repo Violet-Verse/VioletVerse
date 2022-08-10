@@ -48,6 +48,7 @@ const Article = ({ posts, allPosts, authorData }) => {
     const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
     const updateDate = dateFormatter(posts.lastUpdated);
+    const editPermission = loaded && user?.userId == author?.userId;
 
     const siteTitle = `${posts.title} | Violet Verse`;
     const metaTitle = `${posts.title}`;
@@ -266,29 +267,31 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 {postDate.toUpperCase()}
                             </p>
                         </Grid>
-                        <Grid
-                            item
-                            sx={{
-                                display: { xs: "flex", sm: "none" },
-                            }}
-                        >
-                            <Link href={`/edit/` + posts.id}>
-                                <a>
-                                    <Button
-                                        variant="contained"
-                                        disableElevation
-                                        style={{
-                                            color: "#693E9A",
-                                            marginTop: "0",
-                                            fontSize: "16px",
-                                            padding: "4px 40px",
-                                        }}
-                                    >
-                                        Edit
-                                    </Button>
-                                </a>
-                            </Link>
-                        </Grid>
+                        {editPermission && (
+                            <Grid
+                                item
+                                sx={{
+                                    display: { xs: "flex", sm: "none" },
+                                }}
+                            >
+                                <Link href={`/edit/` + posts.id}>
+                                    <a>
+                                        <Button
+                                            variant="contained"
+                                            disableElevation
+                                            style={{
+                                                color: "#693E9A",
+                                                marginTop: "0",
+                                                fontSize: "16px",
+                                                padding: "4px 40px",
+                                            }}
+                                        >
+                                            Edit
+                                        </Button>
+                                    </a>
+                                </Link>
+                            </Grid>
+                        )}
                         <Grid
                             item
                             sx={{
@@ -315,7 +318,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 Last updated {updateDate}
                             </p>
                         </Grid>
-                        {user?.userId == author?.userId && (
+                        {editPermission && (
                             <>
                                 <Grid
                                     item
