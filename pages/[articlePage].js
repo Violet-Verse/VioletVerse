@@ -1,4 +1,4 @@
-import { Button, Grid, Box, Tooltip } from "@mui/material";
+import { Button, Grid, Box, Tooltip, Stack } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -55,17 +55,7 @@ const Article = ({ posts, allPosts, authorData }) => {
     const YouTubeID = youtubeParser(posts.video);
     const siteImage = YouTubeID && !posts.banner ? YouTubeID : posts.banner;
     return (
-        <Box
-            sx={{
-                px: {
-                    xs: "5%",
-                    sm: "5%",
-                    md: "15%",
-                    lg: "18%",
-                    xl: "22%",
-                },
-            }}
-        >
+        <Box>
             {/* Head Tags - SEO */}
 
             <Head>
@@ -93,212 +83,319 @@ const Article = ({ posts, allPosts, authorData }) => {
             />
 
             {/* Main Content */}
-
-            <Grid
-                container
-                justifyContent="center"
-                alignItems="center"
-                direction="column"
-                spacing={3}
+            <Box
+                sx={{
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "15%",
+                        lg: "18%",
+                        xl: "22%",
+                    },
+                }}
             >
                 <Grid
-                    item
-                    sx={{
-                        textAlign: "center",
-                    }}
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    direction="column"
+                    spacing={3}
                 >
-                    <h1 style={{ maxWidth: "700px" }}>{posts.title}</h1>
-                </Grid>
-                <Grid item>
-                    <Image src="/line1.svg" alt="line" height={1} width={100} />
-                </Grid>
-                <Grid
-                    item
-                    sx={{
-                        textAlign: "center",
-                    }}
-                >
-                    <Box sx={{ px: { xs: "4%", sm: "0" } }}>
-                        <p
-                            style={{
-                                fontFamily: "stratos-lights",
-                                fontStyle: "italic",
-                                fontWeight: "200",
-                                fontSize: "28px",
-                                lineHeight: "130%",
-                                letterSpacing: "-0.01em",
-                                color: "#0A0510",
-                                maxWidth: "700px",
-                            }}
-                        >
-                            {posts.subtitle}
-                        </p>
-                    </Box>
-                </Grid>
-                {contributorData && (
                     <Grid
-                        container
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}
+                        item
+                        sx={{
+                            textAlign: "center",
+                        }}
                     >
-                        <Grid item>
-                            <UserAvatar user={contributor || author} />
-                        </Grid>
-                        <Grid item>
-                            <Tooltip
-                                title={
-                                    contributor ? "Community Contributor" : ""
-                                }
+                        <h1 style={{ maxWidth: "700px" }}>{posts.title}</h1>
+                    </Grid>
+                    <Grid item>
+                        <Image
+                            src="/line1.svg"
+                            alt="line"
+                            height={1}
+                            width={100}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        sx={{
+                            textAlign: "center",
+                        }}
+                    >
+                        <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                            <p
+                                style={{
+                                    fontFamily: "stratos-lights",
+                                    fontStyle: "italic",
+                                    fontWeight: "200",
+                                    fontSize: "28px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.01em",
+                                    color: "#0A0510",
+                                    maxWidth: "700px",
+                                }}
                             >
-                                <a>
-                                    <p
-                                        className="secondary"
-                                        onClick={() =>
-                                            setProfileModalShow(true)
+                                {posts.subtitle}
+                            </p>
+                        </Box>
+                    </Grid>
+                    {contributorData && (
+                        <Grid
+                            container
+                            direction={{ xs: "column", sm: "row" }}
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={{ xs: 0, sm: 2 }}
+                            sx={{ px: { xs: 2, sm: 0 } }}
+                        >
+                            <Grid item>
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    alignItems="center"
+                                    sx={{
+                                        display: { xs: "none", sm: "flex" },
+                                    }}
+                                >
+                                    <UserAvatar user={contributor || author} />
+                                    <Tooltip
+                                        title={
+                                            contributor
+                                                ? "Community Contributor"
+                                                : ""
                                         }
-                                        style={{
-                                            color: contributor
-                                                ? "gray"
-                                                : "#693E9A",
-                                        }}
                                     >
-                                        By {contributor?.name || author?.name}
-                                    </p>
-                                </a>
-                            </Tooltip>
-                        </Grid>
-                        <Grid item sx={{ display: "flex" }}>
-                            <Image
-                                alt="star"
-                                src="/star.svg"
-                                height={20}
-                                width={20}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <p
-                                className="secondary"
-                                style={{ color: "#693E9A" }}
-                            >
-                                {postDate}
-                            </p>
-                        </Grid>
-                        <Grid item sx={{ display: "flex" }}>
-                            <Image
-                                alt="star"
-                                src="/star.svg"
-                                height={20}
-                                width={20}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <p
-                                className="secondary"
-                                style={{ color: "#693E9A" }}
-                            >
-                                Last updated {updateDate}
-                            </p>
-                        </Grid>
-                        {user?.userId == author?.userId && (
-                            <>
-                                <Grid item sx={{ display: "flex" }}>
-                                    <Image
-                                        alt="star"
-                                        src="/star.svg"
-                                        height={20}
-                                        width={20}
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Link href={`/edit/` + posts.id}>
                                         <a>
                                             <p
                                                 className="secondary"
-                                                style={{ color: "#693E9A" }}
+                                                onClick={() =>
+                                                    setProfileModalShow(true)
+                                                }
+                                                style={{
+                                                    color: contributor
+                                                        ? "gray"
+                                                        : "#693E9A",
+                                                }}
                                             >
-                                                Edit
+                                                By{" "}
+                                                {contributor?.name ||
+                                                    author?.name}
                                             </p>
                                         </a>
-                                    </Link>
-                                </Grid>
-                            </>
-                        )}
-                    </Grid>
-                )}
-            </Grid>
-            {posts.video && (
-                <Box className="player-wrapper" sx={{ my: 4 }}>
-                    <ReactPlayer
-                        className="react-player"
-                        url={posts.video}
-                        width="100%"
-                        height="100%"
-                        controls
-                        playsinline
-                    />
-                </Box>
-            )}
-            <Grid
-                container
-                justifyContent="center"
-                alignItems="left"
-                direction="column"
-                spacing={3}
-            >
-                {!posts.video && (
-                    <Grid item sx={{ margin: "50px 0px" }}>
-                        <Image
-                            src={posts.banner}
-                            alt="Violet Verse Banner"
-                            width={1920}
-                            height={1080}
-                            objectFit={"cover"}
-                            className="image"
-                            placeholder="blur"
-                            blurDataURL={posts.banner}
-                        />
-                    </Grid>
-                )}
-                <Grid item>
-                    <Box sx={{ px: { xs: "4%", sm: "0" } }}>
-                        <p
-                            style={{
-                                fontFamily: "Test Calibre",
-                                fontStyle: "italic",
-                                fontWeight: "300",
-                                fontSize: "28px",
-                                lineHeight: "130%",
-                                letterSpacing: "-0.01em",
-                                color: "#0A0510",
-                                textAlign: "left",
-                            }}
-                        >
-                            {posts.tldr}
-                        </p>
-                    </Box>
+                                    </Tooltip>
+                                </Stack>
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    alignItems="center"
+                                    sx={{
+                                        display: { xs: "flex", sm: "none" },
+                                    }}
+                                >
+                                    <Tooltip
+                                        title={
+                                            contributor
+                                                ? "Community Contributor"
+                                                : ""
+                                        }
+                                    >
+                                        <a>
+                                            <p
+                                                className="secondary"
+                                                onClick={() =>
+                                                    setProfileModalShow(true)
+                                                }
+                                                style={{
+                                                    fontWeight: "400",
+                                                    fontSize: "18px",
+                                                    color: contributor
+                                                        ? "gray"
+                                                        : "#693E9A",
+                                                }}
+                                            >
+                                                BY{" "}
+                                                {contributor?.name.toUpperCase() ||
+                                                    author?.name.toUpperCase()}
+                                            </p>
+                                        </a>
+                                    </Tooltip>
+                                </Stack>
+                            </Grid>
+
+                            <Grid
+                                item
+                                sx={{
+                                    display: { xs: "none", sm: "flex" },
+                                }}
+                            >
+                                <Image
+                                    alt="star"
+                                    src="/star.svg"
+                                    height={20}
+                                    width={20}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                sx={{
+                                    display: { xs: "none", sm: "flex" },
+                                }}
+                            >
+                                <p
+                                    className="secondary"
+                                    style={{ color: "#693E9A" }}
+                                >
+                                    {postDate}
+                                </p>
+                            </Grid>
+                            <Grid
+                                item
+                                sx={{
+                                    display: { xs: "flex", sm: "none" },
+                                }}
+                            >
+                                <p
+                                    className="secondary"
+                                    style={{
+                                        color: "#693E9A",
+                                        marginTop: "0",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    {postDate.toUpperCase()}
+                                </p>
+                            </Grid>
+                            <Grid
+                                item
+                                sx={{
+                                    display: { xs: "none", sm: "flex" },
+                                }}
+                            >
+                                <Image
+                                    alt="star"
+                                    src="/star.svg"
+                                    height={20}
+                                    width={20}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                sx={{
+                                    display: { xs: "none", sm: "flex" },
+                                }}
+                            >
+                                <p
+                                    className="secondary"
+                                    style={{ color: "#693E9A" }}
+                                >
+                                    Last updated {updateDate}
+                                </p>
+                            </Grid>
+                            {user?.userId == author?.userId && (
+                                <>
+                                    <Grid
+                                        item
+                                        sx={{
+                                            display: { xs: "none", sm: "flex" },
+                                        }}
+                                    >
+                                        <Image
+                                            alt="star"
+                                            src="/star.svg"
+                                            height={20}
+                                            width={20}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <Link href={`/edit/` + posts.id}>
+                                            <a>
+                                                <p
+                                                    className="secondary"
+                                                    style={{ color: "#693E9A" }}
+                                                >
+                                                    Edit
+                                                </p>
+                                            </a>
+                                        </Link>
+                                    </Grid>
+                                </>
+                            )}
+                        </Grid>
+                    )}
                 </Grid>
+                {posts.video && (
+                    <Box className="player-wrapper" sx={{ my: 4 }}>
+                        <ReactPlayer
+                            className="react-player"
+                            url={posts.video}
+                            width="100%"
+                            height="100%"
+                            controls
+                            playsinline
+                        />
+                    </Box>
+                )}
                 <Grid
-                    item
-                    sx={{
-                        textAlign: "left",
-                    }}
+                    container
+                    justifyContent="center"
+                    alignItems="left"
+                    direction="column"
+                    spacing={3}
                 >
-                    <Box sx={{ px: { xs: "4%", sm: "0" } }}>
-                        <section
-                            className={
-                                posts.largeLetter == "false"
-                                    ? "postBodyNoLetter"
-                                    : "postBody"
-                            }
-                            dangerouslySetInnerHTML={{
-                                __html: purifyHTML(posts.body),
-                            }}
-                        />
-                    </Box>
+                    {!posts.video && (
+                        <Grid item sx={{ margin: "50px 0px" }}>
+                            <Image
+                                src={posts.banner}
+                                alt="Violet Verse Banner"
+                                width={1920}
+                                height={1080}
+                                objectFit={"cover"}
+                                className="image"
+                                placeholder="blur"
+                                blurDataURL={posts.banner}
+                            />
+                        </Grid>
+                    )}
+                    <Grid item>
+                        <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                            <p
+                                style={{
+                                    fontFamily: "Test Calibre",
+                                    fontStyle: "italic",
+                                    fontWeight: "300",
+                                    fontSize: "28px",
+                                    lineHeight: "130%",
+                                    letterSpacing: "-0.01em",
+                                    color: "#0A0510",
+                                    textAlign: "left",
+                                }}
+                            >
+                                {posts.tldr}
+                            </p>
+                        </Box>
+                    </Grid>
+                    <Grid
+                        item
+                        sx={{
+                            textAlign: "left",
+                        }}
+                    >
+                        <Box sx={{ px: { xs: "4%", sm: "0" } }}>
+                            <section
+                                className={
+                                    posts.largeLetter == "false"
+                                        ? "postBodyNoLetter"
+                                        : "postBody"
+                                }
+                                dangerouslySetInnerHTML={{
+                                    __html: purifyHTML(posts.body),
+                                }}
+                            />
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Box>
             <ArticleGrid
                 title={posts?.category}
                 posts={allPosts}
