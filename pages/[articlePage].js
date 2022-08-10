@@ -14,7 +14,6 @@ import UserAvatar from "../components/UserAvatar";
 import dateFormatter from "../lib/dateFormatter";
 import purifyHTML from "../lib/purifyHTML";
 import { getPostsBySlug } from "./api/database/getPostsByID";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import { getAllPosts } from "./api/database/getAllPosts";
 import { getAuthorForPost } from "./api/database/getUserForPost";
@@ -69,7 +68,7 @@ const Article = ({ posts, allPosts, authorData }) => {
             {/* Head Tags - SEO */}
 
             <Head>
-                <title>`${siteTitle} | Violet Verse`</title>
+                <title>{siteTitle} | Violet Verse</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
                 <meta property="og:image" content={siteImage} />
