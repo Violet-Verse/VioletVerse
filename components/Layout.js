@@ -10,7 +10,8 @@ import { NextUIProvider } from "@nextui-org/react";
 
 const Layout = ({ children }) => {
     const { user } = useUser();
-    const siteTitle = "Violet Verse | A Token-Gated Web3 Lifestyle Platform ";
+    const siteTitle =
+        "Violet Verse: A Token-Gated Web3 Lifestyle Platform | Violet Verse";
     const siteDescription =
         "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
 
@@ -61,6 +62,7 @@ const Layout = ({ children }) => {
                     <Head>
                         <link rel="icon" href="/favicon.ico" />
                         <title>{siteTitle}</title>
+                        <meta name="og:site_name" content="Violet Verse" />
                         <meta name="og:title" content={siteTitle} />
                         <meta name="og:description" content={siteDescription} />
                         <meta property="og:image:type" content="image/png" />

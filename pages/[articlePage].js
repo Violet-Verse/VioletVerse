@@ -50,7 +50,7 @@ const Article = ({ posts, allPosts, authorData }) => {
     const postDate = dateFormatter(posts.created);
     const updateDate = dateFormatter(posts.lastUpdated);
 
-    const siteTitle = `${posts.title} | by ${author?.name}`;
+    const siteTitle = `${posts.title}`;
     const siteDescription = posts.subtitle;
     const YouTubeID = youtubeParser(posts.video);
     const siteImage = YouTubeID && !posts.banner ? YouTubeID : posts.banner;
@@ -69,7 +69,7 @@ const Article = ({ posts, allPosts, authorData }) => {
             {/* Head Tags - SEO */}
 
             <Head>
-                <title>{siteTitle}</title>
+                <title>`${siteTitle} | Violet Verse`</title>
                 <meta name="og:title" content={siteTitle} />
                 <meta name="og:description" content={siteDescription} />
                 <meta property="og:image" content={siteImage} />
@@ -164,13 +164,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                                                 : "#693E9A",
                                         }}
                                     >
-                                        By {contributor?.name || author?.name}{" "}
-                                        {contributor && (
-                                            <InfoOutlinedIcon
-                                                sx={{ fontSize: "16px" }}
-                                                color="gray"
-                                            />
-                                        )}
+                                        By {contributor?.name || author?.name}
                                     </p>
                                 </a>
                             </Tooltip>

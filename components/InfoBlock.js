@@ -9,7 +9,7 @@ const InfoBlock = (props) => {
             name: "Getting Started",
             description:
                 "Your go-to guide to getting started in the web3 space.",
-            url: "#",
+            url: "/the-violet-verse-web3-glossary-TLraj5m2VD",
         },
         {
             name: "Resources",
