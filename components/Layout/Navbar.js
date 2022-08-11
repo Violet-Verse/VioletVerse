@@ -363,7 +363,13 @@ const NewNav = () => {
                                                         setAnchorElUser(null);
                                                     }}
                                                 >
-                                                    <Avatar />
+                                                    <Avatar
+                                                        alt={
+                                                            user?.name ||
+                                                            "user picture"
+                                                        }
+                                                        src={user?.picture}
+                                                    />
                                                     Profile
                                                 </MenuItem>
                                                 <Divider />

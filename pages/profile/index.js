@@ -1,13 +1,30 @@
-import { Box, Button, Stack, Grid, Avatar } from "@mui/material";
-import Router from "next/router";
+import {
+    Box,
+    Button,
+    Stack,
+    Grid,
+    Avatar,
+    IconButton,
+    Tooltip,
+} from "@mui/material";
+import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 import Link from "next/link";
-import UserAvatar from "../../components/UserAvatar";
+import EditPicture from "../../components/Modal/EditPicture";
+
+export async function getStaticProps(context) {
+    return {
+        props: {
+            protected: true,
+            userTypes: ["admin", "collaborator", "user"],
+        },
+    };
+}
 
 const Profile = () => {
-    useUser({ redirectTo: "/login" });
     const { user } = useUser();
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
+    const [editPictureModal, setEditPictureModal] = useState(false);
     return (
         <>
             {user && (
@@ -22,13 +39,24 @@ const Profile = () => {
                         },
                     }}
                 >
+                    <EditPicture
+                        open={editPictureModal}
+                        handleClose={() => setEditPictureModal(false)}
+                        user={user}
+                    />
                     <Grid container alignItems="center" spacing={2}>
                         <Grid item sx={{ mr: 5 }}>
-                            <Avatar
-                                alt={user?.name || "user picture"}
-                                src={user?.picture}
-                                sx={{ width: 200, height: 200 }}
-                            />
+                            <Tooltip title="Edit Picture">
+                                <IconButton
+                                    onClick={() => setEditPictureModal(true)}
+                                >
+                                    <Avatar
+                                        alt={user?.name || "user picture"}
+                                        src={user?.picture}
+                                        sx={{ width: 200, height: 200 }}
+                                    />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
                         {user?.role === "admin" && (
                             <Grid item>
