@@ -91,7 +91,7 @@ const Profile = () => {
                         </Grid>
                     </Grid>
                     <Stack sx={{ mt: 6 }}>
-                        <h2>{user?.name || user?.flowAddress}</h2>
+                        <h2>{user?.name}</h2>
                     </Stack>
                     <Stack direction="row" alignItems="flex-end" spacing={0}>
                         <p
@@ -99,7 +99,7 @@ const Profile = () => {
                                 fontSize: "22px",
                             }}
                         >
-                            @{user?.name || user?.flowAddress}
+                            @{user?.username}
                             <span
                                 style={{
                                     fontSize: "18px",
