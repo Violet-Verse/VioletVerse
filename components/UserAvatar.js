@@ -9,10 +9,11 @@ const UserAvatar = (props) => {
                 <Avatar
                     alt={user?.name || "user picture"}
                     src={user?.picture}
+                    sx={{ width: props?.size, height: props?.size }}
                 />
             )}
             {!user?.picture && user && (
-                <Jazzicon diameter={40} seed={user?.uniqueId} />
+                <Jazzicon diameter={props?.size || 40} seed={user?.uniqueId} />
             )}
         </>
     );
