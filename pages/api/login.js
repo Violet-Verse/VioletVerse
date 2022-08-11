@@ -46,6 +46,8 @@ export default async function login(req, res) {
                                     role: "user",
                                     bio: "An interesting bio awaits...",
                                     flowAddress: `${req.body.flowAddress}`,
+                                    username: `${req.body.flowAddress}`,
+                                    name: `${req.body.flowAddress}`,
                                 },
                             },
                         ]);
