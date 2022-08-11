@@ -30,18 +30,20 @@ const Profile = () => {
                                 sx={{ width: 200, height: 200 }}
                             />
                         </Grid>
-                        <Grid item>
-                            <Link href="/dashboard">
-                                <a>
-                                    <Button
-                                        variant="contained"
-                                        disableElevation
-                                    >
-                                        Creator Dashboard
-                                    </Button>
-                                </a>
-                            </Link>
-                        </Grid>
+                        {user?.role === "admin" && (
+                            <Grid item>
+                                <Link href="/dashboard">
+                                    <a>
+                                        <Button
+                                            variant="contained"
+                                            disableElevation
+                                        >
+                                            Creator Dashboard
+                                        </Button>
+                                    </a>
+                                </Link>
+                            </Grid>
+                        )}
                         <Grid item>
                             <Link href="/profile/edit">
                                 <a>
