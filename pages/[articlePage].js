@@ -427,16 +427,28 @@ const Article = ({ posts, allPosts, authorData }) => {
                     </Grid>
                 </Grid>
             </Box>
-            <ArticleGrid
-                title={posts?.category}
-                posts={allPosts}
-                maximum={3}
-                seeAll={false}
-                mt={15}
-                buttonDisabled
-                filter={posts?.category}
-                postId={posts?.id}
-            />
+            <Box
+                sx={{
+                    px: {
+                        xs: "0",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                }}
+            >
+                <ArticleGrid
+                    title={posts?.category}
+                    posts={allPosts}
+                    maximum={3}
+                    seeAll={false}
+                    mt={15}
+                    buttonDisabled
+                    filter={posts?.category}
+                    postId={posts?.id}
+                />
+            </Box>
             <Grid container justifyContent="center" sx={{ mt: 8 }}>
                 <Grid item>
                     <Button
