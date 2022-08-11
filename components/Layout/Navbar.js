@@ -1,6 +1,7 @@
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
 import {
     AppBar,
@@ -24,8 +25,6 @@ import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 import UserAvatar from "../UserAvatar";
 
-const settings = ["Profile", "Settings", "Logout"];
-
 const NewNav = () => {
     const { user, loaded } = useUser();
 
@@ -45,21 +44,7 @@ const NewNav = () => {
     };
 
     const handleCloseUserMenu = (setting) => {
-        if (setting === "logout") {
-            Router.push("/api/" + setting);
-            setAnchorElUser(null);
-        } else if (setting === "profile") {
-            Router.push("/" + setting);
-            setAnchorElUser(null);
-        } else if (setting === "dashboard") {
-            Router.push("/dashboard");
-            setAnchorElUser(null);
-        } else if (setting === "settings") {
-            Router.push("/profile/edit");
-            setAnchorElUser(null);
-        } else {
-            setAnchorElUser(null);
-        }
+        setAnchorElUser(null);
     };
 
     return (
@@ -372,52 +357,55 @@ const NewNav = () => {
                                                 open={Boolean(anchorElUser)}
                                                 onClose={handleCloseUserMenu}
                                             >
-                                                {user?.role === "admin" && (
-                                                    <>
-                                                        <MenuItem
-                                                            onClick={() =>
-                                                                handleCloseUserMenu(
-                                                                    "dashboard"
-                                                                )
-                                                            }
-                                                        >
-                                                            <Typography textAlign="center">
-                                                                Creator
-                                                                Dashboard
-                                                            </Typography>
-                                                        </MenuItem>
-                                                        <Divider />
-                                                    </>
-                                                )}
-
-                                                {settings.map((setting) => (
-                                                    <MenuItem
-                                                        key={setting}
-                                                        onClick={() =>
-                                                            handleCloseUserMenu(
-                                                                setting.toLowerCase()
-                                                            )
-                                                        }
-                                                    >
-                                                        {setting ===
-                                                            "Profile" && (
-                                                            <Avatar />
-                                                        )}
-                                                        {setting ===
-                                                            "Settings" && (
-                                                            <ListItemIcon>
-                                                                <Settings fontSize="small" />
-                                                            </ListItemIcon>
-                                                        )}
-                                                        {setting ===
-                                                            "Logout" && (
-                                                            <ListItemIcon>
-                                                                <Logout fontSize="small" />
-                                                            </ListItemIcon>
-                                                        )}
-                                                        {setting}
-                                                    </MenuItem>
-                                                ))}
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        Router.push("/profile");
+                                                        setAnchorElUser(null);
+                                                    }}
+                                                >
+                                                    <Avatar />
+                                                    Profile
+                                                </MenuItem>
+                                                <Divider />
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        Router.push(
+                                                            "/dashboard"
+                                                        );
+                                                        setAnchorElUser(null);
+                                                    }}
+                                                >
+                                                    <ListItemIcon>
+                                                        <DashboardIcon />
+                                                    </ListItemIcon>
+                                                    Dashboard
+                                                </MenuItem>
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        Router.push(
+                                                            "/profile/edit"
+                                                        );
+                                                        setAnchorElUser(null);
+                                                    }}
+                                                >
+                                                    <ListItemIcon>
+                                                        <Settings fontSize="small" />
+                                                    </ListItemIcon>
+                                                    Settings
+                                                </MenuItem>
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        Router.push(
+                                                            "/api/logout"
+                                                        );
+                                                        setAnchorElUser(null);
+                                                    }}
+                                                >
+                                                    <ListItemIcon>
+                                                        <Logout fontSize="small" />
+                                                    </ListItemIcon>
+                                                    Logout
+                                                </MenuItem>
                                             </Menu>
                                         </Box>
                                     </Box>
