@@ -1,10 +1,12 @@
 import useSWR from "swr";
 import PostEditor from "../../components/Posts/PostEditorPage";
 import { getPostsByID } from "../api/database/getPostsByID";
+import { getUserByIssuer } from "../api/database/getUser";
 
 export async function getServerSideProps(context) {
     const id = context.params.id;
     const data = await getPostsByID(id);
+    const lastEditor = await getUserByIssuer(data[0]?.lastEditedBy);
 
     if (!data) {
         return { notFound: true, props: { posts: {} } };
@@ -13,13 +15,14 @@ export async function getServerSideProps(context) {
     return {
         props: {
             posts: data[0],
+            lastEditor: lastEditor || null,
             protected: true,
-            userTypes: ["admin", "collaborator"],
+            userTypes: ["admin"],
         },
     };
 }
 
-const EditArticle = ({ posts }) => {
+const EditArticle = ({ posts, lastEditor }) => {
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
     const { data, error } = useSWR(
@@ -28,7 +31,14 @@ const EditArticle = ({ posts }) => {
     );
     const author = data?.user;
 
-    return <PostEditor data={posts} editorMode author={author} />;
+    return (
+        <PostEditor
+            data={posts}
+            editorMode
+            author={author}
+            lastEditor={lastEditor}
+        />
+    );
 };
 
 export default EditArticle;

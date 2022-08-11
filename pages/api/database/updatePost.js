@@ -10,8 +10,11 @@ export default async function updatePost(req, res) {
         return res.status(405).end();
     }
 
-    // Reject request if user is not the author
-    if (session?.issuer !== req.body.issuer) {
+    const accessPermission =
+        session?.issuer === req.body.issuer || req.body.role === "admin";
+
+    // Reject request if insufficient permissions
+    if (!accessPermission) {
         return res.status(405).end();
     }
 
@@ -51,6 +54,7 @@ export default async function updatePost(req, res) {
                         ...(banner && { banner }),
                         ...(video && { video }),
                         contributor: `${contributor}`,
+                        lastEditedBy: `${session?.issuer}`,
                     },
                 },
             ],

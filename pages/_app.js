@@ -1,8 +1,9 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import ReactLoading from "react-loading";
 import { useUser } from "../hooks/useAuth";
+import { useRouter } from "next/router";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -24,8 +25,31 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
     const { user } = useUser();
+    const router = useRouter();
 
-    if (pageProps.protected && !user) {
+    const loadingUser = pageProps.protected && !user;
+    const noAccess =
+        pageProps.protected &&
+        user &&
+        pageProps.userTypes &&
+        pageProps.userTypes.indexOf(user.role) === -1;
+
+    const [seconds, setSeconds] = useState(3);
+
+    useEffect(() => {
+        if (loadingUser && !noAccess) {
+            if (seconds !== 0) {
+                setTimeout(() => {
+                    setSeconds(seconds - 1);
+                }, 1000);
+            } else {
+                router.push("/login");
+            }
+        }
+    });
+
+    // User state loading
+    if (loadingUser) {
         return (
             <Layout>
                 <Grid
@@ -46,15 +70,19 @@ function MyApp({ Component, pageProps }) {
         );
     }
 
-    if (
-        pageProps.protected &&
-        user &&
-        pageProps.userTypes &&
-        pageProps.userTypes.indexOf(user.role) === -1
-    ) {
+    // Access Rejected
+    if (noAccess) {
         return (
             <Layout>
-                <p>Sorry, you don&apos;t have access {user.issuer}</p>
+                <Grid
+                    container
+                    justifyContent="center"
+                    sx={{ textAlign: "center" }}
+                >
+                    <Grid item>
+                        <p>Sorry, you don&apos;t have access to this page.</p>
+                    </Grid>
+                </Grid>
             </Layout>
         );
     }

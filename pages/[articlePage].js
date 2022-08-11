@@ -48,7 +48,8 @@ const Article = ({ posts, allPosts, authorData }) => {
     const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
     const updateDate = dateFormatter(posts.lastUpdated);
-    const editPermission = loaded && user?.userId == author?.userId;
+    const editPermission =
+        loaded && (user?.userId == author?.userId || user?.role == "admin");
 
     const siteTitle = `${posts.title} | Violet Verse`;
     const metaTitle = `${posts.title}`;

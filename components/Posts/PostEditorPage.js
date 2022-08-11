@@ -1,13 +1,9 @@
 import {
     Box,
     Button,
-    FormControl,
     Grid,
-    InputLabel,
     MenuItem,
-    Select,
     TextField,
-    FormHelperText,
     FormControlLabel,
     Checkbox,
     ToggleButtonGroup,
@@ -22,17 +18,21 @@ import Router from "next/router";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
+import { useUser } from "../../hooks/useAuth";
 import React, { useState, useEffect } from "react";
 import RichTextEditor from "./Editor";
 import DeleteConfirmation from "../Modal/ConfirmDelete";
+import dateFormatter from "../../lib/dateFormatter";
 
 const postFetcher = (url) => fetch(url).then((r) => r.json());
 
 const PostEditorPage = (props) => {
     const posts = props?.data;
     const editorMode = props?.editorMode;
+    const { user } = useUser();
     const author = props?.author;
 
+    const updateDate = dateFormatter(posts.lastUpdated, true);
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
@@ -117,6 +117,7 @@ const PostEditorPage = (props) => {
                 body: JSON.stringify({
                     id: editorMode ? posts.id : "",
                     issuer: editorMode ? author?.userId : "",
+                    role: editorMode ? user?.role : "",
                     title: title,
                     category: category,
                     body: body,
@@ -206,20 +207,47 @@ const PostEditorPage = (props) => {
                 handleDelete={() => deletePost()}
             />
             <form onSubmit={handleSubmit(onSubmit)}>
-                {editorMode && (
-                    <Link href={`/` + posts.slug}>
-                        <a>
-                            <p>Back to Post</p>
-                        </a>
-                    </Link>
-                )}
+                <Grid container>
+                    {editorMode && (
+                        <Grid item xs={12}>
+                            <Link href={`/` + posts.slug}>
+                                <a>
+                                    <p>Back to Post</p>
+                                </a>
+                            </Link>
+                        </Grid>
+                    )}
+                    {editorMode && posts?.lastEditedBy && (
+                        <Grid item xs={12}>
+                            <p style={{ fontSize: "16px" }}>
+                                {`Lasted edited by: ${props.lastEditor.name} on ${updateDate}`}
+                            </p>
+                        </Grid>
+                    )}
+                    {editorMode &&
+                        author &&
+                        user &&
+                        author?.userId !== user?.userId && (
+                            <Grid item xs={12}>
+                                <p
+                                    style={{
+                                        fontSize: "16px",
+                                        color: "darkred",
+                                    }}
+                                >
+                                    Warning: This post was not made by you, edit
+                                    with caution.
+                                </p>
+                            </Grid>
+                        )}
+                </Grid>
                 <Grid
                     container
                     direction="row"
                     alignItems="center"
                     justifyContent={{ xs: "center", md: "space-between" }}
                     spacing={4}
-                    sx={{ mb: 4 }}
+                    sx={{ mb: 4, mt: 0 }}
                 >
                     <Grid item xs={6} md={9}>
                         <Controller
