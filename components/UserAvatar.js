@@ -12,10 +12,8 @@ const UserAvatar = (props) => {
                 />
             )}
             {!user?.picture && user && (
-                <Box sx={{ pt: 0.5 }}>
-                    <Jazzicon diameter={40} seed={user?.uniqueId} />
-                </Box>
-            )}{" "}
+                <Jazzicon diameter={40} seed={user?.uniqueId} />
+            )}
         </>
     );
 };

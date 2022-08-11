@@ -308,10 +308,21 @@ const NewNav = () => {
                                                 display: { xs: "flex" },
                                             }}
                                         >
-                                            <Tooltip title="Open settings">
+                                            <Tooltip title="Account settings">
                                                 <IconButton
                                                     onClick={handleOpenUserMenu}
-                                                    sx={{ p: 0 }}
+                                                    size="small"
+                                                    aria-controls={
+                                                        open
+                                                            ? "account-menu"
+                                                            : undefined
+                                                    }
+                                                    aria-haspopup="true"
+                                                    aria-expanded={
+                                                        open
+                                                            ? "true"
+                                                            : undefined
+                                                    }
                                                 >
                                                     <UserAvatar user={user} />
                                                 </IconButton>
@@ -390,9 +401,7 @@ const NewNav = () => {
                                                     >
                                                         {setting ===
                                                             "Profile" && (
-                                                            <UserAvatar
-                                                                user={user}
-                                                            />
+                                                            <Avatar />
                                                         )}
                                                         {setting ===
                                                             "Settings" && (
