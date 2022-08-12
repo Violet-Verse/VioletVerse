@@ -11,6 +11,16 @@ export async function getUserByIssuer(issuer) {
     return userData[0]?.fields;
 }
 
+export async function getUserByUsername(username) {
+    const userData = await table
+        .select({
+            filterByFormula: `{username} = "${username}"`,
+        })
+        .firstPage();
+
+    return userData[0]?.fields;
+}
+
 export default async function handler(req, res) {
     const session = await getLoginSession(req);
 

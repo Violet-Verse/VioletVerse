@@ -8,8 +8,6 @@ import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../hooks/useAuth";
 import youtubeParser from "../lib/getYouTubeThumbnail";
-import ProfileModal from "../components/Modal/ProfileModal";
-import React, { useState } from "react";
 import UserAvatar from "../components/UserAvatar";
 import dateFormatter from "../lib/dateFormatter";
 import purifyHTML from "../lib/purifyHTML";
@@ -42,8 +40,6 @@ const Article = ({ posts, allPosts, authorData }) => {
         fetchWithId
     );
 
-    const [profileModalShow, setProfileModalShow] = useState(false);
-
     const author = authorData?.user;
     const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
@@ -75,14 +71,6 @@ const Article = ({ posts, allPosts, authorData }) => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
-
-            {/* Modals */}
-
-            <ProfileModal
-                open={profileModalShow}
-                onClose={() => setProfileModalShow(false)}
-                data={contributor || author}
-            />
 
             {/* Main Content */}
             <Box
@@ -167,22 +155,27 @@ const Article = ({ posts, allPosts, authorData }) => {
                                             : ""
                                     }
                                 >
-                                    <a>
-                                        <p
-                                            className="secondary"
-                                            onClick={() =>
-                                                setProfileModalShow(true)
-                                            }
-                                            style={{
-                                                color: contributor
-                                                    ? "gray"
-                                                    : "#693E9A",
-                                            }}
-                                        >
-                                            By{" "}
-                                            {contributor?.name || author?.name}
-                                        </p>
-                                    </a>
+                                    <Link
+                                        href={`/user/${
+                                            contributor?.username ||
+                                            author?.username
+                                        }`}
+                                    >
+                                        <a>
+                                            <p
+                                                className="secondary"
+                                                style={{
+                                                    color: contributor
+                                                        ? "gray"
+                                                        : "#693E9A",
+                                                }}
+                                            >
+                                                By{" "}
+                                                {contributor?.name ||
+                                                    author?.name}
+                                            </p>
+                                        </a>
+                                    </Link>
                                 </Tooltip>
                             </Stack>
                             <Stack
@@ -202,25 +195,29 @@ const Article = ({ posts, allPosts, authorData }) => {
                                             : ""
                                     }
                                 >
-                                    <a>
-                                        <p
-                                            className="secondary"
-                                            onClick={() =>
-                                                setProfileModalShow(true)
-                                            }
-                                            style={{
-                                                fontWeight: "400",
-                                                fontSize: "18px",
-                                                color: contributor
-                                                    ? "gray"
-                                                    : "#693E9A",
-                                            }}
-                                        >
-                                            BY{" "}
-                                            {contributor?.name.toUpperCase() ||
-                                                author?.name.toUpperCase()}
-                                        </p>
-                                    </a>
+                                    <Link
+                                        href={`/user/${
+                                            contributor?.username ||
+                                            author?.username
+                                        }`}
+                                    >
+                                        <a>
+                                            <p
+                                                className="secondary"
+                                                style={{
+                                                    fontWeight: "400",
+                                                    fontSize: "18px",
+                                                    color: contributor
+                                                        ? "gray"
+                                                        : "#693E9A",
+                                                }}
+                                            >
+                                                BY{" "}
+                                                {contributor?.name.toUpperCase() ||
+                                                    author?.name.toUpperCase()}
+                                            </p>
+                                        </a>
+                                    </Link>
                                 </Tooltip>
                             </Stack>
                         </Grid>
