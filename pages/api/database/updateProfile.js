@@ -22,6 +22,7 @@ export default async function updateUser(req, res) {
 
     const name = req.body.name;
     const bio = req.body.bio;
+    const twitter = req.body.twitter;
     const picture = req.body.picture;
 
     try {
@@ -32,6 +33,7 @@ export default async function updateUser(req, res) {
                     fields: {
                         ...(name && { name }),
                         ...(bio && { bio }),
+                        twitter: twitter,
                         ...(picture && { picture }),
                     },
                 },

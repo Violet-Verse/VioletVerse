@@ -1,12 +1,11 @@
 import { FlowExtension } from "@magic-ext/flow";
 import { Box, Button, Stack, TextField, Grid } from "@mui/material";
-import * as fcl from "@onflow/fcl";
 import { Magic } from "magic-sdk";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
-import ReactLoading from "react-loading";
+import { PacmanLoader } from "react-spinners";
 import Image from "next/image";
 
 import { useUser } from "../hooks/useAuth";
@@ -22,15 +21,6 @@ export default function LoginPage() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
-    // CONFIGURE FLOW ACCESS NODE
-    fcl.config()
-        .put("grpc.metadata", {
-            api_key: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
-        })
-        .put("accessNode.api", process.env.NEXT_PUBLIC_ACCESS_NODE) // Configure FCL's Alchemy Access Node
-        .put("challenge.handshake", process.env.NEXT_PUBLIC_WALLET_DISCOVERY) // Configure FCL's Wallet Discovery mechanism
-        .put("0xProfile", process.env.NEXT_PUBLIC_CONTRACT_PROFILE); // Will let us use `0xProfile` in our Cadence
 
     const onSubmit = async ({ email }) => {
         const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISH_KEY, {
@@ -74,12 +64,7 @@ export default function LoginPage() {
                 alignItems="center"
                 justifyContent="center"
             >
-                <ReactLoading
-                    type={"bars"}
-                    color={"#03fc4e"}
-                    height={100}
-                    width={100}
-                />
+                <PacmanLoader color="#693E9A" />
             </Grid>
         );
 

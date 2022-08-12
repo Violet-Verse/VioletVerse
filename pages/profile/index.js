@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 import Link from "next/link";
 import EditPicture from "../../components/Modal/EditPicture";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 export async function getStaticProps(context) {
     return {
@@ -119,6 +120,62 @@ const Profile = () => {
                         >
                             {user?.bio || "An interesting bio awaits..."}
                         </p>
+                    </Stack>
+                    {user?.twitter && (
+                        <Stack
+                            direction="row"
+                            alignItems="flex-end"
+                            sx={{ mt: 2 }}
+                            spacing={0}
+                        >
+                            <a
+                                href={
+                                    `https://www.twitter.com/` + user?.twitter
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <TwitterIcon
+                                    sx={{
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                        </Stack>
+                    )}
+                    <Stack direction="row" alignItems="flex-end" sx={{ mt: 3 }}>
+                        <Tooltip title="Copy Address to Clipboard">
+                            <Button
+                                variant="contained"
+                                disableElevation
+                                sx={{
+                                    backgroundColor: "white",
+                                    border: 1,
+                                    borderColor: "#DED1F7",
+                                }}
+                                onClick={() => {
+                                    navigator.clipboard.writeText(
+                                        user?.flowAddress
+                                    );
+                                }}
+                            >
+                                {`Flow Address: ${user?.flowAddress}`}
+                            </Button>
+                        </Tooltip>
+                    </Stack>
+                    <Stack direction="row" alignItems="flex-end" sx={{ mt: 3 }}>
+                        <Button
+                            variant="contained"
+                            disableElevation
+                            sx={{
+                                fontWeight: "400",
+                                fontSize: "16px",
+                                py: 1.5,
+                                px: 2.5,
+                            }}
+                        >
+                            $VV Tokens: 0
+                        </Button>
                     </Stack>
                 </Box>
             )}

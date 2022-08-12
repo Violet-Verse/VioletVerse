@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, TextField } from "@mui/material";
+import React, { useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 import dateFormatter from "../../lib/dateFormatter";
@@ -26,10 +27,10 @@ const Profile = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm();
 
-    const onSubmit = async ({ name, bio }) => {
+    const onSubmit = async ({ name, bio, twitter }) => {
         try {
             await fetch("/api/database/updateProfile", {
                 method: "PUT",
@@ -39,6 +40,7 @@ const Profile = () => {
                 body: JSON.stringify({
                     name: `${name}`,
                     bio: `${bio}`,
+                    twitter: `${twitter}`,
                 }),
             })
                 .then((response) => response.json())
@@ -85,32 +87,112 @@ const Profile = () => {
                                 <TextField
                                     variant="outlined"
                                     label="Name"
+                                    placeholder="Satoshi Nakamoto "
                                     fullWidth
                                     autoFocus
                                     defaultValue={user?.name || ""}
-                                    {...register("name")}
+                                    error={!!errors?.name}
+                                    helperText={
+                                        errors?.name
+                                            ? errors.name.message
+                                            : null
+                                    }
+                                    {...register("name", {
+                                        maxLength: {
+                                            value: 40,
+                                            message:
+                                                "Names must be under 40 characters.",
+                                        },
+                                        pattern: {
+                                            value: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
+                                            message:
+                                                "Name cannot contain numbers or symbols.",
+                                        },
+                                    })}
                                 />
                             </Grid>
                             <Grid item>
                                 <TextField
                                     variant="outlined"
                                     label="Bio"
+                                    placeholder="An interesting bio awaits..."
                                     fullWidth
                                     multiline
                                     defaultValue={user?.bio || ""}
-                                    {...register("bio")}
+                                    error={!!errors?.bio}
+                                    helperText={
+                                        errors?.bio ? errors.bio.message : null
+                                    }
+                                    {...register("bio", {
+                                        maxLength: {
+                                            value: 1000,
+                                            message:
+                                                "Bio must be under 1000 characters.",
+                                        },
+                                    })}
                                 />
                             </Grid>
                             <Grid item>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    disableElevation
-                                    color="success"
-                                    sx={{ borderRadius: "4px" }}
+                                <TextField
+                                    variant="outlined"
+                                    label="Twitter"
+                                    placeholder="Twitter Username"
+                                    fullWidth
+                                    multiline
+                                    defaultValue={user?.twitter || ""}
+                                    error={!!errors?.twitter}
+                                    helperText={
+                                        errors?.twitter
+                                            ? errors.twitter.message
+                                            : null
+                                    }
+                                    {...register("twitter", {
+                                        maxLength: {
+                                            value: 15,
+                                            message:
+                                                "Invalid Twitter Username.",
+                                        },
+                                        pattern: {
+                                            value: /^([a-z0-9_]{1,15})$/i,
+                                            message:
+                                                "Invalid Twitter Username.",
+                                        },
+                                    })}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                    }}
                                 >
-                                    Save
-                                </Button>
+                                    <Box sx={{ position: "relative" }}>
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            disableElevation
+                                            color="success"
+                                            sx={{ borderRadius: "4px" }}
+                                            disabled={isSubmitting}
+                                        >
+                                            Save
+                                        </Button>
+                                        {isSubmitting && (
+                                            <CircularProgress
+                                                size={24}
+                                                sx={{
+                                                    color: "green",
+                                                    position: "absolute",
+                                                    top: "50%",
+                                                    left: "50%",
+                                                    marginTop: "-12px",
+                                                    marginLeft: "-12px",
+                                                }}
+                                            />
+                                        )}
+                                    </Box>
+                                </Box>
                             </Grid>
                             <Grid item>
                                 <p>Account Created: {accountCreated}</p>

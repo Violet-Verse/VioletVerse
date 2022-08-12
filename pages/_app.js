@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import ReactLoading from "react-loading";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
+import { PacmanLoader } from "react-spinners";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -45,8 +45,10 @@ function MyApp({ Component, pageProps }) {
             } else {
                 router.push("/login");
             }
+        } else if (seconds !== 3) {
+            setSeconds(3);
         }
-    });
+    }, [loadingUser, noAccess, seconds, router]);
 
     // User state loading
     if (loadingUser) {
@@ -59,12 +61,7 @@ function MyApp({ Component, pageProps }) {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <ReactLoading
-                        type={"bars"}
-                        color={"#03fc4e"}
-                        height={100}
-                        width={100}
-                    />
+                    <PacmanLoader color="#693E9A" />
                 </Grid>
             </Layout>
         );
