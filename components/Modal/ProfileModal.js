@@ -15,7 +15,7 @@ const ProfileModal = (props) => {
                     <h4>{user?.name}</h4>
                 </Modal.Header>
                 <Modal.Body css={{ textAlign: "center" }}>
-                    <p>{user?.bio}</p>
+                    <p>{user?.bio || "An interesting bio awaits..."}</p>
                     <p>Member Since: {dateJoined}</p>
                 </Modal.Body>
             </Modal>

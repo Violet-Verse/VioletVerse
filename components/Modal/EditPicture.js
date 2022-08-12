@@ -9,6 +9,7 @@ import {
     Grid,
     Stack,
 } from "@mui/material";
+import UploadIcon from "@mui/icons-material/Upload";
 import useSWR from "swr";
 import React, { useState, useEffect } from "react";
 
@@ -109,7 +110,8 @@ const EditPicture = (props) => {
                                     component="span"
                                     sx={{ borderRadius: "4px" }}
                                 >
-                                    Select Image{" "}
+                                    <UploadIcon />
+                                    Upload{" "}
                                     {imageUrl && selectedImage && (
                                         <Box sx={{ ml: 2 }}>
                                             <Avatar
@@ -159,7 +161,10 @@ const EditPicture = (props) => {
                         color="success"
                         variant="contained"
                         sx={{ borderRadius: "10px" }}
-                        disabled={!imageUrl && !selectedImage}
+                        disabled={
+                            (!imageUrl && !selectedImage) ||
+                            user?.picture === imageUrl
+                        }
                         onClick={() => {
                             props.handleClose();
                             onPictureSubmit();

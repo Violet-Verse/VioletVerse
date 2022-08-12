@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Avatar, Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import useSWR from "swr";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import dateFormatter from "../../lib/dateFormatter";
 
 export async function getStaticProps(context) {
@@ -30,58 +29,6 @@ const Profile = () => {
         formState: { errors },
     } = useForm();
 
-    const onPictureSubmit = async () => {
-        const formData = new FormData();
-        formData.append("image", selectedImage);
-        try {
-            await fetch(
-                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
-                {
-                    method: "POST",
-                    body: formData,
-                }
-            )
-                .then((response) => response.json())
-                .then((result) => {
-                    fetch("/api/database/updateProfile", {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            picture: `${result.data.url}`,
-                        }),
-                    })
-                        .then((response) => response.json())
-                        .then((newData) => {
-                            mutate("/api/database/getUser", {
-                                ...users.user,
-                                newData,
-                            });
-                        });
-                })
-                .catch((err) => console.error(err));
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    const clearPicture = async () => {
-        const formData = new FormData();
-        formData.append("image", selectedImage);
-        await fetch("/api/database/clearPicture", {
-            method: "PUT",
-        })
-            .then((response) => response.json())
-            .then((newData) => {
-                mutate("/api/database/getUser", {
-                    ...users.user,
-                    newData,
-                });
-            })
-            .catch((err) => console.error(err));
-    };
-
     const onSubmit = async ({ name, bio }) => {
         try {
             await fetch("/api/database/updateProfile", {
@@ -105,14 +52,6 @@ const Profile = () => {
             console.log(err);
         }
     };
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [imageUrl, setImageUrl] = useState(user?.picture || null);
-
-    useEffect(() => {
-        if (selectedImage) {
-            setImageUrl(URL.createObjectURL(selectedImage));
-        }
-    }, [selectedImage]);
 
     var accountLastUpdated = dateFormatter(user.lastUpdated, true);
     var accountCreated = dateFormatter(user.created, true);
@@ -141,62 +80,7 @@ const Profile = () => {
                                     </a>
                                 </Link>
                             </Grid>
-                            <Grid item>
-                                <input
-                                    accept="image/*"
-                                    type="file"
-                                    onChange={(e) =>
-                                        setSelectedImage(e.target.files[0])
-                                    }
-                                    id="select-image"
-                                    style={{ display: "none" }}
-                                />
-                                <label htmlFor="select-image">
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        component="span"
-                                        sx={{ borderRadius: "4px" }}
-                                    >
-                                        Change Profile Picture{" "}
-                                        {imageUrl && selectedImage && (
-                                            <Box sx={{ ml: 2 }}>
-                                                <Avatar
-                                                    alt={
-                                                        selectedImage?.name ||
-                                                        "current profile picture"
-                                                    }
-                                                    src={imageUrl}
-                                                />
-                                            </Box>
-                                        )}
-                                        {user?.picture && !selectedImage && (
-                                            <Box sx={{ ml: 2 }}>
-                                                <Avatar
-                                                    alt={
-                                                        selectedImage?.name ||
-                                                        "current profile picture"
-                                                    }
-                                                    src={imageUrl}
-                                                />
-                                            </Box>
-                                        )}
-                                    </Button>
-                                </label>
-                                {imageUrl && selectedImage && (
-                                    <Button
-                                        color="secondary"
-                                        onClick={() => onPictureSubmit()}
-                                    >
-                                        Submit
-                                    </Button>
-                                )}
-                                {user?.picture && (
-                                    <Button onClick={() => clearPicture()}>
-                                        Reset Picture
-                                    </Button>
-                                )}
-                            </Grid>
+
                             <Grid item>
                                 <TextField
                                     variant="outlined"
@@ -212,7 +96,6 @@ const Profile = () => {
                                     variant="outlined"
                                     label="Bio"
                                     fullWidth
-                                    autoFocus
                                     multiline
                                     defaultValue={user?.bio || ""}
                                     {...register("bio")}

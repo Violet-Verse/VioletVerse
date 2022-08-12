@@ -117,7 +117,7 @@ const Profile = () => {
                                 fontSize: "22px",
                             }}
                         >
-                            {user?.bio}
+                            {user?.bio || "An interesting bio awaits..."}
                         </p>
                     </Stack>
                 </Box>
