@@ -51,17 +51,30 @@ const ProfileLayout = (props) => {
                 justifyContent="flex-start"
                 spacing={2}
             >
-                <Grid item sx={{ mr: { xs: 0, md: 5 } }}>
-                    <Tooltip title="Edit Picture">
-                        <IconButton onClick={() => setEditPictureModal(true)}>
-                            <Avatar
-                                alt={user?.name || "user picture"}
-                                src={user?.picture}
-                                sx={{ width: 200, height: 200 }}
-                            />
-                        </IconButton>
-                    </Tooltip>
-                </Grid>
+                {isOwner && (
+                    <Grid item sx={{ mr: { xs: 0, md: 5 } }}>
+                        <Tooltip title="Edit Picture">
+                            <IconButton
+                                onClick={() => setEditPictureModal(true)}
+                            >
+                                <Avatar
+                                    alt={user?.name || "user picture"}
+                                    src={user?.picture}
+                                    sx={{ width: 200, height: 200 }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                )}
+                {!isOwner && (
+                    <Grid item sx={{ mr: { xs: 0, md: 5 } }}>
+                        <Avatar
+                            alt={user?.name || "user picture"}
+                            src={user?.picture}
+                            sx={{ width: 200, height: 200 }}
+                        />
+                    </Grid>
+                )}
                 {user?.role === "admin" && isOwner && (
                     <Grid item>
                         <Link href="/dashboard">
