@@ -30,13 +30,13 @@ const UserProfile = ({ user }) => {
                 <meta name="og:description" content={siteDescription} />
                 <meta property="og:image" content={siteImage} />
                 <meta property="og:image:type" content="image/png" />
-                <meta property="og:image:width" content="800" />
-                <meta property="og:image:height" content="420" />
+                <meta property="og:image:width" content="400" />
+                <meta property="og:image:height" content="400" />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:site" content="@TheVioletVerse" />
                 <meta name="twitter:title" content={metaTitle} />
                 <meta name="twitter:description" content={siteDescription} />
-                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:card" content="summary" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
             <ProfileLayout user={user} />;
