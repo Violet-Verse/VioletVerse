@@ -53,3 +53,9 @@ export default async function updateUser(req, res) {
         return res.status(405).end();
     }
 }
+
+export const config = {
+    api: {
+        externalResolver: true,
+    },
+};
