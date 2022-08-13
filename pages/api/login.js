@@ -30,26 +30,51 @@ export default async function login(req, res) {
                 });
                 fetchNextPage();
             },
-            function done(err) {
+            async function done(err) {
                 if (users.length >= 1) {
                     // User found in database
+                    const token = await Iron.seal(
+                        user,
+                        process.env.TOKEN_SECRET,
+                        Iron.defaults
+                    );
+                    CookieService(res, token);
                     console.log("user found");
+                    return res.status(200).json(users || null);
+                    // res.end();
                 } else {
                     // User not found in database -- ADD NEW USER
                     console.log("user not found");
                     try {
-                        table.create([
-                            {
-                                fields: {
-                                    userId: `${user.issuer}`,
-                                    email: `${user.email}`,
-                                    role: "user",
-                                    flowAddress: `${req.body.flowAddress}`,
-                                    username: `${req.body.flowAddress}`,
-                                    name: `${req.body.flowAddress}`,
+                        table.create(
+                            [
+                                {
+                                    fields: {
+                                        userId: `${user.issuer}`,
+                                        email: `${user.email}`,
+                                        role: "user",
+                                        flowAddress: `${req.body.flowAddress}`,
+                                        username: `${req.body.flowAddress}`,
+                                        name: `${req.body.flowAddress}`,
+                                    },
                                 },
-                            },
-                        ]);
+                            ],
+                            async function (err, records) {
+                                if (err) {
+                                    console.error(err);
+                                    return res.status(405).end();
+                                }
+                                const token = await Iron.seal(
+                                    user,
+                                    process.env.TOKEN_SECRET,
+                                    Iron.defaults
+                                );
+                                CookieService(res, token);
+                                return res
+                                    .status(200)
+                                    .json(records[0].fields || null);
+                            }
+                        );
                     } catch (err) {
                         console.log(err);
                     }
@@ -60,13 +85,4 @@ export default async function login(req, res) {
                 }
             }
         );
-
-    // Author a couple of cookies to persist a user's session
-    const token = await Iron.seal(
-        user,
-        process.env.TOKEN_SECRET,
-        Iron.defaults
-    );
-    CookieService(res, token);
-    res.end();
 }
