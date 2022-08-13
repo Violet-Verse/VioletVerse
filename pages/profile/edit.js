@@ -90,7 +90,11 @@ const Profile = () => {
                                     placeholder="Satoshi Nakamoto "
                                     fullWidth
                                     autoFocus
-                                    defaultValue={user?.name || ""}
+                                    defaultValue={
+                                        user?.name === user?.flowAddress
+                                            ? ""
+                                            : user?.name || ""
+                                    }
                                     error={!!errors?.name}
                                     helperText={
                                         errors?.name
