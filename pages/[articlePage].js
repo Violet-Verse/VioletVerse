@@ -148,18 +148,30 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 }}
                             >
                                 <UserAvatar user={contributor || author} />
-                                <Tooltip
-                                    title={
-                                        contributor
-                                            ? "Community Contributor"
-                                            : ""
-                                    }
+
+                                <Link
+                                    href={`/user/${
+                                        contributor?.username ||
+                                        author?.username
+                                    }`}
                                 >
-                                    <Link
-                                        href={`/user/${
-                                            contributor?.username ||
-                                            author?.username
-                                        }`}
+                                    <Tooltip
+                                        title={
+                                            contributor
+                                                ? "Community Contributor"
+                                                : ""
+                                        }
+                                        arrow
+                                        PopperProps={{
+                                            modifiers: [
+                                                {
+                                                    name: "offset",
+                                                    options: {
+                                                        offset: [0, -15],
+                                                    },
+                                                },
+                                            ],
+                                        }}
                                     >
                                         <a>
                                             <p
@@ -175,8 +187,8 @@ const Article = ({ posts, allPosts, authorData }) => {
                                                     author?.name}
                                             </p>
                                         </a>
-                                    </Link>
-                                </Tooltip>
+                                    </Tooltip>
+                                </Link>
                             </Stack>
                             <Stack
                                 direction="row"

@@ -53,7 +53,7 @@ const ProfileLayout = (props) => {
             >
                 {isOwner && (
                     <Grid item sx={{ mr: { xs: 0, md: 5 } }}>
-                        <Tooltip title="Edit Picture">
+                        <Tooltip title="Edit Picture" arrow>
                             <IconButton
                                 onClick={() => setEditPictureModal(true)}
                             >

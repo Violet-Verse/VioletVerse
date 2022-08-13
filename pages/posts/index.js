@@ -25,7 +25,7 @@ const Posts = ({ posts }) => {
             }}
         >
             <ArticleGrid
-                title="Layers of The Verse"
+                title="Layers of the Verse"
                 posts={posts}
                 maximum={100}
             />
