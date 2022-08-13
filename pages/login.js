@@ -36,23 +36,23 @@ export default function LoginPage() {
 
         const didToken = await magic.auth.loginWithMagicLink({ email });
         const { publicAddress } = await magic.user.getMetadata();
-        const authRequest = await fetch("/api/login", {
+        fetch("/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + didToken,
             },
             body: JSON.stringify({ flowAddress: publicAddress }),
-        });
-        if (authRequest.ok) {
-            // We successfully logged in, our API
-            // set authorization cookies and now we
-            // can redirect to the dashboard!
-            mutate("/api/database/getUser");
-            Router.push("/");
-        } else {
-            /* handle errors */
-        }
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+                mutate("/api/database/getUser");
+                Router.push("/");
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     if (loading)

@@ -373,19 +373,23 @@ const NewNav = () => {
                                                     Profile
                                                 </MenuItem>
                                                 <Divider />
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        Router.push(
-                                                            "/dashboard"
-                                                        );
-                                                        setAnchorElUser(null);
-                                                    }}
-                                                >
-                                                    <ListItemIcon>
-                                                        <DashboardIcon />
-                                                    </ListItemIcon>
-                                                    Dashboard
-                                                </MenuItem>
+                                                {user?.role === "admin" && (
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            Router.push(
+                                                                "/dashboard"
+                                                            );
+                                                            setAnchorElUser(
+                                                                null
+                                                            );
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <DashboardIcon />
+                                                        </ListItemIcon>
+                                                        Dashboard
+                                                    </MenuItem>
+                                                )}
                                                 <MenuItem
                                                     onClick={() => {
                                                         Router.push(
