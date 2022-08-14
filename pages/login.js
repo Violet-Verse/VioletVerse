@@ -5,7 +5,7 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { useSWRConfig } from "swr";
-import { PacmanLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import Image from "next/image";
 
 import { useUser } from "../hooks/useAuth";
@@ -64,7 +64,7 @@ export default function LoginPage() {
                 alignItems="center"
                 justifyContent="center"
             >
-                <PacmanLoader color="#693E9A" />
+                <ClipLoader color="#693E9A" />
             </Grid>
         );
 
