@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
-import { PacmanLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }) {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <PacmanLoader color="#693E9A" />
+                    <ClipLoader color="#693E9A" />
                 </Grid>
             </Layout>
         );
