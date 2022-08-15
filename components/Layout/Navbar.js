@@ -182,27 +182,28 @@ const NewNav = () => {
                                             </Tooltip>
                                         </a>
                                     </Link>
-                                    <Link href="#">
-                                        <a>
-                                            <Tooltip title="Coming Soon">
-                                                <Button
-                                                    sx={{
-                                                        my: 2,
-                                                        color: "#0A0510",
-                                                        display: "block",
-                                                        mr: "15px",
-                                                        fontFamily: "Ogg",
-                                                        fontSize: "18px",
-                                                        lineHeight: "130%",
-                                                        letterSpacing:
-                                                            "-0.005em",
-                                                    }}
-                                                >
-                                                    VV VR
-                                                </Button>
-                                            </Tooltip>
-                                        </a>
-                                    </Link>
+                                    <a
+                                        target="_blank"
+                                        href="https://violetverse.vercel.app/vr"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Tooltip title="Coming Soon">
+                                            <Button
+                                                sx={{
+                                                    my: 2,
+                                                    color: "#0A0510",
+                                                    display: "block",
+                                                    mr: "15px",
+                                                    fontFamily: "Ogg",
+                                                    fontSize: "18px",
+                                                    lineHeight: "130%",
+                                                    letterSpacing: "-0.005em",
+                                                }}
+                                            >
+                                                VV VR
+                                            </Button>
+                                        </Tooltip>
+                                    </a>
                                     <Link href="/about">
                                         <a>
                                             <Button

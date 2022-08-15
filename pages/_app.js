@@ -27,6 +27,7 @@ function MyApp({ Component, pageProps }) {
     const { user } = useUser();
     const router = useRouter();
 
+    const vrSite = pageProps.vrSite;
     const loadingUser = pageProps.protected && !user;
     const noAccess =
         pageProps.protected &&
@@ -82,6 +83,10 @@ function MyApp({ Component, pageProps }) {
                 </Grid>
             </Layout>
         );
+    }
+
+    if (vrSite) {
+        return <Component {...pageProps} />;
     }
 
     return (

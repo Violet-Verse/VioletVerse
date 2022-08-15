@@ -248,3 +248,11 @@ a h1:hover {
 .TextField-without-border-radius fieldset {
     border-radius: 100px;
 }
+
+.vrSite {
+    display: block; /* iframes are inline by default */
+    background: #000;
+    border: none; /* Reset default border */
+    height: 100vh; /* Viewport-relative units */
+    width: 100vw;
+}
