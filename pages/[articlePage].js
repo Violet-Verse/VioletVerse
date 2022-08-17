@@ -302,32 +302,37 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 </Link>
                             </Grid>
                         )}
-                        <Grid
-                            item
-                            sx={{
-                                display: { xs: "none", sm: "flex" },
-                            }}
-                        >
-                            <Image
-                                alt="star"
-                                src="/star.svg"
-                                height={20}
-                                width={20}
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            sx={{
-                                display: { xs: "none", sm: "flex" },
-                            }}
-                        >
-                            <p
-                                className="secondary"
-                                style={{ color: "#693E9A" }}
-                            >
-                                Last updated {updateDate}
-                            </p>
-                        </Grid>
+
+                        {postDate !== updateDate && (
+                            <>
+                                <Grid
+                                    item
+                                    sx={{
+                                        display: { xs: "none", sm: "flex" },
+                                    }}
+                                >
+                                    <Image
+                                        alt="star"
+                                        src="/star.svg"
+                                        height={20}
+                                        width={20}
+                                    />
+                                </Grid>
+                                <Grid
+                                    item
+                                    sx={{
+                                        display: { xs: "none", sm: "flex" },
+                                    }}
+                                >
+                                    <p
+                                        className="secondary"
+                                        style={{ color: "#693E9A" }}
+                                    >
+                                        Last updated {updateDate}
+                                    </p>
+                                </Grid>
+                            </>
+                        )}
                         {editPermission && (
                             <>
                                 <Grid
