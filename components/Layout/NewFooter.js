@@ -26,7 +26,11 @@ const Footer = () => {
                             width={143}
                             height={80}
                         />
-                        <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
+                        <Stack
+                            direction="row"
+                            spacing={2}
+                            sx={{ display: { xs: "none", lg: "flex" }, mt: 5 }}
+                        >
                             <a
                                 href="https://instagram.com/violetverse.io"
                                 target="_blank"
@@ -92,6 +96,48 @@ const Footer = () => {
                         <p className={styles.subheader}>Team</p>
                         <p className={styles.subheader}>Violet Summer Zine</p>
                         <p className={styles.subheader}>Contact us</p>
+                    </Box>
+                    <Box>
+                        <Stack
+                            direction="row"
+                            spacing={2}
+                            sx={{ display: { xs: "flex", lg: "none" } }}
+                        >
+                            <a
+                                href="https://instagram.com/violetverse.io"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <InstagramIcon
+                                    sx={{
+                                        color: "#73839C",
+                                    }}
+                                />{" "}
+                            </a>
+                            <a
+                                href="https://twitter.com/TheVioletVerse"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <TwitterIcon
+                                    sx={{
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                            <a
+                                href="https://discord.gg/3uhQHMF8fJ"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <Image
+                                    src="/discord.svg"
+                                    alt="Discord icon"
+                                    width={24}
+                                    height={24}
+                                />
+                            </a>
+                        </Stack>
                     </Box>
                 </Stack>
             </Box>
