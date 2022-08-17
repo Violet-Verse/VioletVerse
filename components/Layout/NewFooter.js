@@ -1,5 +1,7 @@
 import { Box, Grid, Stack } from "@mui/material";
 import Image from "next/image";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import styles from "../../styles/Footer.module.css";
 
 const Footer = () => {
@@ -24,6 +26,42 @@ const Footer = () => {
                             width={143}
                             height={80}
                         />
+                        <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
+                            <a
+                                href="https://instagram.com/violetverse.io"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <InstagramIcon
+                                    sx={{
+                                        color: "#73839C",
+                                    }}
+                                />{" "}
+                            </a>
+                            <a
+                                href="https://twitter.com/TheVioletVerse"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <TwitterIcon
+                                    sx={{
+                                        color: "#73839C",
+                                    }}
+                                />
+                            </a>
+                            <a
+                                href="https://discord.gg/3uhQHMF8fJ"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <Image
+                                    src="/discord.svg"
+                                    alt="Discord icon"
+                                    width={24}
+                                    height={24}
+                                />
+                            </a>
+                        </Stack>
                     </Box>
                     <Box>
                         <h3 className={styles.header}>Market</h3>
