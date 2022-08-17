@@ -20,6 +20,8 @@ const ProfileLayout = (props) => {
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
     const [editPictureModal, setEditPictureModal] = useState(false);
 
+    const env = process.env.NODE_ENV;
+
     return (
         <Box
             sx={{
@@ -118,22 +120,32 @@ const ProfileLayout = (props) => {
                 // justifyContent={{ xs: "center", md: "left" }}
                 sx={{ mt: 2 }}
             >
-                <p
-                    style={{
-                        fontSize: "22px",
-                    }}
+                <Link
+                    href={
+                        env == "development"
+                            ? `http://localhost:3000/user/${user?.username}`
+                            : `http://https://violetverse.vercel.app/user/${user?.username}`
+                    }
                 >
-                    @{user?.username}
-                    <span
-                        style={{
-                            fontSize: "18px",
-                            color: "#693E9A",
-                            marginLeft: "24px",
-                        }}
-                    >
-                        {role}
-                    </span>
-                </p>
+                    <a>
+                        <p
+                            style={{
+                                fontSize: "22px",
+                            }}
+                        >
+                            @{user?.username}
+                            <span
+                                style={{
+                                    fontSize: "18px",
+                                    color: "#693E9A",
+                                    marginLeft: "24px",
+                                }}
+                            >
+                                {role}
+                            </span>
+                        </p>
+                    </a>
+                </Link>
             </Stack>
             <Stack
                 direction="row"
