@@ -32,7 +32,7 @@ const PostEditorPage = (props) => {
     const { user } = useUser();
     const author = props?.author;
 
-    const updateDate = dateFormatter(posts.lastUpdated, true);
+    const updateDate = dateFormatter(posts?.lastUpdated, true);
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [errorMessage, setErrorMessage] = useState();

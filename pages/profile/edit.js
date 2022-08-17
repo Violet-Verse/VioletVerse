@@ -55,7 +55,7 @@ const Profile = () => {
         }
     };
 
-    var accountLastUpdated = dateFormatter(user.lastUpdated, true);
+    var accountLastUpdated = dateFormatter(user?.lastUpdated, true);
     var accountCreated = dateFormatter(user.created, true);
 
     return (

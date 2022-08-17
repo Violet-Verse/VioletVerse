@@ -43,7 +43,7 @@ const Article = ({ posts, allPosts, authorData }) => {
     const author = authorData?.user;
     const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
-    const updateDate = dateFormatter(posts.lastUpdated);
+    const updateDate = dateFormatter(posts?.lastUpdated);
     const editPermission =
         loaded && (user?.userId == author?.userId || user?.role == "admin");
 
