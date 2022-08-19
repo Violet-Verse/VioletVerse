@@ -59,7 +59,7 @@ const Footer = () => {
                                 rel="noreferrer"
                             >
                                 <Image
-                                    src="/discord.svg"
+                                    src="/Discord.svg"
                                     alt="Discord icon"
                                     width={24}
                                     height={24}
@@ -131,7 +131,7 @@ const Footer = () => {
                                 rel="noreferrer"
                             >
                                 <Image
-                                    src="/discord.svg"
+                                    src="/Discord.svg"
                                     alt="Discord icon"
                                     width={24}
                                     height={24}

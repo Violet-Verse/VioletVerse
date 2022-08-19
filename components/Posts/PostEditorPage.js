@@ -501,7 +501,7 @@ const PostEditorPage = (props) => {
                                         }
                                     />
                                 }
-                                label="Hide Post"
+                                label="Draft Post"
                             />
                         )}
                     />
