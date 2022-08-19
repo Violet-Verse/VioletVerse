@@ -240,7 +240,9 @@ const ArticleGrid = (props) => {
                                         }}
                                     >
                                         {post?.hidden == "true" ? (
-                                            <strike>{post.title}</strike>
+                                            <span
+                                                style={{ color: "purple" }}
+                                            >{`[Draft] ${post.title}`}</span>
                                         ) : (
                                             post.title
                                         )}
