@@ -3,6 +3,9 @@ import Logout from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
+import * as fcl from "@onflow/fcl";
+import useSWR, { useSWRConfig } from "swr";
+import "../../flow/config.js";
 import {
     AppBar,
     Box,
@@ -45,6 +48,42 @@ const NewNav = () => {
 
     const handleCloseUserMenu = (setting) => {
         setAnchorElUser(null);
+    };
+
+    const { mutate } = useSWRConfig();
+
+    const login = async () => {
+        const res = await fcl.authenticate();
+
+        const accountProofService = res.services.find(
+            (services) => services.type === "account-proof"
+        );
+
+        const userEmail = res.services.find(
+            (services) => services.type === "open-id"
+        ).data.email.email;
+
+        if (accountProofService) {
+            fetch("/api/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    address: accountProofService.data.address,
+                    nonce: accountProofService.data.nonce,
+                    signatures: accountProofService.data.signatures,
+                    userEmail,
+                }),
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result);
+                    mutate("/api/database/getUser");
+                    Router.push("/");
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
     };
 
     return (
@@ -95,19 +134,15 @@ const NewNav = () => {
                                         }}
                                     >
                                         {!user && loaded && (
-                                            <Link href="/login">
-                                                <a>
-                                                    <MenuItem
-                                                        onClick={
-                                                            handleCloseNavMenu
-                                                        }
-                                                    >
-                                                        <Typography textAlign="center">
-                                                            Connect
-                                                        </Typography>
-                                                    </MenuItem>
-                                                </a>
-                                            </Link>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    handleCloseNavMenu;
+                                                }}
+                                            >
+                                                <Typography textAlign="center">
+                                                    Connect
+                                                </Typography>
+                                            </MenuItem>
                                         )}
                                         <Link href="/posts">
                                             <a>
@@ -404,6 +439,7 @@ const NewNav = () => {
                                                 </MenuItem>
                                                 <MenuItem
                                                     onClick={() => {
+                                                        fcl.unauthenticate();
                                                         Router.push(
                                                             "/api/logout"
                                                         );
@@ -464,22 +500,19 @@ const NewNav = () => {
                                                 },
                                             }}
                                         >
-                                            <Link href="/login">
-                                                <a>
-                                                    <Button
-                                                        disableElevation
-                                                        variant="contained"
-                                                        sx={{
-                                                            py: 1.5,
-                                                            px: 2.5,
-                                                            fontWeight: "400",
-                                                            fontSize: "16px",
-                                                        }}
-                                                    >
-                                                        Connect Wallet
-                                                    </Button>
-                                                </a>
-                                            </Link>
+                                            <Button
+                                                disableElevation
+                                                variant="contained"
+                                                onClick={() => login()}
+                                                sx={{
+                                                    py: 1.5,
+                                                    px: 2.5,
+                                                    fontWeight: "400",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                Connect Wallet
+                                            </Button>
                                         </Box>
                                     </Box>
                                 )}

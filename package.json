@@ -24,6 +24,7 @@
     "@onflow/types": "^1.0.3",
     "airtable": "^0.11.4",
     "cookie": "^0.5.0",
+    "crypto": "^1.0.1",
     "isomorphic-dompurify": "^0.20.0",
     "magic-sdk": "^9.0.0",
     "nanoid": "^4.0.0",
