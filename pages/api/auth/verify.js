@@ -35,7 +35,7 @@ export default async function handler(req, res) {
             .eachPage(
                 function page(records, fetchNextPage) {
                     records.forEach(function (record) {
-                        console.log("Retrieved", record.get("userId"));
+                        console.log("Retrieved User:", record.get("userId"));
                         users.push(record.get("userId"));
                     });
                     fetchNextPage();
@@ -49,12 +49,10 @@ export default async function handler(req, res) {
                             Iron.defaults
                         );
                         CookieService(res, token);
-                        console.log("user found");
                         return res.status(200).json(users || null);
                         // res.end();
                     } else {
                         // User not found in database -- ADD NEW USER
-                        console.log("user not found");
                         try {
                             table.create(
                                 [
