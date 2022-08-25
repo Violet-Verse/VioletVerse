@@ -47,12 +47,9 @@ export function FlowWrapper({ children }) {
                         fcl.script(getBalance),
                         fcl.args([fcl.arg(user?.addr, types.Address)]),
                     ])
-                    .then((res) => {
-                        fcl.decode(res);
-                    })
-                    .then((data) => {
-                        setUserBalance(data);
-                    })
+                    .then(fcl.decode)
+                    .then((data) => setUserBalance(data))
+
                     .catch((err) => {
                         setUserBalance(null);
                         console.log(err);
