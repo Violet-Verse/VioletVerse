@@ -141,7 +141,8 @@ const NewNav = () => {
                                         {!user && loaded && (
                                             <MenuItem
                                                 onClick={() => {
-                                                    handleCloseNavMenu;
+                                                    login();
+                                                    handleCloseNavMenu();
                                                 }}
                                             >
                                                 <Typography textAlign="center">
@@ -486,9 +487,7 @@ const NewNav = () => {
                                                 aria-label="account"
                                                 aria-controls="menu-appbar"
                                                 color="inherit"
-                                                onClick={() =>
-                                                    Router.push("/login")
-                                                }
+                                                onClick={() => login()}
                                             >
                                                 <PersonOutlineSharpIcon
                                                     sx={{ fontSize: "32px" }}
