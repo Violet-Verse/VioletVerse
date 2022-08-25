@@ -66,7 +66,7 @@ const Blocto = () => {
         console.log(userEmail);
 
         if (accountProofService) {
-            fetch("/api/verify", {
+            fetch("/api/auth/verify", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

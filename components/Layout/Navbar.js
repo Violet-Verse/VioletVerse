@@ -53,36 +53,41 @@ const NewNav = () => {
     const { mutate } = useSWRConfig();
 
     const login = async () => {
-        const res = await fcl.authenticate();
+        try {
+            const res = await fcl.authenticate();
 
-        const accountProofService = res.services.find(
-            (services) => services.type === "account-proof"
-        );
+            const accountProofService = res.services.find(
+                (services) => services.type === "account-proof"
+            );
 
-        const userEmail = res.services.find(
-            (services) => services.type === "open-id"
-        ).data.email.email;
+            const userEmail = res.services.find(
+                (services) => services.type === "open-id"
+            ).data.email.email;
 
-        if (accountProofService) {
-            fetch("/api/verify", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    address: accountProofService.data.address,
-                    nonce: accountProofService.data.nonce,
-                    signatures: accountProofService.data.signatures,
-                    userEmail,
-                }),
-            })
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log(result);
-                    mutate("/api/database/getUser");
-                    Router.push("/");
+            if (accountProofService) {
+                fetch("/api/auth/verify", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        address: accountProofService.data.address,
+                        nonce: accountProofService.data.nonce,
+                        signatures: accountProofService.data.signatures,
+                        userEmail,
+                    }),
                 })
-                .catch((err) => {
-                    console.error(err);
-                });
+                    .then((response) => response.json())
+                    .then((result) => {
+                        console.log(result);
+                        mutate("/api/database/getUser");
+                        Router.push("/");
+                    })
+                    .catch((err) => {
+                        fcl.unauthenticate();
+                        console.error(err);
+                    });
+            }
+        } catch (err) {
+            // console.log(err);
         }
     };
 
@@ -441,7 +446,7 @@ const NewNav = () => {
                                                     onClick={() => {
                                                         fcl.unauthenticate();
                                                         Router.push(
-                                                            "/api/logout"
+                                                            "/api/auth/logout"
                                                         );
                                                         setAnchorElUser(null);
                                                     }}

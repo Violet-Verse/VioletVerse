@@ -1,8 +1,8 @@
 import * as fcl from "@onflow/fcl";
-import { checkNonce, removeNonce } from "../../storage";
 import Iron from "@hapi/iron";
-import CookieService from "../../lib/cookie";
-import { table } from "./utils/userTable";
+import CookieService from "../../../lib/cookie";
+import { table } from "../utils/userTable";
+import { deleteNonce, getNonce } from "../aws/nonceControl";
 
 export default async function handler(req, res) {
     const data = req.body;
@@ -13,11 +13,16 @@ export default async function handler(req, res) {
         email: data.userEmail,
     };
 
-    if (!checkNonce(nonce)) {
+    console.log("Wallet Nonce", nonce);
+
+    const validNonce = await getNonce(nonce);
+
+    if (!validNonce) {
+        console.log("Invalid Nonce", validNonce);
         return res.status(401).end();
     }
 
-    removeNonce(nonce);
+    deleteNonce(nonce);
 
     const verified = await fcl.AppUtils.verifyAccountProof("VioletVerse", data);
 

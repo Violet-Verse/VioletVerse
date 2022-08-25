@@ -1,5 +1,5 @@
-import { getLoginSession } from "../../lib/cookie-auth";
-import { removeTokenCookie } from "../../lib/cookie";
+import { getLoginSession } from "../../../lib/cookie-auth";
+import { removeTokenCookie } from "../../../lib/cookie";
 
 export default async function logout(req, res) {
     try {

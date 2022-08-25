@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl";
 
 const resolver = async () => {
-    const response = await fetch("/api/generate");
+    const response = await fetch("/api/auth/generate");
     const { nonce } = await response.json();
     return {
         appIdentifier: "VioletVerse",
@@ -17,8 +17,3 @@ fcl.config()
     .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")
     .put("fcl.accountProof.resolver", resolver)
     .put("flow.network", "testnet");
-// .put(
-//     "discovery.wallet",
-//     "https://flow-wallet-testnet.blocto.app/api/flow/authn"
-// )
-// .put("discovery.wallet.method", "HTTP/POST")
