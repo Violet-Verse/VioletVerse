@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import EditPicture from "../Modal/EditPicture";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import { useFlowContext } from "../Context/flowContext";
 
 const ProfileLayout = (props) => {
     const { user: loggedInUser } = useUser();
@@ -19,6 +20,8 @@ const ProfileLayout = (props) => {
     const isOwner = loggedInUser?.userId === user?.userId;
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
     const [editPictureModal, setEditPictureModal] = useState(false);
+
+    const vvTokens = useFlowContext();
 
     const env = process.env.NODE_ENV;
 
@@ -216,7 +219,7 @@ const ProfileLayout = (props) => {
                         px: 2.5,
                     }}
                 >
-                    $VV Tokens: 0
+                    {vvTokens ? `$VV Tokens: ${vvTokens}` : "Setup VV Wallet"}
                 </Button>
             </Stack>
         </Box>

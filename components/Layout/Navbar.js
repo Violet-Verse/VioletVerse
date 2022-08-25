@@ -27,9 +27,11 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 import UserAvatar from "../UserAvatar";
+import { useFlowContext } from "../Context/flowContext";
 
 const NewNav = () => {
     const { user, loaded } = useUser();
+    const vvTokens = useFlowContext();
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -320,7 +322,10 @@ const NewNav = () => {
                                                             height={16}
                                                             width={16}
                                                         />
-                                                        &nbsp;&nbsp;0 $VV Tokens
+                                                        &nbsp;&nbsp;
+                                                        {vvTokens
+                                                            ? `${vvTokens} $VV Tokens`
+                                                            : `Setup VV Wallet`}
                                                     </Button>
                                                 </a>
                                             </Link>
