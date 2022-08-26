@@ -28,11 +28,11 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 import UserAvatar from "../UserAvatar";
-import { useFlowContext } from "../Context/flowContext";
+import { nFormatter, useFlowContext } from "../Context/flowContext";
 
 const NewNav = () => {
     const { user, loaded } = useUser();
-    const vvTokens = useFlowContext();
+    const vvTokens = nFormatter(useFlowContext(), 2);
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);

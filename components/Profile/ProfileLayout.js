@@ -13,7 +13,7 @@ import Link from "next/link";
 import Router from "next/router";
 import EditPicture from "../Modal/EditPicture";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { useFlowContext } from "../Context/flowContext";
+import { nFormatter, useFlowContext } from "../Context/flowContext";
 
 const ProfileLayout = (props) => {
     const { user: loggedInUser } = useUser();
@@ -23,7 +23,7 @@ const ProfileLayout = (props) => {
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
     const [editPictureModal, setEditPictureModal] = useState(false);
 
-    const vvTokens = useFlowContext();
+    const vvTokens = nFormatter(useFlowContext(), 2);
 
     const env = process.env.NODE_ENV;
 

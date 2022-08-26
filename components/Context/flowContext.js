@@ -6,7 +6,7 @@ import { getBalance } from "../../cadence/scripts/getBalance";
 
 const FlowContext = createContext();
 
-function nFormatter(num, digits) {
+export function nFormatter(num, digits) {
     if (num === null) {
         return null;
     }
@@ -59,10 +59,8 @@ export function FlowWrapper({ children }) {
         }
     }, [user]);
 
-    let sharedState = nFormatter(userBalance, 2);
-
     return (
-        <FlowContext.Provider value={sharedState}>
+        <FlowContext.Provider value={userBalance}>
             {children}
         </FlowContext.Provider>
     );

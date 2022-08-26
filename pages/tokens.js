@@ -109,7 +109,10 @@ const Tokens = () => {
                             <h1>Violet Verse Tokens</h1>
                         </Grid>
                         <Grid item>
-                            <h4>VV Balance: {vvTokens}</h4>
+                            <h4>
+                                VV Balance:{" "}
+                                {parseFloat(vvTokens).toLocaleString("en-US")}
+                            </h4>
                         </Grid>
                         <Grid item>
                             <h4>Your Address: {user.flowAddress}</h4>
@@ -134,6 +137,9 @@ const Tokens = () => {
                                     label="Amount"
                                     fullWidth
                                     type="number"
+                                    inputProps={{
+                                        step: 0.0001,
+                                    }}
                                     error={!!errors?.tokenAmount}
                                     helperText={
                                         errors?.tokenAmount
