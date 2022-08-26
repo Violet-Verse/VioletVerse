@@ -10,6 +10,7 @@ import {
 import { useUser } from "../../hooks/useAuth";
 import React, { useState } from "react";
 import Link from "next/link";
+import Router from "next/router";
 import EditPicture from "../Modal/EditPicture";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { useFlowContext } from "../Context/flowContext";
@@ -17,6 +18,7 @@ import { useFlowContext } from "../Context/flowContext";
 const ProfileLayout = (props) => {
     const { user: loggedInUser } = useUser();
     const user = props?.user;
+    const isPublicPage = props?.publicPage;
     const isOwner = loggedInUser?.userId === user?.userId;
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
     const [editPictureModal, setEditPictureModal] = useState(false);
@@ -123,32 +125,43 @@ const ProfileLayout = (props) => {
                 // justifyContent={{ xs: "center", md: "left" }}
                 sx={{ mt: 2 }}
             >
-                <Link
-                    href={
-                        env == "development"
-                            ? `http://localhost:3000/user/${user?.username}`
-                            : `http://https://violetverse.vercel.app/user/${user?.username}`
-                    }
+                <p
+                    style={{
+                        fontSize: "22px",
+                    }}
                 >
-                    <a>
-                        <p
-                            style={{
-                                fontSize: "22px",
-                            }}
+                    {!isPublicPage ? (
+                        <Link
+                            href={
+                                env == "development"
+                                    ? `/user/${user?.username}`
+                                    : `/user/${user?.username}`
+                            }
                         >
-                            @{user?.username}
-                            <span
-                                style={{
-                                    fontSize: "18px",
-                                    color: "#693E9A",
-                                    marginLeft: "24px",
-                                }}
-                            >
-                                {role}
-                            </span>
-                        </p>
-                    </a>
-                </Link>
+                            <Tooltip title="Visit public profile page">
+                                <a
+                                    style={{
+                                        fontSize: "22px",
+                                    }}
+                                >
+                                    @{user?.username}
+                                </a>
+                            </Tooltip>
+                        </Link>
+                    ) : (
+                        `@${user?.username}`
+                    )}
+
+                    <span
+                        style={{
+                            fontSize: "18px",
+                            color: "#693E9A",
+                            marginLeft: "24px",
+                        }}
+                    >
+                        {role}
+                    </span>
+                </p>
             </Stack>
             <Stack
                 direction="row"
@@ -209,18 +222,23 @@ const ProfileLayout = (props) => {
                 // justifyContent={{ xs: "center", md: "left" }}
                 sx={{ mt: 3 }}
             >
-                <Button
-                    variant="contained"
-                    disableElevation
-                    sx={{
-                        fontWeight: "400",
-                        fontSize: "16px",
-                        py: 1.5,
-                        px: 2.5,
-                    }}
-                >
-                    {vvTokens ? `$VV Tokens: ${vvTokens}` : "Setup VV Wallet"}
-                </Button>
+                {isOwner && (
+                    <Button
+                        variant="contained"
+                        disableElevation
+                        onClick={() => Router.push("/tokens")}
+                        sx={{
+                            fontWeight: "400",
+                            fontSize: "16px",
+                            py: 1.5,
+                            px: 2.5,
+                        }}
+                    >
+                        {vvTokens
+                            ? `$VV Tokens: ${vvTokens}`
+                            : "Setup VV Wallet"}
+                    </Button>
+                )}
             </Stack>
         </Box>
     );

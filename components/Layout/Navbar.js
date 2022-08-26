@@ -3,6 +3,7 @@ import Logout from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import * as fcl from "@onflow/fcl";
 import useSWR, { useSWRConfig } from "swr";
 import "../../flow/config.js";
@@ -34,7 +35,7 @@ const NewNav = () => {
     const vvTokens = useFlowContext();
 
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -304,31 +305,30 @@ const NewNav = () => {
                                                 mr: { xs: 0, lg: 6 },
                                             }}
                                         >
-                                            <Link href="/profile">
-                                                <a>
-                                                    <Button
-                                                        variant="contained"
-                                                        disableElevation
-                                                        sx={{
-                                                            fontWeight: "400",
-                                                            fontSize: "16px",
-                                                            py: 1.5,
-                                                            px: 2.5,
-                                                        }}
-                                                    >
-                                                        <Image
-                                                            alt="edit"
-                                                            src="/star.svg"
-                                                            height={16}
-                                                            width={16}
-                                                        />
-                                                        &nbsp;&nbsp;
-                                                        {vvTokens
-                                                            ? `${vvTokens} $VV Tokens`
-                                                            : `Setup VV Wallet`}
-                                                    </Button>
-                                                </a>
-                                            </Link>
+                                            <Button
+                                                variant="contained"
+                                                disableElevation
+                                                onClick={() =>
+                                                    Router.push("/tokens")
+                                                }
+                                                sx={{
+                                                    fontWeight: "400",
+                                                    fontSize: "16px",
+                                                    py: 1.5,
+                                                    px: 2.5,
+                                                }}
+                                            >
+                                                <Image
+                                                    alt="edit"
+                                                    src="/star.svg"
+                                                    height={16}
+                                                    width={16}
+                                                />
+                                                &nbsp;&nbsp;
+                                                {vvTokens
+                                                    ? `${vvTokens} $VV Tokens`
+                                                    : `Setup VV Wallet`}
+                                            </Button>
                                         </Box>
 
                                         {/* Profile Avatar Menu | All Breakpoints */}
@@ -435,6 +435,17 @@ const NewNav = () => {
                                                         Dashboard
                                                     </MenuItem>
                                                 )}
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        Router.push("/tokens");
+                                                        setAnchorElUser(null);
+                                                    }}
+                                                >
+                                                    <ListItemIcon>
+                                                        <AccountBalanceWalletIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    My Wallet
+                                                </MenuItem>
                                                 <MenuItem
                                                     onClick={() => {
                                                         Router.push(

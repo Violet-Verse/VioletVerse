@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }) {
                     setSeconds(seconds - 1);
                 }, 1000);
             } else {
-                router.push("/login");
+                router.push("/");
             }
         } else if (seconds !== 3) {
             setSeconds(3);
