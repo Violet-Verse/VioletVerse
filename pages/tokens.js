@@ -129,67 +129,74 @@ const Tokens = () => {
                         >
                             <Box
                                 sx={{
-                                    border: 1,
+                                    // border: 1,
                                     borderRadius: 10,
                                     p: 5,
                                     color: "gray",
+                                    boxShadow:
+                                        " rgba(105, 62, 154, 0.2) 0px 2px 8px 0.2px",
                                 }}
                             >
                                 <Grid item>
-                                    <h3>Send Tokens</h3>
+                                    <h4>Send Tokens</h4>
                                 </Grid>
 
-                                <Grid item sx={{ mt: 3 }}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Amount"
-                                        fullWidth
-                                        type="number"
-                                        disabled={txPending}
-                                        inputProps={{
-                                            step: 0.0001,
-                                        }}
-                                        error={!!errors?.tokenAmount}
-                                        helperText={
-                                            errors?.tokenAmount
-                                                ? errors.tokenAmount.message
-                                                : null
-                                        }
-                                        {...register("tokenAmount", {
-                                            required: "Required",
-                                            valueAsNumber: true,
-                                            validate: (value) => value > 0,
-                                            pattern: {
-                                                value: /^(0|[1-9]\d*)(\.\d+)?$/,
-                                                message:
-                                                    "Must be valid Flow address starting with 0x",
-                                            },
-                                        })}
-                                    />
-                                </Grid>
+                                {!txPending && (
+                                    <>
+                                        <Grid item sx={{ mt: 3 }}>
+                                            <TextField
+                                                variant="outlined"
+                                                label="Amount"
+                                                fullWidth
+                                                type="number"
+                                                disabled={txPending}
+                                                inputProps={{
+                                                    step: 0.0001,
+                                                }}
+                                                error={!!errors?.tokenAmount}
+                                                helperText={
+                                                    errors?.tokenAmount
+                                                        ? errors.tokenAmount
+                                                              .message
+                                                        : null
+                                                }
+                                                {...register("tokenAmount", {
+                                                    required: "Required",
+                                                    valueAsNumber: true,
+                                                    validate: (value) =>
+                                                        value > 0,
+                                                    pattern: {
+                                                        value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                                                        message: "Only numbers",
+                                                    },
+                                                })}
+                                            />
+                                        </Grid>
 
-                                <Grid item sx={{ mt: 1 }}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Flow Address"
-                                        fullWidth
-                                        disabled={txPending}
-                                        error={!!errors?.address}
-                                        helperText={
-                                            errors?.address
-                                                ? errors.address.message
-                                                : null
-                                        }
-                                        {...register("address", {
-                                            required: "Required",
-                                            pattern: {
-                                                value: /0x[a-fA-F0-9]{16}/g,
-                                                message:
-                                                    "Must be valid Flow address starting with 0x",
-                                            },
-                                        })}
-                                    />
-                                </Grid>
+                                        <Grid item sx={{ mt: 2 }}>
+                                            <TextField
+                                                variant="outlined"
+                                                label="Flow Address"
+                                                fullWidth
+                                                disabled={txPending}
+                                                error={!!errors?.address}
+                                                helperText={
+                                                    errors?.address
+                                                        ? errors.address.message
+                                                        : null
+                                                }
+                                                {...register("address", {
+                                                    required: "Required",
+                                                    pattern: {
+                                                        value: /0x[a-fA-F0-9]{16}/g,
+                                                        message:
+                                                            "Invalid address (0x...1234)",
+                                                    },
+                                                })}
+                                            />
+                                        </Grid>
+                                    </>
+                                )}
 
                                 <Grid item sx={{ mt: 3 }}>
                                     <Box sx={{ position: "relative" }}>
@@ -198,6 +205,13 @@ const Tokens = () => {
                                             variant="contained"
                                             disableElevation
                                             disabled={txPending}
+                                            sx={{
+                                                backgroundColor: "#693E9A",
+                                                color: "white",
+                                                "&:hover": {
+                                                    backgroundColor: "#815AAD",
+                                                },
+                                            }}
                                         >
                                             Send Tokens
                                         </Button>
