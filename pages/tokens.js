@@ -27,6 +27,8 @@ const Tokens = () => {
     const vvTokens = useFlowContext();
     const [walletLoading, setWalletLoading] = useState(false);
     const [txPending, setTxPending] = useState(false);
+    const [txComplete, setTxComplete] = useState(false);
+    const [txStatus, setTxStatus] = useState();
 
     const {
         register,
@@ -52,15 +54,24 @@ const Tokens = () => {
             await fcl
                 .tx(transactionId)
                 .onceSealed()
-                .then(() => {
+                .then((tx) => {
+                    setTxComplete(true);
                     setTxPending(false);
-                    Router.reload(window.location.pathname);
+                    setTxStatus({
+                        message: `https://testnet.flowscan.org/transaction/${tx.events[0].transactionId}`,
+                        status: "success",
+                    });
+                })
+                .catch((err) => {
+                    setTxStatus({ message: err, status: "error" });
+                    setTxComplete(true);
+                    setTxPending(false);
                 });
         } catch (err) {
-            console.log(err);
+            setTxStatus({ message: err, status: "error" });
+            setTxComplete(true);
             setTxPending(false);
         }
-        console.log(address, tokenAmount);
     };
 
     const setupWallet = async () => {
@@ -117,8 +128,6 @@ const Tokens = () => {
                             <TextField
                                 // label="Your Balance"
                                 fullWidth
-                                disableElevation
-                                disableRipple
                                 defaultValue={parseFloat(
                                     vvTokens
                                 ).toLocaleString("en-US")}
@@ -134,8 +143,6 @@ const Tokens = () => {
                             <TextField
                                 // label="Your Address"
                                 fullWidth
-                                disableElevation
-                                disableRipple
                                 defaultValue={user.flowAddress}
                                 InputProps={{
                                     readOnly: true,
@@ -185,113 +192,205 @@ const Tokens = () => {
                                         </h4>
                                     </Box>
                                 </Grid>
-                                <Grid item sx={{ mt: 2 }}>
-                                    <h4>Send Tokens</h4>
-                                </Grid>
-
-                                {!txPending ? (
+                                {!txComplete ? (
                                     <>
                                         <Grid item sx={{ mt: 2 }}>
-                                            <TextField
-                                                variant="standard"
-                                                color="secondary"
-                                                label={
-                                                    vvTokens == 0
-                                                        ? "Not Enough Tokens"
-                                                        : "Amount"
-                                                }
-                                                fullWidth
-                                                type="number"
-                                                disabled={
-                                                    txPending || vvTokens == 0
-                                                }
-                                                inputProps={{
-                                                    min: 0.0001,
-                                                    step: 0.0001,
-                                                    max: vvTokens,
-                                                }}
-                                                error={!!errors?.tokenAmount}
-                                                helperText={
-                                                    errors?.tokenAmount
-                                                        ? errors.tokenAmount
-                                                              .message
-                                                        : null
-                                                }
-                                                {...register("tokenAmount", {
-                                                    required: "Required",
-                                                    valueAsNumber: true,
-                                                    validate: (value) =>
-                                                        value > 0,
-                                                    pattern: {
-                                                        value: /^(0|[1-9]\d*)(\.\d+)?$/,
-                                                        message: "Only numbers",
-                                                    },
-                                                })}
-                                            />
+                                            <h4>
+                                                {txPending
+                                                    ? "Confirming Transaction..."
+                                                    : "Send Tokens"}
+                                            </h4>
                                         </Grid>
+                                        {!txPending ? (
+                                            <>
+                                                <Grid item sx={{ mt: 2 }}>
+                                                    <TextField
+                                                        variant="standard"
+                                                        color="secondary"
+                                                        label={
+                                                            vvTokens == 0
+                                                                ? "Not Enough Tokens"
+                                                                : "Amount"
+                                                        }
+                                                        fullWidth
+                                                        type="number"
+                                                        disabled={
+                                                            txPending ||
+                                                            vvTokens == 0
+                                                        }
+                                                        inputProps={{
+                                                            min: 0.0001,
+                                                            step: 0.0001,
+                                                            max: vvTokens,
+                                                        }}
+                                                        error={
+                                                            !!errors?.tokenAmount
+                                                        }
+                                                        helperText={
+                                                            errors?.tokenAmount
+                                                                ? errors
+                                                                      .tokenAmount
+                                                                      .message
+                                                                : null
+                                                        }
+                                                        {...register(
+                                                            "tokenAmount",
+                                                            {
+                                                                required:
+                                                                    "Required",
+                                                                valueAsNumber: true,
+                                                                validate: (
+                                                                    value
+                                                                ) => value > 0,
+                                                                pattern: {
+                                                                    value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                                                                    message:
+                                                                        "Only numbers",
+                                                                },
+                                                            }
+                                                        )}
+                                                    />
+                                                </Grid>
 
-                                        <Grid item sx={{ mt: 2 }}>
-                                            <TextField
-                                                variant="standard"
-                                                color="secondary"
-                                                label="Flow Address"
-                                                fullWidth
-                                                disabled={
-                                                    txPending || vvTokens == 0
-                                                }
-                                                error={!!errors?.address}
-                                                helperText={
-                                                    errors?.address
-                                                        ? errors.address.message
-                                                        : null
-                                                }
-                                                {...register("address", {
-                                                    required: "Required",
-                                                    pattern: {
-                                                        value: /0x[a-fA-F0-9]{16}/g,
-                                                        message:
-                                                            "Invalid address (0x...1234)",
-                                                    },
-                                                })}
-                                            />
+                                                <Grid item sx={{ mt: 2 }}>
+                                                    <TextField
+                                                        variant="standard"
+                                                        color="secondary"
+                                                        label="Flow Address"
+                                                        fullWidth
+                                                        disabled={
+                                                            txPending ||
+                                                            vvTokens == 0
+                                                        }
+                                                        error={
+                                                            !!errors?.address
+                                                        }
+                                                        helperText={
+                                                            errors?.address
+                                                                ? errors.address
+                                                                      .message
+                                                                : null
+                                                        }
+                                                        {...register(
+                                                            "address",
+                                                            {
+                                                                required:
+                                                                    "Required",
+                                                                pattern: {
+                                                                    value: /0x[a-fA-F0-9]{16}/g,
+                                                                    message:
+                                                                        "Invalid address (0x...1234)",
+                                                                },
+                                                            }
+                                                        )}
+                                                    />
+                                                </Grid>
+                                            </>
+                                        ) : (
+                                            <Grid
+                                                item
+                                                align="center"
+                                                sx={{ py: 4.5, px: 5 }}
+                                            >
+                                                <ScaleLoader
+                                                    color="#693E9A"
+                                                    height={60}
+                                                    width={15}
+                                                    radius={4}
+                                                />
+                                            </Grid>
+                                        )}
+                                        <Grid item sx={{ mt: 3 }}>
+                                            <Box sx={{ position: "relative" }}>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    disableElevation
+                                                    disabled={
+                                                        txPending ||
+                                                        vvTokens == 0
+                                                    }
+                                                    sx={{
+                                                        backgroundColor:
+                                                            "#693E9A",
+                                                        color: "white",
+                                                        "&:hover": {
+                                                            backgroundColor:
+                                                                "#815AAD",
+                                                        },
+                                                    }}
+                                                >
+                                                    Send Tokens
+                                                </Button>
+                                            </Box>
                                         </Grid>
                                     </>
                                 ) : (
-                                    <Grid
-                                        item
-                                        align="center"
-                                        sx={{ py: 4.5, px: 5 }}
-                                    >
-                                        <ScaleLoader
-                                            color="#693E9A"
-                                            height={60}
-                                            width={15}
-                                            radius={4}
-                                        />
-                                    </Grid>
+                                    <>
+                                        <Grid item sx={{ mt: 2 }}>
+                                            <h4>Transaction Status</h4>
+                                        </Grid>
+                                        {txStatus.status == "error" ? (
+                                            <Grid item sx={{ mt: 2 }}>
+                                                <h5
+                                                    style={{
+                                                        inlineSize: "250px",
+                                                        overflowWrap:
+                                                            "break-word",
+                                                    }}
+                                                >
+                                                    {
+                                                        txStatus.message.split(
+                                                            "-->"
+                                                        )[0]
+                                                    }
+                                                </h5>
+                                            </Grid>
+                                        ) : (
+                                            <>
+                                                <Grid item sx={{ mt: 2 }}>
+                                                    <h5>
+                                                        Successful Transaction
+                                                    </h5>
+                                                </Grid>
+                                                <Grid item sx={{ mt: 2 }}>
+                                                    <a
+                                                        href={txStatus.message}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                    >
+                                                        <h5
+                                                            style={{
+                                                                color: "purple",
+                                                            }}
+                                                        >
+                                                            View Transaction
+                                                        </h5>
+                                                    </a>
+                                                </Grid>
+                                            </>
+                                        )}
+                                        <Grid item sx={{ mt: 3 }}>
+                                            <Button
+                                                variant="contained"
+                                                disableElevation
+                                                onClick={() =>
+                                                    setTxComplete(false)
+                                                }
+                                                sx={{
+                                                    backgroundColor: "#693E9A",
+                                                    color: "white",
+                                                    "&:hover": {
+                                                        backgroundColor:
+                                                            "#815AAD",
+                                                    },
+                                                }}
+                                            >
+                                                Go Back
+                                            </Button>
+                                        </Grid>
+                                    </>
                                 )}
-
-                                <Grid item sx={{ mt: 3 }}>
-                                    <Box sx={{ position: "relative" }}>
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            disableElevation
-                                            disabled={
-                                                txPending || vvTokens == 0
-                                            }
-                                            sx={{
-                                                backgroundColor: "#693E9A",
-                                                color: "white",
-                                                "&:hover": {
-                                                    backgroundColor: "#815AAD",
-                                                },
-                                            }}
-                                        >
-                                            Send Tokens
-                                        </Button>
-                                    </Box>
-                                </Grid>
                             </Box>
                         </Grid>
                     </form>
