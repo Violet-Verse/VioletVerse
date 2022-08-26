@@ -125,6 +125,7 @@ const Tokens = () => {
                                     readOnly: true,
                                 }}
                                 variant="filled"
+                                color="secondary"
                             />
                         </Grid>
                         <Grid item>
@@ -138,6 +139,7 @@ const Tokens = () => {
                                     readOnly: true,
                                 }}
                                 variant="filled"
+                                color="secondary"
                             />
                         </Grid>
                     </Grid>
