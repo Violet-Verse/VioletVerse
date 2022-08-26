@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, CircularProgress, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { useFlowContext } from "../components/Context/flowContext";
 import { useUser } from "../hooks/useAuth";
 import { createVault } from "../cadence/scripts/transactions/createVault";
@@ -9,6 +9,9 @@ import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
+
+import { ScaleLoader } from "react-spinners";
+import { Stack } from "@mui/system";
 
 export async function getStaticProps(context) {
     return {
@@ -110,13 +113,32 @@ const Tokens = () => {
                             <h1>Violet Verse Tokens</h1>
                         </Grid>
                         <Grid item>
-                            <h4>
-                                VV Balance:{" "}
-                                {parseFloat(vvTokens).toLocaleString("en-US")}
-                            </h4>
+                            <TextField
+                                label="Your Balance"
+                                fullWidth
+                                disableElevation
+                                disableRipple
+                                defaultValue={parseFloat(
+                                    vvTokens
+                                ).toLocaleString("en-US")}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                variant="filled"
+                            />
                         </Grid>
                         <Grid item>
-                            <h4>Your Address: {user.flowAddress}</h4>
+                            <TextField
+                                label="Your Address"
+                                fullWidth
+                                disableElevation
+                                disableRipple
+                                defaultValue={user.flowAddress}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                variant="filled"
+                            />
                         </Grid>
                     </Grid>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -129,29 +151,59 @@ const Tokens = () => {
                         >
                             <Box
                                 sx={{
-                                    // border: 1,
                                     borderRadius: 10,
-                                    p: 5,
+                                    py: 5,
+                                    px: 7,
                                     color: "gray",
+                                    transition: "0.2s",
                                     boxShadow:
-                                        " rgba(105, 62, 154, 0.2) 0px 2px 8px 0.2px",
+                                        "rgba(105, 62, 154, 0.2) 0px 2px 8px 0.2px",
+                                    "&:hover": {
+                                        boxShadow:
+                                            "rgba(105, 62, 154, 0.5) 0px 2px 8px 0.2px",
+                                    },
                                 }}
                             >
                                 <Grid item>
+                                    <Box
+                                        sx={{
+                                            pb: 1,
+                                            boxShadow:
+                                                "rgba(105, 62, 154, 0.5) 0px 2px 0px 0px",
+                                        }}
+                                    >
+                                        <h4
+                                            style={{
+                                                fontSize: "12px",
+                                            }}
+                                        >
+                                            VIOLET VERSE | $VV
+                                        </h4>
+                                    </Box>
+                                </Grid>
+                                <Grid item sx={{ mt: 2 }}>
                                     <h4>Send Tokens</h4>
                                 </Grid>
 
-                                {!txPending && (
+                                {!txPending ? (
                                     <>
-                                        <Grid item sx={{ mt: 3 }}>
+                                        <Grid item sx={{ mt: 2 }}>
                                             <TextField
-                                                variant="outlined"
-                                                label="Amount"
+                                                variant="standard"
+                                                label={
+                                                    vvTokens == 0
+                                                        ? "Not Enough Tokens"
+                                                        : "Amount"
+                                                }
                                                 fullWidth
                                                 type="number"
-                                                disabled={txPending}
+                                                disabled={
+                                                    txPending || vvTokens == 0
+                                                }
                                                 inputProps={{
+                                                    min: 0.0001,
                                                     step: 0.0001,
+                                                    max: vvTokens,
                                                 }}
                                                 error={!!errors?.tokenAmount}
                                                 helperText={
@@ -175,10 +227,12 @@ const Tokens = () => {
 
                                         <Grid item sx={{ mt: 2 }}>
                                             <TextField
-                                                variant="outlined"
+                                                variant="standard"
                                                 label="Flow Address"
                                                 fullWidth
-                                                disabled={txPending}
+                                                disabled={
+                                                    txPending || vvTokens == 0
+                                                }
                                                 error={!!errors?.address}
                                                 helperText={
                                                     errors?.address
@@ -196,6 +250,19 @@ const Tokens = () => {
                                             />
                                         </Grid>
                                     </>
+                                ) : (
+                                    <Grid
+                                        item
+                                        align="center"
+                                        sx={{ py: 4.5, px: 5 }}
+                                    >
+                                        <ScaleLoader
+                                            color="#693E9A"
+                                            height={60}
+                                            width={15}
+                                            radius={4}
+                                        />
+                                    </Grid>
                                 )}
 
                                 <Grid item sx={{ mt: 3 }}>
@@ -204,7 +271,9 @@ const Tokens = () => {
                                             type="submit"
                                             variant="contained"
                                             disableElevation
-                                            disabled={txPending}
+                                            disabled={
+                                                txPending || vvTokens == 0
+                                            }
                                             sx={{
                                                 backgroundColor: "#693E9A",
                                                 color: "white",
@@ -215,19 +284,6 @@ const Tokens = () => {
                                         >
                                             Send Tokens
                                         </Button>
-                                        {txPending && (
-                                            <CircularProgress
-                                                size={24}
-                                                sx={{
-                                                    color: "green",
-                                                    position: "absolute",
-                                                    top: "50%",
-                                                    left: "35%",
-                                                    marginTop: "-12px",
-                                                    marginLeft: "-12px",
-                                                }}
-                                            />
-                                        )}
                                     </Box>
                                 </Grid>
                             </Box>
