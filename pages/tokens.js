@@ -113,8 +113,9 @@ const Tokens = () => {
                             <h1>Violet Verse Tokens</h1>
                         </Grid>
                         <Grid item>
+                            <h4>$VV Balance</h4>
                             <TextField
-                                label="Your Balance"
+                                // label="Your Balance"
                                 fullWidth
                                 disableElevation
                                 disableRipple
@@ -124,13 +125,14 @@ const Tokens = () => {
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                                variant="filled"
+                                variant="outlined"
                                 color="secondary"
                             />
                         </Grid>
                         <Grid item>
+                            <h4>Flow Address</h4>
                             <TextField
-                                label="Your Address"
+                                // label="Your Address"
                                 fullWidth
                                 disableElevation
                                 disableRipple
@@ -138,7 +140,7 @@ const Tokens = () => {
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                                variant="filled"
+                                variant="outlined"
                                 color="secondary"
                             />
                         </Grid>
@@ -192,6 +194,7 @@ const Tokens = () => {
                                         <Grid item sx={{ mt: 2 }}>
                                             <TextField
                                                 variant="standard"
+                                                color="secondary"
                                                 label={
                                                     vvTokens == 0
                                                         ? "Not Enough Tokens"
@@ -230,6 +233,7 @@ const Tokens = () => {
                                         <Grid item sx={{ mt: 2 }}>
                                             <TextField
                                                 variant="standard"
+                                                color="secondary"
                                                 label="Flow Address"
                                                 fullWidth
                                                 disabled={
