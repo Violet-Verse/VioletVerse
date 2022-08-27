@@ -94,7 +94,7 @@ const Footer = () => {
                     <Box>
                         <h3 className={styles.header}>About</h3>
                         <p className={styles.subheader}>Team</p>
-                        <p className={styles.subheader}>Violet Summer Zine</p>
+                        <p className={styles.subheader}>Violet Summer Market</p>
                         <p className={styles.subheader}>Contact us</p>
                     </Box>
                     <Box>

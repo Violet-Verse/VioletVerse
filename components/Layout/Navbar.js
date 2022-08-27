@@ -3,6 +3,10 @@ import Logout from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import * as fcl from "@onflow/fcl";
+import useSWR, { useSWRConfig } from "swr";
+import "../../flow/config.js";
 import {
     AppBar,
     Box,
@@ -24,12 +28,14 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
 import UserAvatar from "../UserAvatar";
+import { nFormatter, useFlowContext } from "../Context/flowContext";
 
 const NewNav = () => {
     const { user, loaded } = useUser();
+    const vvTokens = nFormatter(useFlowContext(), 2);
 
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -45,6 +51,47 @@ const NewNav = () => {
 
     const handleCloseUserMenu = (setting) => {
         setAnchorElUser(null);
+    };
+
+    const { mutate } = useSWRConfig();
+
+    const login = async () => {
+        try {
+            const res = await fcl.authenticate();
+
+            const accountProofService = res.services.find(
+                (services) => services.type === "account-proof"
+            );
+
+            const userEmail = res.services.find(
+                (services) => services.type === "open-id"
+            ).data.email.email;
+
+            if (accountProofService) {
+                fetch("/api/auth/verify", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        address: accountProofService.data.address,
+                        nonce: accountProofService.data.nonce,
+                        signatures: accountProofService.data.signatures,
+                        userEmail,
+                    }),
+                })
+                    .then((response) => response.json())
+                    .then((result) => {
+                        console.log(result);
+                        mutate("/api/database/getUser");
+                        Router.push("/");
+                    })
+                    .catch((err) => {
+                        fcl.unauthenticate();
+                        console.error(err);
+                    });
+            }
+        } catch (err) {
+            // console.log(err);
+        }
     };
 
     return (
@@ -95,19 +142,16 @@ const NewNav = () => {
                                         }}
                                     >
                                         {!user && loaded && (
-                                            <Link href="/login">
-                                                <a>
-                                                    <MenuItem
-                                                        onClick={
-                                                            handleCloseNavMenu
-                                                        }
-                                                    >
-                                                        <Typography textAlign="center">
-                                                            Connect
-                                                        </Typography>
-                                                    </MenuItem>
-                                                </a>
-                                            </Link>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    login();
+                                                    handleCloseNavMenu();
+                                                }}
+                                            >
+                                                <Typography textAlign="center">
+                                                    Connect
+                                                </Typography>
+                                            </MenuItem>
                                         )}
                                         <Link href="/posts">
                                             <a>
@@ -115,7 +159,7 @@ const NewNav = () => {
                                                     onClick={handleCloseNavMenu}
                                                 >
                                                     <Typography textAlign="center">
-                                                        Zine
+                                                        Market
                                                     </Typography>
                                                 </MenuItem>
                                             </a>
@@ -157,7 +201,7 @@ const NewNav = () => {
                                                     letterSpacing: "-0.005em",
                                                 }}
                                             >
-                                                Zine
+                                                Market
                                             </Button>
                                         </a>
                                     </Link>
@@ -261,28 +305,30 @@ const NewNav = () => {
                                                 mr: { xs: 0, lg: 6 },
                                             }}
                                         >
-                                            <Link href="/profile">
-                                                <a>
-                                                    <Button
-                                                        variant="contained"
-                                                        disableElevation
-                                                        sx={{
-                                                            fontWeight: "400",
-                                                            fontSize: "16px",
-                                                            py: 1.5,
-                                                            px: 2.5,
-                                                        }}
-                                                    >
-                                                        <Image
-                                                            alt="edit"
-                                                            src="/star.svg"
-                                                            height={16}
-                                                            width={16}
-                                                        />
-                                                        &nbsp;&nbsp;0 $VV Tokens
-                                                    </Button>
-                                                </a>
-                                            </Link>
+                                            <Button
+                                                variant="contained"
+                                                disableElevation
+                                                onClick={() =>
+                                                    Router.push("/tokens")
+                                                }
+                                                sx={{
+                                                    fontWeight: "400",
+                                                    fontSize: "16px",
+                                                    py: 1.5,
+                                                    px: 2.5,
+                                                }}
+                                            >
+                                                <Image
+                                                    alt="edit"
+                                                    src="/star.svg"
+                                                    height={16}
+                                                    width={16}
+                                                />
+                                                &nbsp;&nbsp;
+                                                {vvTokens
+                                                    ? `${vvTokens} $VV Tokens`
+                                                    : `Setup VV Wallet`}
+                                            </Button>
                                         </Box>
 
                                         {/* Profile Avatar Menu | All Breakpoints */}
@@ -391,6 +437,17 @@ const NewNav = () => {
                                                 )}
                                                 <MenuItem
                                                     onClick={() => {
+                                                        Router.push("/tokens");
+                                                        setAnchorElUser(null);
+                                                    }}
+                                                >
+                                                    <ListItemIcon>
+                                                        <AccountBalanceWalletIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    My Wallet
+                                                </MenuItem>
+                                                <MenuItem
+                                                    onClick={() => {
                                                         Router.push(
                                                             "/profile/edit"
                                                         );
@@ -404,8 +461,9 @@ const NewNav = () => {
                                                 </MenuItem>
                                                 <MenuItem
                                                     onClick={() => {
+                                                        fcl.unauthenticate();
                                                         Router.push(
-                                                            "/api/logout"
+                                                            "/api/auth/logout"
                                                         );
                                                         setAnchorElUser(null);
                                                     }}
@@ -445,9 +503,7 @@ const NewNav = () => {
                                                 aria-label="account"
                                                 aria-controls="menu-appbar"
                                                 color="inherit"
-                                                onClick={() =>
-                                                    Router.push("/login")
-                                                }
+                                                onClick={() => login()}
                                             >
                                                 <PersonOutlineSharpIcon
                                                     sx={{ fontSize: "32px" }}
@@ -464,22 +520,19 @@ const NewNav = () => {
                                                 },
                                             }}
                                         >
-                                            <Link href="/login">
-                                                <a>
-                                                    <Button
-                                                        disableElevation
-                                                        variant="contained"
-                                                        sx={{
-                                                            py: 1.5,
-                                                            px: 2.5,
-                                                            fontWeight: "400",
-                                                            fontSize: "16px",
-                                                        }}
-                                                    >
-                                                        Connect Wallet
-                                                    </Button>
-                                                </a>
-                                            </Link>
+                                            <Button
+                                                disableElevation
+                                                variant="contained"
+                                                onClick={() => login()}
+                                                sx={{
+                                                    py: 1.5,
+                                                    px: 2.5,
+                                                    fontWeight: "400",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                Connect Wallet
+                                            </Button>
                                         </Box>
                                     </Box>
                                 )}

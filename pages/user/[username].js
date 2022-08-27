@@ -39,7 +39,7 @@ const UserProfile = ({ user }) => {
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
-            <ProfileLayout user={user} />;
+            <ProfileLayout user={user} publicPage />;
         </>
     );
 };
