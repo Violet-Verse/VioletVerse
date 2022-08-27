@@ -15,6 +15,7 @@ import { getPostsBySlug } from "./api/database/getPostsByID";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import { getAllPosts } from "./api/database/getAllPosts";
 import { getAuthorForPost } from "./api/database/getUserForPost";
+import { LikeButton } from "@lyket/react";
 
 export async function getServerSideProps(context) {
     const id = context.params.articlePage;
@@ -438,6 +439,9 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 }}
                             />
                         </Box>
+                    </Grid>
+                    <Grid item>
+                        <LikeButton namespace={posts.id} id={posts.id} />
                     </Grid>
                 </Grid>
             </Box>

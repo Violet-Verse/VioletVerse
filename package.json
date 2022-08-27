@@ -13,6 +13,7 @@
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@hapi/iron": "^7.0.0",
+    "@lyket/react": "^1.4.8",
     "@magic-ext/flow": "^4.0.0",
     "@magic-sdk/admin": "^1.4.1",
     "@mantine/core": "^5.1.3",

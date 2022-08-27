@@ -8,6 +8,7 @@ import { UserContext } from "../components/UserContext";
 import { useUser } from "../hooks/useAuth";
 import { NextUIProvider } from "@nextui-org/react";
 import { FlowWrapper } from "./Context/flowContext";
+import { Provider } from "@lyket/react";
 
 const Layout = ({ children }) => {
     const { user } = useUser();
@@ -59,54 +60,65 @@ const Layout = ({ children }) => {
     });
     return (
         <UserContext.Provider value={user}>
-            <FlowWrapper>
-                <ThemeProvider theme={theme}>
-                    <NextUIProvider>
-                        <Head>
-                            <link rel="icon" href="/favicon.ico" />
-                            <title>{siteTitle}</title>
-                            <meta name="og:site_name" content="Violet Verse" />
-                            <meta name="og:title" content={metaTitle} />
-                            <meta
-                                name="og:description"
-                                content={siteDescription}
-                            />
-                            <meta
-                                property="og:image:type"
-                                content="image/png"
-                            />
-                            <meta property="og:image:width" content="800" />
-                            <meta property="og:image:height" content="420" />
-                            <meta property="og:type" content="website" />
-                            <meta
-                                name="twitter:site"
-                                content="@TheVioletVerse"
-                            />
-                            <meta name="twitter:title" content={metaTitle} />
-                            <meta
-                                name="twitter:description"
-                                content={siteDescription}
-                            />
-                            <meta
-                                name="twitter:card"
-                                content="summary_large_image"
-                            />
-                        </Head>
-                        <Box className="siteContainer">
-                            <Navbar />
-                            <Box
-                                className="pageContainer"
-                                sx={{
-                                    mt: 4,
-                                }}
-                            >
-                                {children}
+            <Provider apiKey={process.env.NEXT_PUBLIC_LYKET_API}>
+                <FlowWrapper>
+                    <ThemeProvider theme={theme}>
+                        <NextUIProvider>
+                            <Head>
+                                <link rel="icon" href="/favicon.ico" />
+                                <title>{siteTitle}</title>
+                                <meta
+                                    name="og:site_name"
+                                    content="Violet Verse"
+                                />
+                                <meta name="og:title" content={metaTitle} />
+                                <meta
+                                    name="og:description"
+                                    content={siteDescription}
+                                />
+                                <meta
+                                    property="og:image:type"
+                                    content="image/png"
+                                />
+                                <meta property="og:image:width" content="800" />
+                                <meta
+                                    property="og:image:height"
+                                    content="420"
+                                />
+                                <meta property="og:type" content="website" />
+                                <meta
+                                    name="twitter:site"
+                                    content="@TheVioletVerse"
+                                />
+                                <meta
+                                    name="twitter:title"
+                                    content={metaTitle}
+                                />
+                                <meta
+                                    name="twitter:description"
+                                    content={siteDescription}
+                                />
+                                <meta
+                                    name="twitter:card"
+                                    content="summary_large_image"
+                                />
+                            </Head>
+                            <Box className="siteContainer">
+                                <Navbar />
+                                <Box
+                                    className="pageContainer"
+                                    sx={{
+                                        mt: 4,
+                                    }}
+                                >
+                                    {children}
+                                </Box>
+                                <Footer />
                             </Box>
-                            <Footer />
-                        </Box>
-                    </NextUIProvider>
-                </ThemeProvider>
-            </FlowWrapper>
+                        </NextUIProvider>
+                    </ThemeProvider>
+                </FlowWrapper>
+            </Provider>
         </UserContext.Provider>
     );
 };
