@@ -159,7 +159,7 @@ const NewNav = () => {
                                                     onClick={handleCloseNavMenu}
                                                 >
                                                     <Typography textAlign="center">
-                                                        Zine
+                                                        Market
                                                     </Typography>
                                                 </MenuItem>
                                             </a>
@@ -201,7 +201,7 @@ const NewNav = () => {
                                                     letterSpacing: "-0.005em",
                                                 }}
                                             >
-                                                Zine
+                                                Market
                                             </Button>
                                         </a>
                                     </Link>
