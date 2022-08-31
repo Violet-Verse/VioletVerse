@@ -205,30 +205,27 @@ const NewNav = () => {
                                             </Button>
                                         </a>
                                     </Link>
-                                    <Link href="#">
+                                    <Link href="/resources">
                                         <a>
-                                            <Tooltip title="Coming Soon">
-                                                <Button
-                                                    sx={{
-                                                        my: 2,
-                                                        color: "#0A0510",
-                                                        display: "block",
-                                                        mr: "15px",
-                                                        fontFamily: "Ogg",
-                                                        fontSize: "18px",
-                                                        lineHeight: "130%",
-                                                        letterSpacing:
-                                                            "-0.005em",
-                                                    }}
-                                                >
-                                                    Web3 Resources
-                                                </Button>
-                                            </Tooltip>
+                                            <Button
+                                                sx={{
+                                                    my: 2,
+                                                    color: "#0A0510",
+                                                    display: "block",
+                                                    mr: "15px",
+                                                    fontFamily: "Ogg",
+                                                    fontSize: "18px",
+                                                    lineHeight: "130%",
+                                                    letterSpacing: "-0.005em",
+                                                }}
+                                            >
+                                                Web3 Resources
+                                            </Button>
                                         </a>
                                     </Link>
                                     <a
                                         target="_blank"
-                                        href="https://violetverse.vercel.app/vr"
+                                        href="/vr"
                                         rel="noopener noreferrer"
                                     >
                                         <Button

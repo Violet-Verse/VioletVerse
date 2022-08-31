@@ -32,7 +32,7 @@ const VRSite = () => {
             </Head>
 
             <iframe
-                src="https://www.muse.place/violetsummerzine"
+                src="https://www.muse.place/violet-verse"
                 title="Violet Summer VR"
                 height="100%"
                 width="100%"

@@ -2,18 +2,24 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import LanguageIcon from "@mui/icons-material/Language";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import { Box, Grid } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import { members, contributor } from "../components/Placeholder/UserData";
+import { members } from "../components/Placeholder/UserData";
 
 const About = () => {
     const siteTitle = `About The Team | Violet Verse`;
     const metaTitle = `About The Team`;
     const siteDescription = `Learn more about the team building Violet Verse.`;
     const siteImage = "https://i.imgur.com/HOcgWqo.png";
+
+    const team = members.filter((member) => member.teamType === "team");
+    const contributor = members.filter(
+        (member) => member.teamType === "contributor"
+    );
     return (
         <Box
             sx={{
@@ -114,9 +120,14 @@ const About = () => {
                 >
                     <h1>Our Team</h1>
                 </Grid>
-                {members.map((member) => (
+                {team.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Link href={"/team/" + member.name.toLowerCase()}>
+                        <Link
+                            href={
+                                "/team/" +
+                                member.name.replace(/\s+/g, "-").toLowerCase()
+                            }
+                        >
                             <a>
                                 <Image
                                     width={1000}
@@ -139,7 +150,14 @@ const About = () => {
                                 },
                             }}
                         >
-                            <Link href={"/team/" + member.id}>
+                            <Link
+                                href={
+                                    "/team/" +
+                                    member.name
+                                        .replace(/\s+/g, "-")
+                                        .toLowerCase()
+                                }
+                            >
                                 <a>
                                     <h4
                                         style={{
@@ -262,16 +280,25 @@ const About = () => {
                 </Grid>
                 {contributor.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Image
-                            width={1000}
-                            height={1159}
-                            src={member.photo}
-                            alt="Default Image"
-                            className="imageSm"
-                            objectFit={"cover"}
-                            placeholder="blur"
-                            blurDataURL={member.photo}
-                        />
+                        <Link
+                            href={
+                                "/team/" +
+                                member.name.replace(/\s+/g, "-").toLowerCase()
+                            }
+                        >
+                            <a>
+                                <Image
+                                    width={1000}
+                                    height={1159}
+                                    src={member.photo}
+                                    alt="Default Image"
+                                    className="image"
+                                    objectFit={"cover"}
+                                    placeholder="blur"
+                                    blurDataURL={member.photo}
+                                />
+                            </a>
+                        </Link>
                         <Box
                             sx={{
                                 textAlign: {
@@ -281,13 +308,25 @@ const About = () => {
                                 },
                             }}
                         >
-                            <h4
-                                style={{
-                                    marginTop: "15px",
-                                }}
+                            {" "}
+                            <Link
+                                href={
+                                    "/team/" +
+                                    member.name
+                                        .replace(/\s+/g, "-")
+                                        .toLowerCase()
+                                }
                             >
-                                {member.name}
-                            </h4>
+                                <a>
+                                    <h4
+                                        style={{
+                                            marginTop: "15px",
+                                        }}
+                                    >
+                                        {member.name}
+                                    </h4>
+                                </a>
+                            </Link>
                             <h3
                                 style={{
                                     fontFamily: "Test Calibre",
@@ -311,6 +350,24 @@ const About = () => {
                                             rel="noreferrer"
                                         >
                                             <LanguageIcon
+                                                sx={{
+                                                    color: "#73839C",
+                                                }}
+                                            />
+                                        </a>
+                                    </Grid>
+                                )}
+                                {member?.instagram && (
+                                    <Grid item>
+                                        <a
+                                            href={
+                                                `https://www.instagram.com/` +
+                                                member.instagram
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <InstagramIcon
                                                 sx={{
                                                     color: "#73839C",
                                                 }}

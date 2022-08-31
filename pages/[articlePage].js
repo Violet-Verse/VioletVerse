@@ -126,7 +126,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                                 maxWidth: "700px",
                             }}
                         >
-                            {posts.subtitle}
+                            {posts.tldr}
                         </p>
                     </Grid>
                 </Grid>
@@ -417,7 +417,7 @@ const Article = ({ posts, allPosts, authorData }) => {
                                     textAlign: "left",
                                 }}
                             >
-                                {posts.tldr}
+                                {posts.subtitle}
                             </p>
                         </Box>
                     </Grid>

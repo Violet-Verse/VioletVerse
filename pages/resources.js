@@ -1,72 +1,32 @@
-import { Button, ButtonGroup, Grid, Box } from "@mui/material";
-import React, { useState } from "react";
-
-import styles from "../styles/Home.module.css";
+import Script from "next/script";
 
 const Resources = () => {
-    const [category, setCategory] = useState(0);
-    const handleCategory = (newCategory) => {
-        if (newCategory == category) {
-            setCategory(0);
-        } else {
-            setCategory(newCategory);
-        }
-    };
-
     return (
-        <Box
-            sx={{
-                px: {
-                    xs: "0",
-                    sm: "5%",
-                    md: "10%",
-                    lg: "15%",
-                    xl: "20%",
-                },
-            }}
-        >
-            <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                textAlign="center"
-                spacing={2}
-            >
-                <Grid item>
-                    <h1>New to web3?</h1>
-                </Grid>
-                <Grid item>
-                    <p>
-                        Strong, sweet, cup americano spoon blue mountain <br />
-                        black robusta breve. Skinny variety to go white rich,
-                        redeye crema breve whipped. <br />
-                    </p>
-                </Grid>
-                <Grid item>
-                    <ButtonGroup size="large" color="secondary">
-                        <Button
-                            onClick={() => handleCategory(1)}
-                            variant={category == 1 ? "contained" : "outlined"}
-                        >
-                            Events
-                        </Button>
-                        <Button
-                            onClick={() => handleCategory(2)}
-                            variant={category == 2 ? "contained" : "outlined"}
-                        >
-                            Resources
-                        </Button>
-                        <Button
-                            onClick={() => handleCategory(3)}
-                            variant={category == 3 ? "contained" : "outlined"}
-                        >
-                            Getting Started
-                        </Button>
-                    </ButtonGroup>
-                </Grid>
-            </Grid>
-        </Box>
+        <div key="1">
+            <p
+                className="loxi"
+                data-background-color="transparent"
+                data-categories="all"
+                data-color="#7fc11c"
+                data-default-layout="list"
+                data-font-family=""
+                data-is-demo="false"
+                data-show-category-filter="1"
+                data-show-location-address="1"
+                data-show-location-filter="1"
+                data-show-search-filter="1"
+                data-show-view-switcher="1"
+                data-show-list-view-image="1"
+                data-show-social-media-buttons="1"
+                data-site-id="69516"
+                data-subdomain="violet-verse"
+                data-theme="light"
+                data-timezone="America/New_York"
+                data-title="Violet Verse"
+                data-venue="all"
+            ></p>
+            <Script src="https://violet-verse.loxi.io/embed/client.js" />
+        </div>
     );
 };
 
