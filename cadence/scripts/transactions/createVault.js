@@ -5,7 +5,7 @@ import FungibleToken from 0xf233dcee88fe0abe
 transaction {
 
   prepare(acct: AuthAccount) {
-    acct.save(<- VioletVerse.createEmptyVault(), to: /storage/violetVerseVault)
+    acct.save(<- VioletVerse.createVioletVault(), to: /storage/violetVerseVault)
     acct.link<&VioletVerse.Vault{FungibleToken.Balance, FungibleToken.Receiver}>(/public/violetVerseBalance, target: /storage/violetVerseVault)
   }
 
