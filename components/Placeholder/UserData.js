@@ -46,7 +46,7 @@ export const members = [
         photo: "https://i.imgur.com/YraRGLa.png",
     },
     {
-        name: "Prachi Mod",
+        name: "Prachi Modi",
         teamType: "contributor",
         id: 5,
         title: "New York, Serial Entrepreneur",
