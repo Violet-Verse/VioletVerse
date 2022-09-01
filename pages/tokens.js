@@ -48,7 +48,7 @@ const Tokens = () => {
                 proposer: fcl.currentUser,
                 payer: fcl.currentUser,
                 authorizations: [fcl.currentUser],
-                limit: 50,
+                limit: 1000,
             });
 
             await fcl
@@ -82,7 +82,7 @@ const Tokens = () => {
                 proposer: fcl.currentUser,
                 payer: fcl.currentUser,
                 authorizations: [fcl.currentUser],
-                limit: 50,
+                limit: 1000,
             });
 
             await fcl
