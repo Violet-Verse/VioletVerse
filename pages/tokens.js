@@ -58,7 +58,7 @@ const Tokens = () => {
                     setTxComplete(true);
                     setTxPending(false);
                     setTxStatus({
-                        message: `https://testnet.flowscan.org/transaction/${tx.events[0].transactionId}`,
+                        message: `https://flowscan.org/transaction/${tx.events[0].transactionId}`,
                         status: "success",
                     });
                 })

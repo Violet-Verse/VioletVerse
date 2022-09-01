@@ -1,6 +1,6 @@
 export const createVault = `
 import VioletVerse from 0xVioletVerse
-import FungibleToken from 0x9a0766d93b6608b7
+import FungibleToken from 0xf233dcee88fe0abe
 
 transaction {
 

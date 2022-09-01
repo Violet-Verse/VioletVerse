@@ -12,8 +12,8 @@ const resolver = async () => {
 fcl.config()
     .put("app.detail.title", "Violet Verse")
     .put("app.detail.icon", "https://i.imgur.com/jDJnCzx.png")
-    .put("accessNode.api", "https://rest-testnet.onflow.org") // pointing to testnet
-    .put("0xVioletVerse", "0xcbc161656bd04954")
-    .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")
+    .put("accessNode.api", "https://rest-mainnet.onflow.org") // pointing to mainnet
+    .put("0xVioletVerse", "0xf5f7db710acb59d3")
+    .put("discovery.wallet", "https://fcl-discovery.onflow.org/authn")
     .put("fcl.accountProof.resolver", resolver)
-    .put("flow.network", "testnet");
+    .put("flow.network", "mainnet");
