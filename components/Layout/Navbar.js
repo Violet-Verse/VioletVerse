@@ -82,7 +82,7 @@ const NewNav = () => {
                     .then((result) => {
                         console.log(result);
                         mutate("/api/database/getUser");
-                        Router.push("/");
+                        Router.push("/profile");
                     })
                     .catch((err) => {
                         fcl.unauthenticate();
