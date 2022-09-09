@@ -149,7 +149,7 @@ const NewNav = () => {
                                                 }}
                                             >
                                                 <Typography textAlign="center">
-                                                    Connect
+                                                    Connect Wallet
                                                 </Typography>
                                             </MenuItem>
                                         )}
@@ -164,6 +164,31 @@ const NewNav = () => {
                                                 </MenuItem>
                                             </a>
                                         </Link>
+                                        <Link href="/resources">
+                                            <a>
+                                                <MenuItem
+                                                    onClick={handleCloseNavMenu}
+                                                >
+                                                    <Typography textAlign="center">
+                                                        Web3 Resources
+                                                    </Typography>
+                                                </MenuItem>
+                                            </a>
+                                        </Link>
+                                        <a
+                                            target="_blank"
+                                            href="/vr"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <MenuItem
+                                                onClick={handleCloseNavMenu}
+                                            >
+                                                <Typography textAlign="center">
+                                                    VV VR
+                                                </Typography>
+                                            </MenuItem>
+                                        </a>
+
                                         <Link href="/about">
                                             <a>
                                                 <MenuItem
