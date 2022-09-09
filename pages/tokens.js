@@ -339,11 +339,8 @@ const Tokens = () => {
                                                             "break-word",
                                                     }}
                                                 >
-                                                    {
-                                                        txStatus.message.split(
-                                                            "-->"
-                                                        )[0]
-                                                    }
+                                                    {txStatus.message[0] ||
+                                                        "Transaction Cancelled"}
                                                 </h5>
                                             </Grid>
                                         ) : (

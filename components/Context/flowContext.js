@@ -3,6 +3,7 @@ import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import React, { useState, useEffect } from "react";
 import { getBalance } from "../../cadence/scripts/getBalance";
+import { useUser } from "../../hooks/useAuth";
 
 const FlowContext = createContext();
 
@@ -32,20 +33,21 @@ export function nFormatter(num, digits) {
 }
 
 export function FlowWrapper({ children }) {
-    const [user, setUser] = useState();
+    // const [user, setUser] = useState();
     const [userBalance, setUserBalance] = useState(0);
+    const { user, loaded } = useUser();
+
+    // useEffect(() => {
+    //     fcl.currentUser.subscribe(setUser);
+    // }, []);
 
     useEffect(() => {
-        fcl.currentUser.subscribe(setUser);
-    }, []);
-
-    useEffect(() => {
-        if (user?.addr) {
+        if (user?.flowAddress) {
             const getAccountBalance = async () => {
                 await fcl
                     .send([
                         fcl.script(getBalance),
-                        fcl.args([fcl.arg(user?.addr, types.Address)]),
+                        fcl.args([fcl.arg(user?.flowAddress, types.Address)]),
                     ])
                     .then(fcl.decode)
                     .then((data) => setUserBalance(data))
