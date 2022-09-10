@@ -1,5 +1,4 @@
-import { Grid, Box, Button } from "@mui/material";
-import Head from "next/head";
+import { Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useUser } from "../hooks/useAuth";
@@ -30,16 +29,6 @@ function MyApp({ Component, pageProps }) {
 
     console.log(user);
 
-    // For Token Gating
-
-    const tokenGateId = pageProps.tokenGatePrice && pageProps.posts.id;
-    const noTokenGateAccess =
-        pageProps.tokenGatePrice &&
-        user &&
-        pageProps.posts.id.toString() !== user.purchasedContent;
-
-    const tokenGatedNotLoggedIn = pageProps.tokenGatePrice && !user;
-
     const vrSite = pageProps.vrSite;
     const loadingUser = pageProps.protected && !user;
     const noAccess =
@@ -63,25 +52,6 @@ function MyApp({ Component, pageProps }) {
             setSeconds(3);
         }
     }, [loadingUser, noAccess, seconds, router]);
-
-    if (noTokenGateAccess || tokenGatedNotLoggedIn) {
-        return (
-            <Layout>
-                <Grid
-                    container
-                    justifyContent="center"
-                    sx={{ textAlign: "center" }}
-                >
-                    <Grid item>
-                        <p>
-                            Sorry, you don&apos;t have access to this page.{" "}
-                            {tokenGateId}
-                        </p>
-                    </Grid>
-                </Grid>
-            </Layout>
-        );
-    }
 
     // User state loading
     if (!loaded || loadingUser) {
