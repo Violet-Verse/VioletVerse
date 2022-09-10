@@ -28,7 +28,12 @@ export async function getServerSideProps(context) {
     }
 
     return {
-        props: { posts: data[0], allPosts: allPosts, authorData: authorData },
+        props: {
+            posts: data[0],
+            allPosts: allPosts,
+            authorData: authorData,
+            tokenGatePrice: data[0]?.tokenPrice || false,
+        },
     };
 }
 

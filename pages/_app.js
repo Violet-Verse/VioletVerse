@@ -25,8 +25,20 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
-    const { user } = useUser();
+    const { user, loaded } = useUser();
     const router = useRouter();
+
+    console.log(user);
+
+    // For Token Gating
+
+    const tokenGateId = pageProps.tokenGatePrice && pageProps.posts.id;
+    const noTokenGateAccess =
+        pageProps.tokenGatePrice &&
+        user &&
+        pageProps.posts.id.toString() !== user.purchasedContent;
+
+    const tokenGatedNotLoggedIn = pageProps.tokenGatePrice && !user;
 
     const vrSite = pageProps.vrSite;
     const loadingUser = pageProps.protected && !user;
@@ -52,8 +64,27 @@ function MyApp({ Component, pageProps }) {
         }
     }, [loadingUser, noAccess, seconds, router]);
 
+    if (noTokenGateAccess || tokenGatedNotLoggedIn) {
+        return (
+            <Layout>
+                <Grid
+                    container
+                    justifyContent="center"
+                    sx={{ textAlign: "center" }}
+                >
+                    <Grid item>
+                        <p>
+                            Sorry, you don&apos;t have access to this page.{" "}
+                            {tokenGateId}
+                        </p>
+                    </Grid>
+                </Grid>
+            </Layout>
+        );
+    }
+
     // User state loading
-    if (loadingUser) {
+    if (!loaded || loadingUser) {
         return (
             <Layout>
                 <Grid
