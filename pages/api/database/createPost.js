@@ -40,6 +40,7 @@ export default async function createPost(req, res) {
     const hidden = req.body.hidden;
     const video = req.body.video;
     const contributor = req.body.contributor;
+    const tokenPrice = req.body.tokenPrice;
     const banner =
         !req.body.banner && !req.body.video
             ? "https://i.ibb.co/tDBm1Vj/Squared.png"
@@ -64,6 +65,7 @@ export default async function createPost(req, res) {
                         ...(banner && { banner }),
                         ...(video && { video }),
                         contributor: `${contributor}`,
+                        tokenPrice: `${tokenPrice}`,
                         createdBy: `${session?.issuer}`,
                         slug: `${slug}`,
                     },

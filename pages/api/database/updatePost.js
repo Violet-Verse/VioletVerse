@@ -36,6 +36,7 @@ export default async function updatePost(req, res) {
     const hidden = req.body.hidden;
     const video = req.body.video;
     const contributor = req.body.contributor;
+    const tokenPrice = req.body.tokenPrice;
     const banner = req.body.banner;
 
     try {
@@ -54,6 +55,7 @@ export default async function updatePost(req, res) {
                         ...(banner && { banner }),
                         ...(video && { video }),
                         contributor: `${contributor}`,
+                        tokenPrice: `${tokenPrice}`,
                         lastEditedBy: `${session?.issuer}`,
                     },
                 },

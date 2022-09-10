@@ -33,9 +33,14 @@ const PostEditorPage = (props) => {
     const author = props?.author;
 
     const updateDate = dateFormatter(posts?.lastUpdated, true);
+    const [tokenGated, setTokenGated] = useState(posts?.tokenPrice || false);
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+
+    const handleChange = (event) => {
+        setTokenGated(event.target.checked);
+    };
 
     const { data, mutate } = useSWR(`/api/database/getUserPosts`, postFetcher);
 
@@ -98,6 +103,7 @@ const PostEditorPage = (props) => {
         subtitle,
         video,
         contributor,
+        tokenPrice,
     }) => {
         if (loading) {
             return;
@@ -128,6 +134,7 @@ const PostEditorPage = (props) => {
                     banner: banner,
                     video: video,
                     contributor: contributor || "",
+                    tokenPrice: tokenGated ? tokenPrice || "" : "",
                 }),
             }
         )
@@ -505,7 +512,35 @@ const PostEditorPage = (props) => {
                             />
                         )}
                     />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={tokenGated}
+                                onChange={handleChange}
+                                inputProps={{ "aria-label": "controlled" }}
+                            />
+                        }
+                        label="Token Gated"
+                    />
                 </Grid>
+                {tokenGated && (
+                    <Grid item xs={12} sx={{ mb: 4 }}>
+                        <Controller
+                            render={({ field }) => (
+                                <TextField
+                                    variant="outlined"
+                                    label="Token Price"
+                                    fullWidth
+                                    type="number"
+                                    {...field}
+                                />
+                            )}
+                            control={control}
+                            name="tokenPrice"
+                            defaultValue={posts?.tokenPrice}
+                        />
+                    </Grid>
+                )}
                 <Grid item>
                     <Controller
                         control={control}

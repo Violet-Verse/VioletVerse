@@ -1,5 +1,4 @@
-import { Grid, Box, Button } from "@mui/material";
-import Head from "next/head";
+import { Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useUser } from "../hooks/useAuth";
@@ -25,8 +24,10 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
-    const { user } = useUser();
+    const { user, loaded } = useUser();
     const router = useRouter();
+
+    console.log(user);
 
     const vrSite = pageProps.vrSite;
     const loadingUser = pageProps.protected && !user;
@@ -53,7 +54,7 @@ function MyApp({ Component, pageProps }) {
     }, [loadingUser, noAccess, seconds, router]);
 
     // User state loading
-    if (loadingUser) {
+    if (!loaded || loadingUser) {
         return (
             <Layout>
                 <Grid
