@@ -440,23 +440,25 @@ const NewNav = () => {
                                                     Profile
                                                 </MenuItem>
                                                 <Divider />
-                                                {user?.role === "admin" && (
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            Router.push(
-                                                                "/dashboard"
-                                                            );
-                                                            setAnchorElUser(
-                                                                null
-                                                            );
-                                                        }}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <DashboardIcon />
-                                                        </ListItemIcon>
-                                                        Dashboard
-                                                    </MenuItem>
-                                                )}
+                                                {user?.role === "admin" ||
+                                                    (user?.role ===
+                                                        "contributor" && (
+                                                        <MenuItem
+                                                            onClick={() => {
+                                                                Router.push(
+                                                                    "/dashboard"
+                                                                );
+                                                                setAnchorElUser(
+                                                                    null
+                                                                );
+                                                            }}
+                                                        >
+                                                            <ListItemIcon>
+                                                                <DashboardIcon />
+                                                            </ListItemIcon>
+                                                            Dashboard
+                                                        </MenuItem>
+                                                    ))}
                                                 <MenuItem
                                                     onClick={() => {
                                                         Router.push("/tokens");

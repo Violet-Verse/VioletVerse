@@ -82,17 +82,21 @@ const ProfileLayout = (props) => {
                         />
                     </Grid>
                 )}
-                {user?.role === "admin" && isOwner && (
-                    <Grid item>
-                        <Link href="/dashboard">
-                            <a>
-                                <Button variant="contained" disableElevation>
-                                    Creator Dashboard
-                                </Button>
-                            </a>
-                        </Link>
-                    </Grid>
-                )}
+                {(user?.role === "admin" && isOwner) ||
+                    (user?.role === "contributor" && isOwner && (
+                        <Grid item>
+                            <Link href="/dashboard">
+                                <a>
+                                    <Button
+                                        variant="contained"
+                                        disableElevation
+                                    >
+                                        Creator Dashboard
+                                    </Button>
+                                </a>
+                            </Link>
+                        </Grid>
+                    ))}
                 {isOwner && (
                     <Grid item>
                         <Link href="/profile/edit">

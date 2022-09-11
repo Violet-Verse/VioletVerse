@@ -4,7 +4,7 @@ export async function getStaticProps(context) {
     return {
         props: {
             protected: true,
-            userTypes: ["admin", "collaborator"],
+            userTypes: ["admin", "contributor"],
         },
     };
 }

@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
             posts: data[0],
             lastEditor: lastEditor || null,
             protected: true,
-            userTypes: ["admin"],
+            userTypes: ["admin", "contributor"],
         },
     };
 }
