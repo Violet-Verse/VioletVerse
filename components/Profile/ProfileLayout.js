@@ -18,8 +18,14 @@ import { nFormatter, useFlowContext } from "../Context/flowContext";
 const ProfileLayout = (props) => {
     const { user: loggedInUser } = useUser();
     const user = props?.user;
-    const isPublicPage = props?.publicPage;
     const isOwner = loggedInUser?.userId === user?.userId;
+
+    const dashboardPermission =
+        (isOwner && user?.role === "admin") ||
+        (isOwner && user?.role == "contributor");
+
+    const isPublicPage = props?.publicPage;
+
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
     const [editPictureModal, setEditPictureModal] = useState(false);
 
@@ -82,21 +88,17 @@ const ProfileLayout = (props) => {
                         />
                     </Grid>
                 )}
-                {(user?.role === "admin" && isOwner) ||
-                    (user?.role === "contributor" && isOwner && (
-                        <Grid item>
-                            <Link href="/dashboard">
-                                <a>
-                                    <Button
-                                        variant="contained"
-                                        disableElevation
-                                    >
-                                        Creator Dashboard
-                                    </Button>
-                                </a>
-                            </Link>
-                        </Grid>
-                    ))}
+                {dashboardPermission && (
+                    <Grid item>
+                        <Link href="/dashboard">
+                            <a>
+                                <Button variant="contained" disableElevation>
+                                    Creator Dashboard
+                                </Button>
+                            </a>
+                        </Link>
+                    </Grid>
+                )}
                 {isOwner && (
                     <Grid item>
                         <Link href="/profile/edit">
