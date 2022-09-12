@@ -19,7 +19,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useUser } from "../../hooks/useAuth";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import RichTextEditor from "./Editor";
 import DeleteConfirmation from "../Modal/ConfirmDelete";
 import dateFormatter from "../../lib/dateFormatter";
@@ -92,6 +92,26 @@ const PostEditorPage = (props) => {
             return null;
         }
     };
+
+    const handleImageUpload = useCallback(
+        (file) =>
+            new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append("image", file);
+
+                fetch(
+                    `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                )
+                    .then((response) => response.json())
+                    .then((result) => resolve(result.data.url))
+                    .catch(() => reject(new Error("Upload failed")));
+            }),
+        []
+    );
 
     const onSubmit = async ({
         title,
@@ -546,7 +566,11 @@ const PostEditorPage = (props) => {
                         control={control}
                         name="body"
                         render={({ field: { onChange, value } }) => (
-                            <RichTextEditor value={value} onChange={onChange} />
+                            <RichTextEditor
+                                value={value}
+                                onChange={onChange}
+                                onImageUpload={handleImageUpload}
+                            />
                         )}
                     />
                 </Grid>
