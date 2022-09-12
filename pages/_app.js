@@ -27,8 +27,6 @@ function MyApp({ Component, pageProps }) {
     const { user, loaded } = useUser();
     const router = useRouter();
 
-    console.log(user);
-
     const vrSite = pageProps.vrSite;
     const loadingUser = pageProps.protected && !user;
     const noAccess =

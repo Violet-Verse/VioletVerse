@@ -66,7 +66,14 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
         fetchWithId
     );
 
-    // Token
+    const author = authorData?.user;
+    const contributor = contributorData?.user;
+    const postDate = dateFormatter(posts.created);
+    const updateDate = dateFormatter(posts?.lastUpdated);
+    const editPermission =
+        loaded && (user?.userId == author?.userId || user?.role == "admin");
+
+    // Token Gate Permissions
     const purchasedArray = user?.purchasedContent
         ? user.purchasedContent.split(",")
         : [];
@@ -77,13 +84,6 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
         purchasedArray.indexOf(posts.id.toString()) === -1;
 
     const tokenGatedNotLoggedIn = tokenGatePrice && !user;
-
-    const author = authorData?.user;
-    const contributor = contributorData?.user;
-    const postDate = dateFormatter(posts.created);
-    const updateDate = dateFormatter(posts?.lastUpdated);
-    const editPermission =
-        loaded && (user?.userId == author?.userId || user?.role == "admin");
 
     const siteTitle = `${posts.title} | Violet Verse`;
     const metaTitle = `${posts.title}`;
@@ -161,7 +161,10 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
         }
     };
 
-    if (noTokenGateAccess || tokenGatedNotLoggedIn) {
+    if (
+        (!editPermission && noTokenGateAccess) ||
+        (!editPermission && tokenGatedNotLoggedIn)
+    ) {
         return (
             <Box>
                 {/* Head Tags - SEO */}
