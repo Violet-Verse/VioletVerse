@@ -74,21 +74,21 @@ const Footer = () => {
                                 <h3 className={styles.header}>Market</h3>
                             </a>
                         </Link>
-                        <Link href="posts">
+                        <Link href="posts?category=Tech">
                             <a>
                                 <p className={styles.subheader}>
                                     See tech content
                                 </p>
                             </a>
                         </Link>
-                        <Link href="posts">
+                        <Link href="posts?category=Lifestyle">
                             <a>
                                 <p className={styles.subheader}>
                                     See lifestyle content
                                 </p>
                             </a>
                         </Link>
-                        <Link href="posts">
+                        <Link href="posts?category=Education">
                             <a>
                                 <p className={styles.subheader}>
                                     See educational content

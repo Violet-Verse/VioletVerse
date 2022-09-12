@@ -11,18 +11,26 @@ import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
 import styles from "../../styles/ArticleGrid.module.css";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
 
+    const { query } = useRouter();
     const [livePosts, setLivePosts] = useState(posts);
     const hasPosts = livePosts.length !== 0;
     const [category, setCategory] = useState(props?.filter || null);
     const handleCategory = (event, newCategory) => {
         setCategory(newCategory);
     };
+
+    useEffect(() => {
+        if (query.category !== null) {
+            setCategory(query.category);
+        }
+    }, [query.category]);
 
     // Filter posts based on selected category
     useEffect(() => {
