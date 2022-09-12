@@ -202,75 +202,106 @@ const ArticleGrid = (props) => {
                     sx={{ mt: props.filter ? 0 : 4, px: { xs: 6, sm: 0 } }}
                     justifyContent="left"
                 >
-                    {livePosts?.slice(0, props.maximum).map((post) => (
-                        <Grid item xs={12} sm={6} md={4} key={post.id}>
-                            <Link href={"/" + post.slug}>
-                                <a>
-                                    <Box className={styles.container}>
-                                        <Image
-                                            src={
-                                                youtubeParser(post.video) &&
-                                                !post.banner
-                                                    ? youtubeParser(post.video)
-                                                    : post.banner
-                                            }
-                                            alt="Placeholder Image"
-                                            style={{ borderRadius: "6px" }}
-                                            width={450}
-                                            height={300}
-                                            objectFit="cover"
-                                            className={styles.image}
-                                            placeholder="blur"
-                                            blurDataURL={
-                                                youtubeParser(post.video) &&
-                                                !post.banner
-                                                    ? youtubeParser(post.video)
-                                                    : post.banner
-                                            }
-                                        />
-                                        <Box className={styles.overlay}>
-                                            <h4 className={styles.text}>
-                                                {post.video
-                                                    ? "Watch Video"
-                                                    : "Read More"}
-                                            </h4>
+                    {livePosts
+                        ?.slice(0, props.maximum)
+                        .map((post) => (
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                md={4}
+                                key={post.id}
+                                style={{
+                                    display: "flex",
+                                }}
+                            >
+                                <Link href={"/" + post.slug}>
+                                    <a
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Box className={styles.container}>
+                                            <Image
+                                                src={
+                                                    youtubeParser(post.video) &&
+                                                    !post.banner
+                                                        ? youtubeParser(
+                                                              post.video
+                                                          )
+                                                        : post.banner
+                                                }
+                                                alt="Placeholder Image"
+                                                style={{ borderRadius: "6px" }}
+                                                width={450}
+                                                height={300}
+                                                objectFit="cover"
+                                                className={styles.image}
+                                                placeholder="blur"
+                                                blurDataURL={
+                                                    youtubeParser(post.video) &&
+                                                    !post.banner
+                                                        ? youtubeParser(
+                                                              post.video
+                                                          )
+                                                        : post.banner
+                                                }
+                                            />
+                                            <Box className={styles.overlay}>
+                                                <h4 className={styles.text}>
+                                                    {post.video
+                                                        ? "Watch Video"
+                                                        : "Read More"}
+                                                </h4>
+                                            </Box>
                                         </Box>
-                                    </Box>
-
-                                    <h4
-                                        style={{
-                                            marginTop: "20px",
-                                            fontFamily: "Ogg",
-                                            fontWeight: "500",
-                                            fontSize: "22px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.01em",
-                                        }}
-                                    >
-                                        {post?.hidden == "true" ? (
-                                            <span
-                                                style={{ color: "purple" }}
-                                            >{`[Draft] ${post.title}`}</span>
-                                        ) : (
-                                            post.title
-                                        )}
-                                    </h4>
-                                    <h5
-                                        style={{
-                                            marginTop: "20px",
-                                            fontFamily: "Stratos",
-                                            fontWeight: "500",
-                                            fontSize: "16px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.01em",
-                                        }}
-                                    >
-                                        in {post.category}
-                                    </h5>
-                                </a>
-                            </Link>
-                        </Grid>
-                    ))}
+                                        <h4
+                                            style={{
+                                                marginTop: "20px",
+                                                fontFamily: "Ogg",
+                                                fontWeight: "500",
+                                                fontSize: "22px",
+                                                lineHeight: "130%",
+                                                letterSpacing: "-0.01em",
+                                            }}
+                                        >
+                                            {post?.hidden == "true" ? (
+                                                <span
+                                                    style={{
+                                                        color: "purple",
+                                                    }}
+                                                >{`[Draft] ${post.title}`}</span>
+                                            ) : (
+                                                `${
+                                                    post.title.substring(
+                                                        0,
+                                                        72
+                                                    ) +
+                                                    (post.title.length > 72
+                                                        ? "..."
+                                                        : "")
+                                                }`
+                                            )}
+                                        </h4>
+                                        <h5
+                                            style={{
+                                                marginTop: "20px",
+                                                fontFamily: "Stratos",
+                                                fontWeight: "500",
+                                                fontSize: "16px",
+                                                lineHeight: "130%",
+                                                letterSpacing: "-0.01em",
+                                            }}
+                                        >
+                                            in {post.category}
+                                        </h5>
+                                    </a>
+                                </Link>
+                            </Grid>
+                        ))
+                        .sort()}
                     {props.seeAll && (
                         <Grid item xs={12} sx={{ mt: 2 }}>
                             <Button
