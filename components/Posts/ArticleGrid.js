@@ -27,7 +27,7 @@ const ArticleGrid = (props) => {
     };
 
     useEffect(() => {
-        if (query.category !== null) {
+        if (query.category) {
             setCategory(query.category);
         }
     }, [query.category]);
