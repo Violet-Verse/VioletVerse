@@ -15,12 +15,12 @@ const InfoBlock = (props) => {
             name: "Resources",
             description:
                 "Discover resources on all things crypto, blockchain, NFT, and more.",
-            url: "#",
+            url: "/resources",
         },
         {
             name: "Events/Meetups",
             description: "Explore fun networking events in the web3 space.",
-            url: "#",
+            url: "/resources",
         },
     ];
 
