@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
     }, [loadingUser, noAccess, seconds, router]);
 
     // User state loading
-    if (!loaded || loadingUser) {
+    if (loadingUser) {
         return (
             <Layout>
                 <Grid
