@@ -12,6 +12,11 @@ import { Provider } from "@lyket/react";
 
 const Layout = ({ children }) => {
     const { user } = useUser();
+    const siteTitle =
+        "Violet Verse: A Token-Gated Web3 Lifestyle Platform | Violet Verse";
+    const metaTitle = "Violet Verse: A Token-Gated Web3 Lifestyle Platform";
+    const siteDescription =
+        "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
 
     const theme = createTheme({
         components: {
@@ -59,6 +64,45 @@ const Layout = ({ children }) => {
                 <FlowWrapper>
                     <ThemeProvider theme={theme}>
                         <NextUIProvider>
+                            <Head>
+                                <link rel="icon" href="/favicon.ico" />
+                                <title>{siteTitle}</title>
+                                <meta
+                                    name="og:site_name"
+                                    content="Violet Verse"
+                                />
+                                <meta name="og:title" content={metaTitle} />
+                                <meta
+                                    name="og:description"
+                                    content={siteDescription}
+                                />
+                                <meta
+                                    property="og:image:type"
+                                    content="image/png"
+                                />
+                                <meta property="og:image:width" content="800" />
+                                <meta
+                                    property="og:image:height"
+                                    content="420"
+                                />
+                                <meta property="og:type" content="website" />
+                                <meta
+                                    name="twitter:site"
+                                    content="@TheVioletVerse"
+                                />
+                                <meta
+                                    name="twitter:title"
+                                    content={metaTitle}
+                                />
+                                <meta
+                                    name="twitter:description"
+                                    content={siteDescription}
+                                />
+                                <meta
+                                    name="twitter:card"
+                                    content="summary_large_image"
+                                />
+                            </Head>
                             <Box className="siteContainer">
                                 <Navbar />
                                 <Box
