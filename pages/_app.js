@@ -24,12 +24,6 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-const siteTitle =
-    "Violet Verse: A Token-Gated Web3 Lifestyle Platform | Violet Verse";
-const metaTitle = "Violet Verse: A Token-Gated Web3 Lifestyle Platform";
-const siteDescription =
-    "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
-
 function MyApp({ Component, pageProps }) {
     const { user, loaded } = useUser();
     const router = useRouter();
@@ -43,6 +37,12 @@ function MyApp({ Component, pageProps }) {
         pageProps.userTypes.indexOf(user.role) === -1;
 
     const [seconds, setSeconds] = useState(3);
+
+    const siteTitle =
+        "Violet Verse: A Token-Gated Web3 Lifestyle Platform | Violet Verse";
+    const metaTitle = "Violet Verse: A Token-Gated Web3 Lifestyle Platform";
+    const siteDescription =
+        "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
 
     useEffect(() => {
         if (loadingUser && !noAccess) {
