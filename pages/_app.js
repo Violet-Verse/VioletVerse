@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
+import Head from "next/head";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -22,6 +23,12 @@ NProgress.configure({
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
+
+const siteTitle =
+    "Violet Verse: A Token-Gated Web3 Lifestyle Platform | Violet Verse";
+const metaTitle = "Violet Verse: A Token-Gated Web3 Lifestyle Platform";
+const siteDescription =
+    "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
 
 function MyApp({ Component, pageProps }) {
     const { user, loaded } = useUser();
@@ -91,6 +98,21 @@ function MyApp({ Component, pageProps }) {
 
     return (
         <Layout>
+            <Head>
+                <link rel="icon" href="/favicon.ico" />
+                <title>{siteTitle}</title>
+                <meta name="og:site_name" content="Violet Verse" />
+                <meta name="og:title" content={metaTitle} />
+                <meta name="og:description" content={siteDescription} />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="800" />
+                <meta property="og:image:height" content="420" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={metaTitle} />
+                <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Head>
             <Component {...pageProps} />
         </Layout>
     );
