@@ -150,7 +150,10 @@ const PostEditorPage = (props) => {
                     tldr: tldr,
                     subtitle: subtitle,
                     largeLetter: largeLetter.toString(),
-                    hidden: hidden.toString(),
+                    hidden:
+                        user?.role === "contributor"
+                            ? "true"
+                            : hidden.toString(),
                     banner: banner,
                     video: video,
                     contributor: contributor || "",
@@ -518,11 +521,13 @@ const PostEditorPage = (props) => {
                         defaultValue={posts?.hidden == "true" ? true : false}
                         render={({ field }) => (
                             <FormControlLabel
+                                disabled={user?.role === "contributor"}
                                 control={
                                     <Checkbox
                                         {...field}
                                         defaultChecked={
-                                            posts?.hidden == "true"
+                                            posts?.hidden == "true" ||
+                                            user?.role === "contributor"
                                                 ? true
                                                 : false
                                         }
