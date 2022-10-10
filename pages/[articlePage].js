@@ -28,6 +28,7 @@ import { LikeButton } from "@lyket/react";
 import { transferTokens } from "../cadence/scripts/transactions/purchaseContent";
 import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
+import Tipping from "../components/Modal/Tipping";
 
 export async function getServerSideProps(context) {
     const id = context.params.articlePage;
@@ -93,6 +94,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
 
     const [txPending, setTxPending] = useState(false);
     const [txStatus, setTxStatus] = useState();
+    const [tippingModal, setTippingModal] = useState(false);
 
     const updateUser = async () => {
         try {
@@ -988,7 +990,26 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
                         </Box>
                     </Grid>
                     <Grid item>
-                        <LikeButton namespace={posts.id} id={posts.id} />
+                        <Button
+                            onClick={() => setTippingModal(true)}
+                            sx={{
+                                color: "#004455",
+                                backgroundColor: "#AAEEFF",
+                                borderRadius: "10px",
+                                "&:hover": {
+                                    backgroundColor: "#8EE8FF",
+                                },
+                            }}
+                        >
+                            Tip Creator
+                        </Button>
+                        <Tipping
+                            open={tippingModal}
+                            handleClose={() => setTippingModal(false)}
+                            address={
+                                contributor?.flowAddress || author?.flowAddress
+                            }
+                        />
                     </Grid>
                 </Grid>
             </Box>
