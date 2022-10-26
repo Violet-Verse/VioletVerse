@@ -20,10 +20,9 @@ export async function getServerSideProps() {
 
 const Home = ({ posts }) => {
     const spotlightPost = {
-        title: "Violet Verse at ETH Barcelona",
-        subtitle:
-            "Exclusive interviews with trailblazing pioneers in the crypto space.",
-        url: "/violet-verse-at-eth-barcelona-p3W1QjLI7P",
+        title: "Devcon in Bogota: Misogyny, Danger, and Crypto Bros",
+        subtitle: "A recap of Ethereum's Devcon Conference.",
+        url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
     };
     return (
         <Box sx={{ mt: -4 }}>
@@ -96,7 +95,7 @@ const Home = ({ posts }) => {
                     </Box>
                     <ReactPlayer
                         className={styles.video}
-                        url="/video.mp4"
+                        url="/devcon.mp4"
                         width="100%"
                         height="100%"
                         muted={true}
