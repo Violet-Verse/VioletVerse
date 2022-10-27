@@ -20,7 +20,7 @@ export async function getServerSideProps() {
 
 const Home = ({ posts }) => {
     const spotlightPost = {
-        title: "Devcon in Bogota: Misogyny, Danger, and Crypto Bros",
+        title: " ",
         subtitle: "A recap of Ethereum's Devcon Conference.",
         url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
     };
