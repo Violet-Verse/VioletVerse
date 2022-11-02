@@ -30,11 +30,13 @@ const SignUpCTA = (props) => {
                     </IconButton>
                 </DialogTitle>
                 <Box sx={{ p: 5 }}>
-                    <h2>Sign up to VioletVerse</h2>
+                    <h2>Connect to the Verse</h2>
 
                     <DialogContent>
                         <p className="secondary">
-                            Earn exclusive rewards and VV tokens!
+                            Earn $VV by reading and contributing content. Spend
+                            $VV by tipping your fav creators and purchasing VV
+                            merch.
                         </p>
                     </DialogContent>
                     <DialogActions>
