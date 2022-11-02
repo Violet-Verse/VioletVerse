@@ -64,6 +64,7 @@ const Footer = () => {
                                     alt="Discord icon"
                                     width={24}
                                     height={24}
+                                    priority
                                 />
                             </a>
                         </Stack>
@@ -219,6 +220,7 @@ const Footer = () => {
                                     alt="Discord icon"
                                     width={24}
                                     height={24}
+                                    priority
                                 />
                             </a>
                         </Stack>
