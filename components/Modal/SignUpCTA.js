@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
 const SignUpCTA = (props) => {
-    const { handleClose, ...rest } = props;
+    const { handleClose, handleSignup, ...rest } = props;
     return (
         <>
             <Dialog {...rest}>
@@ -45,7 +45,7 @@ const SignUpCTA = (props) => {
                             variant="contained"
                             disableElevation
                             sx={{ borderRadius: "10px" }}
-                            onClick={props.handleClose}
+                            onClick={props.handleSignup}
                         >
                             Sign Up
                         </Button>

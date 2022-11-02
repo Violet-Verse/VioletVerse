@@ -25,10 +25,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../../hooks/useAuth";
 import UserAvatar from "../UserAvatar";
 import { nFormatter, useFlowContext } from "../Context/flowContext";
+import SignUpCTA from "../Modal/SignUpCTA.js";
 
 const NewNav = () => {
     const { user, loaded } = useUser();
@@ -97,8 +98,39 @@ const NewNav = () => {
         }
     };
 
+    const ctaClosed = () => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem("homepageCTA");
+        }
+    };
+
+    useEffect(() => {
+        if (loaded && !ctaClosed() && !user) {
+            setSignupCTA(true);
+        } else {
+            setSignupCTA(false);
+        }
+    }, [loaded, user]);
+
+    const [signupCTA, setSignupCTA] = useState(false);
+
+    const setFirstVisit = () => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("homepageCTA", true);
+            setSignupCTA(false);
+        }
+    };
+
     return (
         <nav>
+            <SignUpCTA
+                open={signupCTA}
+                handleClose={() => setFirstVisit()}
+                handleSignup={() => {
+                    login();
+                    setFirstVisit();
+                }}
+            />
             <AppBar position="static" elevation={0}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters sx={{ px: { xs: 0, md: 4 } }}>

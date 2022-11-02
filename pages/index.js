@@ -1,7 +1,7 @@
 import { Button, Grid, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -9,8 +9,6 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import InfoBlock from "../components/InfoBlock";
 import { getAllPosts } from "./api/database/getAllPosts";
-import SignUpCTA from "../components/Modal/SignUpCTA";
-import { useUser } from "../hooks/useAuth";
 
 export async function getServerSideProps() {
     const data = await getAllPosts();
@@ -21,39 +19,14 @@ export async function getServerSideProps() {
 }
 
 const Home = ({ posts }) => {
-    const { user, loaded } = useUser();
     const spotlightPost = {
         title: " ",
         subtitle: "A recap of Ethereum's Devcon Conference.",
         url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
     };
 
-    const ctaClosed = () => {
-        if (typeof window !== "undefined") {
-            return localStorage.getItem("homepageCTA");
-        }
-    };
-
-    useEffect(() => {
-        if (loaded && !ctaClosed() && user) {
-            setSignupCTA(true);
-        } else {
-            setSignupCTA(false);
-        }
-    }, [loaded, user]);
-
-    const [signupCTA, setSignupCTA] = useState(false);
-
-    const setFirstVisit = () => {
-        if (typeof window !== "undefined") {
-            localStorage.setItem("homepageCTA", true);
-            setSignupCTA(false);
-        }
-    };
-
     return (
         <Box sx={{ mt: -4 }}>
-            <SignUpCTA open={signupCTA} handleClose={() => setFirstVisit()} />
             <Head>
                 <meta
                     property="og:image"
