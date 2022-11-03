@@ -24,6 +24,7 @@ const Home = ({ posts }) => {
         subtitle: "A recap of Ethereum's Devcon Conference.",
         url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
     };
+
     return (
         <Box sx={{ mt: -4 }}>
             <Head>
@@ -61,11 +62,11 @@ const Home = ({ posts }) => {
                                 maxWidth: "1040px",
                             }}
                         >
-                            <Grid item>
+                            {/* <Grid item>
                                 <h1 style={{ color: "white" }}>
                                     {spotlightPost.title}
                                 </h1>
-                            </Grid>
+                            </Grid> */}
                             <Grid item>
                                 <p
                                     style={{
@@ -134,17 +135,17 @@ const Home = ({ posts }) => {
                                     },
                                 }}
                             >
-                                <Grid item sx={{ mt: "30px" }}>
+                                {/* <Grid item sx={{ mt: "30px" }}>
                                     <h1>{spotlightPost.title}</h1>
-                                </Grid>
-                                <Grid item>
+                                </Grid> */}
+                                {/* <Grid item>
                                     <Image
                                         src="/line1.svg"
                                         alt="line"
                                         height={1}
                                         width={100}
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item>
                                     <p
                                         style={{
