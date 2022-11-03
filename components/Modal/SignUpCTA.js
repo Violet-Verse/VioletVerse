@@ -46,7 +46,7 @@ const SignUpCTA = (props) => {
                         width="1920"
                     />
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{ pb: 2, pr: 3 }}>
                     <Button
                         color="info"
                         sx={{ borderRadius: "10px" }}
