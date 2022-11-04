@@ -92,6 +92,11 @@ const NewNav = () => {
                         fcl.unauthenticate();
                         console.error(err);
                     });
+
+                // Track user upon login
+                global.analytics.identify(accountProofService.data.address, {
+                    email: userEmail,
+                });
             }
         } catch (err) {
             // console.log(err);

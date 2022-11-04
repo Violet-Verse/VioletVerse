@@ -6,7 +6,7 @@ import {
     Stack,
     CircularProgress,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -23,7 +23,6 @@ import { getPostsBySlug } from "./api/database/getPostsByID";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import { getAllPosts } from "./api/database/getAllPosts";
 import { getAuthorForPost } from "./api/database/getUserForPost";
-import { LikeButton } from "@lyket/react";
 
 import { transferTokens } from "../cadence/scripts/transactions/purchaseContent";
 import * as fcl from "@onflow/fcl";
@@ -73,6 +72,14 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
     const updateDate = dateFormatter(posts?.lastUpdated);
     const editPermission =
         loaded && (user?.userId == author?.userId || user?.role == "admin");
+
+    // Analytics Page View
+    useEffect(() => {
+        global.analytics.track("Article Viewed", {
+            title: posts.title,
+            author: author?.name,
+        });
+    }, []);
 
     // Token Gate Permissions
     const purchasedArray = user?.purchasedContent
