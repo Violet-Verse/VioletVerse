@@ -22,7 +22,10 @@ import purifyHTML from "../lib/purifyHTML";
 import { getPostsBySlug } from "./api/database/getPostsByID";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import { getAllPosts } from "./api/database/getAllPosts";
-import { getAuthorForPost } from "./api/database/getUserForPost";
+import {
+    getAuthorForPost,
+    getContributorForPost,
+} from "./api/database/getUserForPost";
 
 import { transferTokens } from "../cadence/scripts/transactions/purchaseContent";
 import * as fcl from "@onflow/fcl";
@@ -34,6 +37,7 @@ export async function getServerSideProps(context) {
     const data = await getPostsBySlug(id);
     const allPosts = await getAllPosts();
     const authorData = await getAuthorForPost(id);
+    const contributorData = await getContributorForPost(id);
 
     if (!data) {
         return { notFound: true, props: { posts: {} } };
@@ -44,6 +48,7 @@ export async function getServerSideProps(context) {
             posts: data[0],
             allPosts: allPosts,
             authorData: authorData,
+            contributorData: contributorData || null,
             tokenGatePrice: data[0]?.tokenPrice || false,
         },
     };
@@ -56,16 +61,15 @@ const fetcher = (url) =>
             return { user: data?.user || null };
         });
 
-const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
+const Article = ({
+    posts,
+    allPosts,
+    authorData,
+    tokenGatePrice,
+    contributorData,
+}) => {
     const { data: users, mutate } = useSWR(`/api/database/getUser`, fetcher);
     const { user, loaded } = useUser();
-    const fetchWithId = (url, id) =>
-        fetch(`${url}?id=${id}`).then((r) => r.json());
-    const { data: contributorData } = useSWR(
-        ["/api/database/getUserByEmail", posts.contributor],
-        fetchWithId
-    );
-
     const author = authorData?.user;
     const contributor = contributorData?.user;
     const postDate = dateFormatter(posts.created);
@@ -73,11 +77,14 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice }) => {
     const editPermission =
         loaded && (user?.userId == author?.userId || user?.role == "admin");
 
+    const contributor_name = contributor?.name;
+
     // Analytics Page View
     useEffect(() => {
         global.analytics.track("Article Viewed", {
             title: posts.title,
-            author: author?.name,
+            author_name: author?.name,
+            ...(contributor_name && { contributor_name }),
         });
     }, []);
 
