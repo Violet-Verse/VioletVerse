@@ -23,6 +23,11 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
+// Analytics call on page reroute
+Router.events.on("routeChangeComplete", (url) => {
+    global.analytics.page(url);
+});
+
 function MyApp({ Component, pageProps }) {
     const { user, loaded } = useUser();
     const router = useRouter();

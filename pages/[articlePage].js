@@ -79,13 +79,13 @@ const Article = ({
 
     const contributor_name = contributor?.name;
 
-    // Analytics Page View
+    // Analytics Track Page View
     useEffect(() => {
-        global.analytics.track("Article Viewed", {
+        global.analytics.page("Article", {
             title: posts.title,
             author_name: author?.name,
             ...(contributor_name && { contributor_name }),
-        });
+        }); // eslint-disable-next-line
     }, []);
 
     // Token Gate Permissions

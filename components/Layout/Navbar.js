@@ -33,6 +33,16 @@ import SignUpCTA from "../Modal/SignUpCTA.js";
 
 const NewNav = () => {
     const { user, loaded } = useUser();
+
+    // Identify User for Analytics
+    useEffect(() => {
+        if (user)
+            global.analytics.identify(user?.userId, {
+                username: user?.name,
+                email: user?.email,
+            });
+    }, [loaded, user]);
+
     const vvTokens = nFormatter(useFlowContext(), 2);
 
     const dashboardPermission =
@@ -86,17 +96,11 @@ const NewNav = () => {
                     .then((result) => {
                         console.log(result);
                         mutate("/api/database/getUser");
-                        Router.push("/profile");
                     })
                     .catch((err) => {
                         fcl.unauthenticate();
                         console.error(err);
                     });
-
-                // Track user upon login
-                global.analytics.identify(accountProofService.data.address, {
-                    email: userEmail,
-                });
             }
         } catch (err) {
             // console.log(err);
@@ -112,6 +116,7 @@ const NewNav = () => {
     useEffect(() => {
         if (loaded && !ctaClosed() && !user) {
             setSignupCTA(true);
+            global.analytics.track("Signup CTA Displayed");
         } else {
             setSignupCTA(false);
         }
@@ -130,8 +135,12 @@ const NewNav = () => {
         <nav>
             <SignUpCTA
                 open={signupCTA}
-                handleClose={() => setFirstVisit()}
+                handleClose={() => {
+                    global.analytics.track("Signup CTA Hidden");
+                    setFirstVisit();
+                }}
                 handleSignup={() => {
+                    global.analytics.track("Signup CTA Clicked");
                     login();
                     setFirstVisit();
                 }}

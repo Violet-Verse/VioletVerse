@@ -1,7 +1,6 @@
 import { Button, Grid, Box } from "@mui/material";
-import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -24,6 +23,13 @@ const Home = ({ posts }) => {
         subtitle: "A recap of Ethereum's Devcon Conference.",
         url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
     };
+
+    // Analytics Track Page View
+    useEffect(() => {
+        global.analytics.page("Homepage", {
+            spotlight_post: spotlightPost.subtitle,
+        }); // eslint-disable-next-line
+    }, []);
 
     return (
         <Box sx={{ mt: -4 }}>
