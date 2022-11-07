@@ -34,6 +34,10 @@ const Tipping = (props) => {
     } = useForm();
 
     const onSubmit = async ({ tokenAmount }) => {
+        global.analytics.track("Tip Creator Initiated", {
+            address: address,
+            token_amount: tokenAmount.toFixed(5).toString(),
+        });
         try {
             setTxPending(true);
             const transactionId = await fcl.mutate({
@@ -52,6 +56,13 @@ const Tipping = (props) => {
                 .tx(transactionId)
                 .onceSealed()
                 .then((tx) => {
+                    global.analytics.track("Tip Creator Successful", {
+                        post_title: props.pageTitle,
+                        author: props.author,
+                        author_address: props.address,
+                        token_amount: tokenAmount.toFixed(5).toString(),
+                        tx_url: `https://flowscan.org/transaction/${tx.events[0].transactionId}`,
+                    });
                     setTxComplete(true);
                     setTxPending(false);
                     setTxStatus({
@@ -68,6 +79,13 @@ const Tipping = (props) => {
             setTxStatus({ message: err, status: "error" });
             setTxComplete(true);
             setTxPending(false);
+            global.analytics.track("Tip Creator Cancelled", {
+                post_title: props.pageTitle,
+                author: props.author,
+                author_address: props.address,
+                token_amount: tokenAmount.toFixed(5).toString(),
+                error_message: "Transaction Cancelled",
+            });
         }
     };
 

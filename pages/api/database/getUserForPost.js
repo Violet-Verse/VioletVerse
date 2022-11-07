@@ -25,6 +25,30 @@ export async function getAuthorForPost(id) {
     return { user: authorData[0]?.fields };
 }
 
+export async function getContributorForPost(id) {
+    const posts = await postTable
+        .select({
+            filterByFormula: `{slug} = "${id}"`,
+        })
+        .firstPage();
+
+    if (posts.length === 0) {
+        return null;
+    }
+
+    const minifiedRecord = minifyRecords(posts);
+
+    const email = minifiedRecord[0].contributor;
+
+    const contributorData = await table
+        .select({
+            filterByFormula: `{email} = "${email}"`,
+        })
+        .firstPage();
+
+    return { user: contributorData[0]?.fields || null };
+}
+
 export default async function handler(req, res) {
     const id = req.query.id;
     const userData = await table

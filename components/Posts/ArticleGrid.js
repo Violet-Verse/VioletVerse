@@ -173,7 +173,17 @@ const ArticleGrid = (props) => {
                         <ToggleButtonGroup
                             value={category}
                             exclusive
-                            onChange={handleCategory}
+                            onChange={(event, newCategory) => {
+                                global.analytics.track(
+                                    "Article Category Sorted",
+                                    {
+                                        previous_category: category || "None",
+                                        category_selected:
+                                            newCategory || "None",
+                                    }
+                                );
+                                handleCategory(event, newCategory);
+                            }}
                             aria-label="category-selector"
                             size="large"
                         >
@@ -300,7 +310,12 @@ const ArticleGrid = (props) => {
                                 color="primary"
                                 variant="contained"
                                 disableElevation
-                                onClick={() => Router.push("/posts")}
+                                onClick={() => {
+                                    Router.push("/posts");
+                                    global.analytics.track(
+                                        "View All Articles Clicked"
+                                    );
+                                }}
                             >
                                 View All
                             </Button>
