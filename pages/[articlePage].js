@@ -79,15 +79,6 @@ const Article = ({
 
     const contributor_name = contributor?.name;
 
-    // Analytics Track Page View
-    useEffect(() => {
-        global.analytics.page("Article", {
-            title: posts.title,
-            author_name: author?.name,
-            ...(contributor_name && { contributor_name }),
-        }); // eslint-disable-next-line
-    }, []);
-
     // Token Gate Permissions
     const purchasedArray = user?.purchasedContent
         ? user.purchasedContent.split(",")

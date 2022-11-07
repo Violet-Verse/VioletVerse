@@ -64,6 +64,7 @@ const NewNav = () => {
     };
 
     const handleCloseUserMenu = (setting) => {
+        global.analytics.track("Profile Menu Hidden");
         setAnchorElUser(null);
     };
 
@@ -411,7 +412,14 @@ const NewNav = () => {
                                         >
                                             <Tooltip title="Account settings">
                                                 <IconButton
-                                                    onClick={handleOpenUserMenu}
+                                                    onClick={(event) => {
+                                                        global.analytics.track(
+                                                            "Profile Menu Displayed"
+                                                        );
+                                                        handleOpenUserMenu(
+                                                            event
+                                                        );
+                                                    }}
                                                     size="small"
                                                     aria-controls={
                                                         open
@@ -476,6 +484,12 @@ const NewNav = () => {
                                                 <MenuItem
                                                     onClick={() => {
                                                         Router.push("/profile");
+                                                        global.analytics.track(
+                                                            "Profile Menu Item Clicked",
+                                                            {
+                                                                page: "Profile Page",
+                                                            }
+                                                        );
                                                         setAnchorElUser(null);
                                                     }}
                                                 >
@@ -496,6 +510,12 @@ const NewNav = () => {
                                                             Router.push(
                                                                 "/dashboard"
                                                             );
+                                                            global.analytics.track(
+                                                                "Profile Menu Item Clicked",
+                                                                {
+                                                                    page: "Dashboard Page",
+                                                                }
+                                                            );
                                                             setAnchorElUser(
                                                                 null
                                                             );
@@ -510,6 +530,12 @@ const NewNav = () => {
                                                 <MenuItem
                                                     onClick={() => {
                                                         Router.push("/tokens");
+                                                        global.analytics.track(
+                                                            "Profile Menu Item Clicked",
+                                                            {
+                                                                page: "Dashboard Page",
+                                                            }
+                                                        );
                                                         setAnchorElUser(null);
                                                     }}
                                                 >
@@ -523,6 +549,12 @@ const NewNav = () => {
                                                         Router.push(
                                                             "/profile/edit"
                                                         );
+                                                        global.analytics.track(
+                                                            "Profile Menu Item Clicked",
+                                                            {
+                                                                page: "Edit Profile Page",
+                                                            }
+                                                        );
                                                         setAnchorElUser(null);
                                                     }}
                                                 >
@@ -534,6 +566,9 @@ const NewNav = () => {
                                                 <MenuItem
                                                     onClick={() => {
                                                         fcl.unauthenticate();
+                                                        global.analytics.track(
+                                                            "Logout Button Clicked"
+                                                        );
                                                         Router.push(
                                                             "/api/auth/logout"
                                                         );
@@ -575,7 +610,12 @@ const NewNav = () => {
                                                 aria-label="account"
                                                 aria-controls="menu-appbar"
                                                 color="inherit"
-                                                onClick={() => login()}
+                                                onClick={() => {
+                                                    login();
+                                                    global.analytics.track(
+                                                        "Login Button Clicked"
+                                                    );
+                                                }}
                                             >
                                                 <PersonOutlineSharpIcon
                                                     sx={{ fontSize: "32px" }}
@@ -595,7 +635,12 @@ const NewNav = () => {
                                             <Button
                                                 disableElevation
                                                 variant="contained"
-                                                onClick={() => login()}
+                                                onClick={() => {
+                                                    login();
+                                                    global.analytics.track(
+                                                        "Login Button Clicked"
+                                                    );
+                                                }}
                                                 sx={{
                                                     py: 1.5,
                                                     px: 2.5,

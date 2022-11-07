@@ -24,13 +24,6 @@ const Home = ({ posts }) => {
         url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
     };
 
-    // Analytics Track Page View
-    useEffect(() => {
-        global.analytics.page("Homepage", {
-            spotlight_post: spotlightPost.subtitle,
-        }); // eslint-disable-next-line
-    }, []);
-
     return (
         <Box sx={{ mt: -4 }}>
             <Head>
