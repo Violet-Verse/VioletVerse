@@ -45,6 +45,9 @@ const Profile = () => {
             })
                 .then((response) => response.json())
                 .then((newData) => {
+                    global.analytics.track("Profile Updated", {
+                        ...newData,
+                    });
                     mutate("/api/database/getUser", {
                         ...users.user,
                         newData,

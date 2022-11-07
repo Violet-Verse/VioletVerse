@@ -77,8 +77,6 @@ const Article = ({
     const editPermission =
         loaded && (user?.userId == author?.userId || user?.role == "admin");
 
-    const contributor_name = contributor?.name;
-
     // Token Gate Permissions
     const purchasedArray = user?.purchasedContent
         ? user.purchasedContent.split(",")
@@ -996,7 +994,20 @@ const Article = ({
                     </Grid>
                     <Grid item>
                         <Button
-                            onClick={() => setTippingModal(true)}
+                            onClick={() => {
+                                global.analytics.track(
+                                    "Tip Creator Menu Shown",
+                                    {
+                                        author:
+                                            contributor?.name || author?.name,
+                                        author_address:
+                                            contributor?.flowAddress ||
+                                            author?.flowAddress,
+                                        post_title: posts?.title,
+                                    }
+                                );
+                                setTippingModal(true);
+                            }}
                             sx={{
                                 color: "#004455",
                                 backgroundColor: "#AAEEFF",
@@ -1010,10 +1021,25 @@ const Article = ({
                         </Button>
                         <Tipping
                             open={tippingModal}
-                            handleClose={() => setTippingModal(false)}
+                            handleClose={() => {
+                                setTippingModal(false);
+                                global.analytics.track(
+                                    "Tip Creator Menu Hidden",
+                                    {
+                                        post_title: posts?.title,
+                                        author:
+                                            contributor?.name || author?.name,
+                                        author_address:
+                                            contributor?.flowAddress ||
+                                            author?.flowAddress,
+                                    }
+                                );
+                            }}
                             address={
                                 contributor?.flowAddress || author?.flowAddress
                             }
+                            author={contributor?.name || author?.name}
+                            pageTitle={posts?.title}
                         />
                     </Grid>
                 </Grid>

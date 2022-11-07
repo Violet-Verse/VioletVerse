@@ -37,6 +37,10 @@ const Tokens = () => {
     } = useForm();
 
     const onSubmit = async ({ address, tokenAmount }) => {
+        global.analytics.track("Send Tokens Initiated", {
+            address: address,
+            token_amount: tokenAmount.toFixed(5).toString(),
+        });
         try {
             setTxPending(true);
             const transactionId = await fcl.mutate({
@@ -55,6 +59,11 @@ const Tokens = () => {
                 .tx(transactionId)
                 .onceSealed()
                 .then((tx) => {
+                    global.analytics.track("Send Tokens Successful", {
+                        address: address,
+                        token_amount: tokenAmount.toFixed(5).toString(),
+                        tx_url: `https://flowscan.org/transaction/${tx.events[0].transactionId}`,
+                    });
                     setTxComplete(true);
                     setTxPending(false);
                     setTxStatus({
@@ -71,6 +80,11 @@ const Tokens = () => {
             setTxStatus({ message: err, status: "error" });
             setTxComplete(true);
             setTxPending(false);
+            global.analytics.track("Send Tokens Cancelled", {
+                address: address,
+                token_amount: tokenAmount.toFixed(5).toString(),
+                error_message: "Transaction Cancelled",
+            });
         }
     };
 
