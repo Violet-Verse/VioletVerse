@@ -95,6 +95,25 @@ const NewNav = () => {
                 })
                     .then((response) => response.json())
                     .then((result) => {
+                        global.analytics.track(
+                            result.registration
+                                ? "User Registration Success"
+                                : "User Login Success ",
+                            {
+                                ...(result.registration && {
+                                    userId: result.userData.userId,
+                                }),
+                                ...(result.registration && {
+                                    email: result.userData.email,
+                                }),
+                                ...(result.registration && {
+                                    role: result.userData.role,
+                                }),
+                                ...(result.registration && {
+                                    flowAddress: result.userData.flowAddress,
+                                }),
+                            }
+                        );
                         console.log(result);
                         mutate("/api/database/getUser");
                     })
