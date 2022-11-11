@@ -17,6 +17,8 @@ import styles from "../../styles/ArticleGrid.module.css";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
+    const authors = props.authors;
+    const contributors = props.contributors;
 
     const { query } = useRouter();
     const [livePosts, setLivePosts] = useState(
@@ -26,6 +28,22 @@ const ArticleGrid = (props) => {
     const [category, setCategory] = useState(props?.filter || null);
     const handleCategory = (event, newCategory) => {
         setCategory(newCategory);
+    };
+
+    console.log(contributors);
+
+    const filterAuthor = (userId, contributor) => {
+        if (contributor) {
+            return (
+                contributors.filter((x) => x.email === contributor)[0]?.name ||
+                "Contributor"
+            );
+        } else {
+            return (
+                authors.filter((x) => x.userId === userId)[0]?.name ||
+                contributors.filter((x) => x.userId === userId)[0]?.name
+            );
+        }
     };
 
     useEffect(() => {
@@ -263,6 +281,14 @@ const ArticleGrid = (props) => {
                                             </h4>
                                         </Box>
                                     </Box>
+
+                                    <h4>
+                                        {filterAuthor(
+                                            post.createdBy,
+                                            post?.contributor
+                                        )}
+                                    </h4>
+
                                     <h4
                                         style={{
                                             marginTop: "20px",

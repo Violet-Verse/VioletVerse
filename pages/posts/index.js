@@ -1,17 +1,19 @@
 import { Box } from "@mui/material";
 import ArticleGrid from "../../components/Posts/ArticleGrid";
 import { getAllPosts } from "../api/database/getAllPosts";
+import { getUsersByRole } from "../api/database/getUserByEmail";
 
 export async function getServerSideProps() {
     const data = await getAllPosts();
+    const authors = await getUsersByRole("admin");
+    const contributors = await getUsersByRole("contributor");
 
     return {
-        props: { posts: data },
+        props: { posts: data, authors: authors, contributors: contributors },
     };
 }
 
-const Posts = ({ posts }) => {
-    console.log(posts);
+const Posts = ({ posts, authors, contributors }) => {
     return (
         <Box
             sx={{
@@ -28,6 +30,8 @@ const Posts = ({ posts }) => {
                 title="Layers of the Verse"
                 posts={posts}
                 maximum={100}
+                authors={authors}
+                contributors={contributors}
             />
         </Box>
     );
