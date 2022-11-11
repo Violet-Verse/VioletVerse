@@ -35,7 +35,7 @@ const Tipping = (props) => {
 
     const onSubmit = async ({ tokenAmount }) => {
         global.analytics.track("Tip Creator Initiated", {
-            address: address,
+            address: props.address,
             token_amount: tokenAmount.toFixed(5).toString(),
         });
         try {
