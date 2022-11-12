@@ -17,6 +17,8 @@ import styles from "../../styles/ArticleGrid.module.css";
 
 const ArticleGrid = (props) => {
     const posts = props.posts;
+    const authors = props.authors;
+    const contributors = props.contributors;
 
     const { query } = useRouter();
     const [livePosts, setLivePosts] = useState(
@@ -26,6 +28,22 @@ const ArticleGrid = (props) => {
     const [category, setCategory] = useState(props?.filter || null);
     const handleCategory = (event, newCategory) => {
         setCategory(newCategory);
+    };
+
+    console.log(contributors);
+
+    const filterAuthor = (userId, contributor) => {
+        if (contributor) {
+            return (
+                contributors.filter((x) => x.email === contributor)[0]?.name ||
+                "Contributor"
+            );
+        } else {
+            return (
+                authors.filter((x) => x.userId === userId)[0]?.name ||
+                contributors.filter((x) => x.userId === userId)[0]?.name
+            );
+        }
     };
 
     useEffect(() => {
@@ -263,16 +281,17 @@ const ArticleGrid = (props) => {
                                             </h4>
                                         </Box>
                                     </Box>
-                                    <h4
-                                        style={{
-                                            marginTop: "20px",
-                                            fontFamily: "Ogg",
-                                            fontWeight: "500",
-                                            fontSize: "22px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.01em",
-                                        }}
-                                    >
+
+                                    {authors && (
+                                        <h6 style={{ marginTop: "32px" }}>
+                                            {filterAuthor(
+                                                post.createdBy,
+                                                post?.contributor
+                                            )}
+                                        </h6>
+                                    )}
+
+                                    <h3 style={{ marginTop: "21px" }}>
                                         {post?.hidden == "true" ? (
                                             <span
                                                 style={{
@@ -287,19 +306,15 @@ const ArticleGrid = (props) => {
                                                     : "")
                                             }`
                                         )}
-                                    </h4>
-                                    <h5
+                                    </h3>
+                                    <h6
                                         style={{
-                                            marginTop: "20px",
-                                            fontFamily: "Stratos",
-                                            fontWeight: "500",
-                                            fontSize: "16px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.01em",
+                                            marginTop: "21px",
+                                            color: "#43226D",
                                         }}
                                     >
                                         in {post.category}
-                                    </h5>
+                                    </h6>
                                 </a>
                             </Link>
                         </Grid>
@@ -308,6 +323,7 @@ const ArticleGrid = (props) => {
                         <Grid item xs={12} sx={{ mt: 2 }}>
                             <Button
                                 color="primary"
+                                sx={{ fontSize: "16px", padding: "12px 28px" }}
                                 variant="contained"
                                 disableElevation
                                 onClick={() => {
