@@ -60,8 +60,8 @@ h3 {
     font-family: "Ogg";
     font-style: normal;
     font-weight: 500;
-    font-size: 32px;
-    color: #0a0510;
+    font-size: 22px;
+    color: #000000;
     letter-spacing: -0.01em;
     line-height: 120%;
     margin: 0;
@@ -91,8 +91,8 @@ h5 {
 
 h6 {
     font-family: "Stratos";
-    font-weight: 500;
-    font-size: 24px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 130%;
     letter-spacing: -0.01em;
     color: #0a0510;

@@ -8,16 +8,19 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import InfoBlock from "../components/InfoBlock";
 import { getAllPosts } from "./api/database/getAllPosts";
+import { getUsersByRole } from "./api/database/getUserByEmail";
 
 export async function getServerSideProps() {
     const data = await getAllPosts();
+    const authors = await getUsersByRole("admin");
+    const contributors = await getUsersByRole("contributor");
 
     return {
-        props: { posts: data },
+        props: { posts: data, authors: authors, contributors: contributors },
     };
 }
 
-const Home = ({ posts }) => {
+const Home = ({ posts, authors, contributors }) => {
     const spotlightPost = {
         title: " ",
         subtitle: "A recap of Ethereum's Devcon Conference.",
@@ -57,7 +60,7 @@ const Home = ({ posts }) => {
                                     lg: "10%",
                                     xl: "10%",
                                 },
-                                mt: 12,
+                                mt: 8,
                                 maxWidth: "1040px",
                             }}
                         >
@@ -87,6 +90,10 @@ const Home = ({ posts }) => {
                                     size="large"
                                     variant="contained"
                                     disableElevation
+                                    sx={{
+                                        fontSize: "16px",
+                                        padding: "12px 28px",
+                                    }}
                                 >
                                     Watch Now
                                 </Button>
@@ -121,7 +128,7 @@ const Home = ({ posts }) => {
             >
                 {/* Top Section under video | MD or smaller */}
 
-                <Box sx={{ display: { xs: "flex", md: "none" }, mt: 10 }}>
+                <Box sx={{ display: { xs: "flex", md: "none" }, mt: 6 }}>
                     <Link href={spotlightPost.url}>
                         <a>
                             <Grid
@@ -181,6 +188,8 @@ const Home = ({ posts }) => {
                     maximum={3}
                     seeAll={true}
                     mt={15}
+                    authors={authors}
+                    contributors={contributors}
                 />
 
                 {/* New to Web3? */}
