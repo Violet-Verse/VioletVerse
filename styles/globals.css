@@ -128,11 +128,11 @@ blockquote {
     font-family: "Ogg";
     color: black;
     font-weight: 500;
-    font-size: 36px;
+    font-size: 30px;
     line-height: 130%;
     text-align: center;
     letter-spacing: -0.01em;
-    max-width: 500px;
+    max-width: 100%;
     z-index: 1;
     margin: 30px auto;
     align-self: center;
