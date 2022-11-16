@@ -32,6 +32,7 @@ const Posts = ({ posts, authors, contributors }) => {
                 maximum={100}
                 authors={authors}
                 contributors={contributors}
+                marketPage
             />
         </Box>
     );

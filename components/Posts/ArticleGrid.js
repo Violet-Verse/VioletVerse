@@ -5,6 +5,7 @@ import {
     Stack,
     ToggleButtonGroup,
     ToggleButton,
+    TextField,
 } from "@mui/material";
 import Image from "next/image";
 import Router from "next/router";
@@ -23,6 +24,7 @@ const ArticleGrid = (props) => {
 
     const [category, setCategory] = useState(props?.filter);
     const [draftsOnly, setDraftsOnly] = useState("all");
+    const [searchValue, setSearchValue] = useState("");
 
     const authors = props.authors;
     const contributors = props.contributors;
@@ -46,6 +48,18 @@ const ArticleGrid = (props) => {
             );
         }
     }, [posts, props.filter, props.postId]);
+
+    // Event handler for search bar
+    const handleSearchChange = (event) => {
+        setSearchValue(event.target.value);
+        setLivePosts(
+            posts.filter((post) =>
+                post.title
+                    .toLowerCase()
+                    .includes(event.target.value.toLowerCase())
+            )
+        );
+    };
 
     // Event handler for category toggle button group
     const handleCategory = (event, newCategory) => {
@@ -210,6 +224,18 @@ const ArticleGrid = (props) => {
                         </>
                     )}
                 </Grid>
+                {props.marketPage && (
+                    <Grid container sx={{ mb: 4, px: 8 }}>
+                        <TextField
+                            id="outlined-search"
+                            label="Search the Verse"
+                            type="search"
+                            value={searchValue}
+                            onChange={handleSearchChange}
+                            fullWidth
+                        />
+                    </Grid>
+                )}
                 {!props.buttonDisabled && (
                     <Grid item>
                         <ToggleButtonGroup
