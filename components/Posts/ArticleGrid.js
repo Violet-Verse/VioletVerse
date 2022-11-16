@@ -52,6 +52,7 @@ const ArticleGrid = (props) => {
     // Event handler for search bar
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
+        setCategory();
         setLivePosts(
             posts.filter((post) =>
                 post.title
@@ -241,6 +242,7 @@ const ArticleGrid = (props) => {
                         <ToggleButtonGroup
                             value={category}
                             exclusive
+                            disabled={searchValue}
                             onChange={(event, newCategory) => {
                                 global.analytics.track(
                                     "Article Category Sorted",
