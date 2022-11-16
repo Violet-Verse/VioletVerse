@@ -8,6 +8,14 @@ export async function getAllPosts() {
     const minifiedRecords = minifyRecords(posts);
     return minifiedRecords;
 }
+export async function getAllDraftPosts() {
+    const posts = await postTable
+        .select({ filterByFormula: `{hidden} != "false"` })
+        .firstPage();
+
+    const minifiedRecords = minifyRecords(posts);
+    return minifiedRecords;
+}
 
 export default async function handler(req, res) {
     const jsonData = await getAllPosts();
