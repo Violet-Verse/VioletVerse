@@ -1,20 +1,25 @@
 import { Button, Grid, Box } from "@mui/material";
 import Link from "next/link";
 import ArticleGrid from "../components/Posts/ArticleGrid";
-import { usePosts } from "../hooks/useAuth";
+import { getAllDraftPosts } from "./api/database/getAllPosts";
+import { getUsersByRole } from "./api/database/getUserByEmail";
 
 export async function getStaticProps(context) {
+    const data = await getAllDraftPosts();
+    const authors = await getUsersByRole("admin");
+    const contributors = await getUsersByRole("contributor");
     return {
         props: {
             protected: true,
             userTypes: ["admin", "contributor"],
+            posts: data,
+            authors: authors,
+            contributors: contributors,
         },
     };
 }
 
-const Dashboard = () => {
-    const { posts, loaded } = usePosts();
-
+const Dashboard = ({ posts, authors, contributors }) => {
     return (
         <Box
             sx={{
@@ -36,53 +41,37 @@ const Dashboard = () => {
                 spacing={4}
             >
                 <Grid item>
-                    <h1>Creator Dashboard</h1>
+                    <h1>Drafts Panel</h1>
                 </Grid>
                 <Grid item>
-                    <p>
-                        Create and manage your article posts on the Violet
-                        Verse.
-                    </p>
+                    <p>Unpublished articles of the Verse.</p>
                 </Grid>
                 <Grid item>
-                    <Link href="/posts/create">
+                    <Link href="/dashboard">
                         <a>
                             <Button
-                                variant="contained"
-                                disableElevation
-                                sx={{ px: 5, py: 1 }}
-                            >
-                                Create Post
-                            </Button>
-                        </a>
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link href="/drafts">
-                        <a>
-                            <Button
-                                variant="contained"
-                                disableElevation
                                 color="secondary"
+                                variant="contained"
+                                disableElevation
                                 sx={{ px: 5, py: 1 }}
                             >
-                                View Draft Page
+                                Back to Dashboard
                             </Button>
                         </a>
                     </Link>
                 </Grid>
             </Grid>
-            {loaded && (
-                <Box sx={{ mt: 10 }}>
-                    <ArticleGrid
-                        title="Your Posts"
-                        posts={posts}
-                        maximum={20}
-                        buttonDisabled
-                        dashboardPage
-                    />
-                </Box>
-            )}
+
+            <Box sx={{ mt: 10 }}>
+                <ArticleGrid
+                    title="Unpublished Posts"
+                    posts={posts}
+                    mt={5}
+                    buttonDisabled
+                    authors={authors}
+                    contributors={contributors}
+                />
+            </Box>
         </Box>
     );
 };
