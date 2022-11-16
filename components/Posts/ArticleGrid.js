@@ -1,6 +1,5 @@
 import {
     Grid,
-    ButtonGroup,
     Button,
     Box,
     Stack,
@@ -14,58 +13,83 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
 import styles from "../../styles/ArticleGrid.module.css";
+import { setRevalidateHeaders } from "next/dist/server/send-payload";
 
 const ArticleGrid = (props) => {
-    const posts = props.posts;
+    const { query } = useRouter();
+    const posts = props.posts.sort((a, b) => (a.id < b.id ? 1 : -1));
+    const [livePosts, setLivePosts] = useState(posts);
+    const hasPosts = livePosts.length !== 0;
+
+    const [category, setCategory] = useState(props?.filter);
+    const [draftsOnly, setDraftsOnly] = useState("all");
+
     const authors = props.authors;
     const contributors = props.contributors;
 
-    const { query } = useRouter();
-    const [livePosts, setLivePosts] = useState(
-        posts.sort((a, b) => (a.id < b.id ? 1 : -1))
-    );
-    const hasPosts = livePosts.length !== 0;
-    const [category, setCategory] = useState(props?.filter || null);
+    // Filtering uses from page query (Footer links)
+    useEffect(() => {
+        if (query.category) {
+            setLivePosts(
+                posts.filter((post) => post.category === query.category)
+            );
+        }
+    }, [posts, query.category]);
+
+    // Filtering used on article pages (More from category)
+    useEffect(() => {
+        if (props.filter) {
+            setLivePosts(
+                posts
+                    .filter((post) => post.category === props.filter)
+                    .filter((post) => post.id !== props.postId)
+            );
+        }
+    }, [posts, props.filter, props.postId]);
+
+    // Event handler for category toggle button group
     const handleCategory = (event, newCategory) => {
         setCategory(newCategory);
+
+        if (newCategory === null) {
+            setLivePosts(posts);
+        } else {
+            setLivePosts(
+                posts?.filter((post) => post.category === newCategory)
+            );
+        }
     };
 
-    console.log(contributors);
+    // Event handler for drafts toggle button group
+    const handleDrafts = (event, newSelection) => {
+        if (newSelection === "true" || newSelection === "false") {
+            setDraftsOnly(newSelection);
+            setLivePosts(posts?.filter((post) => post.hidden === newSelection));
+        } else if (newSelection === "all") {
+            setDraftsOnly(newSelection);
+            setLivePosts(posts);
+        }
+    };
 
+    // Function for finding author data from a post
     const filterAuthor = (userId, contributor) => {
         if (contributor) {
             return (
-                contributors.filter((x) => x.email === contributor)[0]?.name ||
-                "Contributor"
+                contributors.filter(
+                    (contributor) => contributor.email === contributor
+                )[0]?.name || "Contributor"
             );
         } else {
             return (
-                authors.filter((x) => x.userId === userId)[0]?.name ||
-                contributors.filter((x) => x.userId === userId)[0]?.name
+                authors.filter(
+                    (contributor) => contributor.userId === userId
+                )[0]?.name ||
+                contributors.filter(
+                    (contributor) => contributor.userId === userId
+                )[0]?.name
             );
         }
     };
-
-    useEffect(() => {
-        if (query.category) {
-            setCategory(query.category);
-        }
-    }, [query.category]);
-
-    // Filter posts based on selected category
-    useEffect(() => {
-        if (category === null) {
-            setLivePosts(posts);
-        } else if (props?.postId) {
-            setLivePosts(
-                posts
-                    ?.filter((x) => x.category === category)
-                    .filter((x) => x.id !== props?.postId)
-            );
-        } else {
-            setLivePosts(posts?.filter((x) => x.category === category));
-        }
-    }, [category, posts, props.postId]);
 
     return (
         <Box sx={{ mt: props.mt, mb: props.mb, my: props.my }}>
@@ -219,6 +243,29 @@ const ArticleGrid = (props) => {
                                 aria-label="education"
                             >
                                 Education
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                )}
+                {props.dashboardPage && (
+                    <Grid item>
+                        <ToggleButtonGroup
+                            value={draftsOnly}
+                            exclusive
+                            onChange={(event, newSelection) => {
+                                handleDrafts(event, newSelection);
+                            }}
+                            aria-label="draft-selector"
+                            size="large"
+                        >
+                            <ToggleButton value="all" aria-label="all">
+                                All Posts
+                            </ToggleButton>
+                            <ToggleButton value="false" aria-label="published">
+                                Published
+                            </ToggleButton>
+                            <ToggleButton value="true" aria-label="drafts">
+                                Drafts
                             </ToggleButton>
                         </ToggleButtonGroup>
                     </Grid>

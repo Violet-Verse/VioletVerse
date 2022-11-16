@@ -65,6 +65,7 @@ const Dashboard = () => {
                         posts={posts}
                         maximum={20}
                         buttonDisabled
+                        dashboardPage
                     />
                 </Box>
             )}
