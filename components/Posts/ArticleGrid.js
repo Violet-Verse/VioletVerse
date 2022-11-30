@@ -358,7 +358,7 @@ const ArticleGrid = (props) => {
                                     </Box>
 
                                     {authors && (
-                                        <h6 style={{ marginTop: "32px" }}>
+                                        <h6 style={{ marginTop: "10px" }}>
                                             {filterAuthor(
                                                 post.createdBy,
                                                 post?.contributor
@@ -385,6 +385,7 @@ const ArticleGrid = (props) => {
                                     <h6
                                         style={{
                                             marginTop: "21px",
+                                            marginBottom: "20px",
                                             color: "#43226D",
                                         }}
                                     >
