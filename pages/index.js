@@ -1,6 +1,7 @@
-import { Button, Grid, Box } from "@mui/material";
+import { Button, Grid, Box, Stack } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import Image from "next/image";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -114,6 +115,44 @@ const Home = ({ posts, authors, contributors }) => {
             </Link>
 
             {/* Section under video */}
+
+            <Box
+                sx={{
+                    mt: -1,
+                    borderTop: 100,
+                    borderBottom: 100,
+                    borderColor: "#0A0510",
+                    backgroundColor: "#0A0510",
+                    textAlign: {
+                        xs: "center",
+                    },
+                }}
+            >
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={4}
+                >
+                    <Grid item>
+                        <h2 style={{ color: "white" }}>
+                            Frens at Art Basel, claim your free VV POAP!
+                        </h2>
+                    </Grid>
+                    <Grid item>
+                        <Image
+                            src="/vvCircleLogo.svg"
+                            alt="vv logo"
+                            height={90}
+                            width={90}
+                        />
+                    </Grid>
+                </Grid>
+                <Button variant="contained" disableElevation sx={{ mt: 3 }}>
+                    Claim Violet Verse POAP
+                </Button>
+            </Box>
 
             <Box
                 sx={{
