@@ -259,9 +259,11 @@ const Home = ({ posts, authors, contributors }) => {
                         />
                     </Grid>
                 </Grid>
-                <Button variant="contained" disableElevation sx={{ mt: 3 }}>
-                    Claim Violet Verse POAP (Soon)
-                </Button>
+                <Link href="https://kiosk.poap.xyz/#/event/hog54Jm3tROGR2jbwb9A">
+                    <Button variant="contained" disableElevation sx={{ mt: 3 }}>
+                        Claim Violet Verse POAP
+                    </Button>
+                </Link>
             </Box>
 
             {/* Main Content */}
