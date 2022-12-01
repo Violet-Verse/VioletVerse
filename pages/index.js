@@ -200,13 +200,13 @@ const Home = ({ posts, authors, contributors }) => {
                             height={300}
                         />
                     </Grid>
-                    <Grid item>
+                    <Grid item sx={{ mt: 1 }}>
                         <h2 style={{ fontSize: "28px" }}>
                             Art Basel Miami Beach is here!
                         </h2>
                     </Grid>
                     <Grid item>
-                        <p style={{ maxWidth: "800px" }}>
+                        <p style={{ maxWidth: "555px" }}>
                             Check out our daily updated Insider Guide for all of
                             the must-see events and gallery exhibitions
                             throughout the fair.
