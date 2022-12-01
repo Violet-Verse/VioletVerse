@@ -242,7 +242,7 @@ const ArticleGrid = (props) => {
                         <ToggleButtonGroup
                             value={category}
                             exclusive
-                            disabled={searchValue}
+                            disabled={searchValue ? true : false}
                             onChange={(event, newCategory) => {
                                 global.analytics.track(
                                     "Article Category Sorted",

@@ -1,6 +1,7 @@
-import { Button, Grid, Box } from "@mui/material";
+import { Button, Grid, Box, Stack } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import Image from "next/image";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -113,8 +114,157 @@ const Home = ({ posts, authors, contributors }) => {
                 </a>
             </Link>
 
-            {/* Section under video */}
+            <Box sx={{ display: { xs: "flex", md: "none" }, mt: 6, mb: 6 }}>
+                <Link href={spotlightPost.url}>
+                    <a>
+                        <Grid
+                            container
+                            direction="column"
+                            spacing={2}
+                            sx={{
+                                textAlign: {
+                                    xs: "center",
+                                },
+                            }}
+                        >
+                            {/* <Grid item sx={{ mt: "30px" }}>
+                                    <h1>{spotlightPost.title}</h1>
+                                </Grid> */}
+                            {/* <Grid item>
+                                    <Image
+                                        src="/line1.svg"
+                                        alt="line"
+                                        height={1}
+                                        width={100}
+                                    />
+                                </Grid> */}
+                            <Grid item>
+                                <p
+                                    style={{
+                                        fontFamily: "stratos-lights",
+                                        fontStyle: "italic",
+                                        fontWeight: "200",
+                                        fontSize: "28px",
+                                        lineHeight: "130%",
+                                        letterSpacing: "-0.01em",
+                                        color: "black",
+                                    }}
+                                >
+                                    {spotlightPost.subtitle}
+                                </p>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    size="large"
+                                    variant="contained"
+                                    disableElevation
+                                >
+                                    Watch Now
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </a>
+                </Link>
+            </Box>
 
+            {/* Art Basel Post */}
+            <Box
+                sx={{
+                    borderTop: 50,
+                    borderBottom: 50,
+                    borderColor: "#ECE6F9",
+                    backgroundColor: "#ECE6F9",
+                    textAlign: {
+                        xs: "center",
+                    },
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "10%",
+                        xl: "10%",
+                    },
+                }}
+            >
+                <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <Image
+                            src="/artbasel.svg"
+                            alt="art basel post"
+                            width={450}
+                            height={300}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <h2 style={{ fontSize: "28px" }}>
+                            Art Basel Miami Beach is here!
+                        </h2>
+                    </Grid>
+                    <Grid item>
+                        <p style={{ maxWidth: "800px" }}>
+                            Check out our daily updated Insider Guide for all of
+                            the must-see events and gallery exhibitions
+                            throughout the fair.
+                        </p>
+                    </Grid>
+                    <Grid item>
+                        <Link href="/2022-miami-art-basel-insider-guide-updated-irl-2LU0mOuxJ4">
+                            <Button
+                                variant="contained"
+                                disableElevation
+                                sx={{ mt: 3 }}
+                            >
+                                Read Now
+                            </Button>
+                        </Link>
+                    </Grid>
+                </Grid>
+            </Box>
+
+            {/* Claim Poap */}
+            <Box
+                sx={{
+                    borderTop: 100,
+                    borderBottom: 100,
+                    borderColor: "#0A0510",
+                    backgroundColor: "#0A0510",
+                    textAlign: {
+                        xs: "center",
+                    },
+                }}
+            >
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={4}
+                >
+                    <Grid item>
+                        <h2 style={{ color: "white", fontSize: "28px" }}>
+                            Frens at Art Basel, claim your free VV POAP!
+                        </h2>
+                    </Grid>
+                    <Grid item>
+                        <Image
+                            src="/vvCircleLogo.svg"
+                            alt="vv logo"
+                            height={80}
+                            width={80}
+                        />
+                    </Grid>
+                </Grid>
+                <Button variant="contained" disableElevation sx={{ mt: 3 }}>
+                    Claim Violet Verse POAP (Soon)
+                </Button>
+            </Box>
+
+            {/* Main Content */}
             <Box
                 sx={{
                     px: {
@@ -126,60 +276,6 @@ const Home = ({ posts, authors, contributors }) => {
                     },
                 }}
             >
-                {/* Top Section under video | MD or smaller */}
-
-                <Box sx={{ display: { xs: "flex", md: "none" }, mt: 6 }}>
-                    <Link href={spotlightPost.url}>
-                        <a>
-                            <Grid
-                                container
-                                direction="column"
-                                spacing={2}
-                                sx={{
-                                    textAlign: {
-                                        xs: "center",
-                                    },
-                                }}
-                            >
-                                {/* <Grid item sx={{ mt: "30px" }}>
-                                    <h1>{spotlightPost.title}</h1>
-                                </Grid> */}
-                                {/* <Grid item>
-                                    <Image
-                                        src="/line1.svg"
-                                        alt="line"
-                                        height={1}
-                                        width={100}
-                                    />
-                                </Grid> */}
-                                <Grid item>
-                                    <p
-                                        style={{
-                                            fontFamily: "stratos-lights",
-                                            fontStyle: "italic",
-                                            fontWeight: "200",
-                                            fontSize: "28px",
-                                            lineHeight: "130%",
-                                            letterSpacing: "-0.01em",
-                                        }}
-                                    >
-                                        {spotlightPost.subtitle}
-                                    </p>
-                                </Grid>
-                                <Grid item>
-                                    <Button
-                                        size="large"
-                                        variant="contained"
-                                        disableElevation
-                                    >
-                                        Watch Now
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </a>
-                    </Link>
-                </Box>
-
                 {/* Curated Content Marketplace */}
 
                 <ArticleGrid
