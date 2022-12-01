@@ -260,7 +260,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Grid>
                 </Grid>
                 <Button variant="contained" disableElevation sx={{ mt: 3 }}>
-                    Claim Violet Verse POAP
+                    Claim Violet Verse POAP (Soon)
                 </Button>
             </Box>
 
