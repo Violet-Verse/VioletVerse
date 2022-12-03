@@ -174,13 +174,11 @@ const Footer = () => {
                             </p>
                         </a>
 
-                        <a
-                            href="https://discord.gg/3uhQHMF8fJ"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <p className={styles.subheader}>Contact us</p>
-                        </a>
+                        <Link href="/contact">
+                            <a>
+                                <p className={styles.subheader}>Contact us</p>
+                            </a>
+                        </Link>
                     </Box>
                     <Box>
                         <Stack
