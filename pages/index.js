@@ -227,7 +227,7 @@ const Home = ({ posts, authors, contributors }) => {
             </Box>
 
             {/* Claim Poap */}
-            <Box
+            {/* <Box
                 sx={{
                     borderTop: 100,
                     borderBottom: 100,
@@ -264,7 +264,7 @@ const Home = ({ posts, authors, contributors }) => {
                         Claim Violet Verse POAP
                     </Button>
                 </Link>
-            </Box>
+            </Box> */}
 
             {/* Main Content */}
             <Box
