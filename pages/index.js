@@ -207,8 +207,8 @@ const Home = ({ posts, authors, contributors }) => {
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Take a look back at this year's art Basel hosted in
-                            Miami
+                            Take a look back at this year&apos;s art Basel
+                            hosted in Miami
                         </p>
                     </Grid>
                     <Grid item>
