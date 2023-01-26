@@ -1,10 +1,30 @@
 import { Box, Button, Grid } from "@mui/material";
 import Image from "next/image";
+import Head from "next/head";
 import styles from "../styles/Enterprise.module.css";
 
 const Enterprise = () => {
+    const siteTitle = `Enterprise Plan | Violet Verse`;
+    const metaTitle = `Enterprise Plan`;
+    const siteDescription = `The modern publishing tool for digital creators and brands`;
+    const siteImage = "https://i.imgur.com/LFpaItV.png";
     return (
         <Box mb={-7}>
+            <Head>
+                <title>{siteTitle}</title>
+                <meta name="og:title" content={metaTitle} />
+                <meta name="og:description" content={siteDescription} />
+                <meta property="og:image" content={siteImage} />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="80" />
+                <meta property="og:image:height" content="80" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:site" content="@TheVioletVerse" />
+                <meta name="twitter:title" content={metaTitle} />
+                <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image:src" content={siteImage} />
+            </Head>
             <Box
                 sx={{
                     px: {
