@@ -4,7 +4,7 @@ import styles from "../styles/Enterprise.module.css";
 
 const Enterprise = () => {
     return (
-        <>
+        <Box mb={-7}>
             <Box
                 sx={{
                     px: {
@@ -23,7 +23,7 @@ const Enterprise = () => {
                     justifyContent={"center"}
                     mt={10}
                 >
-                    <Grid item px={{ xl: 12, lg: 4, md: 0 }} mb={3}>
+                    <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
                         <h1 className={styles.header}>
                             Introducing the modern publishing tool for digital
                             creators and brands.
@@ -44,7 +44,7 @@ const Enterprise = () => {
                 </Grid>
             </Box>
             <Box
-                mt={{ sm: 26, xs: 10 }}
+                mt={{ sm: 20, xs: 10 }}
                 sx={{
                     borderTop: 70,
                     borderBottom: 70,
@@ -165,6 +165,30 @@ const Enterprise = () => {
                 </Grid>
             </Box>
             <Box
+                my={18}
+                display={{ xs: "flex", md: "none" }}
+                sx={{
+                    px: {
+                        xs: "0",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                }}
+            >
+                <Grid container justifyContent="center" alignItems="center">
+                    <Grid item>
+                        <Image
+                            alt="web vector"
+                            src="/enterprisefeatures_mobile.svg"
+                            height={480}
+                            width={341}
+                        />
+                    </Grid>
+                </Grid>
+            </Box>
+            <Box
                 sx={{
                     borderTop: 70,
                     borderBottom: 70,
@@ -261,7 +285,63 @@ const Enterprise = () => {
                     </Grid>
                 </Grid>
             </Box>
-        </>
+            <Box
+                sx={{
+                    px: {
+                        xs: "0",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                }}
+            >
+                <Grid
+                    container
+                    alignItems={"center"}
+                    align={"center"}
+                    justifyContent={"center"}
+                    direction="column"
+                    mt={20}
+                >
+                    <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
+                        <h1 className={styles.header}>
+                            Writers get paid instantly when their blogs are
+                            published.
+                        </h1>
+                    </Grid>
+                    <Grid item px={{ xl: 36, lg: 20, md: 0 }} mb={3}>
+                        <p>
+                            All blogs are published on-chain and encrypted with
+                            the author&apos;s digital signature, certifying
+                            proof-of-writer.
+                        </p>
+                    </Grid>
+                    <Grid item mb={3}>
+                        <Image
+                            alt="hand holding vv coin"
+                            src="/vvhand.svg"
+                            height={59}
+                            width={59}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" disableElevation>
+                            Learn more
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
+            <Box mt={20}>
+                <Image
+                    layout="responsive"
+                    alt="half circle shape"
+                    src="/enterprisebottom.svg"
+                    height={220}
+                    width={1440}
+                />
+            </Box>
+        </Box>
     );
 };
 
