@@ -1,5 +1,6 @@
 import { Box, Button, Grid } from "@mui/material";
 import Image from "next/image";
+import styles from "../styles/Enterprise.module.css";
 
 const Enterprise = () => {
     return (
@@ -23,7 +24,7 @@ const Enterprise = () => {
                     mt={10}
                 >
                     <Grid item px={{ xl: 12, lg: 4, md: 0 }} mb={3}>
-                        <h1>
+                        <h1 className={styles.header}>
                             Introducing the modern publishing tool for digital
                             creators and brands.
                         </h1>
@@ -71,7 +72,7 @@ const Enterprise = () => {
                     <Grid item xs={6}>
                         <Grid container align="left" spacing={3}>
                             <Grid item px={{ xl: 6, lg: 0 }}>
-                                <h1>
+                                <h1 className={styles.header}>
                                     Keep your audience engaged with Violet Verse
                                     Enterprise.
                                 </h1>
@@ -111,7 +112,7 @@ const Enterprise = () => {
                 >
                     <Grid item>
                         <Grid item px={{ xl: 6, lg: 0 }}>
-                            <h1>
+                            <h1 className={styles.header}>
                                 Keep your audience engaged with Violet Verse
                                 Enterprise.
                             </h1>
@@ -191,7 +192,7 @@ const Enterprise = () => {
                     <Grid item xs={6}>
                         <Grid container align="left" spacing={3}>
                             <Grid item px={{ xl: 2, lg: 0 }}>
-                                <h1>
+                                <h1 className={styles.header}>
                                     Read and collect Article NFTs in a digital
                                     wallet library.
                                 </h1>
@@ -232,7 +233,7 @@ const Enterprise = () => {
                 >
                     <Grid item>
                         <Grid item px={{ xl: 6, lg: 0 }}>
-                            <h1>
+                            <h1 className={styles.header}>
                                 Keep your audience engaged with Violet Verse
                                 Enterprise.
                             </h1>
