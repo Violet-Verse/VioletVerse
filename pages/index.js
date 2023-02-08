@@ -194,31 +194,32 @@ const Home = ({ posts, authors, contributors }) => {
                 >
                     <Grid item>
                         <Image
-                            src="/artbaselrecap.svg"
-                            alt="art basel post"
+                            src="/dfu_image.svg"
+                            alt="digital fashion unlocked post post"
                             width={450}
                             height={300}
                         />
                     </Grid>
                     <Grid item sx={{ mt: 1 }}>
                         <h2 style={{ fontSize: "28px" }}>
-                            Art Basel Miami 2022 Recap
+                            Digital Fashion Unlocked Podcast
                         </h2>
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Take a look back at this year&apos;s art Basel
-                            hosted in Miami
+                            Check out Season 1 of Digital Fashion Unlocked, a
+                            brand-new podcast featuring special guests
+                            discussing innovations in the fashion industry.
                         </p>
                     </Grid>
                     <Grid item>
-                        <Link href="/art-basel-recap-champagne-wishes-caviar-dream-sOeU_wYgnM">
+                        <Link href="/digital-fashion-unlocked-podcast-0Vz458IRot">
                             <Button
                                 variant="contained"
                                 disableElevation
                                 sx={{ mt: 3 }}
                             >
-                                Read Now
+                                Learn more
                             </Button>
                         </Link>
                     </Grid>
