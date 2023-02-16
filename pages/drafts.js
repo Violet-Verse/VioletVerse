@@ -1,6 +1,16 @@
-import { Button, Grid, Box } from "@mui/material";
+import React, { useState } from "react";
+import {
+    Button,
+    Grid,
+    Box,
+    ToggleButton,
+    ToggleButtonGroup,
+} from "@mui/material";
+import TableRowsIcon from "@mui/icons-material/TableRows";
+import SplitscreenIcon from "@mui/icons-material/Splitscreen";
 import Link from "next/link";
 import ArticleGrid from "../components/Posts/ArticleGrid";
+import MaterialTable from "../components/Posts/PostsTable";
 import { getAllDraftPosts } from "./api/database/getAllPosts";
 import { getUsersByRole } from "./api/database/getUserByEmail";
 
@@ -8,6 +18,7 @@ export async function getStaticProps(context) {
     const data = await getAllDraftPosts();
     const authors = await getUsersByRole("admin");
     const contributors = await getUsersByRole("contributor");
+
     return {
         props: {
             protected: true,
@@ -19,18 +30,16 @@ export async function getStaticProps(context) {
     };
 }
 
-const Dashboard = ({ posts, authors, contributors }) => {
+function DraftsPanel({ posts, authors, contributors }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const handleToggleButtonChange = (event, newValue) => {
+        setIsExpanded(newValue === "expanded");
+    };
+
     return (
         <Box
-            sx={{
-                px: {
-                    xs: "0",
-                    sm: "5%",
-                    md: "10%",
-                    lg: "15%",
-                    xl: "20%",
-                },
-            }}
+            sx={{ px: { xs: "0", sm: "5%", md: "10%", lg: "15%", xl: "20%" } }}
         >
             <Grid
                 container
@@ -63,17 +72,44 @@ const Dashboard = ({ posts, authors, contributors }) => {
             </Grid>
 
             <Box sx={{ mt: 10 }}>
-                <ArticleGrid
-                    title="Unpublished Posts"
-                    posts={posts}
-                    mt={5}
-                    buttonDisabled
-                    authors={authors}
-                    contributors={contributors}
-                />
+                <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
+                    <Grid item>
+                        <ToggleButtonGroup
+                            value={isExpanded ? "expanded" : "compressed"}
+                            exclusive
+                            onChange={handleToggleButtonChange}
+                            aria-label="list expansion toggle"
+                        >
+                            <ToggleButton
+                                value="compressed"
+                                aria-label="compressed list"
+                            >
+                                <SplitscreenIcon />
+                            </ToggleButton>
+                            <ToggleButton
+                                value="expanded"
+                                aria-label="expanded list"
+                            >
+                                <TableRowsIcon />
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
+                {!isExpanded && (
+                    <ArticleGrid
+                        disableTitle
+                        posts={posts}
+                        buttonDisabled
+                        authors={authors}
+                        contributors={contributors}
+                    />
+                )}
+                {isExpanded && <MaterialTable posts={posts} />}
             </Box>
         </Box>
     );
-};
+}
 
-export default Dashboard;
+export default function Dashboard(props) {
+    return <DraftsPanel {...props} />;
+}
