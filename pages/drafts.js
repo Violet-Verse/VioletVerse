@@ -9,6 +9,8 @@ import {
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import SplitscreenIcon from "@mui/icons-material/Splitscreen";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import Router from "next/router";
 import ArticleGrid from "../components/Posts/ArticleGrid";
 import MaterialTable from "../components/Posts/PostsTable";
 import { getAllDraftPosts } from "./api/database/getAllPosts";
@@ -31,10 +33,23 @@ export async function getStaticProps(context) {
 }
 
 function DraftsPanel({ posts, authors, contributors }) {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const { query } = useRouter();
+    const [isExpanded, setIsExpanded] = useState(
+        query.listView === "expanded" ? true : false
+    );
 
     const handleToggleButtonChange = (event, newValue) => {
         setIsExpanded(newValue === "expanded");
+        Router.push(
+            {
+                pathname: "/drafts",
+                ...(newValue === "expanded" && {
+                    query: { listView: newValue },
+                }),
+            },
+            undefined,
+            { shallow: true }
+        );
     };
 
     return (
@@ -84,18 +99,18 @@ function DraftsPanel({ posts, authors, contributors }) {
                                 value="compressed"
                                 aria-label="compressed list"
                             >
-                                <SplitscreenIcon />
+                                <TableRowsIcon />
                             </ToggleButton>
                             <ToggleButton
                                 value="expanded"
                                 aria-label="expanded list"
                             >
-                                <TableRowsIcon />
+                                <SplitscreenIcon />
                             </ToggleButton>
                         </ToggleButtonGroup>
                     </Grid>
                 </Grid>
-                {!isExpanded && (
+                {isExpanded && (
                     <ArticleGrid
                         disableTitle
                         posts={posts}
@@ -104,7 +119,7 @@ function DraftsPanel({ posts, authors, contributors }) {
                         contributors={contributors}
                     />
                 )}
-                {isExpanded && <MaterialTable posts={posts} />}
+                {!isExpanded && <MaterialTable posts={posts} />}
             </Box>
         </Box>
     );
