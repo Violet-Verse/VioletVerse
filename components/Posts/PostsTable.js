@@ -275,11 +275,11 @@ function MaterialTable(props) {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            You are about to approve the draft "
+                            You are about to approve the draft &quot;
                             <span style={{ fontWeight: "bold" }}>
                                 {confirmingArticle}
                             </span>
-                            ". This action cannot be undone.
+                            &quot;. This action cannot be undone.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
