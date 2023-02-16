@@ -11,15 +11,30 @@ import {
     TableSortLabel,
     TextField,
     TablePagination,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    DialogContentText,
 } from "@mui/material";
 import Link from "next/link";
 
 function MaterialTable(props) {
+    const authors = props.authors;
+    const contributors = props.contributors;
     const [order, setOrder] = useState("desc");
-    const [orderBy, setOrderBy] = useState("dateObj");
+    const dateSortType = "dateObj";
+    const [orderBy, setOrderBy] = useState(dateSortType);
     const [searchTitle, setSearchTitle] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(15);
+
+    const [confirmingArticle, setConfirmingArticle] = useState();
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
+    function handleConfirmOpen() {
+        setConfirmOpen(true);
+    }
 
     function createData(title, author, category, draftStatus, slug, created) {
         const formatter = new Intl.DateTimeFormat("en-US", {
@@ -27,11 +42,29 @@ function MaterialTable(props) {
             day: "numeric",
             year: "numeric",
         });
+        const filterAuthor = (userId, contributor) => {
+            if (contributor) {
+                return (
+                    contributors.filter(
+                        (contributor) => contributor.email === contributor
+                    )[0]?.name || "Contributor"
+                );
+            } else {
+                return (
+                    authors.filter(
+                        (contributor) => contributor.userId === userId
+                    )[0]?.name ||
+                    contributors.filter(
+                        (contributor) => contributor.userId === userId
+                    )[0]?.name
+                );
+            }
+        };
         const date = new Date(created);
         const formattedDate = formatter.format(date);
         return {
             title,
-            author,
+            author: filterAuthor(author),
             category,
             draftStatus,
             slug,
@@ -85,8 +118,12 @@ function MaterialTable(props) {
     }
 
     function handleApproveClick(event, row) {
-        // Add logic to approve draft here
+        handleConfirmOpen();
+    }
+
+    function handleApproveConfirm(row) {
         console.log("Approved:", row);
+        setConfirmOpen(false);
     }
 
     return (
@@ -130,7 +167,19 @@ function MaterialTable(props) {
                                     Author
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell>Date</TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    active={orderBy === dateSortType}
+                                    direction={
+                                        orderBy === dateSortType ? order : "asc"
+                                    }
+                                    onClick={(event) =>
+                                        handleSort(event, dateSortType)
+                                    }
+                                >
+                                    Created Date
+                                </TableSortLabel>
+                            </TableCell>
                             <TableCell>
                                 <TableSortLabel
                                     active={orderBy === "category"}
@@ -181,18 +230,22 @@ function MaterialTable(props) {
                                     <TableCell>{row.draftStatus}</TableCell>
                                     <TableCell>
                                         {row.draftStatus === "Draft" ? (
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={(event) =>
-                                                    handleApproveClick(
-                                                        event,
-                                                        row
-                                                    )
-                                                }
-                                            >
-                                                Approve
-                                            </Button>
+                                            <>
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={(event) => {
+                                                        handleApproveClick(
+                                                            event,
+                                                            row
+                                                        );
+                                                        setConfirmingArticle(
+                                                            row.title
+                                                        );
+                                                    }}
+                                                >
+                                                    Approve
+                                                </Button>
+                                            </>
                                         ) : null}
                                     </TableCell>
                                 </TableRow>
@@ -211,6 +264,38 @@ function MaterialTable(props) {
                         setPage(0);
                     }}
                 />
+                <Dialog
+                    open={confirmOpen}
+                    onClose={() => setConfirmOpen(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Are you sure you want to approve this draft?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            You are about to approve the draft "
+                            <span style={{ fontWeight: "bold" }}>
+                                {confirmingArticle}
+                            </span>
+                            ". This action cannot be undone.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setConfirmOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() =>
+                                handleApproveConfirm(confirmingArticle)
+                            }
+                            autoFocus
+                        >
+                            Approve
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </TableContainer>
         </>
     );

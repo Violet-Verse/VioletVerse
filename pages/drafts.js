@@ -119,7 +119,13 @@ function DraftsPanel({ posts, authors, contributors }) {
                         contributors={contributors}
                     />
                 )}
-                {!isExpanded && <MaterialTable posts={posts} />}
+                {!isExpanded && (
+                    <MaterialTable
+                        posts={posts}
+                        authors={authors}
+                        contributors={contributors}
+                    />
+                )}
             </Box>
         </Box>
     );
