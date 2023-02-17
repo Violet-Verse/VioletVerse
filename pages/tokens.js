@@ -11,7 +11,6 @@ import Router from "next/router";
 import { useForm } from "react-hook-form";
 
 import { ScaleLoader } from "react-spinners";
-import { Stack } from "@mui/system";
 
 export async function getStaticProps(context) {
     return {

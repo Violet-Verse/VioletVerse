@@ -1,14 +1,15 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { postTable, minifyRecords } from "../utils/postsTable";
+import connectDatabase from "../../../lib/mongoClient";
 
 export default async function getUserPosts(req, res) {
     const session = await getLoginSession(req);
-    const posts = await postTable
-        .select({
-            filterByFormula: `{createdBy} = "${session?.issuer}"`,
-        })
-        .firstPage();
-    const minifiedRecords = minifyRecords(posts);
 
-    res.status(200).json(minifiedRecords || null);
+    const db = await connectDatabase();
+
+    const collection = db.collection("posts");
+    const posts = await collection
+        .find({ createdBy: `${session?.issuer}` })
+        .toArray();
+
+    res.status(200).json(posts || null);
 }

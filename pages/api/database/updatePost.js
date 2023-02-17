@@ -1,5 +1,6 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { postTable } from "../utils/postsTable";
+import { ObjectId } from "mongodb";
+import connectDatabase from "../../../lib/mongoClient";
 
 export default async function updatePost(req, res) {
     if (req.method !== "PUT") return res.status(405).end();
@@ -18,14 +19,6 @@ export default async function updatePost(req, res) {
         return res.status(405).end();
     }
 
-    // Get Airtable ID of the edited post
-    const postData = await postTable
-        .select({
-            filterByFormula: `{id} = "${req.body.id}"`,
-        })
-        .firstPage();
-    const id = postData[0].id;
-
     // Allowed Parameters
     const title = req.body.title;
     const subtitle = req.body.subtitle;
@@ -39,36 +32,34 @@ export default async function updatePost(req, res) {
     const tokenPrice = req.body.tokenPrice;
     const banner = req.body.banner;
 
+    // Final Object
+    const postData = {
+        ...(title && { title }),
+        ...(subtitle && { subtitle }),
+        ...(tldr && { tldr }),
+        ...(category && { category }),
+        ...(body && { body }),
+        largeLetter: largeLetter,
+        hidden: hidden,
+        ...(banner && { banner }),
+        ...(video && { video }),
+        ...(contributor && { contributor }),
+        ...(tokenPrice && { tokenPrice }),
+        lastUpdated: new Date(Date.now()).toISOString(),
+    };
+
     try {
-        postTable.update(
-            [
-                {
-                    id: id,
-                    fields: {
-                        ...(title && { title }),
-                        ...(subtitle && { subtitle }),
-                        ...(tldr && { tldr }),
-                        ...(category && { category }),
-                        ...(body && { body }),
-                        ...(largeLetter && { largeLetter }),
-                        ...(hidden && { hidden }),
-                        ...(banner && { banner }),
-                        ...(video && { video }),
-                        contributor: `${contributor}`,
-                        tokenPrice: `${tokenPrice}`,
-                        lastEditedBy: `${session?.issuer}`,
-                    },
-                },
-            ],
-            function (err, records) {
-                if (err) {
-                    console.error(err);
-                    return res.status(405).end();
-                }
-                console.log(records[0].fields);
-                return res.status(200).json(records[0].fields || null);
+        const db = await connectDatabase();
+        await db.collection("posts").updateOne(
+            {
+                _id: new ObjectId(req.body.id),
+            },
+            {
+                $set: postData,
             }
         );
+        console.log(postData);
+        return res.status(200).json(postData || null);
     } catch (err) {
         console.log(err);
         return res.status(405).end();

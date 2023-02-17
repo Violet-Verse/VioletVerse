@@ -1,15 +1,22 @@
 import { Box } from "@mui/material";
 import ArticleGrid from "../../components/Posts/ArticleGrid";
-import { getAllPosts } from "../api/database/getAllPosts";
+import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 
 export async function getServerSideProps() {
-    const data = await getAllPosts();
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const data = await collection.find({ hidden: false }).toArray();
+
     const authors = await getUsersByRole("admin");
     const contributors = await getUsersByRole("contributor");
 
     return {
-        props: { posts: data, authors: authors, contributors: contributors },
+        props: {
+            posts: JSON.parse(JSON.stringify(data)),
+            authors: authors,
+            contributors: contributors,
+        },
     };
 }
 

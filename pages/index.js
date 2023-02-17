@@ -8,16 +8,23 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import InfoBlock from "../components/InfoBlock";
-import { getAllPosts } from "./api/database/getAllPosts";
 import { getUsersByRole } from "./api/database/getUserByEmail";
+import connectDatabase from "../lib/mongoClient";
 
 export async function getServerSideProps() {
-    const data = await getAllPosts();
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const data = await collection.find({ hidden: false }).toArray();
+
     const authors = await getUsersByRole("admin");
     const contributors = await getUsersByRole("contributor");
 
     return {
-        props: { posts: data, authors: authors, contributors: contributors },
+        props: {
+            posts: JSON.parse(JSON.stringify(data)),
+            authors: authors,
+            contributors: contributors,
+        },
     };
 }
 

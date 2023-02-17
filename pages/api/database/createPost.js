@@ -1,6 +1,6 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { postTable } from "../utils/postsTable";
 import { nanoid } from "nanoid";
+import connectDatabase from "../../../lib/mongoClient";
 
 function string_to_slug(str) {
     str = str.replace(/^\s+|\s+$/g, ""); // trim
@@ -36,7 +36,7 @@ export default async function createPost(req, res) {
     const tldr = req.body.tldr;
     const category = req.body.category;
     const body = req.body.body;
-    const largeLetter = req.body.largeLetter || "false";
+    const largeLetter = req.body.largeLetter || false;
     const hidden = req.body.hidden;
     const video = req.body.video;
     const contributor = req.body.contributor;
@@ -50,36 +50,32 @@ export default async function createPost(req, res) {
     const preSlug = string_to_slug(req.body.title);
     const slug = `${preSlug}-${nanoid(10)}`;
 
+    // Final Object
+    const postData = {
+        id: Date.now(),
+        ...(title && { title }),
+        ...(subtitle && { subtitle }),
+        ...(tldr && { tldr }),
+        ...(category && { category }),
+        ...(body && { body }),
+        ...(largeLetter && { largeLetter }),
+        ...(hidden && { hidden }),
+        ...(banner && { banner }),
+        ...(video && { video }),
+        ...(contributor && { contributor }),
+        tokenPrice: tokenPrice,
+        createdBy: `${session?.issuer}`,
+        slug: `${slug}`,
+        created: new Date(Date.now()).toISOString(),
+        lastUpdated: new Date(Date.now()).toISOString(),
+    };
+
     try {
-        postTable.create(
-            [
-                {
-                    fields: {
-                        ...(title && { title }),
-                        ...(subtitle && { subtitle }),
-                        ...(tldr && { tldr }),
-                        ...(category && { category }),
-                        ...(body && { body }),
-                        ...(largeLetter && { largeLetter }),
-                        ...(hidden && { hidden }),
-                        ...(banner && { banner }),
-                        ...(video && { video }),
-                        contributor: `${contributor}`,
-                        tokenPrice: `${tokenPrice}`,
-                        createdBy: `${session?.issuer}`,
-                        slug: `${slug}`,
-                    },
-                },
-            ],
-            function (err, records) {
-                if (err) {
-                    console.error(err);
-                    return res.status(405).end();
-                }
-                console.log(records[0].fields);
-                return res.status(200).json(records[0].fields || null);
-            }
-        );
+        const db = await connectDatabase();
+        const collection = db.collection("posts");
+        const post = await collection.insertOne(postData);
+        console.log(post);
+        return res.status(200).json(postData);
     } catch (err) {
         console.log(err);
     }

@@ -6,7 +6,7 @@ import {
     Stack,
     CircularProgress,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -19,9 +19,7 @@ import youtubeParser from "../lib/getYouTubeThumbnail";
 import UserAvatar from "../components/UserAvatar";
 import dateFormatter from "../lib/dateFormatter";
 import purifyHTML from "../lib/purifyHTML";
-import { getPostsBySlug } from "./api/database/getPostsByID";
 import ArticleGrid from "../components/Posts/ArticleGrid";
-import { getAllPosts } from "./api/database/getAllPosts";
 import {
     getAuthorForPost,
     getContributorForPost,
@@ -31,22 +29,26 @@ import { transferTokens } from "../cadence/scripts/transactions/purchaseContent"
 import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import Tipping from "../components/Modal/Tipping";
+import connectDatabase from "../lib/mongoClient";
 
 export async function getServerSideProps(context) {
     const id = context.params.articlePage;
-    const data = await getPostsBySlug(id);
-    const allPosts = await getAllPosts();
+
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const allPosts = await collection.find({ hidden: false }).toArray();
+    const data = await collection.find({ slug: id }).toArray();
     const authorData = await getAuthorForPost(id);
     const contributorData = await getContributorForPost(id);
 
-    if (!data) {
+    if (!data || data.length === 0) {
         return { notFound: true, props: { posts: {} } };
     }
 
     return {
         props: {
-            posts: data[0],
-            allPosts: allPosts,
+            posts: JSON.parse(JSON.stringify(data[0])),
+            allPosts: JSON.parse(JSON.stringify(allPosts)),
             authorData: authorData,
             contributorData: contributorData || null,
             tokenGatePrice: data[0]?.tokenPrice || false,
@@ -68,6 +70,7 @@ const Article = ({
     tokenGatePrice,
     contributorData,
 }) => {
+    console.log(authorData);
     const { data: users, mutate } = useSWR(`/api/database/getUser`, fetcher);
     const { user, loaded } = useUser();
     const author = authorData?.user;
@@ -982,7 +985,7 @@ const Article = ({
                         <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                             <section
                                 className={
-                                    posts.largeLetter == "false"
+                                    posts.largeLetter == false
                                         ? "postBodyNoLetter"
                                         : "postBody"
                                 }

@@ -77,7 +77,7 @@ const ArticleGrid = (props) => {
 
     // Event handler for drafts toggle button group
     const handleDrafts = (event, newSelection) => {
-        if (newSelection === "true" || newSelection === "false") {
+        if (newSelection === true || newSelection === false) {
             setDraftsOnly(newSelection);
             setLivePosts(posts?.filter((post) => post.hidden === newSelection));
         } else if (newSelection === "all") {
@@ -299,10 +299,10 @@ const ArticleGrid = (props) => {
                             <ToggleButton value="all" aria-label="all">
                                 All Posts
                             </ToggleButton>
-                            <ToggleButton value="false" aria-label="published">
+                            <ToggleButton value={false} aria-label="published">
                                 Published
                             </ToggleButton>
-                            <ToggleButton value="true" aria-label="drafts">
+                            <ToggleButton value={true} aria-label="drafts">
                                 Drafts
                             </ToggleButton>
                         </ToggleButtonGroup>
@@ -380,7 +380,7 @@ const ArticleGrid = (props) => {
                                     )}
 
                                     <h3 style={{ marginTop: "21px" }}>
-                                        {post?.hidden == "true" ? (
+                                        {post?.hidden == true ? (
                                             <span
                                                 style={{
                                                     color: "purple",

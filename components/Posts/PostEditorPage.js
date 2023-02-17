@@ -141,7 +141,7 @@ const PostEditorPage = (props) => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: editorMode ? posts.id : "",
+                    id: editorMode ? posts._id : "",
                     issuer: editorMode ? author?.userId : "",
                     role: editorMode ? user?.role : "",
                     title: title,
@@ -149,15 +149,12 @@ const PostEditorPage = (props) => {
                     body: body,
                     tldr: tldr,
                     subtitle: subtitle,
-                    largeLetter: largeLetter.toString(),
-                    hidden:
-                        user?.role === "contributor"
-                            ? "true"
-                            : hidden.toString(),
+                    largeLetter: largeLetter,
+                    hidden: user?.role === "contributor" ? "true" : hidden,
                     banner: banner,
                     video: video,
                     contributor: contributor || "",
-                    tokenPrice: tokenGated ? tokenPrice || "" : "",
+                    ...(tokenGated && { tokenPrice }),
                 }),
             }
         )
@@ -165,7 +162,7 @@ const PostEditorPage = (props) => {
             .then((newData) => {
                 setLoading(false);
                 mutate("/api/database/getUserPosts", [...data, newData]);
-                Router.push(`/${newData.slug}`);
+                Router.push(`/${posts.slug}`);
             })
             .catch((err) => {
                 setLoading(false);
@@ -190,7 +187,7 @@ const PostEditorPage = (props) => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: posts.id,
+                    id: posts._id,
                     issuer: author?.userId,
                 }),
             });
@@ -496,16 +493,14 @@ const PostEditorPage = (props) => {
                     <Controller
                         name="largeLetter"
                         control={control}
-                        defaultValue={
-                            posts?.largeLetter == "true" ? true : false
-                        }
+                        defaultValue={posts?.largeLetter == true ? true : false}
                         render={({ field }) => (
                             <FormControlLabel
                                 control={
                                     <Checkbox
                                         {...field}
                                         defaultChecked={
-                                            posts?.largeLetter == "true"
+                                            posts?.largeLetter == true
                                                 ? true
                                                 : false
                                         }
@@ -518,7 +513,7 @@ const PostEditorPage = (props) => {
                     <Controller
                         name="hidden"
                         control={control}
-                        defaultValue={posts?.hidden == "true" ? true : false}
+                        defaultValue={posts?.hidden == true ? true : false}
                         render={({ field }) => (
                             <FormControlLabel
                                 disabled={user?.role === "contributor"}
@@ -526,7 +521,7 @@ const PostEditorPage = (props) => {
                                     <Checkbox
                                         {...field}
                                         defaultChecked={
-                                            posts?.hidden == "true" ||
+                                            posts?.hidden == true ||
                                             user?.role === "contributor"
                                                 ? true
                                                 : false
