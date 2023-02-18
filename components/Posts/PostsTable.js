@@ -41,7 +41,15 @@ function MaterialTable(props) {
         setConfirmOpen(true);
     }
 
-    function createData(title, author, category, draftStatus, slug, created) {
+    function createData(
+        title,
+        author,
+        category,
+        draftStatus,
+        slug,
+        created,
+        _id
+    ) {
         const formatter = new Intl.DateTimeFormat("en-US", {
             month: "long",
             day: "numeric",
@@ -74,6 +82,7 @@ function MaterialTable(props) {
             draftStatus,
             slug,
             created: formattedDate,
+            _id,
             dateObj: date,
         };
     }
@@ -86,7 +95,8 @@ function MaterialTable(props) {
             post.category,
             draftStatus,
             post.slug,
-            post.created
+            post.created,
+            post._id
         );
     });
 
@@ -134,7 +144,7 @@ function MaterialTable(props) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                slug: row.slug,
+                id: row._id,
                 hidden: "false",
             }),
         })

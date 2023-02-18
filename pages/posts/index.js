@@ -36,7 +36,6 @@ const Posts = ({ posts, authors, contributors }) => {
             <ArticleGrid
                 title="Layers of the Verse"
                 posts={posts}
-                maximum={100}
                 authors={authors}
                 contributors={contributors}
                 marketPage
