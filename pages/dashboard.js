@@ -40,8 +40,10 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item>
                     <p>
-                        Create and manage your article posts on the Violet
-                        Verse.
+                        The Creator Dashboard is a page for editors to manage
+                        their articles before approval. Editors can view their
+                        drafts and published articles, making the process more
+                        efficient.
                     </p>
                 </Grid>
                 <Grid item>

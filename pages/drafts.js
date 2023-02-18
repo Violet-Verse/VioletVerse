@@ -65,10 +65,17 @@ function DraftsPanel({ posts, authors, contributors }) {
                 spacing={4}
             >
                 <Grid item>
-                    <h1>Drafts Panel</h1>
+                    <h2>Review and Approve Unpublished Posts</h2>
                 </Grid>
                 <Grid item>
-                    <p>Unpublished articles of the Verse.</p>
+                    <p>
+                        The Drafts page displays all posts that are currently in
+                        the draft stage, giving editors the ability to review
+                        and approve finished articles for publication on the
+                        homepage. This page is where editors can easily manage
+                        the content that is being developed and ensure that only
+                        high-quality articles are published to the public.
+                    </p>
                 </Grid>
                 <Grid item>
                     <Link href="/dashboard">

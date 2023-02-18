@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useUser } from "../../hooks/useAuth";
 import {
     Table,
     TableBody,
@@ -16,10 +17,13 @@ import {
     DialogContent,
     DialogActions,
     DialogContentText,
+    CircularProgress,
 } from "@mui/material";
 import Link from "next/link";
+import Router from "next/router";
 
 function MaterialTable(props) {
+    const { user } = useUser();
     const authors = props.authors;
     const contributors = props.contributors;
     const [order, setOrder] = useState("desc");
@@ -31,6 +35,7 @@ function MaterialTable(props) {
 
     const [confirmingArticle, setConfirmingArticle] = useState();
     const [confirmOpen, setConfirmOpen] = useState(false);
+    const [isApproving, setIsApproving] = useState(false);
 
     function handleConfirmOpen() {
         setConfirmOpen(true);
@@ -121,8 +126,26 @@ function MaterialTable(props) {
         handleConfirmOpen();
     }
 
-    function handleApproveConfirm(row) {
-        console.log("Approved:", row);
+    async function handleApproveConfirm(row) {
+        setIsApproving(true);
+        await fetch("/api/database/approvePost", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                slug: row.slug,
+                hidden: "false",
+            }),
+        })
+            .then(() => {
+                Router.reload(window.location.pathname);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        Router.push(`/posts`);
+        setIsApproving(false);
         setConfirmOpen(false);
     }
 
@@ -208,7 +231,7 @@ function MaterialTable(props) {
                                     Draft Status
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell></TableCell>
+                            {user?.role === "admin" && <TableCell></TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -228,26 +251,28 @@ function MaterialTable(props) {
                                     <TableCell>{row.created}</TableCell>
                                     <TableCell>{row.category}</TableCell>
                                     <TableCell>{row.draftStatus}</TableCell>
-                                    <TableCell>
-                                        {row.draftStatus === "Draft" ? (
-                                            <>
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={(event) => {
-                                                        handleApproveClick(
-                                                            event,
-                                                            row
-                                                        );
-                                                        setConfirmingArticle(
-                                                            row.title
-                                                        );
-                                                    }}
-                                                >
-                                                    Approve
-                                                </Button>
-                                            </>
-                                        ) : null}
-                                    </TableCell>
+                                    {user?.role === "admin" && (
+                                        <TableCell>
+                                            {row.draftStatus === "Draft" ? (
+                                                <>
+                                                    <Button
+                                                        variant="contained"
+                                                        onClick={(event) => {
+                                                            handleApproveClick(
+                                                                event,
+                                                                row
+                                                            );
+                                                            setConfirmingArticle(
+                                                                row
+                                                            );
+                                                        }}
+                                                    >
+                                                        Approve
+                                                    </Button>
+                                                </>
+                                            ) : null}
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -277,13 +302,18 @@ function MaterialTable(props) {
                         <DialogContentText id="alert-dialog-description">
                             You are about to approve the draft &quot;
                             <span style={{ fontWeight: "bold" }}>
-                                {confirmingArticle}
+                                {confirmingArticle?.title}
                             </span>
                             &quot;. This action cannot be undone.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setConfirmOpen(false)}>
+                        <Button
+                            onClick={() => setConfirmOpen(false)}
+                            variant="contained"
+                            color="secondary"
+                            disabled={isApproving}
+                        >
                             Cancel
                         </Button>
                         <Button
@@ -291,8 +321,27 @@ function MaterialTable(props) {
                                 handleApproveConfirm(confirmingArticle)
                             }
                             autoFocus
+                            variant="contained"
+                            color="primary"
+                            disabled={isApproving}
                         >
-                            Approve
+                            <span style={{ position: "relative" }}>
+                                {isApproving && (
+                                    <CircularProgress
+                                        size={24}
+                                        thickness={4}
+                                        color="secondary"
+                                        style={{
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            marginTop: -12,
+                                            marginLeft: -12,
+                                        }}
+                                    />
+                                )}
+                                Approve
+                            </span>
                         </Button>
                     </DialogActions>
                 </Dialog>
