@@ -153,8 +153,8 @@ const PostEditorPage = (props) => {
                     hidden: user?.role === "contributor" ? "true" : hidden,
                     banner: banner,
                     video: video,
-                    contributor: contributor || "",
-                    ...(tokenGated && { tokenPrice }),
+                    contributor: contributor || null,
+                    tokenPrice: tokenGated ? tokenPrice : null,
                 }),
             }
         )

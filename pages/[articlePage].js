@@ -70,7 +70,6 @@ const Article = ({
     tokenGatePrice,
     contributorData,
 }) => {
-    console.log(authorData);
     const { data: users, mutate } = useSWR(`/api/database/getUser`, fetcher);
     const { user, loaded } = useUser();
     const author = authorData?.user;
@@ -160,11 +159,17 @@ const Article = ({
                     updateUser();
                 })
                 .catch((err) => {
-                    setTxStatus({ message: err, status: "error" });
+                    setTxStatus({
+                        message: "Error: Transaction not sent.",
+                        status: "error",
+                    });
                     setTxPending(false);
                 });
         } catch (err) {
-            setTxStatus({ message: err, status: "error" });
+            setTxStatus({
+                message: "Error: Transaction not sent.",
+                status: "error",
+            });
             setTxPending(false);
         }
     };
@@ -566,6 +571,7 @@ const Article = ({
                                 />
                             )}
                         </Box>
+                        <br />
                         {txStatus && <pre>{txStatus?.message}</pre>}
                         {txPending && <h2>Stay on this page!</h2>}
                     </Grid>

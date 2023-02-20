@@ -65,6 +65,9 @@ const ArticleGrid = (props) => {
 
     // Event handler for search bar
     const handleSearchChange = (event) => {
+        if (page !== 1) {
+            setPage(1);
+        }
         setSearchValue(event.target.value);
         setCategory();
         setLivePosts(
@@ -78,6 +81,9 @@ const ArticleGrid = (props) => {
 
     // Event handler for category toggle button group
     const handleCategory = (event, newCategory) => {
+        if (page !== 1) {
+            setPage(1);
+        }
         setCategory(newCategory);
 
         if (newCategory === null) {
