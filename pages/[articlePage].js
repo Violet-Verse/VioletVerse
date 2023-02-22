@@ -6,7 +6,7 @@ import {
     Stack,
     CircularProgress,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -19,9 +19,7 @@ import youtubeParser from "../lib/getYouTubeThumbnail";
 import UserAvatar from "../components/UserAvatar";
 import dateFormatter from "../lib/dateFormatter";
 import purifyHTML from "../lib/purifyHTML";
-import { getPostsBySlug } from "./api/database/getPostsByID";
 import ArticleGrid from "../components/Posts/ArticleGrid";
-import { getAllPosts } from "./api/database/getAllPosts";
 import {
     getAuthorForPost,
     getContributorForPost,
@@ -31,22 +29,26 @@ import { transferTokens } from "../cadence/scripts/transactions/purchaseContent"
 import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import Tipping from "../components/Modal/Tipping";
+import connectDatabase from "../lib/mongoClient";
 
 export async function getServerSideProps(context) {
     const id = context.params.articlePage;
-    const data = await getPostsBySlug(id);
-    const allPosts = await getAllPosts();
+
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const allPosts = await collection.find({ hidden: false }).toArray();
+    const data = await collection.find({ slug: id }).toArray();
     const authorData = await getAuthorForPost(id);
     const contributorData = await getContributorForPost(id);
 
-    if (!data) {
+    if (!data || data.length === 0) {
         return { notFound: true, props: { posts: {} } };
     }
 
     return {
         props: {
-            posts: data[0],
-            allPosts: allPosts,
+            posts: JSON.parse(JSON.stringify(data[0])),
+            allPosts: JSON.parse(JSON.stringify(allPosts)),
             authorData: authorData,
             contributorData: contributorData || null,
             tokenGatePrice: data[0]?.tokenPrice || false,
@@ -85,7 +87,7 @@ const Article = ({
     const noTokenGateAccess =
         tokenGatePrice &&
         user &&
-        purchasedArray.indexOf(posts.id.toString()) === -1;
+        purchasedArray.indexOf(posts._id.toString()) === -1;
 
     const tokenGatedNotLoggedIn = tokenGatePrice && !user;
 
@@ -109,7 +111,7 @@ const Article = ({
                 body: JSON.stringify({
                     purchasedContent: `${
                         user.purchasedContent ? user.purchasedContent + "," : ""
-                    }${posts.id}`,
+                    }${posts._id}`,
                 }),
             })
                 .then((response) => response.json())
@@ -157,11 +159,17 @@ const Article = ({
                     updateUser();
                 })
                 .catch((err) => {
-                    setTxStatus({ message: err, status: "error" });
+                    setTxStatus({
+                        message: "Error: Transaction not sent.",
+                        status: "error",
+                    });
                     setTxPending(false);
                 });
         } catch (err) {
-            setTxStatus({ message: err, status: "error" });
+            setTxStatus({
+                message: "Error: Transaction not sent.",
+                status: "error",
+            });
             setTxPending(false);
         }
     };
@@ -405,7 +413,7 @@ const Article = ({
                                         display: { xs: "flex", sm: "none" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts.id}>
+                                    <Link href={`/edit/` + posts._id}>
                                         <a>
                                             <Button
                                                 variant="contained"
@@ -475,7 +483,7 @@ const Article = ({
                                             display: { xs: "none", sm: "flex" },
                                         }}
                                     >
-                                        <Link href={`/edit/` + posts.id}>
+                                        <Link href={`/edit/` + posts._id}>
                                             <a>
                                                 <p
                                                     className="secondary"
@@ -563,6 +571,7 @@ const Article = ({
                                 />
                             )}
                         </Box>
+                        <br />
                         {txStatus && <pre>{txStatus?.message}</pre>}
                         {txPending && <h2>Stay on this page!</h2>}
                     </Grid>
@@ -586,7 +595,7 @@ const Article = ({
                         mt={15}
                         buttonDisabled
                         filter={posts?.category}
-                        postId={posts?.id}
+                        postId={posts?._id}
                     />
                 </Box>
                 <Grid container justifyContent="center" sx={{ mt: 8 }}>
@@ -837,7 +846,7 @@ const Article = ({
                                     display: { xs: "flex", sm: "none" },
                                 }}
                             >
-                                <Link href={`/edit/` + posts.id}>
+                                <Link href={`/edit/` + posts._id}>
                                     <a>
                                         <Button
                                             variant="contained"
@@ -907,7 +916,7 @@ const Article = ({
                                         display: { xs: "none", sm: "flex" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts.id}>
+                                    <Link href={`/edit/` + posts._id}>
                                         <a>
                                             <p
                                                 className="secondary"
@@ -982,7 +991,7 @@ const Article = ({
                         <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                             <section
                                 className={
-                                    posts.largeLetter == "false"
+                                    posts.largeLetter == false
                                         ? "postBodyNoLetter"
                                         : "postBody"
                                 }
@@ -1063,7 +1072,7 @@ const Article = ({
                     mt={15}
                     buttonDisabled
                     filter={posts?.category}
-                    postId={posts?.id}
+                    postId={posts?._id}
                 />
             </Box>
             <Grid container justifyContent="center" sx={{ mt: 8 }}>

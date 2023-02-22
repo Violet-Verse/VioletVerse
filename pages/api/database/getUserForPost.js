@@ -1,20 +1,17 @@
 import { table } from "../utils/userTable";
 import { postTable, minifyRecords } from "../utils/postsTable";
+import connectDatabase from "../../../lib/mongoClient";
 
 export async function getAuthorForPost(id) {
-    const posts = await postTable
-        .select({
-            filterByFormula: `{slug} = "${id}"`,
-        })
-        .firstPage();
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const posts = await collection.find({ slug: id }).toArray();
 
     if (posts.length === 0) {
         return null;
     }
 
-    const minifiedRecord = minifyRecords(posts);
-
-    const userId = minifiedRecord[0].createdBy;
+    const userId = posts[0].createdBy;
 
     const authorData = await table
         .select({
@@ -26,19 +23,15 @@ export async function getAuthorForPost(id) {
 }
 
 export async function getContributorForPost(id) {
-    const posts = await postTable
-        .select({
-            filterByFormula: `{slug} = "${id}"`,
-        })
-        .firstPage();
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const posts = await collection.find({ slug: id }).toArray();
 
     if (posts.length === 0) {
         return null;
     }
 
-    const minifiedRecord = minifyRecords(posts);
-
-    const email = minifiedRecord[0].contributor;
+    const email = posts[0].contributor;
 
     const contributorData = await table
         .select({

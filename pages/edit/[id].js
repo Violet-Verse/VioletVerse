@@ -1,21 +1,28 @@
 import useSWR from "swr";
 import PostEditor from "../../components/Posts/PostEditorPage";
-import { getPostsByID } from "../api/database/getPostsByID";
+import connectDatabase from "../../lib/mongoClient";
 import { getUserByIssuer } from "../api/database/getUser";
+import { ObjectId } from "mongodb";
 
 export async function getServerSideProps(context) {
-    const id = context.params.id;
-    const data = await getPostsByID(id);
-    const lastEditor = await getUserByIssuer(data[0]?.lastEditedBy);
+    const postId = context.params.id;
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const postData = await collection
+        .find({ _id: new ObjectId(postId) })
+        .toArray();
 
-    if (!data) {
+    if (!postData || postData.length === 0) {
         return { notFound: true, props: { posts: {} } };
     }
 
+    const lastEditor =
+        (await getUserByIssuer(postData?.[0]?.lastEditedBy)) ?? null;
+
     return {
         props: {
-            posts: data[0],
-            lastEditor: lastEditor || null,
+            posts: JSON.parse(JSON.stringify(postData[0])),
+            lastEditor,
             protected: true,
             userTypes: ["admin", "contributor"],
         },
@@ -23,19 +30,18 @@ export async function getServerSideProps(context) {
 }
 
 const EditArticle = ({ posts, lastEditor }) => {
-    const fetchWithId = (url, id) =>
+    const fetchAuthor = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
-    const { data, error } = useSWR(
+    const { data: author, error } = useSWR(
         ["/api/database/getUserForPost", posts.createdBy],
-        fetchWithId
+        fetchAuthor
     );
-    const author = data?.user;
 
     return (
         <PostEditor
             data={posts}
             editorMode
-            author={author}
+            author={author?.user}
             lastEditor={lastEditor}
         />
     );

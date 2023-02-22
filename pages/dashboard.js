@@ -79,7 +79,6 @@ const Dashboard = () => {
                     <ArticleGrid
                         title="Your Posts"
                         posts={posts}
-                        maximum={20}
                         buttonDisabled
                         dashboardPage
                     />

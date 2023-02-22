@@ -1,5 +1,6 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { postTable } from "../utils/postsTable";
+import { ObjectId } from "mongodb";
+import connectDatabase from "../../../lib/mongoClient";
 
 export default async function deletePost(req, res) {
     if (req.method !== "DELETE") return res.status(405).end();
@@ -15,16 +16,11 @@ export default async function deletePost(req, res) {
         return res.status(405).end();
     }
 
-    // Get Airtable ID of the edited post
-    const postData = await postTable
-        .select({
-            filterByFormula: `{id} = "${req.body.id}"`,
-        })
-        .firstPage();
-    const id = postData[0].id;
-
     try {
-        await postTable.destroy([id]);
+        const db = await connectDatabase();
+        await db.collection("posts").deleteOne({
+            _id: new ObjectId(req.body.id),
+        });
         return res.status(200).json("");
     } catch (err) {
         console.log(err);

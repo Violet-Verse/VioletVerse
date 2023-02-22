@@ -11,13 +11,19 @@ import SplitscreenIcon from "@mui/icons-material/Splitscreen";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Router from "next/router";
-import ArticleGrid from "../components/Posts/ArticleGrid";
-import MaterialTable from "../components/Posts/PostsTable";
-import { getAllDraftPosts } from "./api/database/getAllPosts";
+import dynamic from "next/dynamic"; // Dynamic import for better performance
 import { getUsersByRole } from "./api/database/getUserByEmail";
+import connectDatabase from "../lib/mongoClient";
+
+// Dynamic import of ArticleGrid and MaterialTable components for better performance
+const ArticleGrid = dynamic(() => import("../components/Posts/ArticleGrid"));
+const MaterialTable = dynamic(() => import("../components/Posts/PostsTable"));
 
 export async function getStaticProps(context) {
-    const data = await getAllDraftPosts();
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    const data = await collection.find({ hidden: true }).toArray();
+
     const authors = await getUsersByRole("admin");
     const contributors = await getUsersByRole("contributor");
 
@@ -25,7 +31,7 @@ export async function getStaticProps(context) {
         props: {
             protected: true,
             userTypes: ["admin", "contributor"],
-            posts: data,
+            posts: JSON.parse(JSON.stringify(data)),
             authors: authors,
             contributors: contributors,
         },
@@ -33,10 +39,9 @@ export async function getStaticProps(context) {
 }
 
 function DraftsPanel({ posts, authors, contributors }) {
+    console.log(posts);
     const { query } = useRouter();
-    const [isExpanded, setIsExpanded] = useState(
-        query.listView === "expanded" ? true : false
-    );
+    const [isExpanded, setIsExpanded] = useState(query.listView === "expanded");
 
     const handleToggleButtonChange = (event, newValue) => {
         setIsExpanded(newValue === "expanded");
@@ -51,7 +56,6 @@ function DraftsPanel({ posts, authors, contributors }) {
             { shallow: true }
         );
     };
-
     return (
         <Box
             sx={{ px: { xs: "0", sm: "5%", md: "10%", lg: "15%", xl: "20%" } }}

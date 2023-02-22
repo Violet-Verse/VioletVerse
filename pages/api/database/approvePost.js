@@ -1,5 +1,6 @@
 import { getLoginSession } from "../../../lib/cookie-auth";
-import { postTable } from "../utils/postsTable";
+import { ObjectId } from "mongodb";
+import connectDatabase from "../../../lib/mongoClient";
 
 export default async function handler(req, res) {
     if (req.method !== "PUT") {
@@ -14,28 +15,23 @@ export default async function handler(req, res) {
         return;
     }
 
+    const { hidden } = req.body;
+    const fields = { hidden };
+
     try {
-        const postData = await postTable
-            .select({
-                filterByFormula: `{slug} = "${req.body.slug}"`,
-            })
-            .firstPage();
-
-        if (postData.length === 0) {
-            res.status(404).end();
-            return;
-        }
-
-        const { id } = postData[0];
-        const { hidden } = req.body;
-        const fields = { hidden };
-
-        const updateResult = await postTable.update([{ id, fields }]);
-
-        res.status(200).json(updateResult[0].fields);
+        const db = await connectDatabase();
+        await db.collection("posts").updateOne(
+            {
+                _id: new ObjectId(req.body._id),
+            },
+            {
+                $set: fields,
+            }
+        );
+        return res.status(200).json(fields || null);
     } catch (err) {
-        console.error(err);
-        res.status(500).end();
+        console.log(err);
+        return res.status(405).end();
     }
 }
 

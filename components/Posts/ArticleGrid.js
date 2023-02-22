@@ -6,6 +6,7 @@ import {
     ToggleButtonGroup,
     ToggleButton,
     TextField,
+    Pagination,
 } from "@mui/material";
 import Image from "next/image";
 import Router from "next/router";
@@ -18,8 +19,9 @@ import { setRevalidateHeaders } from "next/dist/server/send-payload";
 
 const ArticleGrid = (props) => {
     const { query } = useRouter();
-    const posts = props.posts.sort((a, b) => (a.id < b.id ? 1 : -1));
+    const posts = props.posts.sort((a, b) => (a._id < b._id ? 1 : -1));
     const [livePosts, setLivePosts] = useState(posts);
+    const { maximum } = props;
     const hasPosts = livePosts.length !== 0;
 
     const [category, setCategory] = useState(props?.filter);
@@ -28,6 +30,18 @@ const ArticleGrid = (props) => {
 
     const authors = props.authors;
     const contributors = props.contributors;
+
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 9;
+    const totalPages = Math.ceil(livePosts.length / itemsPerPage);
+
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
+
+    const visiblePosts = maximum
+        ? livePosts.slice(0, maximum)
+        : livePosts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
     // Filtering uses from page query (Footer links)
     useEffect(() => {
@@ -44,13 +58,16 @@ const ArticleGrid = (props) => {
             setLivePosts(
                 posts
                     .filter((post) => post.category === props.filter)
-                    .filter((post) => post.id !== props.postId)
+                    .filter((post) => post._id !== props.postId)
             );
         }
     }, [posts, props.filter, props.postId]);
 
     // Event handler for search bar
     const handleSearchChange = (event) => {
+        if (page !== 1) {
+            setPage(1);
+        }
         setSearchValue(event.target.value);
         setCategory();
         setLivePosts(
@@ -64,6 +81,9 @@ const ArticleGrid = (props) => {
 
     // Event handler for category toggle button group
     const handleCategory = (event, newCategory) => {
+        if (page !== 1) {
+            setPage(1);
+        }
         setCategory(newCategory);
 
         if (newCategory === null) {
@@ -77,7 +97,7 @@ const ArticleGrid = (props) => {
 
     // Event handler for drafts toggle button group
     const handleDrafts = (event, newSelection) => {
-        if (newSelection === "true" || newSelection === "false") {
+        if (newSelection === true || newSelection === false) {
             setDraftsOnly(newSelection);
             setLivePosts(posts?.filter((post) => post.hidden === newSelection));
         } else if (newSelection === "all") {
@@ -299,10 +319,10 @@ const ArticleGrid = (props) => {
                             <ToggleButton value="all" aria-label="all">
                                 All Posts
                             </ToggleButton>
-                            <ToggleButton value="false" aria-label="published">
+                            <ToggleButton value={false} aria-label="published">
                                 Published
                             </ToggleButton>
-                            <ToggleButton value="true" aria-label="drafts">
+                            <ToggleButton value={true} aria-label="drafts">
                                 Drafts
                             </ToggleButton>
                         </ToggleButtonGroup>
@@ -320,94 +340,112 @@ const ArticleGrid = (props) => {
                     }}
                     justifyContent="left"
                 >
-                    {livePosts?.slice(0, props.maximum).map((post) => (
-                        <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            md={4}
-                            key={Number(post.id)}
-                            style={{
-                                display: "flex",
-                            }}
-                        >
-                            <Link href={"/" + post.slug}>
-                                <a
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        flexDirection: "column",
-                                    }}
-                                >
-                                    <Box className={styles.container}>
-                                        <Image
-                                            src={
-                                                youtubeParser(post.video) &&
-                                                !post.banner
-                                                    ? youtubeParser(post.video)
-                                                    : post.banner
-                                            }
-                                            alt="Placeholder Image"
-                                            style={{ borderRadius: "6px" }}
-                                            width={450}
-                                            height={300}
-                                            objectFit="cover"
-                                            className={styles.image}
-                                            placeholder="blur"
-                                            blurDataURL={
-                                                youtubeParser(post.video) &&
-                                                !post.banner
-                                                    ? youtubeParser(post.video)
-                                                    : post.banner
-                                            }
-                                        />
-                                        <Box className={styles.overlay}>
-                                            <h4 className={styles.text}>
-                                                {post.video
-                                                    ? "Watch Video"
-                                                    : "Read More"}
-                                            </h4>
-                                        </Box>
-                                    </Box>
-
-                                    {authors && (
-                                        <h6 style={{ marginTop: "10px" }}>
-                                            {filterAuthor(
-                                                post.createdBy,
-                                                post?.contributor
-                                            )}
-                                        </h6>
-                                    )}
-
-                                    <h3 style={{ marginTop: "21px" }}>
-                                        {post?.hidden == "true" ? (
-                                            <span
-                                                style={{
-                                                    color: "purple",
-                                                }}
-                                            >{`[Draft] ${post.title}`}</span>
-                                        ) : (
-                                            `${
-                                                post.title.substring(0, 72) +
-                                                (post.title.length > 72
-                                                    ? "..."
-                                                    : "")
-                                            }`
-                                        )}
-                                    </h3>
-                                    <h6
+                    <Grid container spacing={4}>
+                        {visiblePosts.map((post) => (
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                md={4}
+                                key={Number(post._id)}
+                                style={{
+                                    display: "flex",
+                                }}
+                            >
+                                <Link href={"/" + post.slug}>
+                                    <a
                                         style={{
-                                            marginTop: "21px",
-                                            marginBottom: "20px",
-                                            color: "#43226D",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            flexDirection: "column",
                                         }}
                                     >
-                                        in {post.category}
-                                    </h6>
-                                </a>
-                            </Link>
+                                        <Box className={styles.container}>
+                                            <Image
+                                                src={
+                                                    youtubeParser(post.video) &&
+                                                    !post.banner
+                                                        ? youtubeParser(
+                                                              post.video
+                                                          )
+                                                        : post.banner
+                                                }
+                                                alt="Placeholder Image"
+                                                style={{ borderRadius: "6px" }}
+                                                width={450}
+                                                height={300}
+                                                objectFit="cover"
+                                                className={styles.image}
+                                                placeholder="blur"
+                                                blurDataURL={
+                                                    youtubeParser(post.video) &&
+                                                    !post.banner
+                                                        ? youtubeParser(
+                                                              post.video
+                                                          )
+                                                        : post.banner
+                                                }
+                                            />
+                                            <Box className={styles.overlay}>
+                                                <h4 className={styles.text}>
+                                                    {post.video
+                                                        ? "Watch Video"
+                                                        : "Read More"}
+                                                </h4>
+                                            </Box>
+                                        </Box>
+
+                                        {authors && (
+                                            <h6 style={{ marginTop: "10px" }}>
+                                                {filterAuthor(
+                                                    post.createdBy,
+                                                    post?.contributor
+                                                )}
+                                            </h6>
+                                        )}
+
+                                        <h3 style={{ marginTop: "21px" }}>
+                                            {post?.hidden == true ? (
+                                                <span
+                                                    style={{
+                                                        color: "purple",
+                                                    }}
+                                                >{`[Draft] ${post.title}`}</span>
+                                            ) : (
+                                                `${
+                                                    post.title.substring(
+                                                        0,
+                                                        72
+                                                    ) +
+                                                    (post.title.length > 72
+                                                        ? "..."
+                                                        : "")
+                                                }`
+                                            )}
+                                        </h3>
+                                        <h6
+                                            style={{
+                                                marginTop: "21px",
+                                                marginBottom: "20px",
+                                                color: "#43226D",
+                                            }}
+                                        >
+                                            in {post.category}
+                                        </h6>
+                                    </a>
+                                </Link>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    {!maximum && totalPages > 1 && (
+                        <Grid container justifyContent="center">
+                            <Pagination
+                                count={totalPages}
+                                page={page}
+                                onChange={handleChange}
+                            />
                         </Grid>
-                    ))}
+                    )}
                     {props.seeAll && (
                         <Grid item xs={12} sx={{ mt: 2 }}>
                             <Button
