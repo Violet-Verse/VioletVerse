@@ -150,7 +150,7 @@ const PostEditorPage = (props) => {
                     tldr: tldr,
                     subtitle: subtitle,
                     largeLetter: largeLetter,
-                    hidden: user?.role === "contributor" ? "true" : hidden,
+                    hidden: user?.role === "contributor" ? true : hidden,
                     banner: banner,
                     video: video,
                     contributor: contributor || null,

@@ -145,7 +145,7 @@ function MaterialTable(props) {
             },
             body: JSON.stringify({
                 id: row._id,
-                hidden: "false",
+                hidden: false,
             }),
         })
             .then(() => {
