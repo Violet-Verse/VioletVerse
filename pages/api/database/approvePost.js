@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         const db = await connectDatabase();
         await db.collection("posts").updateOne(
             {
-                _id: new ObjectId(req.body.id),
+                _id: new ObjectId(req.body._id),
             },
             {
                 $set: fields,

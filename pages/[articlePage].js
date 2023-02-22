@@ -87,7 +87,7 @@ const Article = ({
     const noTokenGateAccess =
         tokenGatePrice &&
         user &&
-        purchasedArray.indexOf(posts.id.toString()) === -1;
+        purchasedArray.indexOf(posts._id.toString()) === -1;
 
     const tokenGatedNotLoggedIn = tokenGatePrice && !user;
 
@@ -111,7 +111,7 @@ const Article = ({
                 body: JSON.stringify({
                     purchasedContent: `${
                         user.purchasedContent ? user.purchasedContent + "," : ""
-                    }${posts.id}`,
+                    }${posts._id}`,
                 }),
             })
                 .then((response) => response.json())
@@ -413,7 +413,7 @@ const Article = ({
                                         display: { xs: "flex", sm: "none" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts.id}>
+                                    <Link href={`/edit/` + posts._id}>
                                         <a>
                                             <Button
                                                 variant="contained"
@@ -483,7 +483,7 @@ const Article = ({
                                             display: { xs: "none", sm: "flex" },
                                         }}
                                     >
-                                        <Link href={`/edit/` + posts.id}>
+                                        <Link href={`/edit/` + posts._id}>
                                             <a>
                                                 <p
                                                     className="secondary"
@@ -595,7 +595,7 @@ const Article = ({
                         mt={15}
                         buttonDisabled
                         filter={posts?.category}
-                        postId={posts?.id}
+                        postId={posts?._id}
                     />
                 </Box>
                 <Grid container justifyContent="center" sx={{ mt: 8 }}>
@@ -846,7 +846,7 @@ const Article = ({
                                     display: { xs: "flex", sm: "none" },
                                 }}
                             >
-                                <Link href={`/edit/` + posts.id}>
+                                <Link href={`/edit/` + posts._id}>
                                     <a>
                                         <Button
                                             variant="contained"
@@ -916,7 +916,7 @@ const Article = ({
                                         display: { xs: "none", sm: "flex" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts.id}>
+                                    <Link href={`/edit/` + posts._id}>
                                         <a>
                                             <p
                                                 className="secondary"
@@ -1072,7 +1072,7 @@ const Article = ({
                     mt={15}
                     buttonDisabled
                     filter={posts?.category}
-                    postId={posts?.id}
+                    postId={posts?._id}
                 />
             </Box>
             <Grid container justifyContent="center" sx={{ mt: 8 }}>

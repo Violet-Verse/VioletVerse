@@ -19,7 +19,7 @@ import { setRevalidateHeaders } from "next/dist/server/send-payload";
 
 const ArticleGrid = (props) => {
     const { query } = useRouter();
-    const posts = props.posts.sort((a, b) => (a.id < b.id ? 1 : -1));
+    const posts = props.posts.sort((a, b) => (a._id < b._id ? 1 : -1));
     const [livePosts, setLivePosts] = useState(posts);
     const { maximum } = props;
     const hasPosts = livePosts.length !== 0;
@@ -58,7 +58,7 @@ const ArticleGrid = (props) => {
             setLivePosts(
                 posts
                     .filter((post) => post.category === props.filter)
-                    .filter((post) => post.id !== props.postId)
+                    .filter((post) => post._id !== props.postId)
             );
         }
     }, [posts, props.filter, props.postId]);
@@ -347,7 +347,7 @@ const ArticleGrid = (props) => {
                                 xs={12}
                                 sm={6}
                                 md={4}
-                                key={Number(post.id)}
+                                key={Number(post._id)}
                                 style={{
                                     display: "flex",
                                 }}

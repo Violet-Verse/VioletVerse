@@ -144,7 +144,7 @@ function MaterialTable(props) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: row._id,
+                _id: row._id,
                 hidden: false,
             }),
         })

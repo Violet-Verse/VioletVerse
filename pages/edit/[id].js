@@ -2,12 +2,15 @@ import useSWR from "swr";
 import PostEditor from "../../components/Posts/PostEditorPage";
 import connectDatabase from "../../lib/mongoClient";
 import { getUserByIssuer } from "../api/database/getUser";
+import { ObjectId } from "mongodb";
 
 export async function getServerSideProps(context) {
     const postId = context.params.id;
     const db = await connectDatabase();
     const collection = db.collection("posts");
-    const postData = await collection.find({ id: Number(postId) }).toArray();
+    const postData = await collection
+        .find({ _id: new ObjectId(postId) })
+        .toArray();
 
     if (!postData || postData.length === 0) {
         return { notFound: true, props: { posts: {} } };

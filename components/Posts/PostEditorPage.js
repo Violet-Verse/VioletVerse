@@ -162,7 +162,7 @@ const PostEditorPage = (props) => {
             .then((newData) => {
                 setLoading(false);
                 mutate("/api/database/getUserPosts", [...data, newData]);
-                Router.push(`/${posts.slug}`);
+                Router.push(editorMode ? `/${posts.slug}` : `/${newData.slug}`);
             })
             .catch((err) => {
                 setLoading(false);
@@ -627,14 +627,14 @@ const PostEditorPage = (props) => {
                         </Box>
                     </Box>
                 </Grid>
-                {errorMessage && (
+                {/* {errorMessage && (
                     <Grid item>
                         <Alert severity="error">
                             <AlertTitle>Error</AlertTitle>
                             {errorMessage}
                         </Alert>
                     </Grid>
-                )}
+                )} */}
             </form>
         </Box>
     );

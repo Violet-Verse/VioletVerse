@@ -75,7 +75,7 @@ export default async function createPost(req, res) {
         const collection = db.collection("posts");
         const post = await collection.insertOne(postData);
         console.log(post);
-        return res.status(200).json(postData);
+        return res.status(200).json(postData || null);
     } catch (err) {
         console.log(err);
     }
