@@ -19,7 +19,7 @@ import connectDatabase from "../lib/mongoClient";
 const ArticleGrid = dynamic(() => import("../components/Posts/ArticleGrid"));
 const MaterialTable = dynamic(() => import("../components/Posts/PostsTable"));
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
     const db = await connectDatabase();
     const collection = db.collection("posts");
     const data = await collection.find({ hidden: true }).toArray();
