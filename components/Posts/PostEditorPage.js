@@ -12,6 +12,7 @@ import {
     Alert,
     AlertTitle,
 } from "@mui/material";
+import { Editor } from "@tinymce/tinymce-react";
 import useSWR from "swr";
 import Image from "next/image";
 import Router from "next/router";
@@ -20,7 +21,6 @@ import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useUser } from "../../hooks/useAuth";
 import React, { useState, useEffect, useCallback } from "react";
-import RichTextEditor from "./Editor";
 import DeleteConfirmation from "../Modal/ConfirmDelete";
 import dateFormatter from "../../lib/dateFormatter";
 
@@ -37,6 +37,21 @@ const PostEditorPage = (props) => {
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [content, setContent] = useState("");
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue =
+                "Are you sure you want to leave? You will lose any unsaved changes.";
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
 
     const handleChange = (event) => {
         setTokenGated(event.target.checked);
@@ -93,25 +108,25 @@ const PostEditorPage = (props) => {
         }
     };
 
-    const handleImageUpload = useCallback(
-        (file) =>
-            new Promise((resolve, reject) => {
-                const formData = new FormData();
-                formData.append("image", file);
+    const handleImageUpload = (blobInfo, success, failure, progress) => {
+        const formData = new FormData();
+        formData.append("image", blobInfo.blob(), blobInfo.filename());
 
-                fetch(
-                    `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
-                    {
-                        method: "POST",
-                        body: formData,
-                    }
-                )
-                    .then((response) => response.json())
-                    .then((result) => resolve(result.data.url))
-                    .catch(() => reject(new Error("Upload failed")));
-            }),
-        []
-    );
+        fetch(
+            `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+            {
+                method: "POST",
+                body: formData,
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                success(data.url);
+            })
+            .catch(() => {
+                failure("Image upload failed");
+            });
+    };
 
     const onSubmit = async ({
         title,
@@ -566,10 +581,103 @@ const PostEditorPage = (props) => {
                         control={control}
                         name="body"
                         render={({ field: { onChange, value } }) => (
-                            <RichTextEditor
+                            <Editor
+                                apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
                                 value={value}
-                                onChange={onChange}
-                                onImageUpload={handleImageUpload}
+                                onEditorChange={onChange}
+                                init={{
+                                    selector: "textarea",
+                                    branding: false,
+                                    plugins:
+                                        "textpattern a11ychecker advcode advlist advtable anchor autocorrect autosave editimage image link linkchecker lists media mediaembed pageembed powerpaste searchreplace table template tinymcespellchecker visualblocks wordcount",
+
+                                    toolbar:
+                                        "undo redo | styles | bold italic underline strikethrough | table link image media | bullist numlist | spellcheckdialog a11ycheck code",
+
+                                    a11ychecker_level: "aaa",
+
+                                    textpattern_patterns: [
+                                        {
+                                            start: "*",
+                                            end: "*",
+                                            format: "italic",
+                                        },
+                                        {
+                                            start: "**",
+                                            end: "**",
+                                            format: "bold",
+                                        },
+                                        { start: "#", format: "h1" },
+                                        { start: "##", format: "h2" },
+                                        { start: "###", format: "h3" },
+                                        { start: "####", format: "h4" },
+                                        { start: "#####", format: "h5" },
+                                        { start: "######", format: "h6" },
+                                        {
+                                            start: "1. ",
+                                            cmd: "InsertOrderedList",
+                                        },
+                                        {
+                                            start: "* ",
+                                            cmd: "InsertUnorderedList",
+                                        },
+                                        {
+                                            start: "- ",
+                                            cmd: "InsertUnorderedList",
+                                        },
+                                    ],
+
+                                    style_formats: [
+                                        { title: "Header", block: "h1" },
+                                        { title: "Subheader", block: "h2" },
+                                        { title: "Body", block: "p" },
+                                        {
+                                            title: "Blockquote",
+                                            block: "blockquote",
+                                        },
+                                    ],
+
+                                    object_resizing: false,
+
+                                    valid_classes: {
+                                        img: "medium",
+                                        div: "related-content",
+                                    },
+
+                                    image_caption: true,
+
+                                    templates: [
+                                        {
+                                            title: "Related content",
+                                            description:
+                                                "This template inserts a related content block",
+                                            content:
+                                                '<div class="related-content"><h3>Related content</h3><p><strong>{$rel_lede}</strong> {$rel_body}</p></div>',
+                                        },
+                                    ],
+
+                                    template_replace_values: {
+                                        rel_lede: "Lorem ipsum",
+                                        rel_body: "dolor sit amet...",
+                                    },
+
+                                    template_preview_replace_values: {
+                                        rel_lede: "Lorem ipsum",
+                                        rel_body: "dolor sit amet...",
+                                    },
+
+                                    noneditable_class: "related-content",
+
+                                    content_langs: [
+                                        {
+                                            title: "English (US)",
+                                            code: "en_US",
+                                        },
+                                        { title: "French", code: "fr" },
+                                    ],
+
+                                    height: 540,
+                                }}
                             />
                         )}
                     />
