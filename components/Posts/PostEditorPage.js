@@ -597,9 +597,14 @@ const PostEditorPage = (props) => {
                                     toolbar:
                                         "undo redo | styles | bold italic underline emoticons | link image table | bullist numlist | fullscreen",
 
+                                    removed_menuitems:
+                                        "fontfamily fontsize align lineheight forecolor backcolor",
+
                                     max_height: 650,
 
                                     file_picker_types: "image",
+
+                                    browser_spellcheck: true,
 
                                     file_picker_callback: function (
                                         cb,
@@ -623,6 +628,13 @@ const PostEditorPage = (props) => {
 
                                         input.click();
                                     },
+
+                                    block_formats:
+                                        "Paragraph=p; Header 1=h1; Header 2=h2",
+
+                                    line_height_formats: "1.4",
+
+                                    custom_colors: false,
 
                                     style_formats: [
                                         { title: "Header", block: "h1" },
@@ -664,14 +676,6 @@ const PostEditorPage = (props) => {
                                     },
 
                                     noneditable_class: "related-content",
-
-                                    content_langs: [
-                                        {
-                                            title: "English (US)",
-                                            code: "en_US",
-                                        },
-                                        { title: "French", code: "fr" },
-                                    ],
 
                                     height: 540,
                                 }}
