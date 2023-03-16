@@ -108,11 +108,11 @@ const PostEditorPage = (props) => {
         }
     };
 
-    const handleImageUpload = (blobInfo, success, failure, progress) => {
+    const uploadImage = async (fd) => {
         const formData = new FormData();
-        formData.append("image", blobInfo.blob(), blobInfo.filename());
+        formData.append("image", fd);
 
-        fetch(
+        return fetch(
             `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
             {
                 method: "POST",
@@ -120,11 +120,14 @@ const PostEditorPage = (props) => {
             }
         )
             .then((response) => response.json())
-            .then((data) => {
-                success(data.url);
+            .then((result) => {
+                console.log(result.data.url);
+                return result.data.url;
             })
-            .catch(() => {
-                failure("Image upload failed");
+            .catch((err) => {
+                console.error(err);
+                setErrorMessage(err);
+                return null;
             });
     };
 
@@ -589,43 +592,37 @@ const PostEditorPage = (props) => {
                                     selector: "textarea",
                                     branding: false,
                                     plugins:
-                                        "textpattern advlist anchor autosave image link lists media searchreplace table template visualblocks wordcount",
+                                        "quickbars advlist emoticons anchor autosave autoresize image link lists media searchreplace table template visualblocks wordcount fullscreen autolink",
 
                                     toolbar:
-                                        "undo redo | styles | bold italic underline strikethrough | table link image media | bullist numlist | spellcheckdialog a11ycheck code",
+                                        "undo redo | styles | bold italic underline emoticons | link image table | bullist numlist | fullscreen",
 
-                                    a11ychecker_level: "aaa",
+                                    max_height: 650,
 
-                                    textpattern_patterns: [
-                                        {
-                                            start: "*",
-                                            end: "*",
-                                            format: "italic",
-                                        },
-                                        {
-                                            start: "**",
-                                            end: "**",
-                                            format: "bold",
-                                        },
-                                        { start: "#", format: "h1" },
-                                        { start: "##", format: "h2" },
-                                        { start: "###", format: "h3" },
-                                        { start: "####", format: "h4" },
-                                        { start: "#####", format: "h5" },
-                                        { start: "######", format: "h6" },
-                                        {
-                                            start: "1. ",
-                                            cmd: "InsertOrderedList",
-                                        },
-                                        {
-                                            start: "* ",
-                                            cmd: "InsertUnorderedList",
-                                        },
-                                        {
-                                            start: "- ",
-                                            cmd: "InsertUnorderedList",
-                                        },
-                                    ],
+                                    file_picker_types: "image",
+
+                                    file_picker_callback: function (
+                                        cb,
+                                        value,
+                                        meta
+                                    ) {
+                                        var input =
+                                            document.createElement("input");
+                                        input.setAttribute("type", "file");
+                                        input.onchange = async function () {
+                                            var file = this.files[0];
+
+                                            // Upload
+
+                                            const imageUrl = await uploadImage(
+                                                file
+                                            );
+
+                                            cb(imageUrl);
+                                        };
+
+                                        input.click();
+                                    },
 
                                     style_formats: [
                                         { title: "Header", block: "h1" },
