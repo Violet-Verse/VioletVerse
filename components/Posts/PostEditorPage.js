@@ -589,7 +589,7 @@ const PostEditorPage = (props) => {
                                     selector: "textarea",
                                     branding: false,
                                     plugins:
-                                        "textpattern a11ychecker advcode advlist advtable anchor autocorrect autosave editimage image link linkchecker lists media mediaembed pageembed powerpaste searchreplace table template tinymcespellchecker visualblocks wordcount",
+                                        "textpattern advlist anchor autosave image link lists media searchreplace table template visualblocks wordcount",
 
                                     toolbar:
                                         "undo redo | styles | bold italic underline strikethrough | table link image media | bullist numlist | spellcheckdialog a11ycheck code",
