@@ -1,7 +1,7 @@
 import { Grid, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../styles/InfoBlock.module.css";
+import styles from "../../styles/InfoBlock.module.css";
 
 const InfoBlock = (props) => {
     const newToWeb3Block = [

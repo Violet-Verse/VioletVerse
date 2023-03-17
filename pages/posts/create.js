@@ -1,4 +1,4 @@
-import PostEditor from "../../components/Posts/PostEditorPage";
+import PostEditor from "../../components/Editor/PostEditorPage";
 
 export async function getStaticProps(context) {
     return {

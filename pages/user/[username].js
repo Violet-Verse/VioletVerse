@@ -1,4 +1,4 @@
-import ProfileLayout from "../../components/Profile/ProfileLayout";
+import ProfileLayout from "../../components/user/ProfileLayout";
 import { getUserByUsername } from "../api/database/getUser";
 import Head from "next/head";
 

@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import Head from "next/head";
-import Footer from "./Layout/NewFooter";
-import Navbar from "./Layout/Navbar";
+import Footer from "./NewFooter";
+import Navbar from "./Navbar";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { UserContext } from "../components/UserContext";
-import { useUser } from "../hooks/useAuth";
+import { UserContext } from "../Context/UserContext";
+import { useUser } from "../../hooks/useAuth";
 import { NextUIProvider } from "@nextui-org/react";
-import { FlowWrapper } from "./Context/flowContext";
+import { FlowWrapper } from "../Context/flowContext";
 import { Provider } from "@lyket/react";
 
 const Layout = ({ children }) => {

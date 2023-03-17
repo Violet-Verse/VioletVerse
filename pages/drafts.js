@@ -15,9 +15,9 @@ import dynamic from "next/dynamic"; // Dynamic import for better performance
 import { getUsersByRole } from "./api/database/getUserByEmail";
 import connectDatabase from "../lib/mongoClient";
 
-// Dynamic import of ArticleGrid and MaterialTable components for better performance
-const ArticleGrid = dynamic(() => import("../components/Posts/ArticleGrid"));
-const MaterialTable = dynamic(() => import("../components/Posts/PostsTable"));
+// Dynamic import of ArticleGrid and PostsTable components for better performance
+const ArticleGrid = dynamic(() => import("../components/article/ArticleGrid"));
+const PostsTable = dynamic(() => import("../components/article/PostsTable"));
 
 export async function getServerSideProps(context) {
     const db = await connectDatabase();
@@ -131,7 +131,7 @@ function DraftsPanel({ posts, authors, contributors }) {
                     />
                 )}
                 {!isExpanded && (
-                    <MaterialTable
+                    <PostsTable
                         posts={posts}
                         authors={authors}
                         contributors={contributors}
