@@ -27,7 +27,7 @@ import Link from "next/link";
 import Router from "next/router";
 import React, { useState, useEffect } from "react";
 import { useUser } from "../../hooks/useAuth";
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "../user/UserAvatar";
 import { nFormatter, useFlowContext } from "../Context/flowContext";
 import SignUpCTA from "../Modal/SignUpCTA.js";
 

@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/AppLayout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";

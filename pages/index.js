@@ -2,12 +2,12 @@ import { Button, Grid, Box, Stack } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import ArticleGrid from "../components/Posts/ArticleGrid";
+import ArticleGrid from "../components/article/ArticleGrid";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import InfoBlock from "../components/InfoBlock";
+import InfoBlock from "../components/homepage/InfoBlock";
 import { getUsersByRole } from "./api/database/getUserByEmail";
 import connectDatabase from "../lib/mongoClient";
 

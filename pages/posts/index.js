@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import ArticleGrid from "../../components/Posts/ArticleGrid";
+import ArticleGrid from "../../components/article/ArticleGrid";
 import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 

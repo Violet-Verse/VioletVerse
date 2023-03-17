@@ -8,7 +8,7 @@ import {
     DialogActions,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useFlowContext } from "../../components/Context/flowContext";
+import { useFlowContext } from "../Context/flowContext";
 import { useUser } from "../../hooks/useAuth";
 import { transferTokens } from "../../cadence/scripts/transactions/transferTokens";
 

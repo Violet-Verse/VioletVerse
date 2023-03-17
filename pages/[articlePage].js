@@ -16,10 +16,10 @@ import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { useUser } from "../hooks/useAuth";
 import youtubeParser from "../lib/getYouTubeThumbnail";
-import UserAvatar from "../components/UserAvatar";
+import UserAvatar from "../components/user/UserAvatar";
 import dateFormatter from "../lib/dateFormatter";
 import purifyHTML from "../lib/purifyHTML";
-import ArticleGrid from "../components/Posts/ArticleGrid";
+import ArticleGrid from "../components/article/ArticleGrid";
 import {
     getAuthorForPost,
     getContributorForPost,
@@ -28,7 +28,7 @@ import {
 import { transferTokens } from "../cadence/scripts/transactions/purchaseContent";
 import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
-import Tipping from "../components/Modal/Tipping";
+import Tipping from "../components/article/Tipping";
 import connectDatabase from "../lib/mongoClient";
 
 export async function getServerSideProps(context) {

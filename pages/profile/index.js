@@ -1,5 +1,5 @@
 import { useUser } from "../../hooks/useAuth";
-import ProfileLayout from "../../components/Profile/ProfileLayout";
+import ProfileLayout from "../../components/user/ProfileLayout";
 
 export async function getStaticProps(context) {
     return {

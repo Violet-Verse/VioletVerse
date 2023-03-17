@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import PostEditor from "../../components/Posts/PostEditorPage";
+import PostEditor from "../../components/Editor/PostEditorPage";
 import connectDatabase from "../../lib/mongoClient";
 import { getUserByIssuer } from "../api/database/getUser";
 import { ObjectId } from "mongodb";
