@@ -46,6 +46,7 @@ const Home = ({ posts, authors, contributors }) => {
                     name="twitter:image:src"
                     content="https://i.imgur.com/yhNmGo8.png"
                 />
+                <link rel="canonical" href="/" />
             </Head>
 
             {/* Video with Text Overlay | XS to MD */}
@@ -72,11 +73,6 @@ const Home = ({ posts, authors, contributors }) => {
                                 maxWidth: "1040px",
                             }}
                         >
-                            {/* <Grid item>
-                                <h1 style={{ color: "white" }}>
-                                    {spotlightPost.title}
-                                </h1>
-                            </Grid> */}
                             <Grid item>
                                 <p
                                     style={{

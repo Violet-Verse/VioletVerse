@@ -12,9 +12,8 @@ import { Provider } from "@lyket/react";
 
 const Layout = ({ children }) => {
     const { user } = useUser();
-    const siteTitle =
-        "Violet Verse: A Token-Gated Web3 Lifestyle Platform | Violet Verse";
-    const metaTitle = "Violet Verse: A Token-Gated Web3 Lifestyle Platform";
+    const siteTitle = "Violet Verse: A Web3 Lifestyle Platform | Violet Verse";
+    const metaTitle = "Violet Verse: A Web3 Lifestyle Platform";
     const siteDescription =
         "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
     const shortDescription =
