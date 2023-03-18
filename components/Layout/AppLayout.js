@@ -58,6 +58,32 @@ const Layout = ({ children }) => {
             },
         },
     });
+
+    function addJsonLd() {
+        return {
+            __html: `{
+                "@context":"https://schema.org",
+                "@type":"Organization",
+                "url":"https://violetverse.io",
+                "logo":"https://violetverse.io/logo.png",
+                "name":"Violet Verse",
+                "foundingDate":"2022-09-01",
+                "foundingLocation":{
+                   "@type":"Place",
+                   "name":"Miami, FL"
+                },
+                "description":"Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.",
+                "keywords":"Education, Web3, Technology, Lifestyle",
+                "sameAs":[
+                   "https://twitter.com/TheVioletVerse",
+                   "https://www.instagram.com/violetverse.io/",
+                   "https://www.linkedin.com/company/violet-verse/"
+                ]
+             }
+      `,
+        };
+    }
+
     return (
         <UserContext.Provider value={user}>
             <Provider apiKey={process.env.NEXT_PUBLIC_LYKET_API}>
@@ -83,75 +109,11 @@ const Layout = ({ children }) => {
                                     sizes="16x16"
                                     href="/favicon-16x16.png"
                                 />
-
                                 <script
                                     type="application/ld+json"
-                                    dangerouslySetInnerHTML={{
-                                        __html: `{
-    "@context":"https://schema.org",
-    "@type":"Magazine",
-    "url":"https://violetverse.io",
-    "logo":"https://violetverse.io/logo.png",
-    "name":"Violet Verse",
-    "foundingDate":"2022-09-01",
-    "foundingLocation":{
-       "@type":"Place",
-       "name":"Miami, FL"
-    },
-    "location":{
-       "@type":"Place",
-       "name":"Miami, FL"
-    },
-    "description":"Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.",
-    "genre":"Tech and Lifestyle",
-    "keywords":"Education, Web3, Technology, Lifestyle",
-    "sameAs":[
-       "https://twitter.com/TheVioletVerse",
-       "https://www.instagram.com/violetverse.io/",
-       "https://www.linkedin.com/company/violetverse"
-    ],
-    "publisher":{
-       "@type":"Organization",
-       "name":"Violet Verse",
-       "logo":"https://violetverse.io/logo.png"
-    },
-    "editor":[
-       {
-          "@type":"Person",
-          "name":"Melissa Henderson",
-          "sameAs":[
-             "https://twitter.com/melwritesmiami",
-             "https://www.linkedin.com/in/melissa-a-henderson-"
-          ],
-          "image":"https://violetverse.io/team/Mel.jpg",
-          "jobTitle":"Verse Editor",
-          "memberOf":{
-             "@type":"Organization",
-             "name":"Violet Verse"
-          }
-       },
-       {
-          "@type":"Person",
-          "name":"Autumn Leaves",
-          "sameAs":[
-             "https://twitter.com/1autumn_leaf"
-          ],
-          "image":"https://violetverse.io/team/Autumn.jpg",
-          "jobTitle":"Verse Editor",
-          "memberOf":{
-             "@type":"Organization",
-             "name":"Violet Verse"
-          }
-       }
-    ],
-    "category":[
-       "Technology",
-       "Web3",
-       "Education"
-    ]
- }`,
-                                    }}
-                                ></script>
+                                    dangerouslySetInnerHTML={addJsonLd()}
+                                    key="product-jsonld"
+                                />
                                 <title>{siteTitle}</title>
                                 <meta
                                     name="og:site_name"
