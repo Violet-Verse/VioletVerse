@@ -17,6 +17,8 @@ const Layout = ({ children }) => {
     const metaTitle = "Violet Verse: A Token-Gated Web3 Lifestyle Platform";
     const siteDescription =
         "Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.";
+    const shortDescription =
+        "The latest trends in tech, digital lifestyle, web3 news, blockchain coverage, and crypto events on VioletVerse.io";
 
     const theme = createTheme({
         components: {
@@ -115,6 +117,10 @@ const Layout = ({ children }) => {
                                     key="product-jsonld"
                                 />
                                 <title>{siteTitle}</title>
+                                <meta
+                                    name="description"
+                                    content={shortDescription}
+                                />
                                 <meta
                                     name="og:site_name"
                                     content="Violet Verse"

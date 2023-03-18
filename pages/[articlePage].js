@@ -101,6 +101,29 @@ const Article = ({
     const [txStatus, setTxStatus] = useState();
     const [tippingModal, setTippingModal] = useState(false);
 
+    function addArticleJsonLd() {
+        return {
+            __html: `{
+                "@context": "https://schema.org",
+                "@type": "NewsArticle",
+                "headline": "${siteTitle}",
+                "image": [
+                  "${siteImage}"
+                 ],
+                "datePublished": "${posts.created}",
+                "dateModified": "${posts?.lastUpdated}",
+                "author": [{
+                    "@type": "Person",
+                    "name": "${contributor?.name || author?.name}",
+                    "url": "https://www.violetverse.io/user/${
+                        contributor?.username || author?.username
+                    }"
+                  }]
+              }
+      `,
+        };
+    }
+
     const updateUser = async () => {
         try {
             await fetch("/api/database/updatePurchasedContent", {
@@ -184,7 +207,13 @@ const Article = ({
 
                 <Head>
                     <title>{siteTitle}</title>
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={addArticleJsonLd()}
+                        key="product-jsonld"
+                    />
                     <meta name="og:title" content={metaTitle} />
+                    <meta name="description" content={siteDescription} />
                     <meta name="og:description" content={siteDescription} />
                     <meta property="og:image" content={siteImage} />
                     <meta property="og:image:type" content="image/png" />
@@ -620,7 +649,13 @@ const Article = ({
 
             <Head>
                 <title>{siteTitle}</title>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={addArticleJsonLd()}
+                    key="product-jsonld"
+                />
                 <meta name="og:title" content={metaTitle} />
+                <meta name="description" content={siteDescription} />
                 <meta name="og:description" content={siteDescription} />
                 <meta property="og:image" content={siteImage} />
                 <meta property="og:image:type" content="image/png" />
