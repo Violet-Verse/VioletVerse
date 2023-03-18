@@ -70,7 +70,7 @@ const Footer = () => {
                         </Stack>
                     </Box>
                     <Box>
-                        <Link href="posts">
+                        <Link href="/posts">
                             <a>
                                 <h3 className={styles.header}>Market</h3>
                             </a>
