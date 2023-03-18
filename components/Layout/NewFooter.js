@@ -98,26 +98,26 @@ const Footer = () => {
                         </Link>
                     </Box>
                     <Box>
-                        <Link href="resources">
+                        <Link href="/resources">
                             <a>
                                 <h3 className={styles.header}>Resources</h3>
                             </a>
                         </Link>
-                        <Link href="resources">
+                        <Link href="/resources">
                             <a>
                                 <p className={styles.subheader}>
                                     Getting Started
                                 </p>
                             </a>
                         </Link>
-                        <Link href="resources">
+                        <Link href="/resources">
                             <a>
                                 <p className={styles.subheader}>
                                     Web3 Resources
                                 </p>
                             </a>
                         </Link>
-                        <Link href="resources">
+                        <Link href="/resources">
                             <a>
                                 <p className={styles.subheader}>
                                     Events and Meetups

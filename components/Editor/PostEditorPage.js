@@ -606,6 +606,8 @@ const PostEditorPage = (props) => {
 
                                     browser_spellcheck: true,
 
+                                    relative_urls: false,
+
                                     file_picker_callback: function (
                                         cb,
                                         value,
