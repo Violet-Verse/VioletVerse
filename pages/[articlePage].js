@@ -989,16 +989,18 @@ const Article = ({
                         }}
                     >
                         <Box sx={{ px: { xs: "4%", sm: "0" } }}>
-                            <section
-                                className={
-                                    posts.largeLetter == false
-                                        ? "postBodyNoLetter"
-                                        : "postBody"
-                                }
-                                dangerouslySetInnerHTML={{
-                                    __html: purifyHTML(posts.body),
-                                }}
-                            />
+                            <body>
+                                <section
+                                    className={
+                                        posts.largeLetter == false
+                                            ? "postBodyNoLetter"
+                                            : "postBody"
+                                    }
+                                    dangerouslySetInnerHTML={{
+                                        __html: purifyHTML(posts.body),
+                                    }}
+                                />
+                            </body>
                         </Box>
                     </Grid>
                     <Grid item>
