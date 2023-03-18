@@ -83,10 +83,12 @@ const Layout = ({ children }) => {
                                     sizes="16x16"
                                     href="/favicon-16x16.png"
                                 />
+
                                 <script
                                     type="application/ld+json"
                                     dangerouslySetInnerHTML={{
-                                        __html: JSON.stringify({
+                                        __html: `
+        {
                                             "@context": "https://schema.org",
                                             "@type": "Magazine",
                                             url: "https://violetverse.io",
@@ -150,9 +152,10 @@ const Layout = ({ children }) => {
                                                 "Web3",
                                                 "Education",
                                             ],
-                                        }),
+                                        }
+    `,
                                     }}
-                                />
+                                ></script>
                                 <title>{siteTitle}</title>
                                 <meta
                                     name="og:site_name"
