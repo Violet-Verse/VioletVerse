@@ -233,31 +233,17 @@ const NewNav = () => {
                                                 </MenuItem>
                                             </a>
                                         </Link>
-                                        <Link href="/resources">
+                                        <Link href="/enterprise">
                                             <a>
                                                 <MenuItem
                                                     onClick={handleCloseNavMenu}
                                                 >
                                                     <Typography textAlign="center">
-                                                        Web3 Resources
+                                                        Enterprise Plan
                                                     </Typography>
                                                 </MenuItem>
                                             </a>
                                         </Link>
-                                        <a
-                                            target="_blank"
-                                            href="/vr"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <MenuItem
-                                                onClick={handleCloseNavMenu}
-                                            >
-                                                <Typography textAlign="center">
-                                                    VV VR
-                                                </Typography>
-                                            </MenuItem>
-                                        </a>
-
                                         <Link href="/about">
                                             <a>
                                                 <MenuItem
@@ -299,7 +285,7 @@ const NewNav = () => {
                                             </Button>
                                         </a>
                                     </Link>
-                                    <Link href="/resources">
+                                    <Link href="/enterprise">
                                         <a>
                                             <Button
                                                 sx={{
@@ -313,30 +299,10 @@ const NewNav = () => {
                                                     letterSpacing: "-0.005em",
                                                 }}
                                             >
-                                                Web3 Resources
+                                                Enterprise Plan
                                             </Button>
                                         </a>
                                     </Link>
-                                    <a
-                                        target="_blank"
-                                        href="/vr"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <Button
-                                            sx={{
-                                                my: 2,
-                                                color: "#0A0510",
-                                                display: "block",
-                                                mr: "15px",
-                                                fontFamily: "Ogg",
-                                                fontSize: "18px",
-                                                lineHeight: "130%",
-                                                letterSpacing: "-0.005em",
-                                            }}
-                                        >
-                                            VV VR
-                                        </Button>
-                                    </a>
                                     <Link href="/about">
                                         <a>
                                             <Button
