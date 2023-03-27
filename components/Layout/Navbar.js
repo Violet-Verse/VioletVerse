@@ -244,6 +244,26 @@ const NewNav = () => {
                                                 </MenuItem>
                                             </a>
                                         </Link>
+                                        <a
+                                            target="_blank"
+                                            href="/vr"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Button
+                                                sx={{
+                                                    my: 2,
+                                                    color: "#0A0510",
+                                                    display: "block",
+                                                    mr: "15px",
+                                                    fontFamily: "Ogg",
+                                                    fontSize: "18px",
+                                                    lineHeight: "130%",
+                                                    letterSpacing: "-0.005em",
+                                                }}
+                                            >
+                                                VV VR
+                                            </Button>
+                                        </a>
                                         <Link href="/about">
                                             <a>
                                                 <MenuItem
