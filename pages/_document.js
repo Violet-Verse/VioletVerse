@@ -1,6 +1,7 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { CssBaseline } from "@nextui-org/react";
+import Script from "next/script";
 
 // import Segment Snippet
 import * as snippet from "@segment/snippet";
@@ -40,6 +41,16 @@ class MyDocument extends Document {
                         id="segment-script"
                         dangerouslySetInnerHTML={{ __html: renderSnippet() }}
                     />
+                    {/* Google Analytics */}
+                    <Script id="google-analytics" strategy="afterInteractive">
+                        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-1GV06YH6SV');
+        `}
+                    </Script>
                 </Head>
                 <body>
                     <Main />
