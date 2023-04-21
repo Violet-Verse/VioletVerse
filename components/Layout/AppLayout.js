@@ -9,6 +9,7 @@ import { useUser } from "../../hooks/useAuth";
 import { NextUIProvider } from "@nextui-org/react";
 import { FlowWrapper } from "../Context/flowContext";
 import { Provider } from "@lyket/react";
+import { Analytics } from "@vercel/analytics/react";
 
 const Layout = ({ children }) => {
     const { user } = useUser();
@@ -165,6 +166,7 @@ const Layout = ({ children }) => {
                                     }}
                                 >
                                     {children}
+                                    <Analytics />
                                 </Box>
                                 <Footer />
                             </Box>
