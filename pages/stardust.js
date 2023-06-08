@@ -79,13 +79,13 @@ const Stardust = () => {
         >
             <Head>
                 <title>{siteTitle}</title>
-                <meta name="description" content={siteDescription} />
-                <meta property="og:title" content={metaTitle} />
-                <meta property="og:description" content={siteDescription} />
+                <meta name="og:title" content={metaTitle} />
+                <meta name="og:description" content={siteDescription} />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:site" content="@TheVioletVerse" />
                 <meta name="twitter:title" content={metaTitle} />
                 <meta name="twitter:description" content={siteDescription} />
+                <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <HeaderContainer>
                 <AnimatedTypography variant="h2" component="h1">
