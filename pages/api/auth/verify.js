@@ -85,7 +85,7 @@ async function checkOrCreateLocalUser(user) {
         .eachPage(function page(records, fetchNextPage) {
             records.forEach((record) => {
                 console.log("Retrieved User:", record.get("userId"));
-                users.push(record.get("userId"));
+                users.push(record); // push entire record, not just userId
             });
             fetchNextPage();
         });
@@ -94,7 +94,8 @@ async function checkOrCreateLocalUser(user) {
     if (users.length < 1) {
         localUserData = await createLocalUser(user);
     } else {
-        localUserData = users;
+        // Each record has a `fields` property that contains the user data
+        localUserData = users[0].fields; // use fields from the first record
     }
 
     return localUserData;
