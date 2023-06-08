@@ -21,6 +21,13 @@ const gradientAnimation = keyframes`
   100% { background-position: 0% 50%; }
 `;
 
+const CardContainer = styled(Box)({
+    transition: "transform 0.3s",
+    "&:hover": {
+        transform: "scale(1.05)",
+    },
+});
+
 const AnimatedTypography = styled(Typography)(({ theme }) => ({
     animation: `${gradientAnimation} 6s linear infinite`,
     background: "linear-gradient(45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)",
@@ -31,6 +38,11 @@ const AnimatedTypography = styled(Typography)(({ theme }) => ({
     fontWeight: "bold",
     textTransform: "uppercase",
     fontSize: theme.typography.h2.fontSize,
+    cursor: "pointer",
+    transition: "color 0.3s",
+    "&:hover": {
+        color: "#666666", // Update with your preferred dimmed hover color
+    },
 }));
 
 const Stardust = () => {
@@ -110,7 +122,7 @@ const Stardust = () => {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Box
+                    <CardContainer
                         sx={{
                             backgroundColor: "#ffffff",
                             borderRadius: "10px",
@@ -160,7 +172,7 @@ const Stardust = () => {
                         >
                             {new Date(stardustInfo.lastSeen).toLocaleString()}
                         </Typography>
-                    </Box>
+                    </CardContainer>
                 </Grid>
                 <Grid item>
                     <Image
