@@ -37,7 +37,7 @@ const AnimatedTypography = styled(Typography)(({ theme }) => ({
     backgroundClip: "text",
     fontWeight: "bold",
     textTransform: "uppercase",
-    fontSize: theme.typography.h2.fontSize,
+    fontSize: theme.typography.h2.fontSize, // Adjust the value as per your preference
     cursor: "pointer",
     transition: "color 0.3s",
     "&:hover": {
@@ -128,7 +128,10 @@ const Stardust = () => {
                             borderRadius: "10px",
                             padding: "30px",
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                            width: "500px",
+                            width: {
+                                xs: "100%",
+                                sm: "500px",
+                            },
                             color: "#333333",
                         }}
                     >
