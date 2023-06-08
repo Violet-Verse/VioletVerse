@@ -1,18 +1,32 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, styled } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 
+const HeaderContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing(2),
+    margin: theme.spacing(4, 0),
+}));
+
+const Logo = styled(Image)({
+    width: "50px",
+    height: "50px",
+});
+
 const Stardust = () => {
-    const siteTitle = `Stardust | Violet Verse`;
-    const metaTitle = `Stardust`;
-    const siteDescription = `Check your tokens`;
+    const siteTitle = "Stardust | Violet Verse";
+    const metaTitle = "Stardust";
+    const siteDescription =
+        "Check your tokens and level up in the Stardust game.";
 
     const stardustInfo = {
         tokens: 1000,
         level: 42,
         experience: 7800,
         lastSeen: "2023-06-07T10:30:00Z",
-        image: "/stardust-logo.svg",
+        image: "https://www.stardust.gg/_next/static/media/logo.94bbc2b8.svg",
     };
 
     return (
@@ -35,14 +49,25 @@ const Stardust = () => {
         >
             <Head>
                 <title>{siteTitle}</title>
-                <meta name="og:title" content={metaTitle} />
-                <meta name="og:description" content={siteDescription} />
+                <meta name="description" content={siteDescription} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={siteDescription} />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:site" content="@TheVioletVerse" />
                 <meta name="twitter:title" content={metaTitle} />
                 <meta name="twitter:description" content={siteDescription} />
-                <meta name="twitter:card" content="summary_large_image" />
             </Head>
+            <HeaderContainer>
+                <Typography variant="h2" component="h1">
+                    Stardust
+                </Typography>
+                <Logo
+                    src="/vvCircleLogo.svg"
+                    alt="Violet Verse Logo"
+                    width={50}
+                    height={50}
+                />
+            </HeaderContainer>
             <Grid
                 container
                 direction="column"
@@ -52,31 +77,18 @@ const Stardust = () => {
                 spacing={5}
             >
                 <Grid item>
+                    <Typography variant="h4" component="h2" align="center">
+                        Welcome to Stardust x Violet Verse!
+                    </Typography>
                     <Typography
-                        variant="h1"
-                        component="h1"
+                        variant="body1"
                         align="center"
-                        sx={{
-                            background: `linear-gradient(45deg, #3f51b5, #f50057)`,
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            animation: "$gradientAnimation 5s ease infinite",
-                            fontSize: "4rem",
-                            fontWeight: "bold",
-                            "@keyframes gradientAnimation": {
-                                "0%": {
-                                    backgroundPosition: "0% 50%",
-                                },
-                                "50%": {
-                                    backgroundPosition: "100% 50%",
-                                },
-                                "100%": {
-                                    backgroundPosition: "0% 50%",
-                                },
-                            },
-                        }}
+                        sx={{ maxWidth: "500px" }}
                     >
-                        My Stardust Account Info
+                        Embark on an exciting journey in the world of Stardust.
+                        Level up your skills, earn tokens, and compete with
+                        other players to rise to the top of the leaderboard. Let
+                        the adventure begin!
                     </Typography>
                 </Grid>
                 <Grid item>
@@ -134,9 +146,7 @@ const Stardust = () => {
                 </Grid>
                 <Grid item>
                     <Image
-                        src={
-                            "https://www.stardust.gg/_next/static/media/logo.94bbc2b8.svg"
-                        }
+                        src={stardustInfo.image}
                         alt="Stardust Logo"
                         width={200}
                         height={200}
