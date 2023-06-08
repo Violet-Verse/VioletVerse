@@ -57,7 +57,8 @@ export default async function handler(req, res) {
                             method: "GET",
                             headers: {
                                 accept: "application/json",
-                                "x-api-key": process.env.STARDUST_KEY,
+                                "x-api-key":
+                                    "n8ZJVlZfAL1it1SkcNB538CFxRDIDL1aaJ9lE7Lt",
                             },
                         };
 
@@ -152,7 +153,7 @@ export default async function handler(req, res) {
                                             accept: "application/json",
                                             "content-type": "application/json",
                                             "x-api-key":
-                                                process.env.STARDUST_KEY,
+                                                "n8ZJVlZfAL1it1SkcNB538CFxRDIDL1aaJ9lE7Lt",
                                         },
                                         body: JSON.stringify({
                                             userId: user.address,
