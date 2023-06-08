@@ -1,4 +1,17 @@
-import { Box, Grid, Typography, styled, keyframes } from "@mui/material";
+import {
+    Box,
+    Grid,
+    Typography,
+    styled,
+    keyframes,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+} from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -45,6 +58,52 @@ const AnimatedTypography = styled(Typography)(({ theme }) => ({
     },
 }));
 
+const LeaderBoardRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+        backgroundColor: "rgba(138, 43, 226, 0.1)", // Light shade of violet for odd rows
+    },
+    "&:nth-of-type(even)": {
+        backgroundColor: "rgba(138, 43, 226, 0.05)", // Even lighter shade of violet for even rows
+    },
+    "&:hover": {
+        backgroundColor: "rgba(138, 43, 226, 0.2)", // Darker shade of violet on hover
+    },
+    transition: "background-color 0.3s",
+    cursor: "pointer",
+}));
+
+const LeaderBoardCell = styled(TableCell)(({ theme }) => ({
+    fontWeight: "bold",
+    padding: theme.spacing(1, 2), // Increase horizontal padding
+}));
+
+const LeaderBoardHeader = styled(TableCell)(({ theme }) => ({
+    backgroundColor: "rgba(138, 43, 226, 0.2)", // Light violet for header
+    color: "black", // White text color for contrast
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    fontSize: theme.typography.h5.fontSize,
+    padding: theme.spacing(1, 2),
+}));
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+    borderRadius: "15px",
+    overflow: "hidden", // Hide any overflow caused by border radius
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+}));
+
+const LeaderBoardContainer = styled(TableContainer)(({ theme }) => ({
+    maxWidth: "90%", // Makes the table take 90% of the viewport width by default
+    [theme.breakpoints.up("sm")]: {
+        // When the viewport is small (600px and up by default)
+        maxWidth: "75%", // The table takes up 75% of the viewport width
+    },
+    [theme.breakpoints.up("md")]: {
+        // When the viewport is medium (960px and up by default)
+        maxWidth: "60%", // The table takes up 60% of the viewport width
+    },
+}));
+
 const Stardust = () => {
     const siteTitle = "Stardust | Violet Verse";
     const metaTitle = "Stardust";
@@ -58,6 +117,14 @@ const Stardust = () => {
         lastSeen: "2023-06-07T10:30:00Z",
         image: "https://www.stardust.gg/_next/static/media/logo.94bbc2b8.svg",
     };
+
+    // Leaderboard data
+    const leaderboardData = [
+        { rank: 1, name: "Violet Summer", score: 5000 },
+        { rank: 2, name: "Oak", score: 4500 },
+        { rank: 3, name: "Purple", score: 4000 },
+        // Add more data as needed
+    ];
 
     return (
         <Box
@@ -176,6 +243,43 @@ const Stardust = () => {
                             {new Date(stardustInfo.lastSeen).toLocaleString()}
                         </Typography>
                     </CardContainer>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h4" component="h2" align="center">
+                        Leaderboard
+                    </Typography>
+                    <StyledTableContainer component={Paper}>
+                        <Table
+                            sx={{ minWidth: "100%" }}
+                            aria-label="simple table"
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <LeaderBoardHeader>Rank</LeaderBoardHeader>
+                                    <LeaderBoardHeader>Name</LeaderBoardHeader>
+                                    <LeaderBoardHeader>Score</LeaderBoardHeader>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {leaderboardData.map((row) => (
+                                    <LeaderBoardRow key={row.name}>
+                                        <LeaderBoardCell
+                                            component="th"
+                                            scope="row"
+                                        >
+                                            {row.rank}
+                                        </LeaderBoardCell>
+                                        <LeaderBoardCell>
+                                            {row.name}
+                                        </LeaderBoardCell>
+                                        <LeaderBoardCell>
+                                            {row.score}
+                                        </LeaderBoardCell>
+                                    </LeaderBoardRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </StyledTableContainer>
                 </Grid>
                 <Grid item>
                     <Image
