@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, styled } from "@mui/material";
+import { Box, Grid, Typography, styled, keyframes } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -14,6 +14,24 @@ const Logo = styled(Image)({
     width: "50px",
     height: "50px",
 });
+
+const gradientAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+const AnimatedTypography = styled(Typography)(({ theme }) => ({
+    animation: `${gradientAnimation} 6s linear infinite`,
+    background: "linear-gradient(45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)",
+    backgroundSize: "400% 400%",
+    color: "transparent",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    fontSize: theme.typography.h2.fontSize,
+}));
 
 const Stardust = () => {
     const siteTitle = "Stardust | Violet Verse";
@@ -58,9 +76,9 @@ const Stardust = () => {
                 <meta name="twitter:description" content={siteDescription} />
             </Head>
             <HeaderContainer>
-                <Typography variant="h2" component="h1">
+                <AnimatedTypography variant="h2" component="h1">
                     Stardust
-                </Typography>
+                </AnimatedTypography>
                 <Logo
                     src="/vvCircleLogo.svg"
                     alt="Violet Verse Logo"
