@@ -37,11 +37,11 @@ const Stardust = () => {
                 spacing={5}
             >
                 <Grid item>
-                    <h1>Contact Us</h1>
+                    <h1>My Stardust Account Info:</h1>
                 </Grid>
                 <Grid item>
-                    <p>Your stardust account:</p>
-                    <p>N/A</p>
+                    <p>Tokens:</p>
+                    <p>1,000</p>
                 </Grid>
             </Grid>
         </Box>
