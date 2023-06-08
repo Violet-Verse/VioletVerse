@@ -156,8 +156,8 @@ export default async function handler(req, res) {
                                                 "n8ZJVlZfAL1it1SkcNB538CFxRDIDL1aaJ9lE7Lt",
                                         },
                                         body: JSON.stringify({
-                                            userId: user.address,
-                                            email: user.email,
+                                            userData: { email: user.email },
+                                            uniqueId: user.address,
                                         }),
                                     };
 
