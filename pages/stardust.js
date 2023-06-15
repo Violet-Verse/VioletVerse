@@ -11,6 +11,8 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Divider,
+    Container,
 } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
@@ -39,6 +41,17 @@ const CardContainer = styled(Box)({
     "&:hover": {
         transform: "scale(1.05)",
     },
+    backdropFilter: "blur(10px)", // Add backdrop filter for the glass effect
+    backgroundColor: "rgba(138, 43, 226, 0.8)", // Adjust the opacity value (0.8) as desired
+    borderRadius: "10px",
+    padding: "30px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    width: {
+        xs: "100%",
+        sm: "500px",
+    },
+    color: "#333333",
+    border: "solid 2px rgba(255, 255, 255, 0.3)", // Add transparent border for gloss effect
 });
 
 const AnimatedTypography = styled(Typography)(({ theme }) => ({
@@ -49,8 +62,8 @@ const AnimatedTypography = styled(Typography)(({ theme }) => ({
     WebkitBackgroundClip: "text",
     backgroundClip: "text",
     fontWeight: "bold",
-    textTransform: "uppercase",
-    fontSize: theme.typography.h2.fontSize, // Adjust the value as per your preference
+    // textTransform: "uppercase",
+    fontSize: theme.typography.h3.fontSize, // Adjust the value as per your preference
     cursor: "pointer",
     transition: "color 0.3s",
     "&:hover": {
@@ -136,7 +149,7 @@ const Stardust = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 px: {
-                    xs: "0",
+                    xs: "5%",
                     sm: "5%",
                     md: "10%",
                     lg: "15%",
@@ -155,15 +168,9 @@ const Stardust = () => {
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <HeaderContainer>
-                <AnimatedTypography variant="h2" component="h1">
-                    Stardust
+                <AnimatedTypography variant="h2" component="h1" align="center">
+                    Introducing Stardust x Violet Verse!
                 </AnimatedTypography>
-                <Logo
-                    src="/vvCircleLogo.svg"
-                    alt="Violet Verse Logo"
-                    width={50}
-                    height={50}
-                />
             </HeaderContainer>
             <Grid
                 container
@@ -173,35 +180,79 @@ const Stardust = () => {
                 alignItems="center"
                 spacing={5}
             >
-                <Grid item>
-                    <Typography variant="h4" component="h2" align="center">
-                        Welcome to Stardust x Violet Verse!
+                {/* Section: Connect to the Verse */}
+                <Container
+                    sx={{
+                        textAlign: "center",
+                        my: 4,
+                        px: { xs: 2, sm: 4 },
+                        maxWidth: "100%",
+                    }}
+                >
+                    <Typography variant="h4" component="h2" mb={1}>
+                        Connect to the Verse
                     </Typography>
                     <Typography
                         variant="body1"
-                        align="center"
-                        sx={{ maxWidth: "500px" }}
+                        sx={{ maxWidth: "700px", margin: "0 auto" }}
                     >
-                        Embark on an exciting journey in the world of Stardust.
-                        Level up your skills, earn tokens, and compete with
-                        other players to rise to the top of the leaderboard. Let
-                        the adventure begin!
+                        We are thrilled to present an immersive and rewarding
+                        content economy that strengthens the connection between
+                        readers and writers, while unlocking new avenues for
+                        revenue generation. By harnessing the cutting-edge
+                        blockchain tools provided by Stardust, Violet Verse
+                        members can gain access to exclusive content, show
+                        appreciation to creators through tips, utilize minting
+                        services, and redeem rewards, among other exciting
+                        possibilities. Within the Verse Publishing platform, VV
+                        Credits serve as the native credit system.
                     </Typography>
-                </Grid>
+                </Container>
+                {/* Section: How It Works */}
+                <Container
+                    sx={{
+                        textAlign: "center",
+                        my: 4,
+                        px: { xs: 2, sm: 4 },
+                        maxWidth: "100%",
+                    }}
+                >
+                    <Typography variant="h4" component="h2" mb={1}>
+                        How It Works:
+                    </Typography>
+                    <Typography
+                        variant="body1"
+                        sx={{ maxWidth: "700px", margin: "0 auto" }}
+                    >
+                        It's as simple as logging in to the Verse with an email
+                        and joining our vibrant community of fashion media
+                        brands, publishers, and creators. As members accumulate
+                        tokens, our community leaderboard will showcase the top
+                        profiles, verifying the most dedicated superfans,
+                        supporters, and collectors.
+                    </Typography>
+                </Container>
                 <Grid item>
                     <CardContainer
                         sx={{
-                            backgroundColor: "#ffffff",
+                            backgroundColor: "rgba(138, 43, 226, 0.2)", // Adjust the opacity value (0.8) as desired
                             borderRadius: "10px",
                             padding: "30px",
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                             width: {
                                 xs: "100%",
-                                sm: "500px",
+                                sm: "600px",
                             },
                             color: "#333333",
                         }}
                     >
+                        <Typography
+                            variant="h5"
+                            component="p"
+                            textAlign={"center"}
+                        >
+                            My Stardust Profile
+                        </Typography>
                         <Typography variant="h6" component="p">
                             Tokens:
                         </Typography>
@@ -245,41 +296,66 @@ const Stardust = () => {
                     </CardContainer>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Typography variant="h4" component="h2" align="center">
-                        Leaderboard
-                    </Typography>
-                    <StyledTableContainer component={Paper}>
-                        <Table
-                            sx={{ minWidth: "100%" }}
-                            aria-label="simple table"
+                    <CardContainer
+                        sx={{
+                            backgroundColor: "rgba(200, 200, 200, 0.3)", // Adjust the opacity value (0.8) as desired
+                            borderRadius: "10px",
+                            padding: "30px",
+                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                            width: {
+                                xs: "100%",
+                                sm: "600px",
+                            },
+                            color: "#333333",
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            component="p"
+                            textAlign={"center"}
+                            mb={2}
                         >
-                            <TableHead>
-                                <TableRow>
-                                    <LeaderBoardHeader>Rank</LeaderBoardHeader>
-                                    <LeaderBoardHeader>Name</LeaderBoardHeader>
-                                    <LeaderBoardHeader>Score</LeaderBoardHeader>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {leaderboardData.map((row) => (
-                                    <LeaderBoardRow key={row.name}>
-                                        <LeaderBoardCell
-                                            component="th"
-                                            scope="row"
-                                        >
-                                            {row.rank}
-                                        </LeaderBoardCell>
-                                        <LeaderBoardCell>
-                                            {row.name}
-                                        </LeaderBoardCell>
-                                        <LeaderBoardCell>
-                                            {row.score}
-                                        </LeaderBoardCell>
-                                    </LeaderBoardRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </StyledTableContainer>
+                            Leaderboard
+                        </Typography>
+                        <StyledTableContainer component={Paper}>
+                            <Table
+                                sx={{ minWidth: "100%" }}
+                                aria-label="simple table"
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <LeaderBoardHeader>
+                                            Rank
+                                        </LeaderBoardHeader>
+                                        <LeaderBoardHeader>
+                                            Name
+                                        </LeaderBoardHeader>
+                                        <LeaderBoardHeader>
+                                            Score
+                                        </LeaderBoardHeader>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {leaderboardData.map((row) => (
+                                        <LeaderBoardRow key={row.name}>
+                                            <LeaderBoardCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                {row.rank}
+                                            </LeaderBoardCell>
+                                            <LeaderBoardCell>
+                                                {row.name}
+                                            </LeaderBoardCell>
+                                            <LeaderBoardCell>
+                                                {row.score}
+                                            </LeaderBoardCell>
+                                        </LeaderBoardRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </StyledTableContainer>
+                    </CardContainer>
                 </Grid>
                 <Grid item>
                     <Image
