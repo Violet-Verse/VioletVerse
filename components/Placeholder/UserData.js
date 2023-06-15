@@ -12,15 +12,15 @@ export const members = [
         photo: "https://i.imgur.com/sQ78S1P.jpg",
     },
     {
-        name: "Dani",
+        name: "Jess",
         teamType: "team",
         id: 2,
         title: "Design Partner",
-        bio: "Born a digital nomad, Dani is an entrepreneur and seasoned product strategist with over seven years of experience as a digital product designer. She specializes in consumer-facing experiences and strives to understand, design, test, and build products that allow for a better Web3 onboarding experience. Dani is a life-long learner Web3 enthusiast.",
+        bio: "With a passion for blending creativity and technology, Jess has found her niche in the world of blockchain, where she combines her expertise in design and her fascination with decentralized systems.",
         facebook: "",
-        twitter: "koriixyz",
+        twitter: "thevioletverse",
         linkedIn: "",
-        photo: "https://i.imgur.com/q0CQ63l.png",
+        photo: "https://imgur.com/Hd5mm5t",
     },
     {
         name: "Avalon",
@@ -100,7 +100,7 @@ export const members = [
 
 export const contributor = [
     {
-        name: "Prachi Mod",
+        name: "Prachi Modi",
         id: 1,
         title: "New York, Serial Entrepreneur",
         bio: "I'm a Writer, Chef, Educator, and Blockchain Enthusiast. My career started off with working as an Analyst with KPMG and Goldman Sachs. While working in corporate finance, I came across Nobel Peace Laureate Muhammad Yunus. His theories around micro lending gave me the confidence to kick start a small business in Uganda, making it the most powerful start in my entrepreneurial journey. I truly believe blockchain technology has the ability to solve historical issues around the lack of documentation, credentials and credibility, and uncollateralized lending in emerging markets. My focus in web3 is building social entrepreneurship and innovation driven projects. ",
