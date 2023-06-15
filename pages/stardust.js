@@ -224,8 +224,8 @@ const Stardust = () => {
                         variant="body1"
                         sx={{ maxWidth: "700px", margin: "0 auto" }}
                     >
-                        It's as simple as logging in to the Verse with an email
-                        and joining our vibrant community of fashion media
+                        It&apos;s as simple as logging in to the Verse with an
+                        email and joining our vibrant community of fashion media
                         brands, publishers, and creators. As members accumulate
                         tokens, our community leaderboard will showcase the top
                         profiles, verifying the most dedicated superfans,
