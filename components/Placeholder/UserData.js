@@ -18,9 +18,9 @@ export const members = [
         title: "Design Partner",
         bio: "With a passion for blending creativity and technology, Jess has found her niche in the world of blockchain, where she combines her expertise in design and her fascination with decentralized systems.",
         facebook: "",
-        twitter: "thevioletverse",
+        twitter: "",
         linkedIn: "",
-        photo: "https://imgur.com/Hd5mm5t",
+        photo: "https://i.imgur.com/Hd5mm5t.png",
     },
     {
         name: "Avalon",

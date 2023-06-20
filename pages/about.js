@@ -74,15 +74,13 @@ const About = () => {
                     </h1>
                     <Box sx={{ padding: { xs: "0px 5%", md: "0px" } }}>
                         <p className="secondary">
-                        Violet Verse, Inc. is a Web3-powered lifestyle content 
-                        marketplace and software solution for the fashion 
-                        media community. We are creators, Web3 operators,
-                        technologists, innovators, and fashion enthusiasts. 
-                        Our mission is to document the spirit and 
-                        personality of technology through immersive 
-                        storytelling, using our proprietary infrastructure.
-
-
+                            Violet Verse, Inc. is a Web3-powered lifestyle
+                            content marketplace and software solution for the
+                            fashion media community. We are creators, Web3
+                            operators, technologists, innovators, and fashion
+                            enthusiasts. Our mission is to document the spirit
+                            and personality of technology through immersive
+                            storytelling, using our proprietary infrastructure.
                         </p>
                     </Box>
                     <Grid container direction="row" spacing={2}></Grid>
