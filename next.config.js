@@ -7,6 +7,7 @@ module.exports = {
             "img.youtube.com",
             "cdn.discordapp.com",
             "www.stardust.gg",
+            "pbs.twimg.com",
         ],
     },
 };
