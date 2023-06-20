@@ -12,15 +12,15 @@ export const members = [
         photo: "https://i.imgur.com/sQ78S1P.jpg",
     },
     {
-        name: "Dani",
+        name: "Jess",
         teamType: "team",
         id: 2,
         title: "Design Partner",
-        bio: "Born a digital nomad, Dani is an entrepreneur and seasoned product strategist with over seven years of experience as a digital product designer. She specializes in consumer-facing experiences and strives to understand, design, test, and build products that allow for a better Web3 onboarding experience. Dani is a life-long learner Web3 enthusiast.",
+        bio: "With a passion for blending creativity and technology, Jess has found her niche in the world of blockchain, where she combines her expertise in design and her fascination with decentralized systems.",
         facebook: "",
-        twitter: "koriixyz",
+        twitter: "",
         linkedIn: "",
-        photo: "https://i.imgur.com/q0CQ63l.png",
+        photo: "https://i.imgur.com/Hd5mm5t.png",
     },
     {
         name: "Avalon",
@@ -71,16 +71,16 @@ export const members = [
         photo: "https://i.imgur.com/5F2jLP9.png",
     },
     {
-        name: "Autumn Phaneuf",
+        name: "Fevany Mirani",
         teamType: "contributor",
         id: 7,
         title: "Contributor",
-        bio: "Autumn is an academic and tech/operations consultant by day and artist by night. Previously, she was CEO of her own biotech startup, and COO and Engineering Lead of a Web3 Marketing Agency and Protocol, Rising Tides. She is well known for her work in community building and DE&I initiatives. She has been recognized as an Influential Mover and Shaker in Blockchain by Startup Boston.  Her work has been featured with NSF, Des Femmes Magazine, Buidl Besties, Hexi NFT, Sunbirbs, Weird Wildflowers, Boston DAO, ETH Boston, Women in Blockchain, and many other brands.",
+        bio: "I'm a Single Mom with a speech impediment. I find freedom in writing and creating.",
         website: "",
         facebook: "",
-        twitter: "1autumn_leaf",
+        twitter: "fepoqkq1 ",
         linkedIn: "",
-        photo: "https://cdn.discordapp.com/attachments/975860284377944124/1014352007051616317/-r29w3y.jpeg",
+        photo: "https://pbs.twimg.com/profile_images/1644509435891699713/12sYtnSd_400x400.jpg",
     },
     {
         name: "Van Wilhoite",
@@ -100,7 +100,7 @@ export const members = [
 
 export const contributor = [
     {
-        name: "Prachi Mod",
+        name: "Prachi Modi",
         id: 1,
         title: "New York, Serial Entrepreneur",
         bio: "I'm a Writer, Chef, Educator, and Blockchain Enthusiast. My career started off with working as an Analyst with KPMG and Goldman Sachs. While working in corporate finance, I came across Nobel Peace Laureate Muhammad Yunus. His theories around micro lending gave me the confidence to kick start a small business in Uganda, making it the most powerful start in my entrepreneurial journey. I truly believe blockchain technology has the ability to solve historical issues around the lack of documentation, credentials and credibility, and uncollateralized lending in emerging markets. My focus in web3 is building social entrepreneurship and innovation driven projects. ",
