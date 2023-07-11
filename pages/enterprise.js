@@ -6,7 +6,7 @@ import styles from "../styles/Enterprise.module.css";
 const Enterprise = () => {
     const siteTitle = `Enterprise Plan | Violet Verse`;
     const metaTitle = `Enterprise Plan`;
-    const siteDescription = `The modern publishing tool for digital creators and brands`;
+    const siteDescription = `The modern publishing tool for the fashion media community`;
     const siteImage = "https://i.imgur.com/LFpaItV.png";
     return (
         <Box mb={-7}>
@@ -45,20 +45,21 @@ const Enterprise = () => {
                 >
                     <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
                         <h1 className={styles.header}>
-                            Introducing the modern publishing tool for digital
-                            creators and brands.
+                            Introducing a modern content management software  and marketplace
+                        to find, discover and distribute fashion designers, brands, and content creators. 
+                        
                         </h1>
                     </Grid>
                     <Grid item px={{ xl: 36, lg: 20, md: 0 }} mb={3}>
                         <p>
-                            Violet Verse is a decentralized CMS software for
-                            content creators, independent magazines, and
-                            businesses.
+                            Violet Verse is an avante-garde Web3-powered content marketplace
+                            and software solution for the fashion media comunnity.
+                    
                         </p>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" disableElevation>
-                            Become a publisher
+                            Become a Partner 
                         </Button>
                     </Grid>
                 </Grid>
@@ -99,8 +100,8 @@ const Enterprise = () => {
                             </Grid>
                             <Grid item px={{ xl: 38, lg: 0 }}>
                                 <p>
-                                    Create and customize a blockchain-based blog
-                                    site for your brand or business with
+                                    Create and customize a blockchain-based content hub
+                                    for your brand or business with
                                     streamlined audience management tools.
                                 </p>
                             </Grid>
@@ -147,8 +148,8 @@ const Enterprise = () => {
                         </Grid>
                         <Grid item px={{ xl: 38, lg: 0 }}>
                             <p>
-                                Create and customize a blockchain-based blog
-                                site for your brand or business with streamlined
+                                Create and customize blockchain-powered digital content
+                                 for your brand or business with streamlined
                                 audience management tools.
                             </p>
                         </Grid>
@@ -237,16 +238,17 @@ const Enterprise = () => {
                         <Grid container align="left" spacing={3}>
                             <Grid item px={{ xl: 2, lg: 0 }}>
                                 <h1 className={styles.header}>
-                                    Read and collect Article NFTs in a digital
-                                    wallet library.
+                                    Discover, distribute and archive your brand's digital content 
+                                    with our platform solutions.
                                 </h1>
                             </Grid>
                             <Grid item px={{ xl: 27, lg: 0 }}>
                                 <p>
-                                    Article NFTs are displayed in a digital
-                                    bookshelf within web3 wallets like Rainbow,
-                                    MetaMask, and Verse Wallet that users can
-                                    collect.
+                                    Decentralization means transparency. 
+                                    Connect with the Verse community, 
+                                    contribute content, earn rewards, and get discovered
+                                    by engaging with our blockchain wallets, 
+                                    smart contracts. 
                                 </p>
                             </Grid>
                             <Grid item>
@@ -292,8 +294,8 @@ const Enterprise = () => {
                         </Grid>
                         <Grid item px={{ xl: 38, lg: 0 }}>
                             <p>
-                                Create and customize a blockchain-based blog
-                                site for your brand or business with streamlined
+                                Customize your own bespoke platform
+                                for your brand with easy-to-use
                                 audience management tools.
                             </p>
                         </Grid>
