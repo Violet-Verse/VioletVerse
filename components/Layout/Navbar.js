@@ -15,7 +15,7 @@ import {
     IconButton,
     Menu,
     MenuItem,
-    Toolbar,
+    Toolbar,    
     Typography,
     Tooltip,
     Avatar,
@@ -30,10 +30,14 @@ import { useUser } from "../../hooks/useAuth";
 import UserAvatar from "../user/UserAvatar";
 import { nFormatter, useFlowContext } from "../Context/flowContext";
 import SignUpCTA from "../Modal/SignUpCTA.js";
-
+import { useRouter } from 'next/router';
 const NewNav = () => {
+    const router = useRouter();
     const { user, loaded } = useUser();
-
+    const { changeBgColor, setChangeBgColor } = useState();
+    const isEnterprise = router.asPath.includes("enterprise");
+    const color = isEnterprise ? "black" : "white";
+    const navBarItemColor = isEnterprise ? "white" : "black";
     // Identify User for Analytics
     useEffect(() => {
         if (user)
@@ -165,7 +169,9 @@ const NewNav = () => {
                     setFirstVisit();
                 }}
             />
-            <AppBar position="static" elevation={0}>
+            <AppBar position="static" elevation={0} sx={{
+                backgroundColor: `${color}`
+            }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters sx={{ px: { xs: 0, md: 4 } }}>
                         {loaded && (
@@ -292,7 +298,7 @@ const NewNav = () => {
                                             <Button
                                                 sx={{
                                                     my: 2,
-                                                    color: "#0A0510",
+                                                    color: `${navBarItemColor}`,
                                                     display: "block",
                                                     mr: "15px",
                                                     fontFamily: "Ogg",
@@ -310,7 +316,7 @@ const NewNav = () => {
                                             <Button
                                                 sx={{
                                                     my: 2,
-                                                    color: "#0A0510",
+                                                    color: `${navBarItemColor}`,
                                                     display: "block",
                                                     mr: "15px",
                                                     fontFamily: "Ogg",
@@ -328,7 +334,7 @@ const NewNav = () => {
                                             <Button
                                                 sx={{
                                                     my: 2,
-                                                    color: "#0A0510",
+                                                    color: `${navBarItemColor}`,
                                                     display: "block",
                                                     fontFamily: "Ogg",
                                                     fontSize: "18px",

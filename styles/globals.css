@@ -5,9 +5,14 @@
 #nprogress .bar {
     background: #693e9a !important;
 }
-
+.color {
+    color: white;
+}
 .siteContainer {
     background-color: #fafafa;
+}
+.siteContainerBlack{
+    background-color: black;
 }
 
 .pageContainer {
@@ -260,4 +265,10 @@ a h1:hover {
     border: none; /* Reset default border */
     height: 100vh; /* Viewport-relative units */
     width: 100vw;
+}
+@media (min-width: 1536px) {
+    .css-1g0aoyi-MuiGrid-root {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
 }
