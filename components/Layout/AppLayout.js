@@ -10,9 +10,12 @@ import { NextUIProvider } from "@nextui-org/react";
 import { FlowWrapper } from "../Context/flowContext";
 import { Provider } from "@lyket/react";
 import { Analytics } from "@vercel/analytics/react";
-
+import { useRouter } from 'next/router';
 const Layout = ({ children }) => {
     const { user } = useUser();
+    const router = useRouter();
+    const isEnterprise = router.asPath.includes("enterprise");
+    const color = isEnterprise ? "siteContainerBlack" : "white";
     const siteTitle = "Violet Verse: A Web3 Lifestyle Platform | Violet Verse";
     const metaTitle = "Violet Verse: A Web3 Lifestyle Platform";
     const siteDescription =
@@ -157,7 +160,7 @@ const Layout = ({ children }) => {
                                     content="summary_large_image"
                                 />
                             </Head>
-                            <Box className="siteContainer">
+                            <Box className={`${color}`}>
                                 <Navbar />
                                 <Box
                                     className="pageContainer"
