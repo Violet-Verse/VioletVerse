@@ -331,22 +331,20 @@ const Enterprise = () => {
                 >
                     <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
                         <h1 className={styles.header}>
-                            Writers get paid instantly when their blogs are
-                            published.
+                            Trusted to build communities with the latest technological styles.
                         </h1>
                     </Grid>
                     <Grid item px={{ xl: 36, lg: 20, md: 0 }} mb={3}>
                         <p className="color">
-                            All blogs are published on-chain and encrypted with
-                            the author&apos;s digital signature, certifying
-                            proof-of-writer.
+                            All applications are created with the latest distribution methods, discoverability,
+                            and subscription membership services with easy payment management.
                         </p>
                     </Grid>
                     <Grid item mb={3}>
-                    <img src="/two.png" width={110} height={75}/>
-                    <img src="/three.png" width={110} height={75} style={{marginLeft: "10px"}}/>
-                    <img src="/one.webp" width={110} height={75} style={{marginLeft: "10px"}}/>
-                    <img src="/four.png" style={{backgroundColor:"white", marginLeft: "10px"}} width={110} height={75}/>
+                        {/* <img src="/two.png" width={110} height={75} /> */}
+                        <img src="/three.png" width={110} height={75} style={{ marginLeft: "10px" }} />
+                        <img src="/one.webp" width={110} height={75} style={{ marginLeft: "10px" }} />
+                        <img src="/four.png" style={{ backgroundColor: "white", marginLeft: "10px" }} width={110} height={75} />
                         {/* <Image
                             alt="hand holding vv coin"
                             src="/two.png"
