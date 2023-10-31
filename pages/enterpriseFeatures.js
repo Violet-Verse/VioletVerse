@@ -18,7 +18,7 @@ const EnterpriseFeatures = () => {
                                 margin: '5% 15%',
                                 fontFamily: 'stratos'
                             }}>
-                                At Violet Verse, we've meticulously crafted a suite of features that cater specifically to the intricate
+                                At Violet Verse, we&apos;ve meticulously crafted a suite of features that cater specifically to the intricate
                                  demands of the fashion media community. Our platform is a symphony of global diversity, heightened productivity,
                                   and streamlined workflows, all tailored to meet your unique needs.
 
