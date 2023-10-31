@@ -52,7 +52,7 @@ const Enterprise = () => {
                     <Grid item px={{ xl: 36, lg: 20, md: 0 }} mb={3}>
                         <p className="color">
                             Violet Verse excels at efficiency, simplifying content creator and member onboarding to under 5 minutes.
-                            In fashion's rapid world, time is precious.
+                            In fashion&apos;s rapid world, time is precious.
                             We facilitate connections and discoveries, especially during fashion week.
                         </p>
                     </Grid>
@@ -101,7 +101,7 @@ const Enterprise = () => {
                             <Grid item px={{ xl: 38, lg: 0 }}>
                                 <p className="color">
                                     Violet Verse excels at efficiency, simplifying content creator and member onboarding to under 5 minutes.
-                                    In fashion's rapid world, time is precious.
+                                    In fashion&apos;s rapid world, time is precious.
                                     We facilitate connections and discoveries, especially during fashion week.
                                 </p>
                             </Grid>
