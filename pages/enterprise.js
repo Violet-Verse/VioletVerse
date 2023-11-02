@@ -42,9 +42,9 @@ const Enterprise = () => {
                     alignItems={"center"}
                     align={"center"}
                     justifyContent={"center"}
-                    mt={10}
+                    mt={{xl: 10,lg: 10, md: 10}}
                 >
-                    <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
+                    <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3} mt={{xs: 0}}>
                         <h1 className={styles.header}>
                             Introducing the modern publishing tool for the fashion media community.
                         </h1>
@@ -64,7 +64,7 @@ const Enterprise = () => {
                 </Grid>
             </Box>
             <Box
-                mt={{ sm: 20, xs: 10 }}
+                mt={{ sm: 20, xs: 5 }}
                 sx={{
                     // borderTop: 70,
                     // borderBottom: 70,
@@ -132,7 +132,7 @@ const Enterprise = () => {
                     display={{ md: "flex", lg: "none" }}
                 >
                     <Grid item>
-                        <Grid item px={{ xl: 6, lg: 0 }}>
+                        <Grid item px={{ xl: 6, lg: 0}}>
                             <h1 className={styles.header}>
                                 Keep your audience engaged with Violet Verse
                                 Enterprise.
@@ -146,7 +146,7 @@ const Enterprise = () => {
                                 width={300}
                             />
                         </Grid>
-                        <Grid item px={{ xl: 38, lg: 0 }}>
+                        <Grid item px={{ xl: 38, lg: 0,md:0,xs:0 }} display={{xs: 'none'}}>
                             <p>
                                 Create and customize a blockchain-based blog
                                 site for your brand or business with streamlined
@@ -162,7 +162,6 @@ const Enterprise = () => {
                 </Grid>
             </Box>
             <Box
-
                 my={18}
                 display={{ xs: "none", md: "flex" }}
                 sx={{
@@ -189,7 +188,7 @@ const Enterprise = () => {
             </Box>
             <Box
                 my={18}
-                display={{ xs: "flex", md: "none" }}
+                display={{ xs: "none", md: "none" }}
                 sx={{
                     px: {
                         xs: "0",
@@ -281,7 +280,7 @@ const Enterprise = () => {
                     display={{ md: "flex", lg: "none" }}
                 >
                     <Grid item>
-                        <Grid item px={{ xl: 6, lg: 0 }}>
+                        <Grid item px={{ xl: 6, lg: 0}} mt={{xs: 5}}>
                             <h1 className={styles.header}>
                                 Keep your audience engaged with Violet Verse
                                 Enterprise.
@@ -295,7 +294,7 @@ const Enterprise = () => {
                                 width={323}
                             />
                         </Grid>
-                        <Grid item px={{ xl: 38, lg: 0 }}>
+                        <Grid item px={{ xl: 38, lg: 0 }} display={{xs: 'none'}}>
                             <p>
                                 Create and customize a blockchain-based blog
                                 site for your brand or business with streamlined
@@ -327,7 +326,8 @@ const Enterprise = () => {
                     align={"center"}
                     justifyContent={"center"}
                     direction="column"
-                    mt={20}
+                    mt={8}
+                    px={{xs: 2}}
                 >
                     <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
                         <h1 className={styles.header}>
