@@ -57,7 +57,7 @@ const Enterprise = () => {
                         </p>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" disableElevation>
+                        <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
                             Become a publisher
                         </Button>
                     </Grid>
@@ -106,7 +106,7 @@ const Enterprise = () => {
                                 </p>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
                                     Learn more
                                 </Button>
                             </Grid>
@@ -154,7 +154,7 @@ const Enterprise = () => {
                             </p>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" disableElevation>
+                            <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
                                 Learn more
                             </Button>
                         </Grid>
@@ -254,7 +254,7 @@ const Enterprise = () => {
                                 </p>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
                                     Learn more
                                 </Button>
                             </Grid>
@@ -302,7 +302,7 @@ const Enterprise = () => {
                             </p>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" disableElevation>
+                            <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
                                 Learn more
                             </Button>
                         </Grid>
@@ -376,7 +376,7 @@ const Enterprise = () => {
 
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" disableElevation>
+                        <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
                             Learn more
                         </Button>
                     </Grid>
