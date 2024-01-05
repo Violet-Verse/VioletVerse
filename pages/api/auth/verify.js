@@ -1,4 +1,4 @@
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import Iron from "@hapi/iron";
 import CookieService from "../../../lib/cookie";
 import { table } from "../utils/userTable";

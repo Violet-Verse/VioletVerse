@@ -12,7 +12,7 @@ import { useFlowContext } from "../Context/flowContext";
 import { useUser } from "../../hooks/useAuth";
 import { transferTokens } from "../../cadence/scripts/transactions/transferTokens";
 
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import * as types from "@onflow/types";
 import Router from "next/router";
 import { useForm } from "react-hook-form";

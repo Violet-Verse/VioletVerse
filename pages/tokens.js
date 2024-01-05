@@ -5,7 +5,7 @@ import { useUser } from "../hooks/useAuth";
 import { createVault } from "../cadence/scripts/transactions/createVault";
 import { transferTokens } from "../cadence/scripts/transactions/transferTokens";
 
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import * as types from "@onflow/types";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
