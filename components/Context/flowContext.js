@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import * as types from "@onflow/types";
 import React, { useState, useEffect } from "react";
 import { getBalance } from "../../cadence/scripts/getBalance";

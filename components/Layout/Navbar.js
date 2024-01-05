@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import useSWR, { useSWRConfig } from "swr";
 import "../../flow/config.js";
 import {

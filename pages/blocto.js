@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import * as types from "@onflow/types";
 import "../flow/config.js";
 import useSWR, { useSWRConfig } from "swr";
