@@ -31,8 +31,8 @@ export async function getServerSideProps() {
 const Home = ({ posts, authors, contributors }) => {
     const spotlightPost = {
         title: " ",
-        subtitle: "A recap of Ethereum's Devcon Conference.",
-        url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
+        subtitle: "Latest Fashion and Tech Stories",
+        url: "/bottega-veneta-fall-winter-2024-2025-6Lr4-ujR-M",
     };
 
     return (
@@ -210,7 +210,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Check out Season 1 of Digital Fashion Unlocked, a
+                            Check out Digital Fashion Unlocked, a
                             brand-new podcast featuring special guests
                             discussing innovations in the fashion industry.
                         </p>
