@@ -137,7 +137,7 @@ const Home = ({ posts, authors, contributors }) => {
                                         fontFamily: "stratos-lights",
                                         fontStyle: "italic",
                                         fontWeight: "200",
-                                        fontSize: "28px",
+                                        fontSize: "36px",
                                         lineHeight: "130%",
                                         letterSpacing: "-0.01em",
                                         color: "black",
