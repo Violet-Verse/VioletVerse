@@ -31,7 +31,7 @@ export async function getServerSideProps() {
 const Home = ({ posts, authors, contributors }) => {
     const spotlightPost = {
         title: " ",
-        subtitle: "Latest Fashion and Tech Stories",
+        subtitle: "Web 3 Fashion and Tech Blog",
         url: "/bottega-veneta-fall-winter-2024-2025-6Lr4-ujR-M",
     };
 
@@ -99,7 +99,7 @@ const Home = ({ posts, authors, contributors }) => {
                                         padding: "12px 28px",
                                     }}
                                 >
-                                    Watch Now
+                                    Check out the latest Fashion and Tech Stories
                                 </Button>
                             </Grid>
                         </Grid>
