@@ -31,8 +31,8 @@ export async function getServerSideProps() {
 const Home = ({ posts, authors, contributors }) => {
     const spotlightPost = {
         title: " ",
-        subtitle: "A recap of Ethereum's Devcon Conference.",
-        url: "/-devcon-in-bogota-misogyny-danger-and-crypto-bros--J-2HhuSD23",
+        subtitle: "Web3 Fashion and Tech Blog",
+        url: "/bottega-veneta-fall-winter-2024-2025-6Lr4-ujR-M",
     };
 
     return (
@@ -77,10 +77,10 @@ const Home = ({ posts, authors, contributors }) => {
                                 <p
                                     style={{
                                         fontFamily: "stratos-lights",
-                                        color: "white",
+                                        color: "black",
                                         fontStyle: "italic",
                                         fontWeight: "200",
-                                        fontSize: "28px",
+                                        fontSize: "36px",
                                         lineHeight: "130%",
                                         letterSpacing: "-0.01em",
                                     }}
@@ -99,14 +99,14 @@ const Home = ({ posts, authors, contributors }) => {
                                         padding: "12px 28px",
                                     }}
                                 >
-                                    Watch Now
+                                    Check out the latest Fashion and Tech Stories
                                 </Button>
                             </Grid>
                         </Grid>
                     </Box>
                     <ReactPlayer
                         className={styles.video}
-                        url="/devcon.mp4"
+                        url="/video.mp4"
                         width="100%"
                         height="100%"
                         muted={true}
@@ -147,7 +147,7 @@ const Home = ({ posts, authors, contributors }) => {
                                         fontFamily: "stratos-lights",
                                         fontStyle: "italic",
                                         fontWeight: "200",
-                                        fontSize: "28px",
+                                        fontSize: "36px",
                                         lineHeight: "130%",
                                         letterSpacing: "-0.01em",
                                         color: "black",
@@ -210,7 +210,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Check out Season 1 of Digital Fashion Unlocked, a
+                            Check out Digital Fashion Unlocked, a
                             brand-new podcast featuring special guests
                             discussing innovations in the fashion industry.
                         </p>
