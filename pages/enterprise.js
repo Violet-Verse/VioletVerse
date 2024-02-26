@@ -7,7 +7,7 @@ import EnterpriseFeatures from "./enterpriseFeatures";
 const Enterprise = () => {
     const siteTitle = `Enterprise Plan | Violet Verse`;
     const metaTitle = `Enterprise Plan`;
-    const siteDescription = `The modern publishing tool for digital creators and brands`;
+    const siteDescription = `The modern publishing tool for the fashion media community`;
     const siteImage = "https://i.imgur.com/LFpaItV.png";
     return (
         <Box mb={-7} className="enterprise-test" style={{ backgroundColor: "black" }}>
@@ -57,8 +57,8 @@ const Enterprise = () => {
                         </p>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
-                            Become a publisher
+                        <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
+                            Join our Github to learn more
                         </Button>
                     </Grid>
                 </Grid>
@@ -106,8 +106,8 @@ const Enterprise = () => {
                                 </p>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
-                                    Learn more
+                                <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
+                                    Join our Github to learn more
                                 </Button>
                             </Grid>
                         </Grid>
@@ -154,8 +154,8 @@ const Enterprise = () => {
                             </p>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
-                                Learn more
+                            <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
+                                Join our Github to learn more
                             </Button>
                         </Grid>
                     </Grid>
@@ -254,8 +254,8 @@ const Enterprise = () => {
                                 </p>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
-                                    Learn more
+                                <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
+                                    Join our Github to learn more
                                 </Button>
                             </Grid>
                         </Grid>
@@ -302,8 +302,8 @@ const Enterprise = () => {
                             </p>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
-                                Learn more
+                            <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
+                                Join our Github to learn more
                             </Button>
                         </Grid>
                     </Grid>
@@ -376,8 +376,8 @@ const Enterprise = () => {
 
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" disableElevation href="mailto:gm@violetverse.io">
-                            Learn more
+                        <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
+                            Join our Github to learn more
                         </Button>
                     </Grid>
                 </Grid>
