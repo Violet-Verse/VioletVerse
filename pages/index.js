@@ -104,6 +104,16 @@ const Home = ({ posts, authors, contributors }) => {
                             </Grid>
                         </Grid>
                     </Box>
+                    <ReactPlayer
+                        className={styles.video}
+                        url="/devcon.mp4"
+                        width="100%"
+                        height="100%"
+                        muted={true}
+                        playing
+                        playsinline
+                        loop
+                    />
                 </a>
             </Link>
 
