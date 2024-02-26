@@ -31,7 +31,7 @@ export async function getServerSideProps() {
 const Home = ({ posts, authors, contributors }) => {
     const spotlightPost = {
         title: " ",
-        subtitle: "Web 3 Fashion and Tech Blog",
+        subtitle: "Web3 Fashion and Tech Blog",
         url: "/bottega-veneta-fall-winter-2024-2025-6Lr4-ujR-M",
     };
 
@@ -104,16 +104,6 @@ const Home = ({ posts, authors, contributors }) => {
                             </Grid>
                         </Grid>
                     </Box>
-                    <ReactPlayer
-                        className={styles.video}
-                        url="/video.mp4"
-                        width="100%"
-                        height="100%"
-                        muted={true}
-                        playing
-                        playsinline
-                        loop
-                    />
                 </a>
             </Link>
 
