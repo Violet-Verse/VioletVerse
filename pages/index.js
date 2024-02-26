@@ -77,7 +77,7 @@ const Home = ({ posts, authors, contributors }) => {
                                 <p
                                     style={{
                                         fontFamily: "stratos-lights",
-                                        color: "white",
+                                        color: "black",
                                         fontStyle: "italic",
                                         fontWeight: "200",
                                         fontSize: "28px",
