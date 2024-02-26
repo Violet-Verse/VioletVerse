@@ -106,7 +106,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Box>
                     <ReactPlayer
                         className={styles.video}
-                        url="/devcon.mp4"
+                        url="/video.mp4"
                         width="100%"
                         height="100%"
                         muted={true}
