@@ -26,10 +26,9 @@ Violet Verse is a crypto-friendly publication combining the latest trends in tec
 
 ## Contributors
 
-This project was built by [DropParty](https://github.com/Rover-Labs).
+This project was built by VV contributors.
 
 ## Copyright Notice
 
-©2022 Violet Verse. All rights reserved.
+©2024 Violet Verse. All rights reserved.
 
-All intellectual property and related material developed or produced under this project remains the property of Rover Technologies, Inc. The client is granted a non-exclusive limited-use license of this intellectual property. Any modification, reverse-engineering, or de-compilation of the software is prohibited without express permission. Title, copyright, intellectual property rights, and distribution rights remain exclusively with Rover Technologies, Inc.
