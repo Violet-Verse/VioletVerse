@@ -22,7 +22,7 @@
 
 ## Introduction
 
-Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.
+Violet Verse is a blockchain-powered digital content management software and blog combining the latest trends in tech and fashion, documenting the narratives of Web3 builders and providing educational resources to tech-curious people. The software and platform were founded by Melissa Henderson on June 21, 2022. This software is currently maintained by the founder. 
 
 ## Contributors
 
