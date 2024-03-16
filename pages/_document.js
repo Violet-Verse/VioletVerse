@@ -35,6 +35,8 @@ class MyDocument extends Document {
         return (
             <Html lang="en">
                 <Head>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3918344970480538"
+     crossorigin="anonymous"></script>
                     {CssBaseline.flush()}
                     {/* Segment Analytics Injection  */}
                     <script
