@@ -55,7 +55,7 @@ const Footer = () => {
                                 />
                             </a>
                             <a
-                                href="https://discord.gg/3uhQHMF8fJ"
+                                href="https://app.console.xyz/c/violetverse"
                                 target="_blank"
                                 rel="noreferrer"
                             >
@@ -113,7 +113,7 @@ const Footer = () => {
                         <Link href="/resources">
                             <a>
                                 <p className={styles.subheader}>
-                                    Web3 Resources
+                                    Fashion Tech Resources
                                 </p>
                             </a>
                         </Link>
@@ -134,7 +134,7 @@ const Footer = () => {
                         <Link href="/how-to-earn-vv-tokens-PS1xU3BF4B">
                             <a>
                                 <p className={styles.subheader}>
-                                    Learn about VV tokens
+                                    Learn about VV Rewards
                                 </p>
                             </a>
                         </Link>
@@ -146,11 +146,11 @@ const Footer = () => {
                             </a>
                         </Link>
                         <a
-                            href="https://discord.gg/3uhQHMF8fJ"
+                            href="https://app.console.xyz/c/violetverse"
                             target="_blank"
                             rel="noreferrer"
                         >
-                            <p className={styles.subheader}>Join the Discord</p>
+                            <p className={styles.subheader}>Join IRL Chat</p>
                         </a>
                     </Box>
                     <Box>
@@ -165,12 +165,12 @@ const Footer = () => {
                             </a>
                         </Link>
                         <a
-                            href="https://store.violetverse.io/"
+                            href="https://buy.stripe.com/9AQeYAapJg343tu7sy"
                             target="_blank"
                             rel="noreferrer"
                         >
                             <p className={styles.subheader}>
-                                Violet Summer Market
+                                1:1 Consultations
                             </p>
                         </a>
 
@@ -209,7 +209,7 @@ const Footer = () => {
                                 />
                             </a>
                             <a
-                                href="https://discord.gg/3uhQHMF8fJ"
+                                href="https://app.console.xyz/c/violetverse"
                                 target="_blank"
                                 rel="noreferrer"
                             >
