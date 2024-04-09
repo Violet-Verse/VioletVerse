@@ -9,7 +9,7 @@ export default function Resources() {
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Resources</h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-            Additional materials to help you understand the future of fashion through Violet Verse' POV.
+            Additional materials to help you understand the future of fashion through Violet Verse&apos;s POV.
           </p>
         </div>
       </div>
