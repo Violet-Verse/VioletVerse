@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Resources() {
+  const youtubeVideoUrl = "https://www.youtube.com/watch?v=CuexuxZw7h4&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn";
+
   return (
     <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container grid items-center gap-4 px-4 text-center md:px-6 lg:gap-10">
@@ -22,21 +24,14 @@ export default function Resources() {
               frameborder="0"
               allowfullscreen
             ></iframe>
-            <Button
-              className="absolute inset-0 flex items-center justify-center w-full bg-gray-900 dark:bg-gray-50/50"
-              variant="outline"
-            >
-              <PlayIcon className="w-10 h-10 fill-gray-50" />
-              <span className="sr-only">Play</span>
-            </Button>
           </div>
           <div className="grid gap-2 p-4 sm:p-8">
             <h3 className="text-xl font-bold">Introduction to Fashion tech as a career path.</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Join  Melissa Henderson as she discusses fashion tech applications and products with leading voices in the web3  community.
             </p>
-            {/* Link to YouTube playlist added here */}
-            <Link href="https://www.youtube.com/watch?v=lgOsSwvabQs&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn">
+            {/* Link to YouTube video added here */}
+            <Link href={youtubeVideoUrl}>
               <a>
                 <Button size="sm">Watch Video</Button>
               </a>
@@ -50,6 +45,3 @@ export default function Resources() {
     </section>
   );
 }
-
-// Define other components (PlayIcon, FileTypeIcon, PresentationIcon) here
-
