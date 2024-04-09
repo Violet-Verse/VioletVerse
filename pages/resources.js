@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Resources() {
@@ -10,7 +9,7 @@ export default function Resources() {
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Resources</h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-            Additional materials to help you understand the future of fashion through Violet Verse POV.
+            Additional materials to help you understand the future of fashion through Violet Verse's POV.
           </p>
         </div>
       </div>
@@ -26,14 +25,14 @@ export default function Resources() {
             ></iframe>
           </div>
           <div className="grid gap-2 p-4 sm:p-8">
-            <h3 className="text-xl font-bold">Introduction to Fashion tech as a career path and lifestyle.</h3>
+            <h3 className="text-xl font-bold">Introduction to Fashion tech as a career path.</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Join Melissa Henderson as she discusses fashion tech applications and products with leading voices in the web3 community.
             </p>
             {/* Link to YouTube video added here */}
             <Link href={youtubeVideoUrl}>
               <a>
-                <Button size="sm">Watch Video</Button>
+                Watch Video
               </a>
             </Link>
           </div>
