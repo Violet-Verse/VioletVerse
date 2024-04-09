@@ -33,7 +33,7 @@ export default function Resources() {
           <div className="grid gap-2 p-4 sm:p-8">
             <h3 className="text-xl font-bold">Introduction to Fashion tech as a career path.</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Join  Melissa Henderson as she discusses fashion tech applications and products with leading voices in the community.
+              Join  Melissa Henderson as she discusses fashion tech applications and products with leading voices in the web3  community.
             </p>
             {/* Link to YouTube playlist added here */}
             <Link href="https://www.youtube.com/watch?v=lgOsSwvabQs&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn">
