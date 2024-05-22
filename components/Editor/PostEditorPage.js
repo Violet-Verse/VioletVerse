@@ -585,7 +585,7 @@ const PostEditorPage = (props) => {
                         name="body"
                         render={({ field: { onChange, value } }) => (
                             <Editor
-                                apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
+                                apiKey='mqo9jzeexjszn0om8f4rb0vfgaqwa4n9yshpb4yxqy3l08bc'
                                 value={value}
                                 onEditorChange={onChange}
                                 init={{
