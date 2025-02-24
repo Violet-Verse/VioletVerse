@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.351.0",
+    "@blocto/fcl": "^1.13.1",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@hapi/iron": "^7.0.0",
@@ -20,7 +21,6 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
     "@nextui-org/react": "^1.0.0-beta.9",
-    "@blocto/fcl": "^1.6.1",
     "@onflow/types": "^1.0.3",
     "@segment/snippet": "^4.15.3",
     "@tinymce/tinymce-react": "^4.3.0",
