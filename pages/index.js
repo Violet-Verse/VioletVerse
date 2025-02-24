@@ -106,7 +106,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Box>
                     <ReactPlayer
                         className={styles.video}
-                        url="/video.mp4"
+                        url="https://www.youtube.com/watch?v=CuexuxZw7h4&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn"
                         width="100%"
                         height="100%"
                         muted={true}
