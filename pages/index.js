@@ -107,6 +107,7 @@ const Home = ({ posts, authors, contributors }) => {
                     <ReactPlayer
                         className={styles.video}
                         url="https://www.youtube.com/watch?v=CuexuxZw7h4&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn"
+                        config={{ youtube: {playerVars: { showinfo: 1 } }}}
                         width="100%"
                         height="100%"
                         muted={true}
