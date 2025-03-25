@@ -4,100 +4,109 @@
     <img alt="Violet Verse" title="Violet Verse" src="https://i.imgur.com/lJ8R4lq.png" width="450">
   </a>
 </p>
- 🌸 VioletVerse
+# 🌸 VioletVerse – Summer Zine Edition
 
 **A cultural tech publication exploring the future of fashion, AI, and decentralized media.**  
-VioletVerse is an open platform for essays, code, and creative experiments — shaped by the community, rewarded with tokens, and rooted in the evolving landscape of digital culture.
+VioletVerse is a creative ecosystem where community voices are amplified through essays, tools, and experimental drops — with contributors rewarded in Violet Burst tokens.
+
+This is the repo behind **Violet Summer Zine** — a web-native editorial built with Next.js and Flow.
 
 ---
 
-## ✨ What is VioletVerse?
+## ✨ What's Inside?
 
-VioletVerse is a publication and open-source initiative where writers, technologists, and creators explore:
-
-- Digital fashion and design futures
-- AI tools in creative and cultural work
-- The politics and potential of Web3
-- Personal essays about the tech ecosystem
-- Tools, scripts, and experimental code drops
-
-Contributors are rewarded with **Violet Verse** tokens for their work — whether it's a thoughtful blog post, a powerful tool, or a cultural critique.
+- 📰 Long-form editorial & essays
+- 🧵 Frontend built with Next.js
+- 🪙 Integration with Flow blockchain (via Blocto)
+- 🛠 Scripts, components, and creative experiments
 
 ---
 
-## 🗂 Repo Structure
+## 📁 Project Structure
 
 ```bash
-VioletVerse/
-├── content/             # Long-form articles, essays, research, and submissions
-├── frontend/            # UI for the site (Next.js, React, etc.)
-├── backend/             # APIs, integrations, and Web3 interactions
-├── scripts/             # One-off scripts or tools shared by contributors
-├── .gitignore
-├── LICENSE
-├── README.md
-└── CONTRIBUTING.md
+violetsummerzine/
+├── cadence/         # Cadence scripts for Flow integration
+│   └── scripts/
+├── components/      # Reusable React UI components
+├── flow/            # Flow config files and helpers
+├── hooks/           # Custom React hooks
+├── lib/             # Airtable to MongoDB utilities
+├── pages/           # Next.js routes
+├── public/          # Static assets
+├── styles/          # Global styles (CSS/SCSS)
+├── .eslintrc.json   # Linting configuration
+├── ads.txt          # Monetization file
+├── next.config.js   # Next.js config
+├── package.json     # Project metadata and dependencies
+├── server.js        # Custom server setup
+└── README.md        # You are here 💜
 
-🚀 Getting Started
-To clone and run locally:
+## 🚀 Getting Started
+
+To run VioletVerse locally:
+To run VioletVerse locally:
 
 bash
 Copy
 Edit
+# Clone the repo
 git clone https://github.com/Violet-Verse/VioletVerse.git
-cd VioletVerse
+cd violetsummerzine
 
-# install dependencies (if frontend/backend present)
+# Install dependencies
 npm install
 
-# start your dev environment
+# Run the dev server
 npm run dev
-🧠 Contributing to VioletVerse
+Then visit http://localhost:3000 in your browser.
+
+Note: If you're using Flow or Blocto, make sure your flow.json and relevant config keys are set up properly.
+
+## 🧠 Contributing to VioletVerse
 We welcome:
 
-✍️ Writers & essayists
+✍️ Writers & editors for the zine
 
-🧑‍💻 Developers & tool-makers
+👩‍💻 Developers to improve site features
 
-🖼 Artists & designers
+🎨 Designers and visual artists
 
-📚 Researchers & cultural critics
+🌍 Researchers & culture critics
 
-How to contribute
-Fork the repo
+## How to contribute
+Fork this repo
 
-Create a new branch: git checkout -b feature/your-topic
+Create a new branch: git checkout -b feature/your-contribution
 
-Add your content or tool
+Add your article, component, or script
 
-Open a pull request and tell us what you added
+Submit a pull request with a short description
 
-Once merged, you'll be eligible for Violet Verse tokens
+Once merged, you’ll be eligible for Violet Verse tokens
 
-Full guidelines: CONTRIBUTING.md
+See full contributor guidelines in CONTRIBUTING.md (coming soon)
 
 🪙 About Violet Verse Tokens
-Violet Burst is our reward system for contributors.
+Top contributors are rewarded with Violet Burst tokens — our way of saying thank you for building, writing, and thinking with us.
 
-Top contributors each season receive token drops
+Receive tokens for accepted PRs
 
-Readers can tip content they love on Lens
+Readers can tip essays via Lens
 
-Tokens can unlock access to special experiences, recognition, or future experiments
+Access special features or collaborations over time
 
-Want to get involved? Reach out or start contributing.
+📣 Connect With Us
+🌐 Website: https://violetverse.xyz
 
-📣 License
-This repo is open source under the MIT License.
-We believe in building culture together.
+📷 Lens: @violetverse.lens
 
-🌐 Join the Conversation
-Website: https://violetverse.io
+📨 Email: team@violetverse.xyz
 
-Lens: @violetverse.lens
+🗣 Warpcast: /violetverse
 
-Farcaster: /violetverse
+📄 License
 
-Email: gm@violetverse.io
+This project is open source and available under the MIT License.
 
 “The future belongs to those who create it — not just code it.”
