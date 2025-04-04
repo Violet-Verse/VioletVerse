@@ -198,32 +198,30 @@ const Home = ({ posts, authors, contributors }) => {
                 >
                     <Grid item>
                         <Image
-                            src="/dfu_image.svg"
-                            alt="digital fashion unlocked post post"
+                            src="third_spaces.svg"
+                            alt="third spaces"
                             width={450}
                             height={300}
                         />
                     </Grid>
                     <Grid item sx={{ mt: 1 }}>
                         <h2 style={{ fontSize: "28px" }}>
-                            Digital Fashion Unlocked Podcast
+                            Third Spaces Guide
                         </h2>
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Check out Digital Fashion Unlocked, a
-                            brand-new podcast featuring special guests
-                            discussing innovations in the fashion industry.
+                            Download our 15 recommended third spaces in New York City and our 15 favorite spots in Miami.
                         </p>
                     </Grid>
                     <Grid item>
-                        <Link href="/digital-fashion-unlocked-podcast-0Vz458IRot">
+                        <Link href="/discover-your-third-space-unique-places-in-nyc-and-miami-to-make-your-own-lt51ft9vYC">
                             <Button
                                 variant="contained"
                                 disableElevation
                                 sx={{ mt: 3 }}
                             >
-                                Learn more
+                                Download Now
                             </Button>
                         </Link>
                     </Grid>
