@@ -31,8 +31,8 @@ export async function getServerSideProps() {
 const Home = ({ posts, authors, contributors }) => {
     const spotlightPost = {
         title: " ",
-        subtitle: "Web3 Fashion and Tech Blog",
-        url: "/bottega-veneta-fall-winter-2024-2025-6Lr4-ujR-M",
+        subtitle: "",
+        url: "/eth-denver-tVvOGAqXKR",
     };
 
     return (
@@ -106,7 +106,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Box>
                     <ReactPlayer
                         className={styles.video}
-                        url="https://www.youtube.com/watch?v=CuexuxZw7h4&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn"
+                        url="https://www.youtube.com/watch?v=N-ZMbCeswoM&t=4s"
                         config={{ youtube: {playerVars: { showinfo: 1 } }}}
                         width="100%"
                         height="100%"
