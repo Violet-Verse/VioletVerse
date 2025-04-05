@@ -97,11 +97,11 @@ Readers can tip essays via Lens
 Access special features or collaborations over time
 
 📣 Connect With Us
-🌐 Website: https://violetverse.xyz
+🌐 Website: https://violetverse.io
 
 📷 Lens: @violetverse.lens
 
-📨 Email: team@violetverse.xyz
+📨 Email: gn@violetverse.xyz
 
 🗣 Warpcast: /violetverse
 
