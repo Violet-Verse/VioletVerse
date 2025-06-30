@@ -12,7 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 
 // 🌙 Import Nova's mantras
-import mantras from "../data/novaMantras.json";
+import mantras from "../novaMantras.json";
 
 const SignUpCTA = (props) => {
     const { handleClose, handleSignup, ...rest } = props;
