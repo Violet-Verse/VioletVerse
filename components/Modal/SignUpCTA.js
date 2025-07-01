@@ -47,15 +47,16 @@ const SignUpCTA = (props) => {
 
                     {/* 🌙 Nova — Mood-Based Horoscope */}
                     <Box
-                        sx={{
-                            backgroundColor: "#fdf6f0",
-                            border: "1px solid #e0d5c1",
-                            borderRadius: "12px",
-                            padding: "16px",
-                            marginTop: "24px",
-                            fontFamily: "Playfair Display, serif",
-                        }}
-                    >
+  className="nova-mantra-shimmer"
+  sx={{
+    backgroundColor: "#fdf6f0",
+    border: "1px solid #e0d5c1",
+    borderRadius: "12px",
+    padding: "16px",
+    marginTop: "24px",
+    fontFamily: "Playfair Display, serif",
+  }}
+>
                         <h3 style={{ marginBottom: "8px", fontWeight: 600 }}>🌙 Nova’s Monthly Mantra</h3>
                         <p style={{ fontStyle: "italic", marginBottom: "8px" }}>
                             “{todayMantra?.mantra || 'Nova is still syncing to the stars...'}”
