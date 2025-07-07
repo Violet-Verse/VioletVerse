@@ -281,6 +281,51 @@ const Home = ({ posts, authors, contributors }) => {
                 }}
             >
                 {/* Curated Content Marketplace */}
+<Box
+  sx={{
+    borderTop: 50,
+    borderBottom: 50,
+    borderColor: "#F9F4FE",
+    backgroundColor: "#F9F4FE",
+    px: {
+      xs: "5%",
+      sm: "5%",
+      md: "10%",
+      lg: "10%",
+      xl: "10%",
+    },
+    py: 8,
+    textAlign: "center",
+  }}
+>
+  <Grid container direction="column" alignItems="center">
+    <Grid item>
+      <h2 style={{ fontSize: "28px", fontFamily: "serif", marginBottom: "1rem" }}>
+        ✨ Dispatches from the Future
+      </h2>
+      <p style={{ maxWidth: "600px", margin: "0 auto", fontSize: "16px" }}>
+        Subscribe to the <strong>Future by Melissa</strong> Substack to get fresh takes on AI, digital assets & lifestyle — every week.
+      </p>
+    </Grid>
+
+    <Grid item sx={{ mt: 3 }}>
+      <iframe
+        src="https://futurebymelissa.substack.com/embed"
+        width="100%"
+        height="320"
+        style={{
+          maxWidth: "600px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          background: "#fff",
+        }}
+        frameBorder="0"
+        scrolling="no"
+        title="Future by Melissa Substack"
+      ></iframe>
+    </Grid>
+  </Grid>
+</Box>
 
                 <ArticleGrid
                     title="Layers of the Verse"
