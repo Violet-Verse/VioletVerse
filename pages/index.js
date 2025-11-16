@@ -211,7 +211,7 @@ const Home = ({ posts, authors, contributors }) => {
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Ultimate Guide to Art, Fashion, Music & Tech in Miami
+                            Ultimate Guide to Art, Fashion, Music, Tech in Miami
                         </p>
                     </Grid>
                     <Grid item>
