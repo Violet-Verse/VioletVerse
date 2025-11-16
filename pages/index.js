@@ -206,16 +206,16 @@ const Home = ({ posts, authors, contributors }) => {
                     </Grid>
                     <Grid item sx={{ mt: 1 }}>
                         <h2 style={{ fontSize: "28px" }}>
-                            Third Spaces Guide
+                            Art Basel 2025 Ultimate Guide 
                         </h2>
                     </Grid>
                     <Grid item>
                         <p style={{ maxWidth: "555px" }}>
-                            Download our 15 recommended third spaces in New York City and our 15 favorite spots in Miami.
+                            Ultimate Guide to Art, Fashion, Music & Tech in Miami
                         </p>
                     </Grid>
                     <Grid item>
-                        <Link href="/discover-your-third-space-unique-places-in-nyc-and-miami-to-make-your-own-lt51ft9vYC">
+                        <Link href="/art-basel-2025-ultimate-guide-to-art-tech-fashion-and-parties-1hZxmVcDMF">
                             <Button
                                 variant="contained"
                                 disableElevation
