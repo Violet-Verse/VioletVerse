@@ -6,7 +6,9 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "biome check",
+    "format": "biome format --write",
+    "lint:fix": "biome check --write"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.351.0",
@@ -42,7 +44,6 @@
     "tinymce": "^6.3.2"
   },
   "devDependencies": {
-    "eslint": "8.21.0",
-    "eslint-config-next": "^16.0.3"
+    "@biomejs/biome": "2.3.7"
   }
 }

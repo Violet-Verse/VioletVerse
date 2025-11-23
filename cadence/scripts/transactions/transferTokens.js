@@ -19,4 +19,4 @@ transaction(receiverAccount: Address, amount: UFix64) {
     log("Transferred Violet Verse Token.")
   }
 }
-`;
+`

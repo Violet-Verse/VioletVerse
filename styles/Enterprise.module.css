@@ -1,39 +1,36 @@
 .header {
-    font-size: 38px;
-    color: white;
+  font-size: 38px;
+  color: white;
 }
 
 .card-div {
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-    width: 33%;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 12px;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 12px;
 }
 
-
-
 .card_div_icon {
-    margin: 9px 0px;
+  margin: 9px 0px;
 }
 
 .card_div_heading {
-    margin: 11px 0px;
+  margin: 11px 0px;
 }
 
 .card_div_para {
-    text-align: center;
-    margin: 0px 6px;
+  text-align: center;
+  margin: 0px 6px;
 }
 
 .card_div h2 {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 .grid.grid-cols-3.gap-8 h2 {
-    text-align: center;
+  text-align: center;
 }
-

@@ -1,17 +1,17 @@
 .header {
-    font-family: "Ogg";
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 130%;
-    letter-spacing: -0.01em;
-    color: #ffffff;
+  font-family: "Ogg";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 130%;
+  letter-spacing: -0.01em;
+  color: #ffffff;
 }
 
 .subheader {
-    font-family: "stratos-lights";
-    font-weight: 200;
-    font-size: 14px;
-    line-height: 130%;
-    letter-spacing: -0.01em;
-    color: #ffffff;
+  font-family: "stratos-lights";
+  font-weight: 200;
+  font-size: 14px;
+  line-height: 130%;
+  letter-spacing: -0.01em;
+  color: #ffffff;
 }

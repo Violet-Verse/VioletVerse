@@ -1,11 +1,11 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 
 const credentials = {
-    accessKeyId: process.env.ACCESS_KEY,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
-};
+  accessKeyId: process.env.ACCESS_KEY,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+}
 
 export const ddbClient = new DynamoDBClient({
-    region: process.env.REGION,
-    credentials: credentials,
-});
+  region: process.env.REGION,
+  credentials: credentials,
+})
