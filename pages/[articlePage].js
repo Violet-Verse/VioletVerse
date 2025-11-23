@@ -442,7 +442,7 @@ const Article = ({
                                         display: { xs: "flex", sm: "none" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts._id}>
+                                    <Link href={`/edit/` + posts._id} legacyBehavior>
                                         <a>
                                             <Button
                                                 variant="contained"
@@ -951,7 +951,7 @@ const Article = ({
                                         display: { xs: "none", sm: "flex" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts._id}>
+                                    <Link href={`/edit/` + posts._id} legacyBehavior>
                                         <a>
                                             <p
                                                 className="secondary"

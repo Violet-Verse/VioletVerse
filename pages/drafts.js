@@ -82,7 +82,7 @@ function DraftsPanel({ posts, authors, contributors }) {
                     </p>
                 </Grid>
                 <Grid item>
-                    <Link href="/dashboard">
+                    <Link href="/dashboard" legacyBehavior>
                         <a>
                             <Button
                                 color="secondary"

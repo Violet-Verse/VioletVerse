@@ -8,6 +8,11 @@ import * as snippet from "@segment/snippet";
 const { ANALYTICS_WRITE_KEY, NODE_ENV } = process.env;
 
 function renderSnippet() {
+    // Only render snippet if API key is provided
+    if (!ANALYTICS_WRITE_KEY) {
+        return "";
+    }
+
     const opts = {
         apiKey: ANALYTICS_WRITE_KEY,
         // note: the page option only covers SSR tracking.
@@ -42,6 +47,27 @@ class MyDocument extends Document {
                     <script
                         id="segment-script"
                         dangerouslySetInnerHTML={{ __html: renderSnippet() }}
+                    />
+                    {/* Ensure analytics object exists even if Segment isn't loaded */}
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `
+                                if (typeof window !== 'undefined' && !window.analytics) {
+                                    window.analytics = {
+                                        page: function() {},
+                                        track: function() {},
+                                        identify: function() {},
+                                    };
+                                }
+                                if (typeof global !== 'undefined' && !global.analytics) {
+                                    global.analytics = typeof window !== 'undefined' ? window.analytics : {
+                                        page: function() {},
+                                        track: function() {},
+                                        identify: function() {},
+                                    };
+                                }
+                            `,
+                        }}
                     />
                     {/* Google Analytics */}
                     <Script id="google-analytics" strategy="afterInteractive">

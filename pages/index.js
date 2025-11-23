@@ -50,7 +50,7 @@ const Home = ({ posts, authors, contributors }) => {
             </Head>
 
             {/* Video with Text Overlay | XS to MD */}
-            <Link href={spotlightPost.url}>
+            <Link href={spotlightPost.url} legacyBehavior>
                 <a>
                     <Box
                         className={styles.content}
@@ -119,7 +119,7 @@ const Home = ({ posts, authors, contributors }) => {
             </Link>
 
             <Box sx={{ display: { xs: "flex", md: "none" }, mt: 6, mb: 6 }}>
-                <Link href={spotlightPost.url}>
+                <Link href={spotlightPost.url} legacyBehavior>
                     <a>
                         <Grid
                             container
@@ -198,7 +198,7 @@ const Home = ({ posts, authors, contributors }) => {
                 >
                     <Grid item>
                         <Image
-                            src="third_spaces.svg"
+                            src="/third_spaces.svg"
                             alt="third spaces"
                             width={450}
                             height={300}

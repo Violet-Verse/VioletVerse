@@ -47,7 +47,7 @@ const Dashboard = () => {
                     </p>
                 </Grid>
                 <Grid item>
-                    <Link href="/posts/create">
+                    <Link href="/posts/create" legacyBehavior>
                         <a>
                             <Button
                                 variant="contained"
@@ -60,7 +60,7 @@ const Dashboard = () => {
                     </Link>
                 </Grid>
                 <Grid item>
-                    <Link href="/drafts">
+                    <Link href="/drafts" legacyBehavior>
                         <a>
                             <Button
                                 variant="contained"

@@ -1,13 +1,31 @@
 module.exports = {
     reactStrictMode: true,
     images: {
-        domains: [
-            "i.imgur.com",
-            "i.ibb.co",
-            "img.youtube.com",
-            "cdn.discordapp.com",
-            "www.stardust.gg",
-            "pbs.twimg.com",
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'i.imgur.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'i.ibb.co',
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.youtube.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.discordapp.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.stardust.gg',
+            },
+            {
+                protocol: 'https',
+                hostname: 'pbs.twimg.com',
+            },
         ],
     },
 };

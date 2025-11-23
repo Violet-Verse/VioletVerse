@@ -70,26 +70,26 @@ const Footer = () => {
                         </Stack>
                     </Box>
                     <Box>
-                        <Link href="/posts">
+                        <Link href="/posts" legacyBehavior>
                             <a>
                                 <h3 className={styles.header}>Market</h3>
                             </a>
                         </Link>
-                        <Link href="/posts?category=Tech">
+                        <Link href="/posts?category=Tech" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     See tech content
                                 </p>
                             </a>
                         </Link>
-                        <Link href="/posts?category=Lifestyle">
+                        <Link href="/posts?category=Lifestyle" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     See lifestyle content
                                 </p>
                             </a>
                         </Link>
-                        <Link href="/posts?category=Education">
+                        <Link href="/posts?category=Education" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     See educational content
@@ -98,26 +98,26 @@ const Footer = () => {
                         </Link>
                     </Box>
                     <Box>
-                        <Link href="/resources">
+                        <Link href="/resources" legacyBehavior>
                             <a>
                                 <h3 className={styles.header}>Resources</h3>
                             </a>
                         </Link>
-                        <Link href="/resources">
+                        <Link href="/resources" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     Getting Started
                                 </p>
                             </a>
                         </Link>
-                        <Link href="/resources">
+                        <Link href="/resources" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     Fashion Tech Resources
                                 </p>
                             </a>
                         </Link>
-                        <Link href="/resources">
+                        <Link href="/resources" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     Events and Meetups
@@ -126,19 +126,19 @@ const Footer = () => {
                         </Link>
                     </Box>
                     <Box>
-                        <Link href="/about">
+                        <Link href="/about" legacyBehavior>
                             <a>
                                 <h3 className={styles.header}>Community</h3>
                             </a>
                         </Link>
-                        <Link href="/how-to-earn-vv-tokens-PS1xU3BF4B">
+                        <Link href="/how-to-earn-vv-tokens-PS1xU3BF4B" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     Learn about VV Rewards
                                 </p>
                             </a>
                         </Link>
-                        <Link href="/become-a-contributor-l91YAc3Lmr">
+                        <Link href="/become-a-contributor-l91YAc3Lmr" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>
                                     Become a contributor
@@ -154,12 +154,12 @@ const Footer = () => {
                         </a>
                     </Box>
                     <Box>
-                        <Link href="/about">
+                        <Link href="/about" legacyBehavior>
                             <a>
                                 <h3 className={styles.header}>About</h3>
                             </a>
                         </Link>
-                        <Link href="/about">
+                        <Link href="/about" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>Team</p>
                             </a>
@@ -174,7 +174,7 @@ const Footer = () => {
                             </p>
                         </a>
 
-                        <Link href="/contact">
+                        <Link href="/contact" legacyBehavior>
                             <a>
                                 <p className={styles.subheader}>Contact us</p>
                             </a>

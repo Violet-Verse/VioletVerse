@@ -25,7 +25,9 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // Analytics call on page reroute
 Router.events.on("routeChangeComplete", (url) => {
-    global.analytics.page(url);
+    if (typeof global !== "undefined" && global.analytics) {
+        global.analytics.page(url);
+    }
 });
 
 function MyApp({ Component, pageProps }) {

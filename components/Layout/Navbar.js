@@ -228,7 +228,7 @@ const NewNav = () => {
                                                 </Typography>
                                             </MenuItem>
                                         )}
-                                        <Link href="/posts">
+                                        <Link href="/posts" legacyBehavior>
                                             <a>
                                                 <MenuItem
                                                     onClick={handleCloseNavMenu}
@@ -239,7 +239,7 @@ const NewNav = () => {
                                                 </MenuItem>
                                             </a>
                                         </Link>
-                                        <Link href="/enterprise">
+                                        <Link href="/enterprise" legacyBehavior>
                                             <a>
                                                 <MenuItem
                                                     onClick={handleCloseNavMenu}
@@ -270,7 +270,7 @@ const NewNav = () => {
                                                 VV VR
                                             </Button>
                                         </a>
-                                        <Link href="/about">
+                                        <Link href="/about" legacyBehavior>
                                             <a>
                                                 <MenuItem
                                                     onClick={handleCloseNavMenu}
@@ -293,7 +293,7 @@ const NewNav = () => {
                                         justifyContent: "start",
                                     }}
                                 >
-                                    <Link href="/posts">
+                                    <Link href="/posts" legacyBehavior>
                                         <a>
                                             <Button
                                                 sx={{
@@ -311,7 +311,7 @@ const NewNav = () => {
                                             </Button>
                                         </a>
                                     </Link>
-                                    <Link href="/enterprise">
+                                    <Link href="/enterprise" legacyBehavior>
                                         <a>
                                             <Button
                                                 sx={{
@@ -329,7 +329,7 @@ const NewNav = () => {
                                             </Button>
                                         </a>
                                     </Link>
-                                    <Link href="/about">
+                                    <Link href="/about" legacyBehavior>
                                         <a>
                                             <Button
                                                 sx={{
@@ -355,7 +355,7 @@ const NewNav = () => {
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <Link href="/">
+                                    <Link href="/" legacyBehavior>
                                         <a>
                                             <Image
                                                 src="/Logo.svg"

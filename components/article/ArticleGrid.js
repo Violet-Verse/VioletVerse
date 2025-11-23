@@ -352,7 +352,7 @@ const ArticleGrid = (props) => {
                                     display: "flex",
                                 }}
                             >
-                                <Link href={"/" + post.slug}>
+                                <Link href={"/" + post.slug} legacyBehavior>
                                     <a
                                         style={{
                                             display: "flex",

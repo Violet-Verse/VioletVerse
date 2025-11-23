@@ -105,7 +105,7 @@ const InfoBlock = (props) => {
                                     </h5>
                                 </Grid>
                                 <Grid item>
-                                    <Link href={section.url}>
+                                    <Link href={section.url} legacyBehavior>
                                         <a>
                                             <h5 className={styles.link}>
                                                 Learn more

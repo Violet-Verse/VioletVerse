@@ -90,7 +90,7 @@ const ProfileLayout = (props) => {
                 )}
                 {dashboardPermission && (
                     <Grid item>
-                        <Link href="/dashboard">
+                        <Link href="/dashboard" legacyBehavior>
                             <a>
                                 <Button variant="contained" disableElevation>
                                     Creator Dashboard
@@ -101,7 +101,7 @@ const ProfileLayout = (props) => {
                 )}
                 {isOwner && (
                     <Grid item>
-                        <Link href="/profile/edit">
+                        <Link href="/profile/edit" legacyBehavior>
                             <a>
                                 <Button
                                     variant="contained"
