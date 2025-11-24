@@ -229,62 +229,70 @@ const NewNav = () => {
                     justifyContent: 'start',
                   }}
                 >
-                  <Button
-                    component={Link}
-                    href="/posts"
-                    sx={{
-                      my: 2,
-                      color: `${navBarItemColor}`,
-                      display: 'block',
-                      mr: '15px',
-                      fontFamily: 'Ogg',
-                      fontSize: '18px',
-                      lineHeight: '130%',
-                      letterSpacing: '-0.005em',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    Explore
-                  </Button>
-                  <Button
-                    component={Link}
-                    href="/enterprise"
-                    sx={{
-                      my: 2,
-                      color: `${navBarItemColor}`,
-                      display: 'block',
-                      mr: '15px',
-                      fontFamily: 'Ogg',
-                      fontSize: '18px',
-                      lineHeight: '130%',
-                      letterSpacing: '-0.005em',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    Enterprise Plan
-                  </Button>
-                  <Button
-                    component={Link}
-                    href="/about"
-                    sx={{
-                      my: 2,
-                      color: `${navBarItemColor}`,
-                      display: 'block',
-                      fontFamily: 'Ogg',
-                      fontSize: '18px',
-                      lineHeight: '130%',
-                      letterSpacing: '-0.005em',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    Community
-                  </Button>
+                  <Link href="/posts" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Explore
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href="/enterprise" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Enterprise Plan
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href="/about" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Community
+                      </Button>
+                    </a>
+                  </Link>
                 </Box>
               </div>
 
               {/* Logo | All Breakpoints */}
-              <Link href="/" className={classes.logo}>
-                <Image src="/Logo.svg" alt="Violet Verse" height={59} width={105} />
+              <Link href="/" legacyBehavior>
+                <a className={classes.logo}>
+                  <Image src="/Logo.svg" alt="Violet Verse" height={59} width={105} />
+                </a>
               </Link>
 
                 {/* Connect Wallet + VV Tokens || Logged In*/}
