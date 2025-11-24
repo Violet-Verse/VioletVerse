@@ -85,7 +85,8 @@
   will-change: transform, opacity;
   margin: 0.25rem 1.5rem;
   border-radius: 16px;
-  background: rgba(222, 219, 247, 0.6);
+  background: rgba(222, 219, 247, 0.9);
+  border: 1px solid rgba(222, 219, 247, 0.5);
   overflow: hidden;
 }
 
@@ -113,11 +114,12 @@
   width: 100%;
   color: #0a0510;
   font-size: 0.875rem;
+  font-weight: 500;
   text-align: left;
   text-decoration: none;
 }
 
 .submenuButton:hover {
-  background: rgba(222, 219, 247, 0.5);
+  background: rgba(222, 219, 247, 0.8);
   color: #43226d;
 }
