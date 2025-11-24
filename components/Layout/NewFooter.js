@@ -1,194 +1,92 @@
 import InstagramIcon from '@mui/icons-material/Instagram'
 import TwitterIcon from '@mui/icons-material/Twitter'
-import { Box, Grid, Stack } from '@mui/material'
+import {
+  Box,
+  Container,
+  Group,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core'
+import { useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../../styles/Footer.module.css'
 
 const Footer = () => {
-  return (
-    <footer>
-      <Box
-        sx={{
-          textAlign: 'left',
-          py: 10,
-          ml: 10,
-        }}
-      >
-        <Stack
-          spacing={{ xs: 5, lg: 10, xl: 20 }}
-          direction={{ xs: 'column', lg: 'row' }}
-          justifyContent="center"
-        >
-          <Box sx={{ mb: 5 }}>
-            <Image src="/WhiteLogo.svg" alt="logo light" width={143} height={80} />
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ display: { xs: 'none', lg: 'flex' }, mt: 5 }}
-            >
-              <a
-                href="https://instagram.com/violetverse.io"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <InstagramIcon
-                  sx={{
-                    color: '#73839C',
-                  }}
-                />{' '}
-              </a>
-              <a
-                href="https://twitter.com/TheVioletVerse"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <TwitterIcon
-                  sx={{
-                    color: '#73839C',
-                  }}
-                />
-              </a>
-              <a
-                href="https://app.console.xyz/c/violetverse"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image
-                  src="/Discord.svg"
-                  alt="Discord icon"
-                  width={24}
-                  height={24}
-                  priority
-                />
-              </a>
-            </Stack>
-          </Box>
-          <Box>
-            <Link href="/posts" legacyBehavior>
-              <a>
-                <h3 className={styles.header}>Market</h3>
-              </a>
-            </Link>
-            <Link href="/posts?category=Tech" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>See tech content</p>
-              </a>
-            </Link>
-            <Link href="/posts?category=Lifestyle" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>See lifestyle content</p>
-              </a>
-            </Link>
-            <Link href="/posts?category=Education" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>See educational content</p>
-              </a>
-            </Link>
-          </Box>
-          <Box>
-            <Link href="/resources" legacyBehavior>
-              <a>
-                <h3 className={styles.header}>Resources</h3>
-              </a>
-            </Link>
-            <Link href="/resources" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Getting Started</p>
-              </a>
-            </Link>
-            <Link href="/resources" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Fashion Tech Resources</p>
-              </a>
-            </Link>
-            <Link href="/resources" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Events and Meetups</p>
-              </a>
-            </Link>
-          </Box>
-          <Box>
-            <Link href="/about" legacyBehavior>
-              <a>
-                <h3 className={styles.header}>Community</h3>
-              </a>
-            </Link>
-            <Link href="/how-to-earn-vv-tokens-PS1xU3BF4B" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Learn about VV Rewards</p>
-              </a>
-            </Link>
-            <Link href="/become-a-contributor-l91YAc3Lmr" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Become a contributor</p>
-              </a>
-            </Link>
-            <a
-              href="https://app.console.xyz/c/violetverse"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <p className={styles.subheader}>Join IRL Chat</p>
-            </a>
-          </Box>
-          <Box>
-            <Link href="/about" legacyBehavior>
-              <a>
-                <h3 className={styles.header}>About</h3>
-              </a>
-            </Link>
-            <Link href="/about" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Team</p>
-              </a>
-            </Link>
-            <a
-              href="https://buy.stripe.com/9AQeYAapJg343tu7sy"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <p className={styles.subheader}>1:1 Consultations</p>
-            </a>
+  const marketLinks = useMemo(
+    () => [
+      { href: '/posts?category=Tech', label: 'See tech content' },
+      { href: '/posts?category=Lifestyle', label: 'See lifestyle content' },
+      { href: '/posts?category=Education', label: 'See educational content' },
+    ],
+    [],
+  )
 
-            <Link href="/contact" legacyBehavior>
-              <a>
-                <p className={styles.subheader}>Contact us</p>
-              </a>
-            </Link>
-          </Box>
-          <Box>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ display: { xs: 'flex', lg: 'none' } }}
-            >
+  const resourcesLinks = useMemo(
+    () => [
+      { href: '/resources', label: 'Getting Started' },
+      { href: '/resources', label: 'Fashion Tech Resources' },
+      { href: '/resources', label: 'Events and Meetups' },
+    ],
+    [],
+  )
+
+  const communityLinks = useMemo(
+    () => [
+      { href: '/how-to-earn-vv-tokens-PS1xU3BF4B', label: 'Learn about VV Rewards' },
+      { href: '/become-a-contributor-l91YAc3Lmr', label: 'Become a contributor' },
+      { href: 'https://app.console.xyz/c/violetverse', label: 'Join IRL Chat', external: true },
+    ],
+    [],
+  )
+
+  const aboutLinks = useMemo(
+    () => [
+      { href: '/about', label: 'Team' },
+      { href: 'https://buy.stripe.com/9AQeYAapJg343tu7sy', label: '1:1 Consultations', external: true },
+      { href: '/contact', label: 'Contact us' },
+    ],
+    [],
+  )
+
+  return (
+    <footer className={styles.footer}>
+      <Container size="100rem" px={{ base: 16, sm: 20, md: 32 }}>
+        {/* Main Content Grid */}
+        <SimpleGrid
+          cols={{ base: 1, sm: 2, md: 5 }}
+          spacing="xl"
+          className={styles.mainGrid}
+        >
+          {/* Logo Section */}
+          <Box className={styles.section}>
+            <Group align="center" spacing={8} mb="md">
+              <Image src="/WhiteLogo.svg" alt="logo light" width={143} height={80} />
+            </Group>
+            <Group spacing="md" className={styles.socialIconsDesktop}>
               <a
                 href="https://instagram.com/violetverse.io"
                 target="_blank"
                 rel="noreferrer"
+                className={styles.socialLink}
               >
-                <InstagramIcon
-                  sx={{
-                    color: '#73839C',
-                  }}
-                />{' '}
+                <InstagramIcon className={styles.socialIcon} />
               </a>
               <a
                 href="https://twitter.com/TheVioletVerse"
                 target="_blank"
                 rel="noreferrer"
+                className={styles.socialLink}
               >
-                <TwitterIcon
-                  sx={{
-                    color: '#73839C',
-                  }}
-                />
+                <TwitterIcon className={styles.socialIcon} />
               </a>
               <a
                 href="https://app.console.xyz/c/violetverse"
                 target="_blank"
                 rel="noreferrer"
+                className={styles.socialLink}
               >
                 <Image
                   src="/Discord.svg"
@@ -196,11 +94,144 @@ const Footer = () => {
                   width={24}
                   height={24}
                   priority
+                  className={styles.discordIcon}
                 />
               </a>
+            </Group>
+          </Box>
+
+          {/* Market Section */}
+          <Box className={styles.section}>
+            <Title order={4} className={styles.sectionTitle} mb="md">
+              <Link href="/posts" legacyBehavior>
+                <a className={styles.sectionTitleLink}>Market</a>
+              </Link>
+            </Title>
+            <Stack spacing="xs">
+              {marketLinks.map((link) => (
+                <Link key={link.label} href={link.href} legacyBehavior>
+                  <a className={styles.link}>{link.label}</a>
+                </Link>
+              ))}
             </Stack>
           </Box>
-        </Stack>
+
+          {/* Resources Section */}
+          <Box className={styles.section}>
+            <Title order={4} className={styles.sectionTitle} mb="md">
+              <Link href="/resources" legacyBehavior>
+                <a className={styles.sectionTitleLink}>Resources</a>
+              </Link>
+            </Title>
+            <Stack spacing="xs">
+              {resourcesLinks.map((link) => (
+                <Link key={link.label} href={link.href} legacyBehavior>
+                  <a className={styles.link}>{link.label}</a>
+                </Link>
+              ))}
+            </Stack>
+          </Box>
+
+          {/* Community Section */}
+          <Box className={styles.section}>
+            <Title order={4} className={styles.sectionTitle} mb="md">
+              <Link href="/about" legacyBehavior>
+                <a className={styles.sectionTitleLink}>Community</a>
+              </Link>
+            </Title>
+            <Stack spacing="xs">
+              {communityLinks.map((link) =>
+                link.external ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.link}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.label} href={link.href} legacyBehavior>
+                    <a className={styles.link}>{link.label}</a>
+                  </Link>
+                ),
+              )}
+            </Stack>
+          </Box>
+
+          {/* About Section */}
+          <Box className={styles.section}>
+            <Title order={4} className={styles.sectionTitle} mb="md">
+              <Link href="/about" legacyBehavior>
+                <a className={styles.sectionTitleLink}>About</a>
+              </Link>
+            </Title>
+            <Stack spacing="xs">
+              {aboutLinks.map((link) =>
+                link.external ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.link}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.label} href={link.href} legacyBehavior>
+                    <a className={styles.link}>{link.label}</a>
+                  </Link>
+                ),
+              )}
+            </Stack>
+          </Box>
+        </SimpleGrid>
+      </Container>
+
+      {/* Bottom Section */}
+      <Box className={styles.bottom}>
+        <Container size="100rem" px={{ base: 16, sm: 20, md: 32 }}>
+          <Box className={styles.bottomContainer}>
+            <Group spacing="md" className={styles.socialIconsMobile}>
+              <a
+                href="https://instagram.com/violetverse.io"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.socialLink}
+              >
+                <InstagramIcon className={styles.socialIcon} />
+              </a>
+              <a
+                href="https://twitter.com/TheVioletVerse"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.socialLink}
+              >
+                <TwitterIcon className={styles.socialIcon} />
+              </a>
+              <a
+                href="https://app.console.xyz/c/violetverse"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.socialLink}
+              >
+                <Image
+                  src="/Discord.svg"
+                  alt="Discord icon"
+                  width={24}
+                  height={24}
+                  priority
+                  className={styles.discordIcon}
+                />
+              </a>
+            </Group>
+            <Text className={styles.copyright}>
+              © {new Date().getFullYear()} Violet Verse. All rights reserved.
+            </Text>
+          </Box>
+        </Container>
       </Box>
     </footer>
   )
