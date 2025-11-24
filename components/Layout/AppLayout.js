@@ -138,7 +138,7 @@ const Layout = ({ children }) => {
                 <Box
                   className="pageContainer"
                   sx={{
-                    mt: 4,
+                    pt: { xs: '6rem', md: '6.5rem' }, // Account for fixed floating header with extra spacing
                   }}
                 >
                   {children}

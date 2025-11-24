@@ -1,72 +1,94 @@
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
-import MenuIcon from '@mui/icons-material/Menu'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import * as fcl from '@blocto/fcl'
-import useSWR, { useSWRConfig } from 'swr'
+import { useSWRConfig } from 'swr'
 import '../../flow/config.js'
 import {
-  AppBar,
   Box,
   Button,
-  Container,
   IconButton,
   Menu,
   MenuItem,
-  Toolbar,
-  Typography,
   Tooltip,
   Avatar,
   Divider,
   ListItemIcon,
 } from '@mui/material'
+import { Overlay } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useUser } from '../../hooks/useAuth'
 import UserAvatar from '../user/UserAvatar'
 import { nFormatter, useFlowContext } from '../Context/flowContext'
 import SignUpCTA from '../Modal/SignUpCTA.js'
 import { useRouter } from 'next/router'
+import MobileMenu from './MobileMenu'
+import classes from './Navbar.module.css'
 const NewNav = () => {
   const router = useRouter()
   const { user, loaded } = useUser()
-  const { changeBgColor, setChangeBgColor } = useState()
   const isEnterprise = router.asPath.includes('enterprise')
-  const color = isEnterprise ? 'black' : 'white'
   const navBarItemColor = isEnterprise ? 'white' : 'black'
+  const [isHydrated, setIsHydrated] = useState(false)
+
   // Identify User for Analytics
   useEffect(() => {
-    if (user)
+    if (user) {
       global.analytics.identify(user?.userId, {
         username: user?.name,
         email: user?.email,
       })
-  }, [loaded, user])
+    }
+  }, [user])
+
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
+  // Custom scroll-based header visibility (replacement for useHeadroom)
+  const [pinned, setPinned] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      if (currentScrollY < 50) {
+        // Always show header when near top
+        setPinned(true)
+      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down - hide header
+        setPinned(false)
+        setIsMobileMenuOpen(false) // Close mobile menu when header is hidden
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up - show header
+        setPinned(true)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
 
   const vvTokens = nFormatter(useFlowContext(), 2)
 
   const dashboardPermission = user?.role === 'admin' || user?.role === 'contributor'
 
-  const [anchorElNav, setAnchorElNav] = useState(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [anchorElUser, setAnchorElUser] = useState(null)
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
 
-  const handleCloseUserMenu = (setting) => {
+  const handleCloseUserMenu = () => {
     global.analytics.track('Profile Menu Hidden')
     setAnchorElUser(null)
   }
@@ -114,27 +136,25 @@ const NewNav = () => {
                 }),
               },
             )
-            console.log(result)
             mutate('/api/database/getUser')
           })
-          .catch((err) => {
+          .catch(() => {
             fcl.unauthenticate()
-            console.error(err)
           })
       }
-    } catch (err) {
-      // console.log(err);
-    }
-  }
-
-  const ctaClosed = () => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('homepageCTA')
+    } catch {
+      // Authentication error handled silently
     }
   }
 
   useEffect(() => {
-    if (loaded && !ctaClosed() && !user) {
+    const ctaClosed = () => {
+      if (typeof window !== 'undefined') {
+        return localStorage.getItem('homepageCTA')
+      }
+    }
+    const shouldShowCTA = loaded && !ctaClosed() && !user
+    if (shouldShowCTA) {
       setSignupCTA(true)
       global.analytics.track('Signup CTA Displayed')
     } else {
@@ -152,7 +172,7 @@ const NewNav = () => {
   }
 
   return (
-    <nav>
+    <>
       <SignUpCTA
         open={signupCTA}
         handleClose={() => {
@@ -165,109 +185,40 @@ const NewNav = () => {
           setFirstVisit()
         }}
       />
-      <AppBar
-        position="static"
-        elevation={0}
-        sx={{
-          backgroundColor: `${color}`,
-        }}
+      {/* Overlay rendered at header level to blur background content */}
+      {isMobileMenuOpen && (
+        <Overlay
+          fixed={true}
+          onClick={() => setIsMobileMenuOpen(false)}
+          style={{ zIndex: 40, backdropFilter: 'blur(5px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
+        />
+      )}
+      <header
+        className={`${classes.header} ${pinned ? classes.visible : classes.hidden}`}
       >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ px: { xs: 0, md: 4 } }}>
-            {loaded && (
-              <>
-                {/* Menu Dropdown | XS Breakpoint */}
+        <div
+          className={`${classes.container} ${classes.floating} ${isEnterprise ? classes.enterprise : ''}`}
+        >
+          {loaded && (
+            <>
+              {/* Mobile Menu | XS Breakpoint */}
+              <div
+                className={`${classes.menuContainer} ${classes.mobile} ${isHydrated ? classes.hydrated : ''}`}
+              >
+                <MobileMenu
+                  isMobileMenuOpen={isMobileMenuOpen}
+                  setIsMobileMenuOpen={setIsMobileMenuOpen}
+                  user={user}
+                  loaded={loaded}
+                  onLogin={login}
+                  navBarItemColor={navBarItemColor}
+                />
+              </div>
 
-                <Box
-                  sx={{
-                    flex: 1,
-                    display: { xs: 'flex', lg: 'none' },
-                    justifyContent: 'start',
-                  }}
-                >
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
-                    <MenuIcon sx={{ fontSize: '32px' }} />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorElNav}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                    open={Boolean(anchorElNav)}
-                    onClose={handleCloseNavMenu}
-                    sx={{
-                      display: {
-                        xs: 'block',
-                        lg: 'none',
-                      },
-                    }}
-                  >
-                    {!user && loaded && (
-                      <MenuItem
-                        onClick={() => {
-                          login()
-                          handleCloseNavMenu()
-                        }}
-                      >
-                        <Typography textAlign="center">Connect Wallet</Typography>
-                      </MenuItem>
-                    )}
-                    <Link href="/posts" legacyBehavior>
-                      <a>
-                        <MenuItem onClick={handleCloseNavMenu}>
-                          <Typography textAlign="center">Explore</Typography>
-                        </MenuItem>
-                      </a>
-                    </Link>
-                    <Link href="/enterprise" legacyBehavior>
-                      <a>
-                        <MenuItem onClick={handleCloseNavMenu}>
-                          <Typography textAlign="center">Enterprise Plan</Typography>
-                        </MenuItem>
-                      </a>
-                    </Link>
-                    <a target="_blank" href="/vr" rel="noopener noreferrer">
-                      <Button
-                        sx={{
-                          my: 2,
-                          color: '#0A0510',
-                          display: 'block',
-                          mr: '15px',
-                          fontFamily: 'Ogg',
-                          fontSize: '18px',
-                          lineHeight: '130%',
-                          letterSpacing: '-0.005em',
-                        }}
-                      >
-                        VV VR
-                      </Button>
-                    </a>
-                    <Link href="/about" legacyBehavior>
-                      <a>
-                        <MenuItem onClick={handleCloseNavMenu}>
-                          <Typography textAlign="center">Community</Typography>
-                        </MenuItem>
-                      </a>
-                    </Link>
-                  </Menu>
-                </Box>
-
-                {/* Menu Items | Medium or larger */}
-
+              {/* Menu Items | Medium or larger */}
+              <div
+                className={`${classes.menuContainer} ${classes.desktop} ${isHydrated ? classes.hydrated : ''}`}
+              >
                 <Box
                   sx={{
                     flex: 1,
@@ -275,74 +226,63 @@ const NewNav = () => {
                     justifyContent: 'start',
                   }}
                 >
-                  <Link href="/posts" legacyBehavior>
-                    <a>
-                      <Button
-                        sx={{
-                          my: 2,
-                          color: `${navBarItemColor}`,
-                          display: 'block',
-                          mr: '15px',
-                          fontFamily: 'Ogg',
-                          fontSize: '18px',
-                          lineHeight: '130%',
-                          letterSpacing: '-0.005em',
-                        }}
-                      >
-                        Explore
-                      </Button>
-                    </a>
-                  </Link>
-                  <Link href="/enterprise" legacyBehavior>
-                    <a>
-                      <Button
-                        sx={{
-                          my: 2,
-                          color: `${navBarItemColor}`,
-                          display: 'block',
-                          mr: '15px',
-                          fontFamily: 'Ogg',
-                          fontSize: '18px',
-                          lineHeight: '130%',
-                          letterSpacing: '-0.005em',
-                        }}
-                      >
-                        Enterprise Plan
-                      </Button>
-                    </a>
-                  </Link>
-                  <Link href="/about" legacyBehavior>
-                    <a>
-                      <Button
-                        sx={{
-                          my: 2,
-                          color: `${navBarItemColor}`,
-                          display: 'block',
-                          fontFamily: 'Ogg',
-                          fontSize: '18px',
-                          lineHeight: '130%',
-                          letterSpacing: '-0.005em',
-                        }}
-                      >
-                        Community
-                      </Button>
-                    </a>
-                  </Link>
+                  <Button
+                    component={Link}
+                    href="/posts"
+                    sx={{
+                      my: 2,
+                      color: `${navBarItemColor}`,
+                      display: 'block',
+                      mr: '15px',
+                      fontFamily: 'Ogg',
+                      fontSize: '18px',
+                      lineHeight: '130%',
+                      letterSpacing: '-0.005em',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Explore
+                  </Button>
+                  <Button
+                    component={Link}
+                    href="/enterprise"
+                    sx={{
+                      my: 2,
+                      color: `${navBarItemColor}`,
+                      display: 'block',
+                      mr: '15px',
+                      fontFamily: 'Ogg',
+                      fontSize: '18px',
+                      lineHeight: '130%',
+                      letterSpacing: '-0.005em',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Enterprise Plan
+                  </Button>
+                  <Button
+                    component={Link}
+                    href="/about"
+                    sx={{
+                      my: 2,
+                      color: `${navBarItemColor}`,
+                      display: 'block',
+                      fontFamily: 'Ogg',
+                      fontSize: '18px',
+                      lineHeight: '130%',
+                      letterSpacing: '-0.005em',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Community
+                  </Button>
                 </Box>
+              </div>
 
-                {/* Logo | All Breakpoints */}
-
-                <Box
-                  sx={{
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Link href="/" legacyBehavior>
-                    <a>
-                      <Image src="/Logo.svg" alt="Violet Verse" height={59} width={105} />
-                    </a>
-                  </Link>
-                </Box>
+              {/* Logo | All Breakpoints */}
+              <Link href="/" className={classes.logo}>
+                <Image src="/Logo.svg" alt="Violet Verse" height={59} width={105} />
+              </Link>
 
                 {/* Connect Wallet + VV Tokens || Logged In*/}
 
@@ -367,7 +307,7 @@ const NewNav = () => {
                     >
                       <Button
                         variant="contained"
-                        disableElevation
+                        disableElevation={true}
                         onClick={() => Router.push('/tokens')}
                         sx={{
                           fontWeight: '400',
@@ -441,7 +381,7 @@ const NewNav = () => {
                             },
                           },
                         }}
-                        keepMounted
+                        keepMounted={true}
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                       >
@@ -568,7 +508,7 @@ const NewNav = () => {
                       }}
                     >
                       <Button
-                        disableElevation
+                        disableElevation={true}
                         variant="contained"
                         onClick={() => {
                           login()
@@ -586,12 +526,11 @@ const NewNav = () => {
                     </Box>
                   </Box>
                 )}
-              </>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </nav>
+            </>
+          )}
+        </div>
+      </header>
+    </>
   )
 }
 

@@ -36,7 +36,7 @@ const Home = ({ posts, authors, contributors }) => {
   }
 
   return (
-    <Box sx={{ mt: -4 }}>
+    <Box>
       <Head>
         <meta property="og:image" content="https://i.imgur.com/yhNmGo8.png" />
         <meta name="twitter:image:src" content="https://i.imgur.com/yhNmGo8.png" />
