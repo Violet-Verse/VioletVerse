@@ -2,8 +2,29 @@ import { Box } from '@mui/material'
 import ArticleGrid from '../../components/article/ArticleGrid'
 import connectDatabase from '../../lib/mongoClient'
 import { getUsersByRole } from '../api/database/getUserByEmail'
+import {
+  samplePosts,
+  sampleAuthors,
+  sampleContributors,
+} from '../../lib/sampleData'
+
+// Set to true to use sample data (useful when CMS is disabled)
+const USE_SAMPLE_DATA =
+  process.env.USE_SAMPLE_DATA === 'true' || process.env.NODE_ENV === 'development'
 
 export async function getServerSideProps() {
+  // Use sample data in developer mode
+  if (USE_SAMPLE_DATA) {
+    return {
+      props: {
+        posts: samplePosts.filter((post) => !post.hidden),
+        authors: sampleAuthors,
+        contributors: sampleContributors,
+      },
+    }
+  }
+
+  // Otherwise, fetch from database
   const db = await connectDatabase()
   const collection = db.collection('posts')
   const data = await collection.find({ hidden: false }).toArray()

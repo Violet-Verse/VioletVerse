@@ -1,12 +1,13 @@
 import { Button, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
 import Link from 'next/link'
-import Image from 'next/image'
-import ArticleGrid from '../components/article/ArticleGrid'
 import dynamic from 'next/dynamic'
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import InfoBlock from '../components/homepage/InfoBlock'
+import ArtBaselCard from '../components/homepage/ArtBaselCard'
+import FutureByMelissaCard from '../components/homepage/FutureByMelissaCard'
+import LayersOfTheVerse from '../components/homepage/LayersOfTheVerse'
+import NewToWeb3 from '../components/homepage/NewToWeb3'
 import { getUsersByRole } from './api/database/getUserByEmail'
 import connectDatabase from '../lib/mongoClient'
 
@@ -168,82 +169,7 @@ const Home = ({ posts, authors, contributors }) => {
       </Box>
 
       {/* Art Basel Post */}
-      <Box
-        sx={{
-          borderTop: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
-          borderBottom: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
-          borderColor: '#ECE6F9',
-          backgroundColor: '#ECE6F9',
-          textAlign: {
-            xs: 'center',
-          },
-          px: {
-            xs: '5%',
-            sm: '5%',
-            md: '10%',
-            lg: '10%',
-            xl: '10%',
-          },
-          py: { xs: 4, md: 6 },
-        }}
-      >
-        <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
-          <Grid item sx={{ width: '100%', maxWidth: { xs: '100%', sm: '450px' } }}>
-            <Box
-              sx={{
-                position: 'relative',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <Image
-                src="/third_spaces.svg"
-                alt="third spaces"
-                width={450}
-                height={300}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  maxWidth: '450px',
-                }}
-                sizes="(max-width: 600px) 100vw, 450px"
-              />
-            </Box>
-          </Grid>
-          <Grid item sx={{ mt: { xs: 2, sm: 1 }, px: { xs: 2, sm: 0 } }}>
-            <h2
-              style={{
-                fontSize: 'clamp(20px, 3vw, 28px)',
-                margin: 0,
-              }}
-            >
-              Art Basel 2025 Ultimate Guide
-            </h2>
-          </Grid>
-          <Grid item sx={{ width: '100%', maxWidth: '555px', px: { xs: 2, sm: 0 } }}>
-            <p style={{ margin: 0, fontSize: 'clamp(14px, 2vw, 16px)' }}>
-              Ultimate Guide to Art, Fashion, Music, Tech in Miami
-            </p>
-          </Grid>
-          <Grid item>
-            <Link href="/art-basel-2025-ultimate-guide-to-art-tech-fashion-and-parties-1hZxmVcDMF">
-              <Button
-                variant="contained"
-                disableElevation={true}
-                sx={{
-                  mt: { xs: 2, sm: 3 },
-                  minHeight: '44px', // Touch target size
-                  fontSize: { xs: '14px', sm: '16px' },
-                  padding: { xs: '10px 24px', sm: '12px 28px' },
-                }}
-              >
-                Download Now
-              </Button>
-            </Link>
-          </Grid>
-        </Grid>
-      </Box>
+      <ArtBaselCard />
 
       {/* Claim Poap */}
       {/* <Box
@@ -300,94 +226,17 @@ const Home = ({ posts, authors, contributors }) => {
         }}
       >
         {/* Curated Content Marketplace */}
-        <Box
-          sx={{
-            borderTop: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
-            borderBottom: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
-            borderColor: '#F9F4FE',
-            backgroundColor: '#F9F4FE',
-            px: {
-              xs: '5%',
-              sm: '5%',
-              md: '10%',
-              lg: '10%',
-              xl: '10%',
-            },
-            py: { xs: 4, md: 8 },
-            textAlign: 'center',
-            mt: { xs: 4, md: 6 },
-          }}
-        >
-          <Grid container direction="column" alignItems="center" spacing={3}>
-            <Grid item sx={{ width: '100%', maxWidth: '600px' }}>
-              <h2
-                style={{
-                  fontSize: 'clamp(20px, 3vw, 28px)',
-                  fontFamily: 'serif',
-                  marginBottom: '1rem',
-                  margin: 0,
-                }}
-              >
-                ✨ Dispatches from the Future
-              </h2>
-              <p
-                style={{
-                  maxWidth: '600px',
-                  margin: '1rem auto 0',
-                  fontSize: 'clamp(14px, 2vw, 16px)',
-                  lineHeight: '1.6',
-                  padding: { xs: '0 16px', sm: 0 },
-                }}
-              >
-                Subscribe to the <strong>Future by Melissa</strong> Substack to get fresh
-                takes on AI, digital assets & lifestyle — every week.
-              </p>
-            </Grid>
+        <FutureByMelissaCard />
 
-            <Grid item sx={{ mt: { xs: 2, sm: 3 }, width: '100%', maxWidth: '600px' }}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  paddingTop: '53.33%', // Aspect ratio for 600x320
-                  overflow: 'hidden',
-                  borderRadius: '6px',
-                  border: '1px solid #ccc',
-                  background: '#fff',
-                }}
-              >
-                <iframe
-                  src="https://futurebymelissa.substack.com/embed"
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    border: 'none',
-                  }}
-                  frameBorder="0"
-                  scrolling="no"
-                  title="Future by Melissa Substack"
-                ></iframe>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-
-        <ArticleGrid
-          title="Layers of the Verse"
+        {/* Layers of the Verse */}
+        <LayersOfTheVerse
           posts={posts}
-          maximum={3}
-          seeAll={true}
-          mt={15}
           authors={authors}
           contributors={contributors}
         />
 
         {/* New to Web3? */}
-
-        <InfoBlock title="New to Web3?" my={15} />
+        <NewToWeb3 />
       </Box>
     </Box>
   )
