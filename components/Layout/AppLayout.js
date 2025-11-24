@@ -162,12 +162,12 @@ const Layout = ({ children }) => {
                             </Head>
                             <Box className={`${color}`}>
                                 <Navbar />
-                                <Box
-                                    className="pageContainer"
-                                    sx={{
-                                        mt: 4,
-                                    }}
-                                >
+                            <Box
+                                className="pageContainer"
+                                sx={{
+                                    pt: { xs: '6rem', md: '6.5rem' }, // Account for fixed floating header with extra spacing
+                                }}
+                            >
                                     {children}
                                     <Analytics />
                                 </Box>

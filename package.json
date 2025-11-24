@@ -6,6 +6,7 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "next start",
+    "clean": "rm -rf .next node_modules",
     "lint": "next lint"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "cookie": "^0.5.0",
     "isomorphic-dompurify": "^0.20.0",
     "mongodb": "^5.0.1",
+    "motion": "12.23.24",
     "nanoid": "^4.0.0",
     "next": "12.2.5",
     "nprogress": "^0.2.0",
