@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/useGenericFontNames: <explanation> */
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import url("https://use.typekit.net/urg4uzx.css");
@@ -171,7 +172,7 @@ pre {
   font-family: "stratos-lights";
   /* font-style: normal; */
   font-weight: 400;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 130%;
   letter-spacing: -0.01em;
   color: #0a0510;
@@ -181,7 +182,7 @@ pre {
   font-family: "stratos-lights";
   /* font-style: normal; */
   font-weight: 400;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 130%;
   letter-spacing: -0.01em;
   color: #0a0510;
@@ -192,18 +193,48 @@ pre {
   float: left;
   font-family: "Ogg";
   font-weight: 700;
-  font-size: 96px;
+  font-size: 64px;
   line-height: 50%;
   /* padding-top: 4px; */
   padding-right: 8px;
   padding-left: 3px;
 }
 
+/* Tablet and up */
+@media (min-width: 600px) {
+  .postBody {
+    font-size: 20px;
+  }
+
+  .postBodyNoLetter {
+    font-size: 20px;
+  }
+
+  .postBody:first-child:first-letter {
+    font-size: 80px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+  .postBody {
+    font-size: 22px;
+  }
+
+  .postBodyNoLetter {
+    font-size: 22px;
+  }
+
+  .postBody:first-child:first-letter {
+    font-size: 96px;
+  }
+}
+
 .image {
   filter: brightness(100%);
   -webkit-filter: brightness(100%);
   transition: 0.3s ease;
-  border-radius: 4px;
+  border-radius: 24px;
 }
 
 .image:hover {

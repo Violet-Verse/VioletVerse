@@ -1,5 +1,5 @@
 import { Button, Grid, Box, Tooltip, Stack, CircularProgress } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Router from 'next/router'
@@ -19,11 +19,52 @@ import { transferTokens } from '../cadence/scripts/transactions/purchaseContent'
 import * as fcl from '@blocto/fcl'
 import * as types from '@onflow/types'
 import Tipping from '../components/article/Tipping'
+import TipCreatorButton from '../components/article/TipCreatorButton'
 import connectDatabase from '../lib/mongoClient'
+import {
+  samplePosts,
+  sampleAuthors,
+  sampleContributors,
+} from '../lib/sampleData'
+
+// Set to true to use sample data (useful when CMS is disabled)
+const USE_SAMPLE_DATA =
+  process.env.USE_SAMPLE_DATA === 'true' || process.env.NODE_ENV === 'development'
 
 export async function getServerSideProps(context) {
   const id = context.params.articlePage
 
+  // Use sample data in developer mode
+  if (USE_SAMPLE_DATA) {
+    const post = samplePosts.find((p) => p.slug === id && !p.hidden)
+    const allPosts = samplePosts.filter((p) => !p.hidden)
+    
+    if (!post) {
+      return { notFound: true, props: { posts: {} } }
+    }
+
+    // Find author from sample data
+    const author = sampleAuthors.find((a) => a.userId === post.createdBy)
+    const authorData = author ? { user: author } : null
+
+    // Find contributor if exists
+    const contributor = post.contributor
+      ? sampleContributors.find((c) => c.email === post.contributor)
+      : null
+    const contributorData = contributor ? { user: contributor } : null
+
+    return {
+      props: {
+        posts: JSON.parse(JSON.stringify(post)),
+        allPosts: JSON.parse(JSON.stringify(allPosts)),
+        authorData: authorData,
+        contributorData: contributorData || null,
+        tokenGatePrice: post?.tokenPrice || false,
+      },
+    }
+  }
+
+  // Otherwise, fetch from database
   const db = await connectDatabase()
   const collection = db.collection('posts')
   const allPosts = await collection.find({ hidden: false }).toArray()
@@ -61,7 +102,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
   const postDate = dateFormatter(posts.created)
   const updateDate = dateFormatter(posts?.lastUpdated)
   const editPermission =
-    loaded && (user?.userId == author?.userId || user?.role == 'admin')
+    loaded && (user?.userId === author?.userId || user?.role === 'admin')
 
   // Token Gate Permissions
   const purchasedArray = user?.purchasedContent ? user.purchasedContent.split(',') : []
@@ -81,27 +122,25 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
   const [txStatus, setTxStatus] = useState()
   const [tippingModal, setTippingModal] = useState(false)
 
-  function addArticleJsonLd() {
-    return {
-      __html: `{
-                "@context": "https://schema.org",
-                "@type": "NewsArticle",
-                "headline": "${siteTitle}",
-                "image": [
-                  "${siteImage}"
-                 ],
-                "datePublished": "${posts.created}",
-                "dateModified": "${posts?.lastUpdated}",
-                "author": [{
-                    "@type": "Person",
-                    "name": "${contributor?.name || author?.name}",
-                    "url": "https://www.violetverse.io/user/${
-                      contributor?.username || author?.username
-                    }"
-                  }]
-              }
-      `,
+  function getArticleJsonLd() {
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: siteTitle,
+      image: [siteImage],
+      datePublished: posts.created,
+      dateModified: posts?.lastUpdated,
+      author: [
+        {
+          '@type': 'Person',
+          name: contributor?.name || author?.name,
+          url: `https://www.violetverse.io/user/${
+            contributor?.username || author?.username
+          }`,
+        },
+      ],
     }
+    return JSON.stringify(jsonLd)
   }
 
   const updateUser = async () => {
@@ -186,7 +225,8 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
           <title>{siteTitle}</title>
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={addArticleJsonLd()}
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
+            dangerouslySetInnerHTML={{ __html: getArticleJsonLd() }}
             key="product-jsonld"
           />
           <meta name="og:title" content={metaTitle} />
@@ -208,11 +248,11 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
         <Box
           sx={{
             px: {
-              xs: '5%',
-              sm: '5%',
-              md: '15%',
-              lg: '18%',
-              xl: '22%',
+              xs: '4%',
+              sm: '6%',
+              md: '10%',
+              lg: '15%',
+              xl: '20%',
             },
           }}
         >
@@ -227,29 +267,45 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
               item
               sx={{
                 textAlign: 'center',
+                maxWidth: { xs: '100%', sm: '90%', md: '700px' },
               }}
             >
-              <h1 style={{ maxWidth: '700px' }}>{posts.title}</h1>
+              <h1
+                sx={{
+                  fontSize: { xs: '32px', sm: '40px', md: '48px' },
+                  lineHeight: '120%',
+                }}
+              >
+                {posts.title}
+              </h1>
             </Grid>
             <Grid item>
-              <Image src="/line1.svg" alt="line" height={1} width={100} />
+              <Box
+                sx={{
+                  width: { xs: 60, sm: 80, md: 100 },
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Image src="/line1.svg" alt="line" height={1} width={100} />
+              </Box>
             </Grid>
             <Grid
               item
               sx={{
                 textAlign: 'center',
+                maxWidth: { xs: '100%', sm: '90%', md: '700px' },
               }}
             >
               <p
-                style={{
+                sx={{
                   fontFamily: 'stratos-lights',
                   fontStyle: 'italic',
                   fontWeight: '200',
-                  fontSize: '28px',
+                  fontSize: { xs: '20px', sm: '24px', md: '28px' },
                   lineHeight: '130%',
                   letterSpacing: '-0.01em',
                   color: '#0A0510',
-                  maxWidth: '700px',
                 }}
               >
                 {posts.tldr}
@@ -291,7 +347,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                         ],
                       }}
                     >
-                      <a>
+                      <a href={`/user/${contributor?.username || author?.username}`}>
                         <p
                           className="secondary"
                           style={{
@@ -316,7 +372,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                 >
                   <Tooltip title={contributor ? 'Community Contributor' : ''}>
                     <Link href={`/user/${contributor?.username || author?.username}`}>
-                      <a>
+                      <a href={`/user/${contributor?.username || author?.username}`}>
                         <p
                           className="secondary"
                           style={{
@@ -376,21 +432,20 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                     display: { xs: 'flex', sm: 'none' },
                   }}
                 >
-                  <Link href={`/edit/` + posts._id} legacyBehavior>
-                    <a>
-                      <Button
-                        variant="contained"
-                        disableElevation
-                        style={{
-                          color: '#693E9A',
-                          marginTop: '0',
-                          fontSize: '16px',
-                          padding: '4px 40px',
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </a>
+                  <Link href={`/edit/${posts._id}`} passHref>
+                    <Button
+                      component="a"
+                      variant="contained"
+                      disableElevation
+                      style={{
+                        color: '#693E9A',
+                        marginTop: '0',
+                        fontSize: '16px',
+                        padding: '4px 40px',
+                      }}
+                    >
+                      Edit
+                    </Button>
                   </Link>
                 </Grid>
               )}
@@ -433,8 +488,8 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                       display: { xs: 'none', sm: 'flex' },
                     }}
                   >
-                    <Link href={`/edit/` + posts._id}>
-                      <a>
+                    <Link href={`/edit/${posts._id}`}>
+                      <a href={`/edit/${posts._id}`}>
                         <p className="secondary" style={{ color: '#693E9A' }}>
                           Edit
                         </p>
@@ -453,17 +508,27 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
             spacing={3}
           >
             {!posts.video && (
-              <Grid item sx={{ margin: '50px 0px' }}>
-                <Image
-                  src={posts.banner}
-                  alt="Violet Verse Banner"
-                  width={1920}
-                  height={1080}
-                  objectFit={'cover'}
-                  className="image"
-                  placeholder="blur"
-                  blurDataURL={posts.banner}
-                />
+              <Grid item sx={{ my: { xs: 3, sm: 4, md: 6 }, width: '100%' }}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    maxHeight: { xs: '300px', sm: '400px', md: '500px' },
+                    borderRadius: { xs: '16px', sm: '20px', md: '24px' },
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Image
+                    src={posts.banner}
+                    alt="Violet Verse Banner"
+                    width={1920}
+                    height={1080}
+                    objectFit={'cover'}
+                    className="image"
+                    placeholder="blur"
+                    blurDataURL={posts.banner}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </Box>
               </Grid>
             )}
           </Grid>
@@ -474,11 +539,11 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
             }}
           >
             <p
-              style={{
+              sx={{
                 fontFamily: 'stratos-lights',
                 fontStyle: 'italic',
                 fontWeight: '200',
-                fontSize: '28px',
+                fontSize: { xs: '20px', sm: '24px', md: '28px' },
                 lineHeight: '130%',
                 letterSpacing: '-0.01em',
                 color: '#0A0510',
@@ -525,8 +590,8 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
         <Box
           sx={{
             px: {
-              xs: '0',
-              sm: '5%',
+              xs: '4%',
+              sm: '6%',
               md: '10%',
               lg: '15%',
               xl: '20%',
@@ -544,13 +609,17 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
             postId={posts?._id}
           />
         </Box>
-        <Grid container justifyContent="center" sx={{ mt: 8 }}>
+        <Grid container justifyContent="center" sx={{ mt: { xs: 4, sm: 6, md: 8 } }}>
           <Grid item>
             <Button
               size="large"
               variant="contained"
               onClick={() => Router.push('/posts')}
               disableElevation
+              sx={{
+                fontSize: { xs: '14px', sm: '16px' },
+                padding: { xs: '10px 24px', sm: '12px 32px' },
+              }}
             >
               See more posts
             </Button>
@@ -568,7 +637,8 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
         <title>{siteTitle}</title>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={addArticleJsonLd()}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
+          dangerouslySetInnerHTML={{ __html: getArticleJsonLd() }}
           key="product-jsonld"
         />
         <meta name="og:title" content={metaTitle} />
@@ -598,46 +668,62 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
           },
         }}
       >
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          direction="column"
-          spacing={3}
-        >
           <Grid
-            item
-            sx={{
-              textAlign: 'center',
-            }}
+            container
+            justifyContent="center"
+            alignItems="center"
+            direction="column"
+            spacing={{ xs: 2, sm: 3 }}
           >
-            <h1 style={{ maxWidth: '700px' }}>{posts.title}</h1>
-          </Grid>
-          <Grid item>
-            <Image src="/line1.svg" alt="line" height={1} width={100} />
-          </Grid>
-          <Grid
-            item
-            sx={{
-              textAlign: 'center',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: 'stratos-lights',
-                fontStyle: 'italic',
-                fontWeight: '200',
-                fontSize: '28px',
-                lineHeight: '130%',
-                letterSpacing: '-0.01em',
-                color: '#0A0510',
-                maxWidth: '700px',
+            <Grid
+              item
+              sx={{
+                textAlign: 'center',
+                maxWidth: { xs: '100%', sm: '90%', md: '700px' },
               }}
             >
-              {posts.tldr}
-            </p>
+              <h1
+                sx={{
+                  fontSize: { xs: '32px', sm: '40px', md: '48px' },
+                  lineHeight: '120%',
+                }}
+              >
+                {posts.title}
+              </h1>
+            </Grid>
+            <Grid item>
+              <Box
+                sx={{
+                  width: { xs: 60, sm: 80, md: 100 },
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Image src="/line1.svg" alt="line" height={1} width={100} />
+              </Box>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                textAlign: 'center',
+                maxWidth: { xs: '100%', sm: '90%', md: '700px' },
+              }}
+            >
+              <p
+                sx={{
+                  fontFamily: 'stratos-lights',
+                  fontStyle: 'italic',
+                  fontWeight: '200',
+                  fontSize: { xs: '20px', sm: '24px', md: '28px' },
+                  lineHeight: '130%',
+                  letterSpacing: '-0.01em',
+                  color: '#0A0510',
+                }}
+              >
+                {posts.tldr}
+              </p>
+            </Grid>
           </Grid>
-        </Grid>
         {contributorData && (
           <Grid
             container
@@ -673,7 +759,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                       ],
                     }}
                   >
-                    <a>
+                    <a href={`/user/${contributor?.username || author?.username}`}>
                       <p
                         className="secondary"
                         style={{
@@ -698,7 +784,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
               >
                 <Tooltip title={contributor ? 'Community Contributor' : ''}>
                   <Link href={`/user/${contributor?.username || author?.username}`}>
-                    <a>
+                    <a href={`/user/${contributor?.username || author?.username}`}>
                       <p
                         className="secondary"
                         style={{
@@ -757,8 +843,8 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                   display: { xs: 'flex', sm: 'none' },
                 }}
               >
-                <Link href={`/edit/` + posts._id}>
-                  <a>
+                <Link href={`/edit/${posts._id}`}>
+                  <a href={`/edit/${posts._id}`}>
                     <Button
                       variant="contained"
                       disableElevation
@@ -814,12 +900,10 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
                     display: { xs: 'none', sm: 'flex' },
                   }}
                 >
-                  <Link href={`/edit/` + posts._id} legacyBehavior>
-                    <a>
-                      <p className="secondary" style={{ color: '#693E9A' }}>
-                        Edit
-                      </p>
-                    </a>
+                  <Link href={`/edit/${posts._id}`}>
+                    <p className="secondary" style={{ color: '#693E9A' }}>
+                      Edit
+                    </p>
                   </Link>
                 </Grid>
               </>
@@ -827,7 +911,7 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
           </Grid>
         )}
         {posts.video && (
-          <Box className="player-wrapper" sx={{ my: 4 }}>
+          <Box className="player-wrapper" sx={{ my: { xs: 2, sm: 3, md: 4 } }}>
             <ReactPlayer
               className="react-player"
               url={posts.video}
@@ -846,27 +930,37 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
           spacing={3}
         >
           {!posts.video && (
-            <Grid item sx={{ margin: '50px 0px' }}>
-              <Image
-                src={posts.banner}
-                alt="Violet Verse Banner"
-                width={1920}
-                height={1080}
-                objectFit={'cover'}
-                className="image"
-                placeholder="blur"
-                blurDataURL={posts.banner}
-              />
+            <Grid item sx={{ my: { xs: 3, sm: 4, md: 6 }, width: '100%' }}>
+              <Box
+                sx={{
+                  width: '100%',
+                  maxHeight: { xs: '300px', sm: '400px', md: '500px' },
+                  borderRadius: { xs: '16px', sm: '20px', md: '24px' },
+                  overflow: 'hidden',
+                }}
+              >
+                <Image
+                  src={posts.banner}
+                  alt="Violet Verse Banner"
+                  width={1920}
+                  height={1080}
+                  objectFit={'cover'}
+                  className="image"
+                  placeholder="blur"
+                  blurDataURL={posts.banner}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </Box>
             </Grid>
           )}
           <Grid item>
             <Box sx={{ px: { xs: '4%', sm: '0' } }}>
               <p
-                style={{
+                sx={{
                   fontFamily: 'Test Calibre',
                   fontStyle: 'italic',
                   fontWeight: '300',
-                  fontSize: '28px',
+                  fontSize: { xs: '18px', sm: '22px', md: '28px' },
                   lineHeight: '130%',
                   letterSpacing: '-0.01em',
                   color: '#0A0510',
@@ -885,48 +979,42 @@ const Article = ({ posts, allPosts, authorData, tokenGatePrice, contributorData 
           >
             <Box sx={{ px: { xs: '4%', sm: '0' } }}>
               <section
-                className={posts.largeLetter == false ? 'postBodyNoLetter' : 'postBody'}
+                className={posts.largeLetter === false ? 'postBodyNoLetter' : 'postBody'}
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: Content is sanitized with purifyHTML
                 dangerouslySetInnerHTML={{
                   __html: purifyHTML(posts.body),
                 }}
               />
             </Box>
           </Grid>
-          <Grid item>
-            <Button
-              onClick={() => {
-                global.analytics.track('Tip Creator Menu Shown', {
-                  author: contributor?.name || author?.name,
-                  author_address: contributor?.flowAddress || author?.flowAddress,
-                  post_title: posts?.title,
-                })
-                setTippingModal(true)
-              }}
-              sx={{
-                color: '#004455',
-                backgroundColor: '#AAEEFF',
-                borderRadius: '10px',
-                '&:hover': {
-                  backgroundColor: '#8EE8FF',
-                },
-              }}
-            >
-              Tip Creator
-            </Button>
-            <Tipping
-              open={tippingModal}
-              handleClose={() => {
-                setTippingModal(false)
-                global.analytics.track('Tip Creator Menu Hidden', {
-                  post_title: posts?.title,
-                  author: contributor?.name || author?.name,
-                  author_address: contributor?.flowAddress || author?.flowAddress,
-                })
-              }}
-              address={contributor?.flowAddress || author?.flowAddress}
-              author={contributor?.name || author?.name}
-              pageTitle={posts?.title}
-            />
+          <Grid item sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ px: { xs: '4%', sm: '0' }, width: '100%', maxWidth: '600px' }}>
+              <TipCreatorButton
+                onClick={() => {
+                  global.analytics.track('Tip Creator Menu Shown', {
+                    author: contributor?.name || author?.name,
+                    author_address: contributor?.flowAddress || author?.flowAddress,
+                    post_title: posts?.title,
+                  })
+                  setTippingModal(true)
+                }}
+                authorName={contributor?.name || author?.name}
+              />
+              <Tipping
+                open={tippingModal}
+                handleClose={() => {
+                  setTippingModal(false)
+                  global.analytics.track('Tip Creator Menu Hidden', {
+                    post_title: posts?.title,
+                    author: contributor?.name || author?.name,
+                    author_address: contributor?.flowAddress || author?.flowAddress,
+                  })
+                }}
+                address={contributor?.flowAddress || author?.flowAddress}
+                author={contributor?.name || author?.name}
+                pageTitle={posts?.title}
+              />
+            </Box>
           </Grid>
         </Grid>
       </Box>
