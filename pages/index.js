@@ -1,6 +1,5 @@
-import { Button, Grid, Box, Stack } from '@mui/material'
+import { Button, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
 import Image from 'next/image'
 import ArticleGrid from '../components/article/ArticleGrid'
 import dynamic from 'next/dynamic'
@@ -29,6 +28,9 @@ export async function getServerSideProps() {
 }
 
 const Home = ({ posts, authors, contributors }) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true })
+  
   const spotlightPost = {
     title: ' ',
     subtitle: '',
@@ -43,58 +45,29 @@ const Home = ({ posts, authors, contributors }) => {
         <link rel="canonical" href="/" />
       </Head>
 
-      {/* Video with Text Overlay | XS to MD */}
-      <Link href={spotlightPost.url} legacyBehavior>
-        <a>
-          <Box className={styles.content} sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Grid
-              className={styles.overlay}
-              container
-              direction="column"
-              spacing={2}
-              sx={{
-                px: {
-                  xs: '0',
-                  sm: '5%',
-                  md: '10%',
-                  lg: '10%',
-                  xl: '10%',
-                },
-                mt: 8,
-                maxWidth: '1040px',
-              }}
-            >
-              <Grid item>
-                <p
-                  style={{
-                    fontFamily: 'stratos-lights',
-                    color: 'black',
-                    fontStyle: 'italic',
-                    fontWeight: '200',
-                    fontSize: '36px',
-                    lineHeight: '130%',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  {spotlightPost.subtitle}
-                </p>
-              </Grid>
-
-              <Grid item>
-                <Button
-                  size="large"
-                  variant="contained"
-                  disableElevation
-                  sx={{
-                    fontSize: '16px',
-                    padding: '12px 28px',
-                  }}
-                >
-                  Check out the latest Fashion and Tech Stories
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
+      {/* Hero Section - Responsive Video with Text Overlay */}
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <Box
+          className={styles.videoContainer}
+          sx={{
+            position: 'relative',
+            width: '100%',
+            paddingTop: { xs: '56.25%', md: '56.25%' }, // 16:9 aspect ratio
+            '& > div': {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+            },
+          }}
+        >
           <ReactPlayer
             className={styles.video}
             url="https://www.youtube.com/watch?v=N-ZMbCeswoM&t=4s"
@@ -102,67 +75,103 @@ const Home = ({ posts, authors, contributors }) => {
             width="100%"
             height="100%"
             muted={true}
-            playing
-            playsinline
-            loop
+            playing={true}
+            playsinline={true}
+            loop={true}
           />
-        </a>
-      </Link>
-
-      <Box sx={{ display: { xs: 'flex', md: 'none' }, mt: 6, mb: 6 }}>
-        <Link href={spotlightPost.url} legacyBehavior>
-          <a>
-            <Grid
-              container
-              direction="column"
-              spacing={2}
-              sx={{
-                textAlign: {
-                  xs: 'center',
-                },
-              }}
-            >
-              {/* <Grid item sx={{ mt: "30px" }}>
-                                    <h1>{spotlightPost.title}</h1>
-                                </Grid> */}
-              {/* <Grid item>
-                                    <Image
-                                        src="/line1.svg"
-                                        alt="line"
-                                        height={1}
-                                        width={100}
-                                    />
-                                </Grid> */}
-              <Grid item>
-                <p
-                  style={{
-                    fontFamily: 'stratos-lights',
-                    fontStyle: 'italic',
-                    fontWeight: '200',
-                    fontSize: '36px',
-                    lineHeight: '130%',
-                    letterSpacing: '-0.01em',
-                    color: 'black',
+        </Box>
+        <Box
+          className={styles.overlay}
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: { xs: 'center', md: 'flex-start' },
+            zIndex: 1,
+            px: {
+              xs: '5%',
+              sm: '5%',
+              md: '10%',
+            },
+            py: { xs: 4, md: 8 },
+          }}
+        >
+          <Grid
+            container
+            direction="column"
+            spacing={2}
+            sx={{
+              maxWidth: { xs: '100%', md: '1040px' },
+              textAlign: { xs: 'center', md: 'left' },
+            }}
+          >
+            <Grid item>
+              <Link href={spotlightPost.url}>
+                <Box
+                  component="span"
+                  sx={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      window.location.href = spotlightPost.url;
+                    }
                   }}
                 >
-                  {spotlightPost.subtitle}
-                </p>
-              </Grid>
-              <Grid item>
-                <Button size="large" variant="contained" disableElevation>
-                  Watch Now
-                </Button>
-              </Grid>
+                  <p
+                    style={{
+                      fontFamily: 'stratos-lights',
+                      color: 'black',
+                      fontStyle: 'italic',
+                      fontWeight: '200',
+                      fontSize: 'clamp(24px, 4vw, 36px)',
+                      lineHeight: '130%',
+                      letterSpacing: '-0.01em',
+                      margin: 0,
+                    }}
+                  >
+                    {spotlightPost.subtitle}
+                  </p>
+                </Box>
+              </Link>
             </Grid>
-          </a>
-        </Link>
+
+            <Grid item>
+              <Button
+                component={Link}
+                href={spotlightPost.url}
+                size="large"
+                variant="contained"
+                disableElevation={true}
+                sx={{
+                  fontSize: { xs: '14px', sm: '16px' },
+                  padding: { xs: '10px 24px', sm: '12px 28px' },
+                  minHeight: '44px', // Touch target size
+                }}
+              >
+                {isMobile
+                  ? 'Watch Now'
+                  : 'Check out the latest Fashion and Tech Stories'}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
 
       {/* Art Basel Post */}
       <Box
         sx={{
-          borderTop: 50,
-          borderBottom: 50,
+          borderTop: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
+          borderBottom: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
           borderColor: '#ECE6F9',
           backgroundColor: '#ECE6F9',
           textAlign: {
@@ -175,23 +184,60 @@ const Home = ({ posts, authors, contributors }) => {
             lg: '10%',
             xl: '10%',
           },
+          py: { xs: 4, md: 6 },
         }}
       >
-        <Grid container direction="column" justifyContent="center" alignItems="center">
-          <Grid item>
-            <Image src="/third_spaces.svg" alt="third spaces" width={450} height={300} />
+        <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
+          <Grid item sx={{ width: '100%', maxWidth: { xs: '100%', sm: '450px' } }}>
+            <Box
+              sx={{
+                position: 'relative',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Image
+                src="/third_spaces.svg"
+                alt="third spaces"
+                width={450}
+                height={300}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '450px',
+                }}
+                sizes="(max-width: 600px) 100vw, 450px"
+              />
+            </Box>
           </Grid>
-          <Grid item sx={{ mt: 1 }}>
-            <h2 style={{ fontSize: '28px' }}>Art Basel 2025 Ultimate Guide</h2>
+          <Grid item sx={{ mt: { xs: 2, sm: 1 }, px: { xs: 2, sm: 0 } }}>
+            <h2
+              style={{
+                fontSize: 'clamp(20px, 3vw, 28px)',
+                margin: 0,
+              }}
+            >
+              Art Basel 2025 Ultimate Guide
+            </h2>
           </Grid>
-          <Grid item>
-            <p style={{ maxWidth: '555px' }}>
+          <Grid item sx={{ width: '100%', maxWidth: '555px', px: { xs: 2, sm: 0 } }}>
+            <p style={{ margin: 0, fontSize: 'clamp(14px, 2vw, 16px)' }}>
               Ultimate Guide to Art, Fashion, Music, Tech in Miami
             </p>
           </Grid>
           <Grid item>
             <Link href="/art-basel-2025-ultimate-guide-to-art-tech-fashion-and-parties-1hZxmVcDMF">
-              <Button variant="contained" disableElevation sx={{ mt: 3 }}>
+              <Button
+                variant="contained"
+                disableElevation={true}
+                sx={{
+                  mt: { xs: 2, sm: 3 },
+                  minHeight: '44px', // Touch target size
+                  fontSize: { xs: '14px', sm: '16px' },
+                  padding: { xs: '10px 24px', sm: '12px 28px' },
+                }}
+              >
                 Download Now
               </Button>
             </Link>
@@ -243,19 +289,21 @@ const Home = ({ posts, authors, contributors }) => {
       <Box
         sx={{
           px: {
-            xs: '0',
+            xs: '5%',
             sm: '5%',
             md: '10%',
-            lg: '15%',
-            xl: '20%',
+            lg: '10%',
+            xl: '10%',
           },
+          maxWidth: { lg: '1400px', xl: '1600px' },
+          mx: 'auto',
         }}
       >
         {/* Curated Content Marketplace */}
         <Box
           sx={{
-            borderTop: 50,
-            borderBottom: 50,
+            borderTop: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
+            borderBottom: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
             borderColor: '#F9F4FE',
             backgroundColor: '#F9F4FE',
             px: {
@@ -265,36 +313,64 @@ const Home = ({ posts, authors, contributors }) => {
               lg: '10%',
               xl: '10%',
             },
-            py: 8,
+            py: { xs: 4, md: 8 },
             textAlign: 'center',
+            mt: { xs: 4, md: 6 },
           }}
         >
-          <Grid container direction="column" alignItems="center">
-            <Grid item>
-              <h2 style={{ fontSize: '28px', fontFamily: 'serif', marginBottom: '1rem' }}>
+          <Grid container direction="column" alignItems="center" spacing={3}>
+            <Grid item sx={{ width: '100%', maxWidth: '600px' }}>
+              <h2
+                style={{
+                  fontSize: 'clamp(20px, 3vw, 28px)',
+                  fontFamily: 'serif',
+                  marginBottom: '1rem',
+                  margin: 0,
+                }}
+              >
                 ✨ Dispatches from the Future
               </h2>
-              <p style={{ maxWidth: '600px', margin: '0 auto', fontSize: '16px' }}>
+              <p
+                style={{
+                  maxWidth: '600px',
+                  margin: '1rem auto 0',
+                  fontSize: 'clamp(14px, 2vw, 16px)',
+                  lineHeight: '1.6',
+                  padding: { xs: '0 16px', sm: 0 },
+                }}
+              >
                 Subscribe to the <strong>Future by Melissa</strong> Substack to get fresh
                 takes on AI, digital assets & lifestyle — every week.
               </p>
             </Grid>
 
-            <Grid item sx={{ mt: 3 }}>
-              <iframe
-                src="https://futurebymelissa.substack.com/embed"
-                width="100%"
-                height="320"
-                style={{
-                  maxWidth: '600px',
-                  border: '1px solid #ccc',
+            <Grid item sx={{ mt: { xs: 2, sm: 3 }, width: '100%', maxWidth: '600px' }}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  paddingTop: '53.33%', // Aspect ratio for 600x320
+                  overflow: 'hidden',
                   borderRadius: '6px',
+                  border: '1px solid #ccc',
                   background: '#fff',
                 }}
-                frameBorder="0"
-                scrolling="no"
-                title="Future by Melissa Substack"
-              ></iframe>
+              >
+                <iframe
+                  src="https://futurebymelissa.substack.com/embed"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                  }}
+                  frameBorder="0"
+                  scrolling="no"
+                  title="Future by Melissa Substack"
+                ></iframe>
+              </Box>
             </Grid>
           </Grid>
         </Box>

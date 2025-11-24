@@ -46,6 +46,7 @@
     "tinymce": "^6.3.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.7"
+    "@biomejs/biome": "2.3.7",
+    "typescript": "5.9.3"
   }
 }
