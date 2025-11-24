@@ -1,18 +1,17 @@
 import {
-  Grid,
-  Button,
   Box,
-  Stack,
-  ToggleButtonGroup,
-  ToggleButton,
-  TextField,
+  Button,
+  Grid,
   Pagination,
+  Stack,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material'
 import Image from 'next/image'
-import Router from 'next/router'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import youtubeParser from '../../lib/getYouTubeThumbnail'
 import styles from '../../styles/ArticleGrid.module.css'
 
@@ -34,7 +33,7 @@ const ArticleGrid = (props) => {
   const itemsPerPage = 9
   const totalPages = Math.ceil(livePosts.length / itemsPerPage)
 
-  const handleChange = (event, value) => {
+  const handleChange = (_event, value) => {
     setPage(value)
   }
 
@@ -75,7 +74,7 @@ const ArticleGrid = (props) => {
   }
 
   // Event handler for category toggle button group
-  const handleCategory = (event, newCategory) => {
+  const handleCategory = (_event, newCategory) => {
     if (page !== 1) {
       setPage(1)
     }
@@ -89,7 +88,7 @@ const ArticleGrid = (props) => {
   }
 
   // Event handler for drafts toggle button group
-  const handleDrafts = (event, newSelection) => {
+  const handleDrafts = (_event, newSelection) => {
     if (newSelection === true || newSelection === false) {
       setDraftsOnly(newSelection)
       setLivePosts(posts?.filter((post) => post.hidden === newSelection))
@@ -219,7 +218,7 @@ const ArticleGrid = (props) => {
             <ToggleButtonGroup
               value={category}
               exclusive
-              disabled={searchValue ? true : false}
+              disabled={!!searchValue}
               onChange={(event, newCategory) => {
                 global.analytics.track('Article Category Sorted', {
                   previous_category: category || 'None',
@@ -288,114 +287,128 @@ const ArticleGrid = (props) => {
                 display: 'flex',
               }}
             >
-                <Link href={'/' + post.slug} legacyBehavior>
-                  <a
-                    href={'/' + post.slug}
-                    style={{
+              <Link href={`/${post.slug}`} legacyBehavior>
+                <a
+                  href={`/${post.slug}`}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor: '#F9F4FE',
+                      borderRadius: '24px',
+                      padding: '16px',
                       display: 'flex',
                       flexDirection: 'column',
-                      width: '100%',
-                      textDecoration: 'none',
-                      color: 'inherit',
+                      height: '100%',
+                      cursor: 'pointer',
+                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                      '&:hover': {
+                        transform: { xs: 'translateY(-2px)', sm: 'translateY(-4px)' },
+                        boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15)',
+                        '& .image-zoom': {
+                          transform: 'scale(1.05)',
+                        },
+                      },
+                      '&:active': {
+                        transform: 'scale(0.99)',
+                      },
                     }}
                   >
                     <Box
+                      className={styles.container}
                       sx={{
-                        backgroundColor: '#F9F4FE',
-                        borderRadius: '24px',
-                        padding: '16px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%',
-                        cursor: 'pointer',
-                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                        '&:hover': {
-                          transform: { xs: 'translateY(-2px)', sm: 'translateY(-4px)' },
-                          boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15)',
-                          '& .image-zoom': {
-                            transform: 'scale(1.05)',
-                          },
-                        },
-                        '&:active': {
-                          transform: 'scale(0.99)',
-                        },
+                        borderRadius: '16px',
+                        overflow: 'hidden',
+                        marginBottom: '16px',
                       }}
                     >
-                      <Box
-                        className={styles.container}
-                        sx={{
-                          borderRadius: '16px',
-                          overflow: 'hidden',
-                          marginBottom: '16px',
-                        }}
-                      >
-                        <Image
-                          src={
-                            youtubeParser(post.video) && !post.banner
-                              ? youtubeParser(post.video)
-                              : post.banner
-                          }
-                          alt="Placeholder Image"
-                          style={{
-                            borderRadius: '16px',
-                            transition: 'transform 0.3s ease',
-                          }}
-                          width={450}
-                          height={300}
-                          objectFit="cover"
-                          className={`${styles.image} image-zoom`}
-                          placeholder="blur"
-                          blurDataURL={
-                            youtubeParser(post.video) && !post.banner
-                              ? youtubeParser(post.video)
-                              : post.banner
-                          }
-                        />
-                        <Box className={styles.overlay}>
-                          <h4 className={styles.text}>
-                            {post.video ? 'Watch Video' : 'Read More'}
-                          </h4>
-                        </Box>
-                      </Box>
-
-                      {authors && (
-                        <h6 style={{ marginTop: '0', marginBottom: '8px' }}>
-                          {filterAuthor(post.createdBy, post?.contributor)}
-                        </h6>
-                      )}
-
-                      <h3 style={{ marginTop: '0', marginBottom: '8px' }}>
-                        {post?.hidden === true ? (
-                          <span
-                            style={{
-                              color: 'purple',
-                            }}
-                          >{`[Draft] ${post.title}`}</span>
-                        ) : (
-                          `${
-                            post.title.substring(0, 72) +
-                            (post.title.length > 72 ? '...' : '')
-                          }`
-                        )}
-                      </h3>
-                      <h6
+                      <Image
+                        src={
+                          youtubeParser(post.video) && !post.banner
+                            ? youtubeParser(post.video)
+                            : post.banner
+                        }
+                        alt="Placeholder Image"
                         style={{
-                          marginTop: '0',
-                          marginBottom: '0',
-                          color: '#43226D',
+                          borderRadius: '16px',
+                          transition: 'transform 0.3s ease',
                         }}
-                      >
-                        in {post.category}
-                      </h6>
+                        width={450}
+                        height={300}
+                        objectFit="cover"
+                        className={`${styles.image} image-zoom`}
+                        placeholder="blur"
+                        blurDataURL={
+                          youtubeParser(post.video) && !post.banner
+                            ? youtubeParser(post.video)
+                            : post.banner
+                        }
+                      />
+                      <Box className={styles.overlay}>
+                        <h4 className={styles.text}>
+                          {post.video ? 'Watch Video' : 'Read More'}
+                        </h4>
+                      </Box>
                     </Box>
-                  </a>
-                </Link>
-              </Grid>
-            ))}
+
+                    {authors && (
+                      <h6 style={{ marginTop: '0', marginBottom: '8px' }}>
+                        {filterAuthor(post.createdBy, post?.contributor)}
+                      </h6>
+                    )}
+
+                    <h3 style={{ marginTop: '0', marginBottom: '8px' }}>
+                      {post?.hidden === true ? (
+                        <span
+                          style={{
+                            color: 'purple',
+                          }}
+                        >{`[Draft] ${post.title}`}</span>
+                      ) : (
+                        `${
+                          post.title.substring(0, 72) +
+                          (post.title.length > 72 ? '...' : '')
+                        }`
+                      )}
+                    </h3>
+                    <h6
+                      style={{
+                        marginTop: '0',
+                        marginBottom: '0',
+                        color: '#43226D',
+                      }}
+                    >
+                      in {post.category}
+                    </h6>
+                  </Box>
+                </a>
+              </Link>
+            </Grid>
+          ))}
           {!maximum && totalPages > 1 && (
-            <Grid container justifyContent="center">
-              <Pagination count={totalPages} page={page} onChange={handleChange} />
+            <Grid container justifyContent="center" sx={{ mt: 4, mb: 4 }}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handleChange}
+                sx={{
+                  '& .MuiPaginationItem-root': {
+                    margin: '0 4px',
+                    fontSize: '16px',
+                  },
+                  '& .MuiPaginationItem-page': {
+                    minWidth: '40px',
+                    height: '40px',
+                  },
+                }}
+              />
             </Grid>
           )}
           {props.seeAll && (

@@ -116,18 +116,16 @@ const About = () => {
         {team.map((member) => (
           <Grid item xs={12} sm={6} lg={3} key={member.id}>
             <Link href={'/team/' + member.name.replace(/\s+/g, '-').toLowerCase()}>
-              <a>
-                <Image
-                  width={1000}
-                  height={1159}
-                  src={member.photo}
-                  alt="Default Image"
-                  className="image"
-                  objectFit={'cover'}
-                  placeholder="blur"
-                  blurDataURL={member.photo}
-                />
-              </a>
+              <Image
+                width={1000}
+                height={1159}
+                src={member.photo}
+                alt="Default Image"
+                className="image"
+                objectFit={'cover'}
+                placeholder="blur"
+                blurDataURL={member.photo}
+              />
             </Link>
             <Box
               sx={{
@@ -139,15 +137,13 @@ const About = () => {
               }}
             >
               <Link href={'/team/' + member.name.replace(/\s+/g, '-').toLowerCase()}>
-                <a>
-                  <h4
-                    style={{
-                      marginTop: '15px',
-                    }}
-                  >
-                    {member.name}
-                  </h4>
-                </a>
+                <h4
+                  style={{
+                    marginTop: '15px',
+                  }}
+                >
+                  {member.name}
+                </h4>
               </Link>
               <h3
                 style={{
@@ -249,18 +245,16 @@ const About = () => {
         {contributor.map((member) => (
           <Grid item xs={12} sm={6} lg={3} key={member.id}>
             <Link href={'/team/' + member.name.replace(/\s+/g, '-').toLowerCase()}>
-              <a>
-                <Image
-                  width={1000}
-                  height={1159}
-                  src={member.photo}
-                  alt="Default Image"
-                  className="image"
-                  objectFit={'cover'}
-                  placeholder="blur"
-                  blurDataURL={member.photo}
-                />
-              </a>
+              <Image
+                width={1000}
+                height={1159}
+                src={member.photo}
+                alt="Default Image"
+                className="image"
+                objectFit={'cover'}
+                placeholder="blur"
+                blurDataURL={member.photo}
+              />
             </Link>
             <Box
               sx={{
@@ -273,15 +267,13 @@ const About = () => {
             >
               {' '}
               <Link href={'/team/' + member.name.replace(/\s+/g, '-').toLowerCase()}>
-                <a>
-                  <h4
-                    style={{
-                      marginTop: '15px',
-                    }}
-                  >
-                    {member.name}
-                  </h4>
-                </a>
+                <h4
+                  style={{
+                    marginTop: '15px',
+                  }}
+                >
+                  {member.name}
+                </h4>
               </Link>
               <h3
                 style={{
