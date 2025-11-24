@@ -1,6 +1,42 @@
 .header {
   font-size: 38px;
   color: white;
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 0;
+  display: inline-block;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.85), rgba(139, 92, 246, 0.3));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.header:hover::after {
+  width: 150px;
+}
+
+/* For centered text alignment */
+.text-center .header,
+[style*="text-align: center"] .header,
+[style*="text-align:center"] .header {
+  display: block;
+  text-align: center;
+}
+
+.text-center .header::after,
+[style*="text-align: center"] .header::after,
+[style*="text-align:center"] .header::after {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .card-div {
@@ -14,17 +50,62 @@
   padding: 12px;
 }
 
+.card_div {
+  width: 29%;
+  min-width: 280px;
+  padding: 32px 24px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .card_div_icon {
-  margin: 9px 0px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.card_div_icon svg {
+  width: 32px;
+  height: 32px;
 }
 
 .card_div_heading {
-  margin: 11px 0px;
+  margin: 0;
+  padding: 0 16px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 600;
 }
 
 .card_div_para {
   text-align: center;
-  margin: 0px 6px;
+  margin: 0;
+  padding: 0 8px;
+  list-style: none;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card_list_item {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.card_list_item:last-child {
+  margin-bottom: 0;
 }
 
 .card_div h2 {
@@ -33,4 +114,36 @@
 
 .grid.grid-cols-3.gap-8 h2 {
   text-align: center;
+}
+
+/* Responsive styles for cards on mobile */
+@media (max-width: 768px) {
+  .card_div {
+    width: 100% !important;
+    min-width: 100% !important;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .card_div_heading {
+    font-size: 18px;
+    padding: 0 8px;
+  }
+
+  .card_div_para {
+    padding: 0 4px;
+  }
+
+  .card_list_item {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .card_div {
+    width: 31%;
+    padding: 28px 20px;
+  }
 }

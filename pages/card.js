@@ -1,41 +1,27 @@
 import React from 'react'
-import '../styles/Enterprise.module.css'
+import styles from '../styles/Enterprise.module.css'
 const Card = ({ svg, heading, para }) => {
   return (
     <div
-      className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg card_div"
+      className={`flex flex-col items-center border-gray-800 rounded-lg ${styles.card_div}`}
       style={{
         transition: '0.3s',
-        display: 'flex',
-        flexDirection: 'column',
-        width: '29%',
-        alignItems: 'center',
-        justifyContent: 'center',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-        padding: '12px',
         backgroundColor: '#28262f',
         borderRadius: '10px',
+        height: '100%',
       }}
     >
-      <div className="color" style={{ margin: '9px 0px' }}>
+      <div className={`color ${styles.card_div_icon}`}>
         {svg}
       </div>
-      <h2
-        className="text-xl font-bold text-white card_div_heading"
-        style={{ margin: '11px 30px', textAlign: 'center', color: 'white' }}
-      >
+      <h2 className={`text-xl font-bold text-white ${styles.card_div_heading}`}>
         {heading}
       </h2>
       {Array.isArray(para) ? (
-        <ul
-          className="color"
-          style={{
-            textAlign: 'center',
-            margin: '0px 25spx',
-          }}
-        >
+        <ul className={`color ${styles.card_div_para}`}>
           {para.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={`${item}-${index}`} className={styles.card_list_item}>{item}</li>
           ))}
         </ul>
       ) : (

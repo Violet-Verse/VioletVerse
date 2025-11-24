@@ -1,9 +1,9 @@
+import { Burger } from '@mantine/core'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { cubicBezier, easeOut } from 'motion'
 import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { Burger } from '@mantine/core'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import mobileMenuClasses from './MobileMenu.module.css'
 
 // Animation variants

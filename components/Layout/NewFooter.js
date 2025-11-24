@@ -1,8 +1,8 @@
+import InstagramIcon from '@mui/icons-material/Instagram'
+import TwitterIcon from '@mui/icons-material/Twitter'
 import { Box, Grid, Stack } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import TwitterIcon from '@mui/icons-material/Twitter'
 import styles from '../../styles/Footer.module.css'
 
 const Footer = () => {

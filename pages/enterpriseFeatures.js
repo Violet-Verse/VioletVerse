@@ -34,7 +34,13 @@ const EnterpriseFeatures = () => {
             <div className="w-full max-w-full space-y-4 mx-auto">
               <div
                 className="grid grid-cols-3 gap-8"
-                style={{ display: 'flex', justifyContent: 'space-between' }}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'stretch',
+                  flexWrap: 'wrap',
+                  gap: '32px',
+                }}
               >
                 <Card
                   svg={
@@ -115,7 +121,10 @@ const EnterpriseFeatures = () => {
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  marginTop: '40px',
+                  alignItems: 'stretch',
+                  flexWrap: 'wrap',
+                  gap: '32px',
+                  marginTop: '48px',
                 }}
               >
                 <Card

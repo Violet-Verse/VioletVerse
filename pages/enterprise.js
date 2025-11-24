@@ -1,8 +1,10 @@
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import Image from 'next/image'
 import Head from 'next/head'
 import styles from '../styles/Enterprise.module.css'
-import EnterpriseFeatures from './enterpriseFeatures'
+import EnterpriseFeatures from '../components/enterprise/EnterpriseFeatures'
+import SponsorCards from '../components/enterprise/SponsorCards'
+import GithubButton from '../components/enterprise/GithubButton'
 
 const Enterprise = () => {
   const siteTitle = `Enterprise Plan | Violet Verse`
@@ -58,13 +60,7 @@ const Enterprise = () => {
             </p>
           </Grid>
           <Grid item>
-            <Button
-              variant="contained"
-              disableElevation
-              href="https://github.com/Violet-Verse/VioletVerse"
-            >
-              Join our Github to learn more
-            </Button>
+            <GithubButton />
           </Grid>
         </Grid>
       </Box>
@@ -111,13 +107,7 @@ const Enterprise = () => {
                 </p>
               </Grid>
               <Grid item>
-                <Button
-                  variant="contained"
-                  disableElevation
-                  href="https://github.com/Violet-Verse/VioletVerse"
-                >
-                  Join our Github to learn more
-                </Button>
+                <GithubButton />
               </Grid>
             </Grid>
           </Grid>
@@ -151,20 +141,13 @@ const Enterprise = () => {
               </p>
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                disableElevation
-                href="https://github.com/Violet-Verse/VioletVerse"
-              >
-                Join our Github to learn more
-              </Button>
+              <GithubButton />
             </Grid>
           </Grid>
         </Grid>
       </Box>
       <Box
         my={18}
-        display={{ xs: 'none', md: 'flex' }}
         sx={{
           px: {
             xs: '0',
@@ -177,37 +160,7 @@ const Enterprise = () => {
       >
         <Grid container justifyContent="center" alignItems="center">
           <Grid item>
-            {/* <Image
-                            alt="web vector"
-                            src="/enterprisefeatures.svg"
-                            height={538}
-                            width={1050}
-                        /> */}
             <EnterpriseFeatures />
-          </Grid>
-        </Grid>
-      </Box>
-      <Box
-        my={18}
-        display={{ xs: 'none', md: 'none' }}
-        sx={{
-          px: {
-            xs: '0',
-            sm: '5%',
-            md: '10%',
-            lg: '15%',
-            xl: '20%',
-          },
-        }}
-      >
-        <Grid container justifyContent="center" alignItems="center">
-          <Grid item>
-            <Image
-              alt="web vector"
-              src="/enterprisefeatures_mobile.svg"
-              height={480}
-              width={341}
-            />
           </Grid>
         </Grid>
       </Box>
@@ -253,13 +206,7 @@ const Enterprise = () => {
                 </p>
               </Grid>
               <Grid item>
-                <Button
-                  variant="contained"
-                  disableElevation
-                  href="https://github.com/Violet-Verse/VioletVerse"
-                >
-                  Join our Github to learn more
-                </Button>
+                <GithubButton />
               </Grid>
             </Grid>
           </Grid>
@@ -303,13 +250,7 @@ const Enterprise = () => {
               </p>
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                disableElevation
-                href="https://github.com/Violet-Verse/VioletVerse"
-              >
-                Join our Github to learn more
-              </Button>
+              <GithubButton />
             </Grid>
           </Grid>
         </Grid>
@@ -347,57 +288,10 @@ const Enterprise = () => {
             </p>
           </Grid>
           <Grid item mb={3}>
-            {/* <img src="/two.png" width={110} height={75} /> */}
-            <img
-              src="/three.png"
-              width={110}
-              height={75}
-              style={{ marginLeft: '10px' }}
-            />
-            <img src="/one.webp" width={110} height={75} style={{ marginLeft: '10px' }} />
-            <img
-              src="/four.png"
-              style={{ backgroundColor: 'white', marginLeft: '10px' }}
-              width={110}
-              height={75}
-            />
-            {/* <Image
-                            alt="hand holding vv coin"
-                            src="/two.png"
-                            height={59}
-                            width={120}
-                            
-                        />
-                         <Image
-                            alt="hand holding vv coin"
-                            src="/three.png"
-                            height={60}
-                            width={130}
-                            style={{marginLeft: ".5em"}}
-                        />
-                          <Image
-                            alt="hand holding vv coin"
-                            src="/one.webp"
-                            height={59}
-                            width={120}
-                            style={{marginLeft: "1px"}}
-                        />
-                         <Image
-                            alt="hand holding vv coin"
-                            src="/four.png"
-                            height={59}
-                            width={130}
-                            style={{marginLeft: "11px"}}
-                        /> */}
+            <SponsorCards />
           </Grid>
           <Grid item>
-            <Button
-              variant="contained"
-              disableElevation
-              href="https://github.com/Violet-Verse/VioletVerse"
-            >
-              Join our Github to learn more
-            </Button>
+            <GithubButton />
           </Grid>
         </Grid>
       </Box>

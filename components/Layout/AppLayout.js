@@ -1,16 +1,17 @@
-import { Box } from '@mui/material'
-import Head from 'next/head'
-import Footer from './NewFooter'
-import Navbar from './Navbar'
-
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { UserContext } from '../Context/UserContext'
-import { useUser } from '../../hooks/useAuth'
-import { NextUIProvider } from '@nextui-org/react'
-import { FlowWrapper } from '../Context/flowContext'
 import { Provider } from '@lyket/react'
+import { Box } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { NextUIProvider } from '@nextui-org/react'
 import { Analytics } from '@vercel/analytics/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useUser } from '../../hooks/useAuth'
+import { FlowWrapper } from '../Context/flowContext'
+import { UserContext } from '../Context/UserContext'
+import Navbar from './Navbar'
+import Footer from './NewFooter'
+
 const Layout = ({ children }) => {
   const { user } = useUser()
   const router = useRouter()
@@ -64,30 +65,41 @@ const Layout = ({ children }) => {
     },
   })
 
-  function addJsonLd() {
-    return {
-      __html: `{
-                "@context":"https://schema.org",
-                "@type":"Organization",
-                "url":"https://violetverse.io",
-                "logo":"https://violetverse.io/logo.png",
-                "name":"Violet Verse",
-                "foundingDate":"2022-09-01",
-                "foundingLocation":{
-                   "@type":"Place",
-                   "name":"Miami, FL"
-                },
-                "description":"Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.",
-                "keywords":"Education, Web3, Technology, Lifestyle",
-                "sameAs":[
-                   "https://twitter.com/TheVioletVerse",
-                   "https://www.instagram.com/violetverse.io/",
-                   "https://www.linkedin.com/company/violet-verse/"
-                ]
-             }
-      `,
-    }
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    url: 'https://violetverse.io',
+    logo: 'https://violetverse.io/logo.png',
+    name: 'Violet Verse',
+    foundingDate: '2022-09-01',
+    foundingLocation: {
+      '@type': 'Place',
+      name: 'Miami, FL',
+    },
+    description:
+      'Violet Verse is a crypto-friendly publication combining the latest trends in tech, documenting the narratives of Web3 builders and providing educational resources to the socially-aware.',
+    keywords: 'Education, Web3, Technology, Lifestyle',
+    sameAs: [
+      'https://twitter.com/TheVioletVerse',
+      'https://www.instagram.com/violetverse.io/',
+      'https://www.linkedin.com/company/violet-verse/',
+    ],
   }
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'product-jsonld'
+    script.text = JSON.stringify(jsonLd)
+    document.head.appendChild(script)
+
+    return () => {
+      const existingScript = document.getElementById('product-jsonld')
+      if (existingScript) {
+        document.head.removeChild(existingScript)
+      }
+    }
+  }, [])
 
   return (
     <UserContext.Provider value={user}>
@@ -113,11 +125,6 @@ const Layout = ({ children }) => {
                   type="image/png"
                   sizes="16x16"
                   href="/favicon-16x16.png"
-                />
-                <script
-                  type="application/ld+json"
-                  dangerouslySetInnerHTML={addJsonLd()}
-                  key="product-jsonld"
                 />
                 <title>{siteTitle}</title>
                 <meta name="description" content={shortDescription} />
