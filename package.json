@@ -6,7 +6,10 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "clean": "rm -rf .next node_modules",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "lint:fix": "biome check --write"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.351.0",
@@ -29,11 +32,12 @@
     "cookie": "^0.5.0",
     "isomorphic-dompurify": "^0.20.0",
     "mongodb": "^5.0.1",
+    "motion": "^12.23.24",
     "nanoid": "^4.0.0",
-    "next": "12.2.5",
+    "next": "16.0.3",
     "nprogress": "^0.2.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.34.0",
     "react-jazzicon": "^1.0.4",
     "react-player": "^2.10.1",
@@ -42,7 +46,7 @@
     "tinymce": "^6.3.2"
   },
   "devDependencies": {
-    "eslint": "8.21.0",
-    "eslint-config-next": "13.1.1"
+    "@biomejs/biome": "2.3.7",
+    "typescript": "5.9.3"
   }
 }

@@ -25,4 +25,4 @@ transaction(contributorAddress: Address, amountVV: UFix64, amountContributor: UF
     log("Transferred Violet Verse Token.")
   }
 }
-`;
+`
