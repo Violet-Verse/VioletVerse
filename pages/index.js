@@ -36,7 +36,7 @@ const Home = ({ posts, authors, contributors }) => {
     };
 
     return (
-        <Box>
+        <Box sx={{ mt: -4 }}>
             <Head>
                 <meta
                     property="og:image"
