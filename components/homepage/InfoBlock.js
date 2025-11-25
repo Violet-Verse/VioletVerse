@@ -26,67 +26,70 @@ const InfoBlock = (props) => {
 
     return (
         <Box sx={{ mt: props.mt, mb: props.mb, my: props.my }}>
-            <Grid
-                container
-                justifyContent="center"
-                alignItems="center"
-                direction="column"
-            >
-                <Grid item sx={{ mb: { xs: 4 } }}>
-                    <Grid container direction="row">
-                        {/* MD Breakpoint */}
-                        <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={100}
-                            />
-                            <h2 style={{ margin: "0 35px" }}>{props.title}</h2>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={100}
-                            />
-                        </Box>
-                        {/* XS Breakpoint */}
-                        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={40}
-                            />
-                            <h2 style={{ margin: "0 15px" }}>New to Web3?</h2>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={40}
-                            />
-                        </Box>
+            {!props.disableTitle && (
+                <Grid
+                    container={true}
+                    justifyContent="center"
+                    alignItems="center"
+                    direction="column"
+                >
+                    <Grid item={true} sx={{ mb: { xs: 4 } }}>
+                        <Grid container={true} direction="row">
+                            {/* MD Breakpoint */}
+                            <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={100}
+                                />
+                                <h2 style={{ margin: "0 35px" }}>{props.title}</h2>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={100}
+                                />
+                            </Box>
+                            {/* XS Breakpoint */}
+                            <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={40}
+                                />
+                                <h2 style={{ margin: "0 15px" }}>{props.title}</h2>
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={40}
+                                />
+                            </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            )}
             <Grid
-                container
+                container={true}
                 spacing={2}
                 align="center"
                 justifyContent="center"
                 sx={{ mt: 4, px: { xs: 10, sm: 0 } }}
             >
                 {newToWeb3Block.map((section) => (
-                    <Grid item sm={12} md={4} key={section.name}>
+                    <Grid item={true} sm={12} md={4} key={section.name}>
                         <Box
                             sx={{
                                 height: "200px",
                                 maxWidth: { sm: "80%", md: "304px" },
                                 background: "#DFDEEF",
+                                borderRadius: "24px",
                             }}
                         >
                             <Grid
-                                container
+                                container={true}
                                 direction="column"
                                 justifyContent="center"
                                 sx={{
@@ -94,19 +97,19 @@ const InfoBlock = (props) => {
                                     px: 2,
                                 }}
                             >
-                                <Grid item>
+                                <Grid item={true}>
                                     <h3 className={styles.header}>
                                         {section.name}
                                     </h3>
                                 </Grid>
-                                <Grid item>
+                                <Grid item={true}>
                                     <h5 className={styles.body}>
                                         {section.description}
                                     </h5>
                                 </Grid>
-                                <Grid item>
-                                    <Link href={section.url}>
-                                        <a>
+                                <Grid item={true}>
+                                    <Link href={section.url} legacyBehavior={true}>
+                                        <a href={section.url}>
                                             <h5 className={styles.link}>
                                                 Learn more
                                             </h5>
