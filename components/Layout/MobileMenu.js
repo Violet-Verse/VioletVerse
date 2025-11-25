@@ -1,9 +1,9 @@
+import { Burger } from '@mantine/core'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { cubicBezier, easeOut } from 'motion'
 import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { Burger } from '@mantine/core'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import mobileMenuClasses from './MobileMenu.module.css'
 
 // Animation variants
@@ -229,10 +229,12 @@ const MobileMenu = ({
                     <SubmenuItem key={category.href} index={subIndex}>
                       <Link
                         href={category.href}
+                        legacyBehavior
                         onClick={() => handleSubmenuClick(category.name)}
-                        className={mobileMenuClasses.submenuButton}
                       >
-                        {category.name}
+                        <a className={mobileMenuClasses.submenuButton}>
+                          {category.name}
+                        </a>
                       </Link>
                     </SubmenuItem>
                   ))}
@@ -244,10 +246,12 @@ const MobileMenu = ({
             <MenuItem index={!user && loaded ? 2 : 1}>
               <Link
                 href="/enterprise"
+                legacyBehavior
                 onClick={() => handleMenuClick(false)}
-                className={mobileMenuClasses.menuButton}
               >
-                Enterprise Plan
+                <a className={mobileMenuClasses.menuButton}>
+                  Enterprise Plan
+                </a>
               </Link>
             </MenuItem>
 
@@ -268,10 +272,12 @@ const MobileMenu = ({
             <MenuItem index={!user && loaded ? 4 : 3}>
               <Link
                 href="/about"
+                legacyBehavior
                 onClick={() => handleMenuClick(false)}
-                className={mobileMenuClasses.menuButton}
               >
-                Community
+                <a className={mobileMenuClasses.menuButton}>
+                  Community
+                </a>
               </Link>
             </MenuItem>
           </motion.div>

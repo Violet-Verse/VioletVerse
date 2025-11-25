@@ -41,7 +41,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(222, 219, 247, 0.3);
   border-radius: 16px;
-  background: #ECE6F9;
+  background: #ece6f9;
   overflow: hidden;
 }
 
@@ -60,13 +60,14 @@
   color: #0a0510;
   font-weight: 500;
   font-size: 1rem;
+  font-family: inherit;
   text-align: left;
   text-decoration: none;
 }
 
 .menuButton:hover {
   background: rgba(222, 219, 247, 0.5);
-  color: #43226D;
+  color: #43226d;
 }
 
 .chevron {
@@ -85,7 +86,8 @@
   will-change: transform, opacity;
   margin: 0.25rem 1.5rem;
   border-radius: 16px;
-  background: rgba(222, 219, 247, 0.6);
+  background: rgba(222, 219, 247, 0.9);
+  border: 1px solid rgba(222, 219, 247, 0.5);
   overflow: hidden;
 }
 
@@ -113,12 +115,14 @@
   width: 100%;
   color: #0a0510;
   font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
   text-align: left;
   text-decoration: none;
 }
 
 .submenuButton:hover {
-  background: rgba(222, 219, 247, 0.5);
-  color: #43226D;
+  background: rgba(222, 219, 247, 0.8);
+  color: #43226d;
 }
 
