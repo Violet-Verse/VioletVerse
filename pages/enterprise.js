@@ -1,8 +1,10 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Image from "next/image";
 import Head from "next/head";
 import styles from "../styles/Enterprise.module.css";
-import EnterpriseFeatures from "./enterpriseFeatures";
+import EnterpriseFeatures from "../components/enterprise/EnterpriseFeatures";
+import SponsorCards from "../components/enterprise/SponsorCards";
+import GithubButton from "../components/enterprise/GithubButton";
 
 const Enterprise = () => {
     const siteTitle = `Enterprise Plan | Violet Verse`;
@@ -29,12 +31,14 @@ const Enterprise = () => {
             <Box
                 sx={{
                     px: {
-                        xs: "0",
+                        xs: "5%",
                         sm: "5%",
                         md: "10%",
-                        lg: "15%",
-                        xl: "20%",
+                        lg: "10%",
+                        xl: "15%",
                     },
+                    backgroundColor: "#43226D",
+                    py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
                 <Grid
@@ -57,19 +61,13 @@ const Enterprise = () => {
                         </p>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
-                            Join our Github to learn more
-                        </Button>
+                        <GithubButton />
                     </Grid>
                 </Grid>
             </Box>
             <Box
-                mt={{ sm: 20, xs: 5 }}
                 sx={{
-                    // borderTop: 70,
-                    // borderBottom: 70,
-                    borderColor: "#F3F0F8",
-                    backgroundColor: "#F3F0F8",
+                    backgroundColor: "black",
                     textAlign: {
                         xs: "center",
                     },
@@ -80,8 +78,8 @@ const Enterprise = () => {
                         lg: "10%",
                         xl: "15%",
                     },
+                    py: { xs: 4, sm: 6, md: 8 },
                 }}
-                style={{ backgroundColor: "black" }}
             >
                 <Grid
                     container
@@ -106,9 +104,7 @@ const Enterprise = () => {
                                 </p>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
-                                    Join our Github to learn more
-                                </Button>
+                                <GithubButton />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -134,8 +130,7 @@ const Enterprise = () => {
                     <Grid item>
                         <Grid item px={{ xl: 6, lg: 0}}>
                             <h1 className={styles.header}>
-                                Keep your audience engaged with Violet Verse
-                                Enterprise.
+                                Your gateway to the heart of the fashion media community.
                             </h1>
                         </Grid>
                         <Grid item my={5}>
@@ -147,76 +142,33 @@ const Enterprise = () => {
                             />
                         </Grid>
                         <Grid item px={{ xl: 38, lg: 0,md:0,xs:0 }} display={{xs: 'none'}}>
-                            <p>
-                                Create and customize a blockchain-based blog
-                                site for your brand or business with streamlined
-                                audience management tools.
+                            <p className="color">
+                                Violet Verse excels at efficiency, simplifying content creator and member onboarding to under 5 minutes.
+                                In fashion&apos;s rapid world, time is precious.
+                                We facilitate connections and discoveries, especially during fashion week.
                             </p>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
-                                Join our Github to learn more
-                            </Button>
+                            <GithubButton />
                         </Grid>
                     </Grid>
                 </Grid>
             </Box>
             <Box
-                my={18}
-                display={{ xs: "none", md: "flex" }}
                 sx={{
-                    px: {
-                        xs: "0",
-                        sm: "5%",
-                        md: "10%",
-                        lg: "15%",
-                        xl: "20%",
-                    },
+                    width: "100%",
+                    backgroundColor: "#43226D",
+                    py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
-                <Grid container justifyContent="center" alignItems="center">
-                    <Grid item>
-                        {/* <Image
-                            alt="web vector"
-                            src="/enterprisefeatures.svg"
-                            height={538}
-                            width={1050}
-                        /> */}
-                        <EnterpriseFeatures />
-                    </Grid>
-                </Grid>
+                <EnterpriseFeatures />
             </Box>
             <Box
-                my={18}
-                display={{ xs: "none", md: "none" }}
-                sx={{
-                    px: {
-                        xs: "0",
-                        sm: "5%",
-                        md: "10%",
-                        lg: "15%",
-                        xl: "20%",
-                    },
-                }}
-            >
-                <Grid container justifyContent="center" alignItems="center">
-                    <Grid item>
-                        <Image
-                            alt="web vector"
-                            src="/enterprisefeatures_mobile.svg"
-                            height={480}
-                            width={341}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
-            <Box
-                style={{ backgroundColor: "black" }}
                 sx={{
                     // borderTop: 70,
                     // borderBottom: 70,
                     borderColor: "#F3F0F8",
-                    backgroundColor: "#F3F0F8",
+                    backgroundColor: "black",
                     textAlign: {
                         xs: "center",
                     },
@@ -227,6 +179,7 @@ const Enterprise = () => {
                         lg: "10%",
                         xl: "15%",
                     },
+                    py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
                 <Grid
@@ -254,9 +207,7 @@ const Enterprise = () => {
                                 </p>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
-                                    Join our Github to learn more
-                                </Button>
+                                <GithubButton />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -282,8 +233,8 @@ const Enterprise = () => {
                     <Grid item>
                         <Grid item px={{ xl: 6, lg: 0}} mt={{xs: 5}}>
                             <h1 className={styles.header}>
-                                Keep your audience engaged with Violet Verse
-                                Enterprise.
+                                Read and collect Article NFTs in a digital
+                                wallet library.
                             </h1>
                         </Grid>
                         <Grid item my={5}>
@@ -295,16 +246,15 @@ const Enterprise = () => {
                             />
                         </Grid>
                         <Grid item px={{ xl: 38, lg: 0 }} display={{xs: 'none'}}>
-                            <p>
-                                Create and customize a blockchain-based blog
-                                site for your brand or business with streamlined
-                                audience management tools.
+                            <p className="color">
+                                At the core of our software lies a dynamic member portal and integrated payment system,
+                                allowing you to effortlessly segregate your content between
+                                public and private domains.
+                                This versatility empowers you to curate your fashion narrative with precision and finesse.
                             </p>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
-                                Join our Github to learn more
-                            </Button>
+                            <GithubButton />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -312,12 +262,14 @@ const Enterprise = () => {
             <Box
                 sx={{
                     px: {
-                        xs: "0",
+                        xs: "5%",
                         sm: "5%",
                         md: "10%",
-                        lg: "15%",
-                        xl: "20%",
+                        lg: "10%",
+                        xl: "15%",
                     },
+                    backgroundColor: "#43226D",
+                    py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
                 <Grid
@@ -326,7 +278,6 @@ const Enterprise = () => {
                     align={"center"}
                     justifyContent={"center"}
                     direction="column"
-                    mt={8}
                     px={{xs: 2}}
                 >
                     <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
@@ -341,56 +292,12 @@ const Enterprise = () => {
                         </p>
                     </Grid>
                     <Grid item mb={3}>
-                        {/* <img src="/two.png" width={110} height={75} /> */}
-                        <img src="/three.png" width={110} height={75} style={{ marginLeft: "10px" }} />
-                        <img src="/one.webp" width={110} height={75} style={{ marginLeft: "10px" }} />
-                        <img src="/four.png" style={{ backgroundColor: "white", marginLeft: "10px" }} width={110} height={75} />
-                        {/* <Image
-                            alt="hand holding vv coin"
-                            src="/two.png"
-                            height={59}
-                            width={120}
-                            
-                        />
-                         <Image
-                            alt="hand holding vv coin"
-                            src="/three.png"
-                            height={60}
-                            width={130}
-                            style={{marginLeft: ".5em"}}
-                        />
-                          <Image
-                            alt="hand holding vv coin"
-                            src="/one.webp"
-                            height={59}
-                            width={120}
-                            style={{marginLeft: "1px"}}
-                        />
-                         <Image
-                            alt="hand holding vv coin"
-                            src="/four.png"
-                            height={59}
-                            width={130}
-                            style={{marginLeft: "11px"}}
-                        /> */}
-
+                        <SponsorCards />
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" disableElevation href="https://github.com/Violet-Verse/VioletVerse">
-                            Join our Github to learn more
-                        </Button>
+                        <GithubButton />
                     </Grid>
                 </Grid>
-            </Box>
-            <Box mt={20}>
-                {/* <Image
-                    layout="responsive"
-                    alt="half circle shape"
-                    src="/enterprisebottom.svg"
-                    height={220}
-                    width={1440}
-                /> */}
-
             </Box>
         </Box>
     );
