@@ -218,14 +218,17 @@ const NewNav = () => {
                 />
               </div>
 
-              {/* Menu Items | Medium or larger */}
+              {/* Menu Items | Desktop only (lg and above) */}
               <div
                 className={`${classes.menuContainer} ${classes.desktop} ${isHydrated ? classes.hydrated : ''}`}
               >
                 <Box
                   sx={{
                     flex: 1,
-                    display: { xs: 'none', lg: 'flex' },
+                    display: { xs: 'none', md: 'none', lg: 'none', xl: 'flex' },
+                    '@media (min-width: 1220px)': {
+                      display: 'flex',
+                    },
                     justifyContent: 'start',
                   }}
                 >
@@ -527,45 +530,23 @@ const NewNav = () => {
                 {!user && (
                   <Box
                     sx={{
-                      display: { xs: 'flex' },
+                      display: { xs: 'flex', md: 'flex', lg: 'flex' },
                       flex: 1,
                       justifyContent: 'end',
                     }}
                   >
-                    {/* Connect Wallet | XS Breakpoint */}
-
-                    <Box
-                      sx={{
-                        display: {
-                          xs: 'flex',
-                          lg: 'none',
-                        },
-                      }}
-                    >
-                      <IconButton
-                        size="large"
-                        aria-label="account"
-                        aria-controls="menu-appbar"
-                        color="inherit"
-                        onClick={() => {
-                          login()
-                          global.analytics.track(
-                            'Login Button Clicked'
-                          )
-                        }}
-                      >
-                        <PersonOutlineSharpIcon
-                          sx={{ fontSize: '32px' }}
-                        />
-                      </IconButton>
-                    </Box>
-
-                    {/* Connect Wallet | Large or larger */}
+                    {/* Connect Wallet | Desktop only (1220px and above) */}
+                    {/* Mobile/Tablet users access Connect Wallet through MobileMenu dropdown */}
                     <Box
                       sx={{
                         display: {
                           xs: 'none',
-                          lg: 'flex',
+                          md: 'none',
+                          lg: 'none',
+                          xl: 'flex',
+                        },
+                        '@media (min-width: 1220px)': {
+                          display: 'flex',
                         },
                       }}
                     >

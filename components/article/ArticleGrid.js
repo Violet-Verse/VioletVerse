@@ -377,11 +377,13 @@ const ArticleGrid = (props) => {
                                             flexDirection: "column",
                                             height: "100%",
                                             cursor: "pointer",
-                                            transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                                            transition: "transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease",
+                                            boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)",
+                                            border: "1px solid transparent",
                                             "&:hover": {
                                                 transform: { xs: "translateY(-2px)", sm: "translateY(-4px)" },
-                                                boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
+                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                                border: "1px solid #A78BFA",
                                                 "& .image-zoom": {
                                                     transform: "scale(1.05)",
                                                 },
