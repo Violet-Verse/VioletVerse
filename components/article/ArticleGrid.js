@@ -338,7 +338,7 @@ const ArticleGrid = (props) => {
             {hasPosts ? (
                 <Grid
                     container
-                    spacing={{ xs: 2, sm: 3, md: 4 }}
+                    spacing={{ xs: 1, sm: 2, md: 2 }}
                     align="center"
                     sx={{
                         mt: props.filter || (props.disableTitle && props.buttonDisabled) ? 0 : { xs: 3, sm: 4 },
@@ -372,7 +372,7 @@ const ArticleGrid = (props) => {
                                         sx={{
                                             backgroundColor: "#F9F4FE",
                                             borderRadius: "24px",
-                                            padding: "16px",
+                                            padding: "8px",
                                             display: "flex",
                                             flexDirection: "column",
                                             height: "100%",
@@ -396,7 +396,7 @@ const ArticleGrid = (props) => {
                                             sx={{
                                                 borderRadius: "16px",
                                                 overflow: "hidden",
-                                                marginBottom: "16px",
+                                                marginBottom: "12px",
                                             }}
                                         >
                                             <Image
@@ -479,11 +479,21 @@ const ArticleGrid = (props) => {
                         </Grid>
                     ))}
                     {!maximum && totalPages > 1 && (
-                        <Grid container justifyContent="center">
+                        <Grid container justifyContent="center" sx={{ mt: 4, mb: 4 }}>
                             <Pagination
                                 count={totalPages}
                                 page={page}
                                 onChange={handleChange}
+                                sx={{
+                                    "& .MuiPaginationItem-root": {
+                                        margin: "0 4px",
+                                        fontSize: "16px",
+                                    },
+                                    "& .MuiPaginationItem-page": {
+                                        minWidth: "40px",
+                                        height: "40px",
+                                    },
+                                }}
                             />
                         </Grid>
                     )}

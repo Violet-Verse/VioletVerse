@@ -5,8 +5,9 @@ import {
     Tooltip,
     Stack,
     CircularProgress,
+    Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -29,6 +30,7 @@ import { transferTokens } from "../cadence/scripts/transactions/purchaseContent"
 import * as fcl from "@blocto/fcl";
 import * as types from "@onflow/types";
 import Tipping from "../components/article/Tipping";
+import TipCreatorButton from "../components/article/TipCreatorButton";
 import connectDatabase from "../lib/mongoClient";
 
 export async function getServerSideProps(context) {
@@ -234,11 +236,11 @@ const Article = ({
                 <Box
                     sx={{
                         px: {
-                            xs: "5%",
-                            sm: "5%",
-                            md: "15%",
-                            lg: "18%",
-                            xl: "22%",
+                            xs: "4%",
+                            sm: "6%",
+                            md: "10%",
+                            lg: "15%",
+                            xl: "20%",
                         },
                     }}
                 >
@@ -247,40 +249,57 @@ const Article = ({
                         justifyContent="center"
                         alignItems="center"
                         direction="column"
-                        spacing={3}
+                        spacing={{ xs: 2, sm: 3 }}
                     >
                         <Grid
                             item
                             sx={{
                                 textAlign: "center",
+                                maxWidth: { xs: "100%", sm: "90%", md: "700px" },
                             }}
                         >
-                            <h1 style={{ maxWidth: "700px" }}>{posts.title}</h1>
+                            <Typography
+                                component="h1"
+                                sx={{
+                                    fontSize: { xs: "32px", sm: "40px", md: "48px" },
+                                    lineHeight: "120%",
+                                }}
+                            >
+                                {posts.title}
+                            </Typography>
                         </Grid>
                         <Grid item>
-                            <Image
-                                src="/line1.svg"
-                                alt="line"
-                                height={1}
-                                width={100}
-                            />
+                            <Box
+                                sx={{
+                                    width: { xs: 60, sm: 80, md: 100 },
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <Image
+                                    src="/line1.svg"
+                                    alt="line"
+                                    height={1}
+                                    width={100}
+                                />
+                            </Box>
                         </Grid>
                         <Grid
                             item
                             sx={{
                                 textAlign: "center",
+                                maxWidth: { xs: "100%", sm: "90%", md: "700px" },
                             }}
                         >
                             <p
-                                style={{
+                                sx={{
                                     fontFamily: "stratos-lights",
                                     fontStyle: "italic",
                                     fontWeight: "200",
-                                    fontSize: "28px",
+                                    fontSize: { xs: "20px", sm: "24px", md: "28px" },
                                     lineHeight: "130%",
                                     letterSpacing: "-0.01em",
                                     color: "#0A0510",
-                                    maxWidth: "700px",
                                 }}
                             >
                                 {posts.tldr}
@@ -634,6 +653,10 @@ const Article = ({
                             variant="contained"
                             onClick={() => Router.push("/posts")}
                             disableElevation
+                            sx={{
+                                fontSize: { xs: "14px", sm: "16px" },
+                                padding: { xs: "10px 24px", sm: "12px 32px" },
+                            }}
                         >
                             See more posts
                         </Button>
@@ -673,11 +696,11 @@ const Article = ({
             <Box
                 sx={{
                     px: {
-                        xs: "5%",
-                        sm: "5%",
-                        md: "15%",
-                        lg: "18%",
-                        xl: "22%",
+                        xs: "4%",
+                        sm: "6%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
                     },
                 }}
             >
@@ -686,40 +709,57 @@ const Article = ({
                     justifyContent="center"
                     alignItems="center"
                     direction="column"
-                    spacing={3}
+                    spacing={{ xs: 2, sm: 3 }}
                 >
                     <Grid
                         item
                         sx={{
                             textAlign: "center",
+                            maxWidth: { xs: "100%", sm: "90%", md: "700px" },
                         }}
                     >
-                        <h1 style={{ maxWidth: "700px" }}>{posts.title}</h1>
+                        <Typography
+                            component="h1"
+                            sx={{
+                                fontSize: { xs: "32px", sm: "40px", md: "48px" },
+                                lineHeight: "120%",
+                            }}
+                        >
+                            {posts.title}
+                        </Typography>
                     </Grid>
                     <Grid item>
-                        <Image
-                            src="/line1.svg"
-                            alt="line"
-                            height={1}
-                            width={100}
-                        />
+                        <Box
+                            sx={{
+                                width: { xs: 60, sm: 80, md: 100 },
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Image
+                                src="/line1.svg"
+                                alt="line"
+                                height={1}
+                                width={100}
+                            />
+                        </Box>
                     </Grid>
                     <Grid
                         item
                         sx={{
                             textAlign: "center",
+                            maxWidth: { xs: "100%", sm: "90%", md: "700px" },
                         }}
                     >
                         <p
-                            style={{
+                            sx={{
                                 fontFamily: "stratos-lights",
                                 fontStyle: "italic",
                                 fontWeight: "200",
-                                fontSize: "28px",
+                                fontSize: { xs: "20px", sm: "24px", md: "28px" },
                                 lineHeight: "130%",
                                 letterSpacing: "-0.01em",
                                 color: "#0A0510",
-                                maxWidth: "700px",
                             }}
                         >
                             {posts.tldr}
@@ -967,7 +1007,7 @@ const Article = ({
                     </Grid>
                 )}
                 {posts.video && (
-                    <Box className="player-wrapper" sx={{ my: 4 }}>
+                    <Box className="player-wrapper" sx={{ my: { xs: 2, sm: 3, md: 4 } }}>
                         <ReactPlayer
                             className="react-player"
                             url={posts.video}
@@ -986,27 +1026,37 @@ const Article = ({
                     spacing={3}
                 >
                     {!posts.video && (
-                        <Grid item sx={{ margin: "50px 0px" }}>
-                            <Image
-                                src={posts.banner}
-                                alt="Violet Verse Banner"
-                                width={1920}
-                                height={1080}
-                                objectFit={"cover"}
-                                className="image"
-                                placeholder="blur"
-                                blurDataURL={posts.banner}
-                            />
+                        <Grid item sx={{ my: { xs: 3, sm: 4, md: 6 }, width: "100%" }}>
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    maxHeight: { xs: "300px", sm: "400px", md: "500px" },
+                                    borderRadius: { xs: "16px", sm: "20px", md: "24px" },
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <Image
+                                    src={posts.banner}
+                                    alt="Violet Verse Banner"
+                                    width={1920}
+                                    height={1080}
+                                    objectFit={"cover"}
+                                    className="image"
+                                    placeholder="blur"
+                                    blurDataURL={posts.banner}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                />
+                            </Box>
                         </Grid>
                     )}
                     <Grid item>
                         <Box sx={{ px: { xs: "4%", sm: "0" } }}>
                             <p
-                                style={{
+                                sx={{
                                     fontFamily: "Test Calibre",
                                     fontStyle: "italic",
                                     fontWeight: "300",
-                                    fontSize: "28px",
+                                    fontSize: { xs: "18px", sm: "22px", md: "28px" },
                                     lineHeight: "130%",
                                     letterSpacing: "-0.01em",
                                     color: "#0A0510",
@@ -1036,55 +1086,48 @@ const Article = ({
                             />
                         </Box>
                     </Grid>
-                    <Grid item>
-                        <Button
-                            onClick={() => {
-                                global.analytics.track(
-                                    "Tip Creator Menu Shown",
-                                    {
-                                        author:
-                                            contributor?.name || author?.name,
-                                        author_address:
-                                            contributor?.flowAddress ||
-                                            author?.flowAddress,
-                                        post_title: posts?.title,
-                                    }
-                                );
-                                setTippingModal(true);
-                            }}
-                            sx={{
-                                color: "#004455",
-                                backgroundColor: "#AAEEFF",
-                                borderRadius: "10px",
-                                "&:hover": {
-                                    backgroundColor: "#8EE8FF",
-                                },
-                            }}
-                        >
-                            Tip Creator
-                        </Button>
-                        <Tipping
-                            open={tippingModal}
-                            handleClose={() => {
-                                setTippingModal(false);
-                                global.analytics.track(
-                                    "Tip Creator Menu Hidden",
-                                    {
-                                        post_title: posts?.title,
-                                        author:
-                                            contributor?.name || author?.name,
-                                        author_address:
-                                            contributor?.flowAddress ||
-                                            author?.flowAddress,
-                                    }
-                                );
-                            }}
-                            address={
-                                contributor?.flowAddress || author?.flowAddress
-                            }
-                            author={contributor?.name || author?.name}
-                            pageTitle={posts?.title}
-                        />
+                    <Grid item sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                        <Box sx={{ px: { xs: "4%", sm: "0" }, width: "100%", maxWidth: "600px" }}>
+                            <TipCreatorButton
+                                onClick={() => {
+                                    global.analytics.track(
+                                        "Tip Creator Menu Shown",
+                                        {
+                                            author:
+                                                contributor?.name || author?.name,
+                                            author_address:
+                                                contributor?.flowAddress ||
+                                                author?.flowAddress,
+                                            post_title: posts?.title,
+                                        }
+                                    );
+                                    setTippingModal(true);
+                                }}
+                                authorName={contributor?.name || author?.name}
+                            />
+                            <Tipping
+                                open={tippingModal}
+                                handleClose={() => {
+                                    setTippingModal(false);
+                                    global.analytics.track(
+                                        "Tip Creator Menu Hidden",
+                                        {
+                                            post_title: posts?.title,
+                                            author:
+                                                contributor?.name || author?.name,
+                                            author_address:
+                                                contributor?.flowAddress ||
+                                                author?.flowAddress,
+                                        }
+                                    );
+                                }}
+                                address={
+                                    contributor?.flowAddress || author?.flowAddress
+                                }
+                                author={contributor?.name || author?.name}
+                                pageTitle={posts?.title}
+                            />
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>
@@ -1117,6 +1160,10 @@ const Article = ({
                         variant="contained"
                         onClick={() => Router.push("/posts")}
                         disableElevation
+                        sx={{
+                            fontSize: { xs: "14px", sm: "16px" },
+                            padding: { xs: "10px 24px", sm: "12px 32px" },
+                        }}
                     >
                         See more posts
                     </Button>
