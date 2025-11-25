@@ -1,0 +1,101 @@
+.section {
+  width: 100%;
+  padding: 0;
+  background-color: transparent;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 600px) {
+  .container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .container {
+    padding: 0 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 48px;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+  line-height: 1.2;
+}
+
+.description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'stratos', sans-serif;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .title {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    width: 100%;
+  }
+}
+

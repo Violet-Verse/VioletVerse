@@ -11,11 +11,10 @@ import {
 import Image from "next/image";
 import Router from "next/router";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
 import styles from "../../styles/ArticleGrid.module.css";
-import { setRevalidateHeaders } from "next/dist/server/send-payload";
 
 const ArticleGrid = (props) => {
     const { query } = useRouter();
@@ -147,7 +146,7 @@ const ArticleGrid = (props) => {
                             <Grid container direction="row">
                                 {/* MD Breakpoint */}
                                 <Box
-                                    sx={{ display: { xs: "none", md: "flex" } }}
+                                    sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
                                 >
                                     <Image
                                         src="/line1.svg"
@@ -167,7 +166,7 @@ const ArticleGrid = (props) => {
                                 </Box>
                                 {/* XS Breakpoint */}
                                 <Box
-                                    sx={{ display: { xs: "flex", md: "none" } }}
+                                    sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
                                 >
                                     <Image
                                         src="/line1.svg"
@@ -193,6 +192,7 @@ const ArticleGrid = (props) => {
                                     <Box
                                         sx={{
                                             display: { xs: "none", md: "flex" },
+                                            alignItems: "center",
                                         }}
                                     >
                                         <Image
@@ -222,6 +222,7 @@ const ArticleGrid = (props) => {
                                     <Box
                                         sx={{
                                             display: { xs: "flex", md: "none" },
+                                            alignItems: "center",
                                         }}
                                     >
                                         <Image
@@ -264,6 +265,11 @@ const ArticleGrid = (props) => {
                             value={searchValue}
                             onChange={handleSearchChange}
                             fullWidth
+                            sx={{
+                                "& .MuiOutlinedInput-root": {
+                                    borderRadius: "24px",
+                                },
+                            }}
                         />
                     </Grid>
                 )}
@@ -332,35 +338,69 @@ const ArticleGrid = (props) => {
             {hasPosts ? (
                 <Grid
                     container
-                    spacing={2}
+                    spacing={{ xs: 1, sm: 2, md: 2 }}
                     align="center"
                     sx={{
-                        mt: props.filter || props.disableTitle ? 0 : 4,
-                        px: { xs: 6, sm: 0 },
+                        mt: props.filter || (props.disableTitle && props.buttonDisabled) ? 0 : { xs: 3, sm: 4 },
+                        px: { xs: 2, sm: 3, md: 4, lg: 0 },
                     }}
                     justifyContent="left"
                 >
-                    <Grid container spacing={4}>
-                        {visiblePosts.map((post) => (
-                            <Grid
-                                item
-                                xs={12}
-                                sm={6}
-                                md={4}
-                                key={Number(post._id)}
-                                style={{
-                                    display: "flex",
-                                }}
-                            >
-                                <Link href={"/" + post.slug}>
-                                    <a
-                                        style={{
+                    {visiblePosts.map((post) => (
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            md={4}
+                            key={Number(post._id)}
+                            sx={{
+                                display: "flex",
+                            }}
+                        >
+                            <Link href={"/" + post.slug} legacyBehavior>
+                                <a
+                                    href={"/" + post.slug}
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        width: "100%",
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            backgroundColor: "#F9F4FE",
+                                            borderRadius: "24px",
+                                            padding: "8px",
                                             display: "flex",
-                                            justifyContent: "space-between",
                                             flexDirection: "column",
+                                            height: "100%",
+                                            cursor: "pointer",
+                                            transition: "transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease",
+                                            boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)",
+                                            border: "1px solid transparent",
+                                            "&:hover": {
+                                                transform: { xs: "translateY(-2px)", sm: "translateY(-4px)" },
+                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                                border: "1px solid #A78BFA",
+                                                "& .image-zoom": {
+                                                    transform: "scale(1.05)",
+                                                },
+                                            },
+                                            "&:active": {
+                                                transform: "scale(0.99)",
+                                            },
                                         }}
                                     >
-                                        <Box className={styles.container}>
+                                        <Box
+                                            className={styles.container}
+                                            sx={{
+                                                borderRadius: "16px",
+                                                overflow: "hidden",
+                                                marginBottom: "12px",
+                                            }}
+                                        >
                                             <Image
                                                 src={
                                                     youtubeParser(post.video) &&
@@ -371,11 +411,14 @@ const ArticleGrid = (props) => {
                                                         : post.banner
                                                 }
                                                 alt="Placeholder Image"
-                                                style={{ borderRadius: "6px" }}
+                                                style={{
+                                                    borderRadius: "16px",
+                                                    transition: "transform 0.3s ease",
+                                                }}
                                                 width={450}
                                                 height={300}
                                                 objectFit="cover"
-                                                className={styles.image}
+                                                className={`${styles.image} image-zoom`}
                                                 placeholder="blur"
                                                 blurDataURL={
                                                     youtubeParser(post.video) &&
@@ -396,7 +439,7 @@ const ArticleGrid = (props) => {
                                         </Box>
 
                                         {authors && (
-                                            <h6 style={{ marginTop: "10px" }}>
+                                            <h6 style={{ marginTop: "0", marginBottom: "8px" }}>
                                                 {filterAuthor(
                                                     post.createdBy,
                                                     post?.contributor
@@ -404,8 +447,8 @@ const ArticleGrid = (props) => {
                                             </h6>
                                         )}
 
-                                        <h3 style={{ marginTop: "21px" }}>
-                                            {post?.hidden == true ? (
+                                        <h3 style={{ marginTop: "0", marginBottom: "8px" }}>
+                                            {post?.hidden === true ? (
                                                 <span
                                                     style={{
                                                         color: "purple",
@@ -425,24 +468,34 @@ const ArticleGrid = (props) => {
                                         </h3>
                                         <h6
                                             style={{
-                                                marginTop: "21px",
-                                                marginBottom: "20px",
+                                                marginTop: "0",
+                                                marginBottom: "0",
                                                 color: "#43226D",
                                             }}
                                         >
                                             in {post.category}
                                         </h6>
-                                    </a>
-                                </Link>
-                            </Grid>
-                        ))}
-                    </Grid>
+                                    </Box>
+                                </a>
+                            </Link>
+                        </Grid>
+                    ))}
                     {!maximum && totalPages > 1 && (
-                        <Grid container justifyContent="center">
+                        <Grid container justifyContent="center" sx={{ mt: 4, mb: 4 }}>
                             <Pagination
                                 count={totalPages}
                                 page={page}
                                 onChange={handleChange}
+                                sx={{
+                                    "& .MuiPaginationItem-root": {
+                                        margin: "0 4px",
+                                        fontSize: "16px",
+                                    },
+                                    "& .MuiPaginationItem-page": {
+                                        minWidth: "40px",
+                                        height: "40px",
+                                    },
+                                }}
                             />
                         </Grid>
                     )}

@@ -55,7 +55,7 @@ export const members = [
         facebook: "",
         twitter: "",
         linkedIn: "",
-        photo: "https://cdn.discordapp.com/attachments/975860284377944124/1014352007563329606/prachi_headshot.jpeg",
+        photo: "/team/Default.png",
     },
     {
         name: "Matthew Mills",
@@ -80,7 +80,7 @@ export const members = [
         facebook: "",
         twitter: "fepoqkq1 ",
         linkedIn: "",
-        photo: "https://pbs.twimg.com/profile_images/1644509435891699713/12sYtnSd_400x400.jpg",
+        photo: "/team/Default.png",
     },
     {
         name: "Van Wilhoite",
@@ -93,6 +93,18 @@ export const members = [
         twitter: "",
         linkedIn: "",
         photo: "https://i.imgur.com/jExOYle.png",
+    },
+    {
+        name: "Zeshan Nurani",
+        teamType: "contributor",
+        id: 9,
+        title: "Contributor",
+        bio: "",
+        website: "",
+        facebook: "",
+        twitter: "zeeesshhhh",
+        linkedIn: "",
+        photo: "/zeshan-pfp.webp",
     },
 ];
 
@@ -108,7 +120,7 @@ export const contributor = [
         facebook: "",
         twitter: "",
         linkedIn: "",
-        photo: "https://cdn.discordapp.com/attachments/975860284377944124/1014352007563329606/prachi_headshot.jpeg",
+        photo: "/team/Default.png",
     },
     {
         name: "Matthew Mills",
@@ -143,5 +155,16 @@ export const contributor = [
         twitter: "",
         linkedIn: "",
         photo: "https://i.imgur.com/jExOYle.png",
+    },
+    {
+        name: "Zeshan Nurani",
+        id: 5,
+        title: "Contributor",
+        bio: "",
+        website: "",
+        facebook: "",
+        twitter: "zeeesshhhh",
+        linkedIn: "",
+        photo: "/zeshan-pfp.webp",
     },
 ];
