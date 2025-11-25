@@ -21,19 +21,7 @@ const About = () => {
         (member) => member.teamType === "contributor"
     );
     return (
-        <Box
-            sx={{
-                px: {
-                    xs: "0",
-                    sm: "5%",
-                    md: "10%",
-                    lg: "15%",
-                    xl: "20%",
-                },
-            }}
-        >
-            {/* Our Team */}
-
+        <>
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="og:title" content={metaTitle} />
@@ -52,15 +40,25 @@ const About = () => {
 
             {/* First section */}
             {/* About the Violet Verse */}
-
-            <Grid
-                container
-                direction="row"
-                spacing={8}
-                justifyContent="space-around"
-                alignItems="center"
-                sx={{ mt: 1 }}
+            <Box
+                sx={{
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                    py: { xs: 4, sm: 6, md: 8 },
+                }}
             >
+                <Grid
+                    container
+                    direction="row"
+                    spacing={8}
+                    justifyContent="space-around"
+                    alignItems="center"
+                >
                 <Grid
                     item
                     md={12}
@@ -98,17 +96,35 @@ const About = () => {
                     />
                 </Grid>
             </Grid>
+            </Box>
 
             {/* 2nd Section */}
             {/* Our Team */}
 
-            <Grid
-                container
-                spacing={2}
-                align="center"
-                sx={{ marginTop: { xs: "30px", md: "30px", lg: "40px" } }}
-                justifyContent="center"
+            <Box
+                sx={{
+                    backgroundColor: "#ece6f9",
+                    py: { xs: 4, sm: 6, md: 8 },
+                    width: "100%",
+                }}
             >
+                <Box
+                    sx={{
+                        px: {
+                            xs: "5%",
+                            sm: "5%",
+                            md: "10%",
+                            lg: "15%",
+                            xl: "20%",
+                        },
+                    }}
+                >
+                    <Grid
+                        container
+                        spacing={2}
+                        align="center"
+                        justifyContent="center"
+                    >
                 <Grid
                     item
                     xs={12}
@@ -255,18 +271,30 @@ const About = () => {
                         </Box>
                     </Grid>
                 ))}
-            </Grid>
+                    </Grid>
+                </Box>
+            </Box>
             {/*Our Contributors section*/}
 
             {/*Spacing between previous containter 'Our Teams'*/}
-
-            <Grid
-                container
-                spacing={2}
-                align="center"
-                sx={{ marginTop: { xs: "30px", md: "30px", lg: "40px" } }}
-                justifyContent="center"
+            <Box
+                sx={{
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                    py: { xs: 4, sm: 6, md: 8 },
+                }}
             >
+                <Grid
+                    container
+                    spacing={2}
+                    align="center"
+                    justifyContent="center"
+                >
                 <Grid
                     item
                     xs={12}
@@ -288,7 +316,7 @@ const About = () => {
                             <a>
                                 <Image
                                     width={1000}
-                                    height={1159}
+                                    height={1000}
                                     src={member.photo}
                                     alt="Default Image"
                                     className="image"
@@ -432,8 +460,9 @@ const About = () => {
                         </Box>
                     </Grid>
                 ))}
-            </Grid>
-        </Box>
+                </Grid>
+            </Box>
+        </>
     );
 };
 
