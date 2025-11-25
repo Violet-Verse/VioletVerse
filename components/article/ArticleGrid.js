@@ -341,7 +341,7 @@ const ArticleGrid = (props) => {
                     spacing={{ xs: 2, sm: 3, md: 4 }}
                     align="center"
                     sx={{
-                        mt: props.filter || props.disableTitle ? 0 : { xs: 3, sm: 4 },
+                        mt: props.filter || (props.disableTitle && props.buttonDisabled) ? 0 : { xs: 3, sm: 4 },
                         px: { xs: 2, sm: 3, md: 4, lg: 0 },
                     }}
                     justifyContent="left"
