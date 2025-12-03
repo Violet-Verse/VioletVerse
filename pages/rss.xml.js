@@ -5,39 +5,55 @@ export async function getServerSideProps({ req, res }) {
   const host = req.headers.host;
   const baseUrl = `${protocol}://${host}`;
 
-  // 1. Call your existing API route
   const apiUrl = `${baseUrl}/api/database/getUserPosts`;
-  const raw = await fetch(apiUrl).then((r) => r.json());
 
-  // 2. Normalize to an array in case the API wraps it
-  let posts = [];
-  if (Array.isArray(raw)) {
-    posts = raw;
-  } else if (Array.isArray(raw?.posts)) {
-    posts = raw.posts;
-  } else if (Array.isArray(raw?.data)) {
-    posts = raw.data;
+  let raw;
+  try {
+    const response = await fetch(apiUrl);
+    raw = await response.json();
+  } catch (e) {
+    console.error("RSS fetch error:", e);
+    raw = [];
   }
 
-  // Helper: strip HTML tags for the RSS description
+  // --- DEBUG: see what we're getting back (check logs on your host) ---
+  console.log(
+    "RSS raw getUserPosts sample:",
+    typeof raw,
+    Array.isArray(raw),
+    JSON.stringify(raw).slice(0, 500)
+  );
+
+  // Normalize to an array in *any* case
+  let posts = [];
+
+  if (Array.isArray(raw)) {
+    posts = raw;
+  } else if (raw && typeof raw === "object") {
+    if (Array.isArray(raw.posts)) {
+      posts = raw.posts;
+    } else if (Array.isArray(raw.data)) {
+      posts = raw.data;
+    } else {
+      // if it's an object keyed by ids, turn values into an array
+      posts = Object.values(raw);
+    }
+  }
+
   const stripHtml = (html = "") =>
     html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
-  // 3. Build <item> blocks
   const itemsXml = posts
     .map((post) => {
-      // 🔁 These keys are based on what I can see in your screenshot:
       const title =
         post.title ||
         post.name ||
         "";
 
-      // If you have a proper slug field, use that here:
       const slug =
         post.slug ||
         post.url_slug ||
-        post._id || // fallback
-        "";
+        post._id || "";
 
       const excerpt =
         post.subtitle ||
@@ -50,8 +66,7 @@ export async function getServerSideProps({ req, res }) {
         post.updatedAt ||
         new Date();
 
-      // TODO: update this path if your post URLs are different
-      const link = `https://violetverse.io/post/${slug}`;
+      const link = `https://violetverse.io/${slug}`;
 
       return `
         <item>
@@ -64,7 +79,6 @@ export async function getServerSideProps({ req, res }) {
     })
     .join("");
 
-  // 4. Full RSS document
   const rss = `
     <rss version="2.0">
       <channel>
