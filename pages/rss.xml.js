@@ -83,7 +83,7 @@ export async function getServerSideProps({ req, res }) {
     })
     .join("");
 
-  const rss = `
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
         <title>VioletVerse</title>
@@ -97,7 +97,8 @@ export async function getServerSideProps({ req, res }) {
     </rss>
   `.trim();
 
-  res.setHeader("Content-Type", "text/xml; charset=utf-8");
+  res.setHeader("Content-Type", "application/rss+xml; charset=utf-8");
+  res.setHeader("Content-Encoding", "utf-8");
   res.write(rss);
   res.end();
 
