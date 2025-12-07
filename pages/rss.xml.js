@@ -1,96 +1,103 @@
 // pages/rss.xml.js
+import connectDatabase from "../lib/mongoClient";
 
 export async function getServerSideProps({ req, res }) {
   const protocol = req.headers["x-forwarded-proto"] || "https";
   const host = req.headers.host;
   const baseUrl = `${protocol}://${host}`;
 
-  const apiUrl = `${baseUrl}/api/database/getUserPosts`;
-
-  let raw;
-  try {
-    const response = await fetch(apiUrl);
-    raw = await response.json();
-  } catch (e) {
-    console.error("RSS fetch error:", e);
-    raw = [];
-  }
-
-  // --- DEBUG: see what we're getting back (check logs on your host) ---
-  console.log(
-    "RSS raw getUserPosts sample:",
-    typeof raw,
-    Array.isArray(raw),
-    JSON.stringify(raw).slice(0, 500)
-  );
-
-  // Normalize to an array in *any* case
   let posts = [];
 
-  if (Array.isArray(raw)) {
-    posts = raw;
-  } else if (raw && typeof raw === "object") {
-    if (Array.isArray(raw.posts)) {
-      posts = raw.posts;
-    } else if (Array.isArray(raw.data)) {
-      posts = raw.data;
-    } else {
-      // if it's an object keyed by ids, turn values into an array
-      posts = Object.values(raw);
-    }
+  try {
+    // Query database directly for public posts (no auth required)
+    const db = await connectDatabase();
+    const collection = db.collection("posts");
+    
+    // Get only public, non-hidden posts, sorted by creation date (newest first)
+    // Limit to 50 most recent posts for RSS feed performance
+    posts = await collection
+      .find({ hidden: { $ne: true } })
+      .sort({ created: -1 })
+      .limit(50)
+      .toArray();
+  } catch (e) {
+    console.error("RSS database error:", e);
+    posts = [];
   }
 
   const stripHtml = (html = "") =>
     html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
+  const escapeXml = (str) => {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  };
+
   const itemsXml = posts
     .map((post) => {
-      const title =
-        post.title ||
-        post.name ||
-        "";
+      const title = post.title || post.name || "Untitled";
 
-      const slug =
-        post.slug ||
-        post.url_slug ||
-        post._id || "";
+      const slug = post.slug || post.url_slug || post._id?.toString() || "";
 
       const excerpt =
         post.subtitle ||
         post.tldr ||
-        stripHtml(post.body || "");
+        stripHtml(post.body || "").substring(0, 300) || "";
 
-      const date =
-        post.createdAt ||
-        post.publishedAt ||
-        post.updatedAt ||
-        new Date();
+      // Use created date, fallback to lastUpdated, then current time as last resort
+      const date = post.created || post.lastUpdated || new Date().toISOString();
 
-      const link = `https://violetverse.io/${slug}`;
+      // Use baseUrl instead of hardcoded domain
+      const link = `${baseUrl}/${slug}`;
+      const guid = `${baseUrl}/${slug}`;
+
+      // Format date properly for RSS
+      let pubDate;
+      try {
+        pubDate = new Date(date).toUTCString();
+      } catch (e) {
+        console.error("RSS date parsing error:", e, date);
+        pubDate = new Date().toUTCString();
+      }
+
+      // Build category if available
+      const categoryXml = post.category
+        ? `<category><![CDATA[${post.category}]]></category>`
+        : "";
 
       return `
         <item>
           <title><![CDATA[${title}]]></title>
-          <link>${link}</link>
-          <pubDate>${new Date(date).toUTCString()}</pubDate>
+          <link>${escapeXml(link)}</link>
+          <guid isPermaLink="true">${escapeXml(guid)}</guid>
+          <pubDate>${pubDate}</pubDate>
           <description><![CDATA[${excerpt}]]></description>
+          ${categoryXml}
         </item>
       `;
     })
     .join("");
 
   const rss = `
-    <rss version="2.0">
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
         <title>VioletVerse</title>
-        <link>https://violetverse.io</link>
+        <link>${baseUrl}</link>
         <description>VioletVerse – digital fashion, AI, and culture</description>
+        <language>en-us</language>
+        <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+        <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml" />
         ${itemsXml}
       </channel>
     </rss>
   `.trim();
 
-  res.setHeader("Content-Type", "text/xml");
+  res.setHeader("Content-Type", "text/xml; charset=utf-8");
   res.write(rss);
   res.end();
 
