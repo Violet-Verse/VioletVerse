@@ -2,23 +2,6 @@ import { createContext, useContext } from "react";
 import React, { useState, useEffect } from "react";
 import { useUser } from "../../hooks/useAuth";
 
-// Dynamic import for FCL - only loads on client side
-let fcl = null;
-let types = null;
-
-if (typeof window !== 'undefined') {
-    fcl = require("@onflow/fcl");
-    types = require("@onflow/types");
-    
-    // Configure FCL for Flow Mainnet
-    fcl.config({
-        "accessNode.api": "https://rest-mainnet.onflow.org",
-        "discovery.wallet": "https://fcl-discovery.onflow.org/authn",
-        "app.detail.title": "Violet Verse",
-        "app.detail.icon": "https://violetverse.io/logo.png",
-    });
-}
-
 const FlowContext = createContext();
 
 export function nFormatter(num, digits) {
@@ -50,25 +33,44 @@ export function FlowWrapper({ children }) {
     const { user, loaded } = useUser();
 
     useEffect(() => {
-        // Only run on client side when FCL is available
-        if (!fcl || !types || !user?.flowAddress) return;
+        // Only run on client side
+        if (typeof window === 'undefined' || !user?.flowAddress) return;
         
-        // Dynamically import getBalance script
-        import("../../cadence/scripts/getBalance").then(({ getBalance }) => {
+        // Dynamically import everything
+        Promise.all([
+            import("@onflow/fcl"),
+            import("@onflow/types"),
+            import("../../cadence/scripts/getBalance")
+        ]).then(([fclModule, typesModule, { getBalance }]) => {
+            const fcl = fclModule.default || fclModule;
+            const types = typesModule.default || typesModule;
+            
+            // Configure FCL
+            fcl.config({
+                "accessNode.api": "https://rest-mainnet.onflow.org",
+                "discovery.wallet": "https://fcl-discovery.onflow.org/authn",
+                "app.detail.title": "Violet Verse",
+                "app.detail.icon": "https://violetverse.io/logo.png",
+            });
+            
             const getAccountBalance = async () => {
-                await fcl
-                    .send([
-                        fcl.script(getBalance),
-                        fcl.args([fcl.arg(user?.flowAddress, types.Address)]),
-                    ])
-                    .then(fcl.decode)
-                    .then((data) => setUserBalance(data))
-                    .catch((err) => {
-                        setUserBalance(null);
-                        console.log(err);
-                    });
+                try {
+                    const data = await fcl
+                        .send([
+                            fcl.script(getBalance),
+                            fcl.args([fcl.arg(user?.flowAddress, types.Address)]),
+                        ])
+                        .then(fcl.decode);
+                    setUserBalance(data);
+                } catch (err) {
+                    setUserBalance(null);
+                    console.log(err);
+                }
             };
+            
             getAccountBalance();
+        }).catch(err => {
+            console.error("Failed to load Flow modules:", err);
         });
     }, [user]);
 
