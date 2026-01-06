@@ -1,23 +1,26 @@
-import * as fcl from "@onflow/fcl";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  
+  webpack: (config, { isServer }) => {
+    // Exclude Flow FCL from server-side bundle
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('@onflow/fcl', '@onflow/types');
+    }
 
-// Only configure FCL on the client side (browser)
-if (typeof window !== 'undefined') {
-    const resolver = async () => {
-        const response = await fetch("/api/auth/generate");
-        const { nonce } = await response.json();
-        return {
-            appIdentifier: "VioletVerse",
-            nonce,
-        };
-    };
-
-    fcl.config({
-        "app.detail.title": "Violet Verse",
-        "app.detail.icon": "https://i.imgur.com/jDJnCzx.png",
-        "accessNode.api": "https://rest-mainnet.onflow.org",
-        "0xVioletVerse": "0xf5f7db710acb59d3",
-        "discovery.wallet": "https://fcl-discovery.onflow.org/authn",
-        "fcl.accountProof.resolver": resolver,
-        "discovery.wallet.method": "HTTP/POST"
+    // Handle newer JavaScript syntax for Privy dependencies
+    config.module.rules.push({
+      test: /\.m?js$/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false,
+      },
     });
-}
+
+    return config;
+  },
+};
+
+module.exports = nextConfig;
