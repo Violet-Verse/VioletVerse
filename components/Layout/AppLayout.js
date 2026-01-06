@@ -2,15 +2,21 @@ import { Box } from "@mui/material";
 import Head from "next/head";
 import Footer from "./NewFooter";
 import Navbar from "./Navbar";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from "../Context/UserContext";
 import { useUser } from "../../hooks/useAuth";
 import { NextUIProvider } from "@nextui-org/react";
-import { FlowWrapper } from "../Context/flowContext";
 import { Provider } from "@lyket/react";
 import { Analytics } from "@vercel/analytics/react";
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+
+// Dynamically import FlowWrapper with no SSR
+const FlowWrapper = dynamic(
+    () => import('../Context/flowContext').then(mod => mod.FlowWrapper),
+    { ssr: false }
+);
+
 const Layout = ({ children }) => {
     const { user } = useUser();
     const router = useRouter();
