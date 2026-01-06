@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
-import React, { useState, useEffect } from "react";
-import { useUser } from "../../hooks/useAuth";
+import React from "react";
 
 const FlowContext = createContext();
 
@@ -29,53 +28,9 @@ export function nFormatter(num, digits) {
 }
 
 export function FlowWrapper({ children }) {
-    const [userBalance, setUserBalance] = useState(0);
-    const { user, loaded } = useUser();
-
-    useEffect(() => {
-        // Only run on client side
-        if (typeof window === 'undefined' || !user?.flowAddress) return;
-        
-        // Dynamically import everything
-        Promise.all([
-            import("@onflow/fcl"),
-            import("@onflow/types"),
-            import("../../cadence/scripts/getBalance")
-        ]).then(([fclModule, typesModule, { getBalance }]) => {
-            const fcl = fclModule.default || fclModule;
-            const types = typesModule.default || typesModule;
-            
-            // Configure FCL
-            fcl.config({
-                "accessNode.api": "https://rest-mainnet.onflow.org",
-                "discovery.wallet": "https://fcl-discovery.onflow.org/authn",
-                "app.detail.title": "Violet Verse",
-                "app.detail.icon": "https://violetverse.io/logo.png",
-            });
-            
-            const getAccountBalance = async () => {
-                try {
-                    const data = await fcl
-                        .send([
-                            fcl.script(getBalance),
-                            fcl.args([fcl.arg(user?.flowAddress, types.Address)]),
-                        ])
-                        .then(fcl.decode);
-                    setUserBalance(data);
-                } catch (err) {
-                    setUserBalance(null);
-                    console.log(err);
-                }
-            };
-            
-            getAccountBalance();
-        }).catch(err => {
-            console.error("Failed to load Flow modules:", err);
-        });
-    }, [user]);
-
+    // Temporarily return 0 balance until we fix FCL
     return (
-        <FlowContext.Provider value={userBalance}>
+        <FlowContext.Provider value={0}>
             {children}
         </FlowContext.Provider>
     );
