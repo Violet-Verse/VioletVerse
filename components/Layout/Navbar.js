@@ -3,9 +3,8 @@ import Logout from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
-import * as fcl from '@blocto/fcl'
+import { usePrivy, useWallets } from '@privy-io/react-auth'
 import { useSWRConfig } from 'swr'
-import '../../flow/config.js'
 import {
   Box,
   Button,
@@ -29,9 +28,12 @@ import SignUpCTA from '../Modal/SignUpCTA.js'
 import { useRouter } from 'next/router'
 import MobileMenu from './MobileMenu'
 import classes from './Navbar.module.css'
+
 const NewNav = () => {
   const router = useRouter()
   const { user, loaded } = useUser()
+  const { login: privyLogin, authenticated, ready, user: privyUser } = usePrivy()
+  const { wallets } = useWallets()
   const isEnterprise = router.asPath.includes('enterprise')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
@@ -95,60 +97,74 @@ const NewNav = () => {
 
   const { mutate } = useSWRConfig()
 
+  // New Privy login function
   const login = async () => {
     try {
-      const res = await fcl.authenticate()
-
-      const accountProofService = res.services.find(
-        (services) => services.type === 'account-proof'
-      )
-
-      const userEmail = res.services.find(
-        (services) => services.type === 'open-id'
-      ).data.email.email
-
-      if (accountProofService) {
-        fetch('/api/auth/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            address: accountProofService.data.address,
-            nonce: accountProofService.data.nonce,
-            signatures: accountProofService.data.signatures,
-            userEmail,
-          }),
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            global.analytics.track(
-              result.registration
-                ? 'User Registration Success'
-                : 'User Login Success ',
-              {
-                ...(result.registration && {
-                  userId: result.userData.userId,
-                }),
-                ...(result.registration && {
-                  email: result.userData.email,
-                }),
-                ...(result.registration && {
-                  role: result.userData.role,
-                }),
-                ...(result.registration && {
-                  flowAddress: result.userData.flowAddress,
-                }),
-              },
-            )
-            mutate('/api/database/getUser')
-          })
-          .catch(() => {
-            fcl.unauthenticate()
-          })
-      }
-    } catch {
-      // Authentication error handled silently
+      await privyLogin()
+      
+      // After Privy login modal closes, get the wallet
+      // Privy handles the wallet connection automatically
+    } catch (error) {
+      console.error('Login failed:', error)
     }
   }
+
+  // Effect to handle authentication after Privy login
+  useEffect(() => {
+    if (authenticated && ready && privyUser && wallets.length > 0) {
+      // Get the first connected wallet
+      const wallet = wallets[0]
+      const walletAddress = wallet.address
+      const walletType = wallet.walletClientType // 'metamask', 'phantom', etc.
+      const chainType = wallet.chainType // 'ethereum', 'solana', 'flow'
+      
+      // Get email if available
+      const userEmail = privyUser.email?.address || privyUser.google?.email || privyUser.twitter?.email || ''
+
+      // Send to backend for verification and session creation
+      fetch('/api/auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          address: walletAddress,
+          walletType: walletType,
+          chainType: chainType,
+          userEmail: userEmail,
+          privyUserId: privyUser.id,
+        }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          global.analytics.track(
+            result.registration
+              ? 'User Registration Success'
+              : 'User Login Success',
+            {
+              ...(result.registration && {
+                userId: result.userData.userId,
+              }),
+              ...(result.registration && {
+                email: result.userData.email,
+              }),
+              ...(result.registration && {
+                role: result.userData.role,
+              }),
+              ...(result.userData.flowAddress && {
+                flowAddress: result.userData.flowAddress,
+              }),
+              ...(result.userData.solanaAddress && {
+                solanaAddress: result.userData.solanaAddress,
+              }),
+              chainType: chainType,
+            }
+          )
+          mutate('/api/database/getUser')
+        })
+        .catch((error) => {
+          console.error('Verification failed:', error)
+        })
+    }
+  }, [authenticated, ready, privyUser, wallets, mutate])
 
   useEffect(() => {
     const ctaClosed = () => {
@@ -505,7 +521,6 @@ const NewNav = () => {
                         </MenuItem>
                         <MenuItem
                           onClick={() => {
-                            fcl.unauthenticate()
                             global.analytics.track(
                               'Logout Button Clicked'
                             )

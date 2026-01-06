@@ -4,6 +4,7 @@ import Layout from "../components/Layout/AppLayout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
+import { PrivyProvider } from '@privy-io/react-auth';
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -28,7 +29,7 @@ Router.events.on("routeChangeComplete", (url) => {
     global.analytics.page(url);
 });
 
-function MyApp({ Component, pageProps }) {
+function AppContent({ Component, pageProps }) {
     const { user, loaded } = useUser();
     const router = useRouter();
 
@@ -98,6 +99,43 @@ function MyApp({ Component, pageProps }) {
         <Layout>
             <Component {...pageProps} />
         </Layout>
+    );
+}
+
+function MyApp({ Component, pageProps }) {
+    return (
+        <PrivyProvider
+            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+            config={{
+                loginMethods: ['wallet'],
+                appearance: {
+                    theme: 'light',
+                    accentColor: '#693E9A', // Matching your purple theme
+                    logo: 'https://violetverse.io/logo.png', // Update with your actual logo URL
+                },
+                supportedChains: [
+                    {
+                        id: 747, // Flow Mainnet
+                        name: 'Flow',
+                        network: 'flow-mainnet',
+                        nativeCurrency: {
+                            name: 'Flow',
+                            symbol: 'FLOW',
+                            decimals: 8,
+                        },
+                        rpcUrls: {
+                            default: { http: ['https://rest-mainnet.onflow.org'] },
+                        },
+                    },
+                ],
+                // Solana configuration
+                solana: {
+                    cluster: 'mainnet-beta',
+                },
+            }}
+        >
+            <AppContent Component={Component} pageProps={pageProps} />
+        </PrivyProvider>
     );
 }
 

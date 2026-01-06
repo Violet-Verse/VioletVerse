@@ -1,9 +1,17 @@
 import { createContext, useContext } from "react";
-import * as fcl from "@blocto/fcl";
+import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import React, { useState, useEffect } from "react";
 import { getBalance } from "../../cadence/scripts/getBalance";
 import { useUser } from "../../hooks/useAuth";
+
+// Configure FCL for Flow Mainnet
+fcl.config({
+    "accessNode.api": "https://rest-mainnet.onflow.org",
+    "discovery.wallet": "https://fcl-discovery.onflow.org/authn",
+    "app.detail.title": "Violet Verse",
+    "app.detail.icon": "https://violetverse.io/logo.png", // Update with your actual logo
+});
 
 const FlowContext = createContext();
 
@@ -33,13 +41,8 @@ export function nFormatter(num, digits) {
 }
 
 export function FlowWrapper({ children }) {
-    // const [user, setUser] = useState();
     const [userBalance, setUserBalance] = useState(0);
     const { user, loaded } = useUser();
-
-    // useEffect(() => {
-    //     fcl.currentUser.subscribe(setUser);
-    // }, []);
 
     useEffect(() => {
         if (user?.flowAddress) {
@@ -51,7 +54,6 @@ export function FlowWrapper({ children }) {
                     ])
                     .then(fcl.decode)
                     .then((data) => setUserBalance(data))
-
                     .catch((err) => {
                         setUserBalance(null);
                         console.log(err);

@@ -27,7 +27,6 @@ import {
 } from "./api/database/getUserForPost";
 
 import { transferTokens } from "../cadence/scripts/transactions/purchaseContent";
-import * as fcl from "@blocto/fcl";
 import * as types from "@onflow/types";
 import Tipping from "../components/article/Tipping";
 import TipCreatorButton from "../components/article/TipCreatorButton";
