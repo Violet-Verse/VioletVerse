@@ -12,9 +12,13 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
 // Dynamically import FlowWrapper with no SSR
+// Replace the FlowWrapper dynamic import with this:
 const FlowWrapper = dynamic(
     () => import('../Context/flowContext').then(mod => mod.FlowWrapper),
-    { ssr: false }
+    { 
+        ssr: false,
+        loading: () => <></> // Empty fragment while loading
+    }
 );
 
 const Layout = ({ children }) => {
