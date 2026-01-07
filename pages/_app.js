@@ -110,25 +110,10 @@ function MyApp({ Component, pageProps }) {
                 loginMethods: ['wallet'],
                 appearance: {
                     theme: 'light',
-                    accentColor: '#693E9A', // Matching your purple theme
-                    logo: 'https://violetverse.io/logo.png', // Update with your actual logo URL
+                    accentColor: '#693E9A',
+                    logo: 'https://violetverse.io/logo.png',
                 },
-                supportedChains: [
-                    {
-                        id: 747, // Flow Mainnet
-                        name: 'Flow',
-                        network: 'flow-mainnet',
-                        nativeCurrency: {
-                            name: 'Flow',
-                            symbol: 'FLOW',
-                            decimals: 8,
-                        },
-                        rpcUrls: {
-                            default: { http: ['https://rest-mainnet.onflow.org'] },
-                        },
-                    },
-                ],
-                // Solana configuration
+                // Solana only
                 solana: {
                     cluster: 'mainnet-beta',
                 },

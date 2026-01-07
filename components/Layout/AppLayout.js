@@ -9,17 +9,6 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Provider } from "@lyket/react";
 import { Analytics } from "@vercel/analytics/react";
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
-
-// Dynamically import FlowWrapper with no SSR
-// Replace the FlowWrapper dynamic import with this:
-const FlowWrapper = dynamic(
-    () => import('../Context/flowContext').then(mod => mod.FlowWrapper),
-    { 
-        ssr: false,
-        loading: () => <></> // Empty fragment while loading
-    }
-);
 
 const Layout = ({ children }) => {
     const { user } = useUser();
@@ -102,90 +91,88 @@ const Layout = ({ children }) => {
     return (
         <UserContext.Provider value={user}>
             <Provider apiKey={process.env.NEXT_PUBLIC_LYKET_API}>
-                <FlowWrapper>
-                    <ThemeProvider theme={theme}>
-                        <NextUIProvider>
-                            <Head>
-                                <link rel="icon" href="/favicon.ico" />
-                                <link
-                                    rel="apple-touch-icon"
-                                    sizes="180x180"
-                                    href="/apple-touch-icon.png"
-                                />
-                                <link
-                                    rel="icon"
-                                    type="image/png"
-                                    sizes="32x32"
-                                    href="/favicon-32x32.png"
-                                />
-                                <link
-                                    rel="icon"
-                                    type="image/png"
-                                    sizes="16x16"
-                                    href="/favicon-16x16.png"
-                                />
-                                <script
-                                    type="application/ld+json"
-                                    dangerouslySetInnerHTML={addJsonLd()}
-                                    key="product-jsonld"
-                                />
-                                <title>{siteTitle}</title>
-                                <meta
-                                    name="description"
-                                    content={shortDescription}
-                                />
-                                <meta
-                                    name="og:site_name"
-                                    content="Violet Verse"
-                                />
-                                <meta name="og:title" content={metaTitle} />
-                                <meta
-                                    name="og:description"
-                                    content={siteDescription}
-                                />
-                                <meta
-                                    property="og:image:type"
-                                    content="image/png"
-                                />
-                                <meta property="og:image:width" content="800" />
-                                <meta
-                                    property="og:image:height"
-                                    content="420"
-                                />
-                                <meta property="og:type" content="website" />
-                                <meta
-                                    name="twitter:site"
-                                    content="@TheVioletVerse"
-                                />
-                                <meta
-                                    name="twitter:title"
-                                    content={metaTitle}
-                                />
-                                <meta
-                                    name="twitter:description"
-                                    content={siteDescription}
-                                />
-                                <meta
-                                    name="twitter:card"
-                                    content="summary_large_image"
-                                />
-                            </Head>
-                            <Box className={`${color}`}>
-                                <Navbar />
-                                <Box
-                                    className="pageContainer"
-                                    sx={{
-                                        mt: 4,
-                                    }}
-                                >
-                                    {children}
-                                    <Analytics />
-                                </Box>
-                                <Footer />
+                <ThemeProvider theme={theme}>
+                    <NextUIProvider>
+                        <Head>
+                            <link rel="icon" href="/favicon.ico" />
+                            <link
+                                rel="apple-touch-icon"
+                                sizes="180x180"
+                                href="/apple-touch-icon.png"
+                            />
+                            <link
+                                rel="icon"
+                                type="image/png"
+                                sizes="32x32"
+                                href="/favicon-32x32.png"
+                            />
+                            <link
+                                rel="icon"
+                                type="image/png"
+                                sizes="16x16"
+                                href="/favicon-16x16.png"
+                            />
+                            <script
+                                type="application/ld+json"
+                                dangerouslySetInnerHTML={addJsonLd()}
+                                key="product-jsonld"
+                            />
+                            <title>{siteTitle}</title>
+                            <meta
+                                name="description"
+                                content={shortDescription}
+                            />
+                            <meta
+                                name="og:site_name"
+                                content="Violet Verse"
+                            />
+                            <meta name="og:title" content={metaTitle} />
+                            <meta
+                                name="og:description"
+                                content={siteDescription}
+                            />
+                            <meta
+                                property="og:image:type"
+                                content="image/png"
+                            />
+                            <meta property="og:image:width" content="800" />
+                            <meta
+                                property="og:image:height"
+                                content="420"
+                            />
+                            <meta property="og:type" content="website" />
+                            <meta
+                                name="twitter:site"
+                                content="@TheVioletVerse"
+                            />
+                            <meta
+                                name="twitter:title"
+                                content={metaTitle}
+                            />
+                            <meta
+                                name="twitter:description"
+                                content={siteDescription}
+                            />
+                            <meta
+                                name="twitter:card"
+                                content="summary_large_image"
+                            />
+                        </Head>
+                        <Box className={`${color}`}>
+                            <Navbar />
+                            <Box
+                                className="pageContainer"
+                                sx={{
+                                    mt: 4,
+                                }}
+                            >
+                                {children}
+                                <Analytics />
                             </Box>
-                        </NextUIProvider>
-                    </ThemeProvider>
-                </FlowWrapper>
+                            <Footer />
+                        </Box>
+                    </NextUIProvider>
+                </ThemeProvider>
             </Provider>
         </UserContext.Provider>
     );

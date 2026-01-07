@@ -23,7 +23,6 @@ import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import { useUser } from '../../hooks/useAuth'
 import UserAvatar from '../user/UserAvatar'
-import { nFormatter, useFlowContext } from '../Context/flowContext'
 import SignUpCTA from '../Modal/SignUpCTA.js'
 import { useRouter } from 'next/router'
 import MobileMenu from './MobileMenu'
@@ -79,8 +78,6 @@ const NewNav = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  const vvTokens = nFormatter(useFlowContext(), 2)
-
   const dashboardPermission = user?.role === 'admin' || user?.role === 'contributor'
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -116,7 +113,7 @@ const NewNav = () => {
       const wallet = wallets[0]
       const walletAddress = wallet.address
       const walletType = wallet.walletClientType // 'metamask', 'phantom', etc.
-      const chainType = wallet.chainType // 'ethereum', 'solana', 'flow'
+      const chainType = wallet.chainType // 'ethereum', 'solana'
       
       // Get email if available
       const userEmail = privyUser.email?.address || privyUser.google?.email || privyUser.twitter?.email || ''
@@ -149,11 +146,11 @@ const NewNav = () => {
               ...(result.registration && {
                 role: result.userData.role,
               }),
-              ...(result.userData.flowAddress && {
-                flowAddress: result.userData.flowAddress,
-              }),
               ...(result.userData.solanaAddress && {
                 solanaAddress: result.userData.solanaAddress,
+              }),
+              ...(result.userData.ethereumAddress && {
+                ethereumAddress: result.userData.ethereumAddress,
               }),
               chainType: chainType,
             }
@@ -314,7 +311,7 @@ const NewNav = () => {
                 </a>
               </Link>
 
-                {/* Connect Wallet + VV Tokens || Logged In*/}
+                {/* Profile Menu || Logged In*/}
 
                 {user && (
                   <Box
@@ -324,41 +321,6 @@ const NewNav = () => {
                       justifyContent: 'end',
                     }}
                   >
-                    {/* VV Tokens | Large or larger */}
-
-                    <Box
-                      sx={{
-                        display: {
-                          xs: 'none',
-                          lg: 'flex',
-                        },
-                        mr: { xs: 0, lg: 6 },
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        disableElevation={true}
-                        onClick={() => Router.push('/tokens')}
-                        sx={{
-                          fontWeight: '400',
-                          fontSize: '16px',
-                          py: 1.5,
-                          px: 2.5,
-                        }}
-                      >
-                        <Image
-                          alt="edit"
-                          src="/star.svg"
-                          height={16}
-                          width={16}
-                        />
-                        &nbsp;&nbsp;
-                        {vvTokens
-                          ? `${vvTokens} $VV Tokens`
-                          : `Setup VV Wallet`}
-                      </Button>
-                    </Box>
-
                     {/* Profile Avatar Menu | All Breakpoints */}
 
                     <Box
@@ -483,23 +445,6 @@ const NewNav = () => {
                             Dashboard
                           </MenuItem>
                         )}
-                        <MenuItem
-                          onClick={() => {
-                            Router.push('/tokens')
-                            global.analytics.track(
-                              'Profile Menu Item Clicked',
-                              {
-                                page: 'Dashboard Page',
-                              }
-                            )
-                            setAnchorElUser(null)
-                          }}
-                        >
-                          <ListItemIcon>
-                            <AccountBalanceWalletIcon fontSize="small" />
-                          </ListItemIcon>
-                          My Wallet
-                        </MenuItem>
                         <MenuItem
                           onClick={() => {
                             Router.push(

@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         issuer: data.address,
         address: data.address,
         email: data.userEmail,
-        chainType: data.chainType, // 'ethereum', 'solana', 'flow'
+        chainType: data.chainType, // 'ethereum', 'solana'
         walletType: data.walletType, // 'metamask', 'phantom', etc.
         privyUserId: data.privyUserId,
     };
@@ -69,8 +69,6 @@ export default async function handler(req, res) {
                                 // User does not exist in Stardust.gg -- ADD NEW USER
                                 const addressField = data.chainType === 'solana' 
                                     ? 'solanaAddress' 
-                                    : data.chainType === 'flow'
-                                    ? 'flowAddress'
                                     : 'ethereumAddress';
                                 
                                 const newUserFields = {
@@ -124,8 +122,6 @@ export default async function handler(req, res) {
                     try {
                         const addressField = data.chainType === 'solana' 
                             ? 'solanaAddress' 
-                            : data.chainType === 'flow'
-                            ? 'flowAddress'
                             : 'ethereumAddress';
                         
                         const newUserFields = {
