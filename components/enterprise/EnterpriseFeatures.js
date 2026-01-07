@@ -138,8 +138,8 @@ const EnterpriseFeatures = () => {
           <h2 className={styles.title}>Discover Our Unique Features</h2>
           <p className={styles.description}>
             At Violet Verse, we&apos;ve meticulously crafted a suite of features that
-            cater specifically to the intricate demands of the fashion media
-            community. Our platform is a symphony of global diversity, heightened
+            cater specifically to the intricate demands of the government, media, and entertainment
+            communities. Our platform is a symphony of global diversity, heightened
             productivity, and streamlined workflows, all tailored to meet your unique
             needs.
           </p>

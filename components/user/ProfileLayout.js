@@ -10,10 +10,8 @@ import {
 import { useUser } from "../../hooks/useAuth";
 import React, { useState } from "react";
 import Link from "next/link";
-import Router from "next/router";
 import EditPicture from "../Modal/EditPicture";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { nFormatter, useFlowContext } from "../Context/flowContext";
 
 const ProfileLayout = (props) => {
     const { user: loggedInUser } = useUser();
@@ -29,9 +27,9 @@ const ProfileLayout = (props) => {
     const role = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
     const [editPictureModal, setEditPictureModal] = useState(false);
 
-    const vvTokens = nFormatter(useFlowContext(), 2);
-
     const env = process.env.NODE_ENV;
+
+    const walletAddress = user?.solanaAddress || user?.ethereumAddress;
 
     return (
         <Box
@@ -43,7 +41,6 @@ const ProfileLayout = (props) => {
                     lg: "15%",
                     xl: "20%",
                 },
-                // textAlign: "center",
             }}
         >
             {/* Modals */}
@@ -60,7 +57,6 @@ const ProfileLayout = (props) => {
                 container
                 alignItems={{ xs: "flex-start", md: "center" }}
                 direction={{ xs: "column", md: "row" }}
-                // justifyContent={{ xs: "center", md: "flex-start" }}
                 justifyContent="flex-start"
                 spacing={2}
             >
@@ -121,14 +117,12 @@ const ProfileLayout = (props) => {
             </Grid>
             <Stack
                 direction="row"
-                // justifyContent={{ xs: "center", md: "left" }}
                 sx={{ mt: 6 }}
             >
                 <h2>{user?.name}</h2>
             </Stack>
             <Stack
                 direction="row"
-                // justifyContent={{ xs: "center", md: "left" }}
                 sx={{ mt: 2 }}
             >
                 <p
@@ -145,8 +139,8 @@ const ProfileLayout = (props) => {
                             }
                         >
                             <Tooltip title="Visit public profile page">
-                                <a
-                                    style={{
+                                
+                                   <a style={{
                                         fontSize: "22px",
                                     }}
                                 >
@@ -171,7 +165,6 @@ const ProfileLayout = (props) => {
             </Stack>
             <Stack
                 direction="row"
-                // justifyContent={{ xs: "center", md: "left" }}
             >
                 <p
                     style={{
@@ -184,11 +177,10 @@ const ProfileLayout = (props) => {
             {user?.twitter && (
                 <Stack
                     direction="row"
-                    // justifyContent={{ xs: "center", md: "left" }}
                     sx={{ mt: 2 }}
                     spacing={0}
                 >
-                    <a
+                    
                         href={`https://www.twitter.com/` + user?.twitter}
                         target="_blank"
                         rel="noreferrer"
@@ -201,51 +193,29 @@ const ProfileLayout = (props) => {
                     </a>
                 </Stack>
             )}
-            <Stack
-                direction="row"
-                // justifyContent={{ xs: "center", md: "left" }}
-                sx={{ mt: 3 }}
-            >
-                <Tooltip title="Copy Address to Clipboard">
-                    <Button
-                        variant="contained"
-                        disableElevation
-                        sx={{
-                            backgroundColor: "white",
-                            border: 1,
-                            borderColor: "#DED1F7",
-                        }}
-                        onClick={() => {
-                            navigator.clipboard.writeText(user?.flowAddress);
-                        }}
-                    >
-                        {`Flow Address: ${user?.flowAddress}`}
-                    </Button>
-                </Tooltip>
-            </Stack>
-            <Stack
-                direction="row"
-                // justifyContent={{ xs: "center", md: "left" }}
-                sx={{ mt: 3 }}
-            >
-                {isOwner && (
-                    <Button
-                        variant="contained"
-                        disableElevation
-                        onClick={() => Router.push("/tokens")}
-                        sx={{
-                            fontWeight: "400",
-                            fontSize: "16px",
-                            py: 1.5,
-                            px: 2.5,
-                        }}
-                    >
-                        {vvTokens
-                            ? `$VV Tokens: ${vvTokens}`
-                            : "Setup VV Wallet"}
-                    </Button>
-                )}
-            </Stack>
+            {walletAddress && (
+                <Stack
+                    direction="row"
+                    sx={{ mt: 3 }}
+                >
+                    <Tooltip title="Copy Address to Clipboard">
+                        <Button
+                            variant="contained"
+                            disableElevation
+                            sx={{
+                                backgroundColor: "white",
+                                border: 1,
+                                borderColor: "#DED1F7",
+                            }}
+                            onClick={() => {
+                                navigator.clipboard.writeText(walletAddress);
+                            }}
+                        >
+                            {`Wallet: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}
+                        </Button>
+                    </Tooltip>
+                </Stack>
+            )}
         </Box>
     );
 };
