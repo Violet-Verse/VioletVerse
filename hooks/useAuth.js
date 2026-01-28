@@ -1,4 +1,3 @@
-```javascript
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -82,4 +81,3 @@ export function usePosts() {
     isError: postsError,
   };
 }
-```
