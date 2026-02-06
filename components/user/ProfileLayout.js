@@ -180,7 +180,7 @@ const ProfileLayout = (props) => {
                     sx={{ mt: 2 }}
                     spacing={0}
                 >
-                    
+                    <a
                         href={`https://www.twitter.com/` + user?.twitter}
                         target="_blank"
                         rel="noreferrer"

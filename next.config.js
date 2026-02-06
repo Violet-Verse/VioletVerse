@@ -2,6 +2,9 @@
 const nextConfig = {
       reactStrictMode: true,
       swcMinify: true,
+      transpilePackages: [
+            '@rainbow-me/rainbowkit',
+      ],
       images: {
               domains: [
                         "i.imgur.com",
@@ -14,7 +17,7 @@ const nextConfig = {
       },
 
       webpack: (config, { isServer }) => {
-              // Handle newer JavaScript syntax for Privy dependencies
+              // Handle newer JavaScript syntax for dependencies
         config.module.rules.push({
                   test: /\.m?js$/,
                   type: 'javascript/auto',
@@ -22,6 +25,18 @@ const nextConfig = {
                               fullySpecified: false,
                   },
         });
+
+        // Ignore optional React Native dependencies from MetaMask SDK
+        config.resolve.fallback = {
+          ...config.resolve.fallback,
+        };
+
+        if (!isServer) {
+          config.resolve.alias = {
+            ...config.resolve.alias,
+            '@react-native-async-storage/async-storage': false,
+          };
+        }
 
         return config;
       },

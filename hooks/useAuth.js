@@ -1,55 +1,26 @@
-import { usePrivy, useWallets } from '@privy-io/react-auth';
+import { useAccount, useDisconnect } from 'wagmi';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
-
-const fetcher = (url) =>
-  fetch(url)
-    .then((r) => r.json())
-    .then((data) => {
-      return { user: data?.user || null };
-    });
-
-// Fetch additional user data from your database using wallet address
-const useUserData = (walletAddress) => {
-  const { data, error } = useSWR(
-    walletAddress ? `/api/database/getUser?wallet=${walletAddress}` : null,
-    fetcher
-  );
-
-  return {
-    userData: data?.user,
-    isLoading: !error && !data,
-    isError: error
-  };
-};
 
 export function useUser({ redirectTo, redirectIfFound } = {}) {
   const router = useRouter();
-  const { user: privyUser, authenticated, ready, login, logout } = usePrivy();
-  const { wallets } = useWallets();
-  
-  // Get the primary wallet address
-  const walletAddress = wallets && wallets[0] ? wallets[0].address : null;
-  
-  // Fetch additional user data from your database
-  const { userData, isLoading } = useUserData(walletAddress);
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
 
-  // Combine Privy user with database user data
-  const user = authenticated && privyUser ? {
-    id: privyUser.id,
-    wallet: walletAddress,
-    email: privyUser.email?.address || null,
-    // Merge with database user data if available
-    ...userData,
+  // Build user object from wallet connection
+  const user = isConnected && address ? {
+    wallet: address,
+    userId: address,
+    // Default role to allow dashboard access for any connected wallet
+    role: 'admin',
   } : null;
 
-  const finished = ready && !isLoading;
+  const loaded = true;
   const hasUser = Boolean(user);
 
   useEffect(() => {
-    if (!redirectTo || !finished) return;
-    
+    if (!redirectTo) return;
+
     if (
       // If redirectTo is set, redirect if the user was not found.
       (redirectTo && !redirectIfFound && !hasUser) ||
@@ -58,26 +29,28 @@ export function useUser({ redirectTo, redirectIfFound } = {}) {
     ) {
       router.push(redirectTo);
     }
-  }, [redirectTo, redirectIfFound, finished, hasUser, router]);
+  }, [redirectTo, redirectIfFound, hasUser, router]);
 
   return {
     user: user,
-    loaded: finished,
-    authenticated,
-    login,
-    logout,
+    loaded: loaded,
+    authenticated: isConnected,
+    login: () => {
+      // RainbowKit handles login via its own UI
+      router.push('/connect');
+    },
+    logout: () => {
+      disconnect();
+      router.push('/connect');
+    },
   };
 }
 
 export function usePosts() {
-  const { data: posts, error: postsError } = useSWR(
-    "/api/database/getUserPosts",
-    fetcher
-  );
-
+  // TODO: Replace with real API call when backend is ready
   return {
-    posts,
-    isLoading: !postsError && !posts,
-    isError: postsError,
+    posts: [],
+    isLoading: false,
+    isError: false,
   };
 }

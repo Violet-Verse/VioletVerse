@@ -3,8 +3,6 @@ import Logout from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
-import { usePrivy, useWallets } from '@privy-io/react-auth'
-import { useSWRConfig } from 'swr'
 import {
   Box,
   Button,
@@ -30,16 +28,14 @@ import classes from './Navbar.module.css'
 
 const NewNav = () => {
   const router = useRouter()
-  const { user, loaded } = useUser()
-  const { login: privyLogin, authenticated, ready, user: privyUser } = usePrivy()
-  const { wallets } = useWallets()
+  const { user, loaded, logout } = useUser()
   const isEnterprise = router.asPath.includes('enterprise')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
 
   // Identify User for Analytics
   useEffect(() => {
-    if (user) {
+    if (user && typeof global.analytics !== 'undefined') {
       global.analytics.identify(user?.userId, {
         username: user?.name,
         email: user?.email,
@@ -78,7 +74,7 @@ const NewNav = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  const dashboardPermission = user?.role === 'admin' || user?.role === 'contributor'
+  const dashboardPermission = Boolean(user)
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -88,80 +84,16 @@ const NewNav = () => {
   }
 
   const handleCloseUserMenu = () => {
-    global.analytics.track('Profile Menu Hidden')
+    if (typeof global.analytics !== 'undefined') {
+      global.analytics.track('Profile Menu Hidden')
+    }
     setAnchorElUser(null)
   }
 
-  const { mutate } = useSWRConfig()
-
-  // New Privy login function
-  const login = async () => {
-    try {
-      await privyLogin()
-      
-      // After Privy login modal closes, get the wallet
-      // Privy handles the wallet connection automatically
-    } catch (error) {
-      console.error('Login failed:', error)
-    }
+  // Navigate to /connect for wallet connection
+  const login = () => {
+    Router.push('/connect')
   }
-
-  // Effect to handle authentication after Privy login
-  useEffect(() => {
-    if (authenticated && ready && privyUser && wallets.length > 0) {
-      // Get the first connected wallet
-      const wallet = wallets[0]
-      const walletAddress = wallet.address
-      const walletType = wallet.walletClientType // 'metamask', 'phantom', etc.
-      const chainType = wallet.chainType // 'ethereum', 'solana'
-      
-      // Get email if available
-      const userEmail = privyUser.email?.address || privyUser.google?.email || privyUser.twitter?.email || ''
-
-      // Send to backend for verification and session creation
-      fetch('/api/auth/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          address: walletAddress,
-          walletType: walletType,
-          chainType: chainType,
-          userEmail: userEmail,
-          privyUserId: privyUser.id,
-        }),
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          global.analytics.track(
-            result.registration
-              ? 'User Registration Success'
-              : 'User Login Success',
-            {
-              ...(result.registration && {
-                userId: result.userData.userId,
-              }),
-              ...(result.registration && {
-                email: result.userData.email,
-              }),
-              ...(result.registration && {
-                role: result.userData.role,
-              }),
-              ...(result.userData.solanaAddress && {
-                solanaAddress: result.userData.solanaAddress,
-              }),
-              ...(result.userData.ethereumAddress && {
-                ethereumAddress: result.userData.ethereumAddress,
-              }),
-              chainType: chainType,
-            }
-          )
-          mutate('/api/database/getUser')
-        })
-        .catch((error) => {
-          console.error('Verification failed:', error)
-        })
-    }
-  }, [authenticated, ready, privyUser, wallets, mutate])
 
   useEffect(() => {
     const ctaClosed = () => {
@@ -172,7 +104,9 @@ const NewNav = () => {
     const shouldShowCTA = loaded && !ctaClosed() && !user
     if (shouldShowCTA) {
       setSignupCTA(true)
-      global.analytics.track('Signup CTA Displayed')
+      if (typeof global.analytics !== 'undefined') {
+        global.analytics.track('Signup CTA Displayed')
+      }
     } else {
       setSignupCTA(false)
     }
@@ -192,11 +126,15 @@ const NewNav = () => {
       <SignUpCTA
         open={signupCTA}
         handleClose={() => {
-          global.analytics.track('Signup CTA Hidden')
+          if (typeof global.analytics !== 'undefined') {
+            global.analytics.track('Signup CTA Hidden')
+          }
           setFirstVisit()
         }}
         handleSignup={() => {
-          global.analytics.track('Signup CTA Clicked')
+          if (typeof global.analytics !== 'undefined') {
+            global.analytics.track('Signup CTA Clicked')
+          }
           login()
           setFirstVisit()
         }}
@@ -331,12 +269,10 @@ const NewNav = () => {
                       <Tooltip title="Account settings">
                         <IconButton
                           onClick={(event) => {
-                            global.analytics.track(
-                              'Profile Menu Displayed'
-                            )
-                            handleOpenUserMenu(
-                              event
-                            )
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track('Profile Menu Displayed')
+                            }
+                            handleOpenUserMenu(event)
                           }}
                           size="small"
                           aria-controls={
@@ -402,12 +338,12 @@ const NewNav = () => {
                         <MenuItem
                           onClick={() => {
                             Router.push('/profile')
-                            global.analytics.track(
-                              'Profile Menu Item Clicked',
-                              {
-                                page: 'Profile Page',
-                              }
-                            )
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track(
+                                'Profile Menu Item Clicked',
+                                { page: 'Profile Page' }
+                              )
+                            }
                             setAnchorElUser(null)
                           }}
                         >
@@ -425,18 +361,14 @@ const NewNav = () => {
                         {dashboardPermission && (
                           <MenuItem
                             onClick={() => {
-                              Router.push(
-                                '/dashboard'
-                              )
-                              global.analytics.track(
-                                'Profile Menu Item Clicked',
-                                {
-                                  page: 'Dashboard Page',
-                                }
-                              )
-                              setAnchorElUser(
-                                null
-                              )
+                              Router.push('/dashboard')
+                              if (typeof global.analytics !== 'undefined') {
+                                global.analytics.track(
+                                  'Profile Menu Item Clicked',
+                                  { page: 'Dashboard Page' }
+                                )
+                              }
+                              setAnchorElUser(null)
                             }}
                           >
                             <ListItemIcon>
@@ -447,15 +379,13 @@ const NewNav = () => {
                         )}
                         <MenuItem
                           onClick={() => {
-                            Router.push(
-                              '/profile/edit'
-                            )
-                            global.analytics.track(
-                              'Profile Menu Item Clicked',
-                              {
-                                page: 'Edit Profile Page',
-                              }
-                            )
+                            Router.push('/profile/edit')
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track(
+                                'Profile Menu Item Clicked',
+                                { page: 'Edit Profile Page' }
+                              )
+                            }
                             setAnchorElUser(null)
                           }}
                         >
@@ -466,12 +396,10 @@ const NewNav = () => {
                         </MenuItem>
                         <MenuItem
                           onClick={() => {
-                            global.analytics.track(
-                              'Logout Button Clicked'
-                            )
-                            Router.push(
-                              '/api/auth/logout'
-                            )
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track('Logout Button Clicked')
+                            }
+                            logout()
                             setAnchorElUser(null)
                           }}
                         >
@@ -515,9 +443,9 @@ const NewNav = () => {
                         variant="contained"
                         onClick={() => {
                           login()
-                          global.analytics.track(
-                            'Login Button Clicked'
-                          )
+                          if (typeof global.analytics !== 'undefined') {
+                            global.analytics.track('Login Button Clicked')
+                          }
                         }}
                         sx={{
                           py: 1.5,

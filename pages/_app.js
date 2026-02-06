@@ -4,7 +4,12 @@ import Layout from "../components/Layout/AppLayout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
-import { PrivyProvider } from '@privy-io/react-auth';
+
+import "@rainbow-me/rainbowkit/styles.css";
+import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { WagmiProvider } from "wagmi";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { config } from "../lib/wagmi";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -12,6 +17,8 @@ import "../styles/globals.css";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Router from "next/router";
+
+const queryClient = new QueryClient();
 
 NProgress.configure({
     minimum: 0.3,
@@ -26,7 +33,9 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // Analytics call on page reroute
 Router.events.on("routeChangeComplete", (url) => {
-    global.analytics.page(url);
+    if (typeof global.analytics !== 'undefined') {
+        global.analytics.page(url);
+    }
 });
 
 function AppContent({ Component, pageProps }) {
@@ -50,7 +59,7 @@ function AppContent({ Component, pageProps }) {
                     setSeconds(seconds - 1);
                 }, 1000);
             } else {
-                router.push("/");
+                router.push("/connect");
             }
         } else if (seconds !== 3) {
             setSeconds(3);
@@ -104,23 +113,21 @@ function AppContent({ Component, pageProps }) {
 
 function MyApp({ Component, pageProps }) {
     return (
-        <PrivyProvider
-            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
-            config={{
-                loginMethods: ['wallet'],
-                appearance: {
-                    theme: 'light',
-                    accentColor: '#693E9A',
-                    logo: 'https://violetverse.io/logo.png',
-                },
-                // Solana only
-                solana: {
-                    cluster: 'mainnet-beta',
-                },
-            }}
-        >
-            <AppContent Component={Component} pageProps={pageProps} />
-        </PrivyProvider>
+        <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+                <RainbowKitProvider
+                    theme={darkTheme({
+                        accentColor: "#693E9A",
+                        accentColorForeground: "white",
+                        borderRadius: "medium",
+                        fontStack: "system",
+                        overlayBlur: "small",
+                    })}
+                >
+                    <AppContent Component={Component} pageProps={pageProps} />
+                </RainbowKitProvider>
+            </QueryClientProvider>
+        </WagmiProvider>
     );
 }
 
