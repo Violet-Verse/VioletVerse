@@ -32,21 +32,21 @@ function extractTopics(text) {
 
 // Determine reader archetype from topics
 function determineArchetype(topics) {
-  const techTopics = ['Blockchain', 'Smart Contracts', 'DeFi', 'Crypto', 'DAO']
-  const creativeTopics = ['Fashion', 'Art', 'Metaverse']
-  const learnerTopics = ['Education', 'Web3', 'General']
+  const financialTopics = ['Web3', 'Crypto', 'DeFi', 'Blockchain', 'NFT', 'DAO', 'Smart Contracts', 'Wallet']
+  const lifestyleTopics = ['Fashion', 'Art', 'Metaverse', 'Community', 'Gaming']
+  const intellectualTopics = ['Education', 'AI', 'General']
 
-  let tech = 0, creative = 0, learner = 0
+  let financial = 0, lifestyle = 0, intellectual = 0
   topics.forEach((t) => {
-    if (techTopics.includes(t)) tech++
-    if (creativeTopics.includes(t)) creative++
-    if (learnerTopics.includes(t)) learner++
+    if (financialTopics.includes(t)) financial++
+    if (lifestyleTopics.includes(t)) lifestyle++
+    if (intellectualTopics.includes(t)) intellectual++
   })
 
-  if (tech > creative && tech > learner) return 'The Technologist'
-  if (creative > tech && creative > learner) return 'The Creative'
-  if (learner >= tech && learner >= creative) return 'The Explorer'
-  return 'The Explorer'
+  if (lifestyle > financial && lifestyle > intellectual) return 'Lifestyle Enthusiast'
+  if (financial > lifestyle && financial > intellectual) return 'Financially Curious'
+  if (intellectual >= financial && intellectual >= lifestyle) return 'Intellectual'
+  return 'Intellectual'
 }
 
 export default async function handler(req, res) {
@@ -185,11 +185,11 @@ function getFallbackStats() {
       { topic: 'Education', count: 14 },
       { topic: 'Metaverse', count: 11 },
     ],
-    dominantArchetype: 'The Explorer',
+    dominantArchetype: 'Financially Curious',
     archetypes: [
-      { name: 'The Explorer', count: 45 },
-      { name: 'The Technologist', count: 30 },
-      { name: 'The Creative', count: 25 },
+      { name: 'Financially Curious', count: 45 },
+      { name: 'Lifestyle Enthusiast', count: 30 },
+      { name: 'Intellectual', count: 25 },
     ],
     hourlyActivity: [2, 1, 0, 0, 1, 2, 5, 8, 12, 15, 18, 16, 14, 13, 15, 17, 19, 20, 18, 14, 10, 7, 4, 3],
     recentQueries: [],

@@ -264,6 +264,15 @@
   background: #693E9A;
 }
 
+.activityLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-family: 'Test Calibre', sans-serif;
+  font-size: 11px;
+  color: rgba(229, 219, 249, 0.3);
+}
+
 /* Feed */
 .feedList {
   display: flex;

@@ -253,15 +253,21 @@ export default async function handler(req, res) {
       const db = await connectDatabase()
       if (db && userText) {
         const topicMap = {
-          'NFT': ['nft', 'nfts', 'non-fungible'],
-          'DeFi': ['defi', 'yield', 'liquidity'],
+          'NFT': ['nft', 'nfts', 'non-fungible', 'token'],
+          'DeFi': ['defi', 'yield', 'liquidity', 'swap'],
           'Web3': ['web3', 'web 3', 'decentralized'],
-          'Blockchain': ['blockchain', 'ledger'],
-          'Crypto': ['crypto', 'bitcoin', 'ethereum', 'solana'],
-          'Fashion': ['fashion', 'luxury', 'brand', 'style'],
-          'Art': ['art', 'artist', 'creative', 'gallery'],
-          'Metaverse': ['metaverse', 'virtual'],
-          'Education': ['learn', 'explain', 'what is', 'how to', 'guide'],
+          'Blockchain': ['blockchain', 'ledger', 'consensus'],
+          'Crypto': ['crypto', 'bitcoin', 'ethereum', 'solana', 'btc', 'eth'],
+          'Fashion': ['fashion', 'luxury', 'brand', 'style', 'clothing', 'designer'],
+          'Art': ['art', 'artist', 'creative', 'gallery', 'digital art'],
+          'Metaverse': ['metaverse', 'virtual world', 'vr'],
+          'Smart Contracts': ['smart contract', 'solidity'],
+          'DAO': ['dao', 'governance', 'voting'],
+          'Wallet': ['wallet', 'metamask', 'connect wallet'],
+          'Gaming': ['game', 'gaming', 'play to earn', 'p2e'],
+          'AI': ['ai', 'artificial intelligence', 'machine learning'],
+          'Community': ['community', 'discord', 'social'],
+          'Education': ['learn', 'education', 'tutorial', 'guide', 'how to', 'explain', 'what is'],
         }
         const lower = userText.toLowerCase()
         const topics = Object.entries(topicMap)
@@ -269,9 +275,23 @@ export default async function handler(req, res) {
           .map(([t]) => t)
         if (topics.length === 0) topics.push('General')
 
+        // Determine archetype from topics
+        const financialTopics = ['Web3', 'Crypto', 'DeFi', 'Blockchain', 'NFT', 'DAO', 'Smart Contracts', 'Wallet']
+        const lifestyleTopics = ['Fashion', 'Art', 'Metaverse', 'Community', 'Gaming']
+        let financial = 0, lifestyle = 0, intellectual = 0
+        topics.forEach((t) => {
+          if (financialTopics.includes(t)) financial++
+          if (lifestyleTopics.includes(t)) lifestyle++
+          else intellectual++
+        })
+        let archetype = 'Intellectual'
+        if (lifestyle > financial && lifestyle > intellectual) archetype = 'Lifestyle Enthusiast'
+        if (financial > lifestyle && financial > intellectual) archetype = 'Financially Curious'
+
         db.collection('agent_interactions').insertOne({
           userMessage: userText.slice(0, 500),
           topics,
+          archetype,
           timestamp: new Date(),
         }).catch(() => {})
       }

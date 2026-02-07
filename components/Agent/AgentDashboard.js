@@ -3,9 +3,9 @@ import Link from 'next/link'
 import styles from './AgentDashboard.module.css'
 
 const ARCHETYPE_DESCRIPTIONS = {
-  'The Explorer': 'Curious minds discovering Web3 for the first time, asking foundational questions.',
-  'The Technologist': 'Deep divers into blockchain, DeFi, and smart contracts.',
-  'The Creative': 'Visionaries exploring the intersection of fashion, art, and technology.',
+  'Lifestyle Enthusiast': 'Culture-first readers drawn to fashion, art, and the creative side of Web3.',
+  'Financially Curious': 'Exploring crypto, DeFi, and blockchain with an eye toward opportunity.',
+  'Intellectual': 'Knowledge seekers asking deep questions and learning how everything works.',
 }
 
 function timeAgo(date) {
@@ -106,30 +106,26 @@ export default function AgentDashboard() {
           <div className={styles.cardLabel}>Dominant Reader Archetype</div>
           <div className={styles.personaRing}>
             <svg className={styles.personaIcon} width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              {stats?.dominantArchetype === 'The Technologist' ? (
+              {stats?.dominantArchetype === 'Financially Curious' ? (
                 <>
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                  <line x1="8" y1="21" x2="16" y2="21" />
-                  <line x1="12" y1="17" x2="12" y2="21" />
+                  <line x1="12" y1="1" x2="12" y2="23" />
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                 </>
-              ) : stats?.dominantArchetype === 'The Creative' ? (
+              ) : stats?.dominantArchetype === 'Lifestyle Enthusiast' ? (
                 <>
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5" />
-                  <path d="M2 12l10 5 10-5" />
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                 </>
               ) : (
                 <>
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                 </>
               )}
             </svg>
           </div>
-          <h3 className={styles.personaTitle}>{stats?.dominantArchetype || 'The Explorer'}</h3>
+          <h3 className={styles.personaTitle}>{stats?.dominantArchetype || 'Intellectual'}</h3>
           <p className={styles.personaDesc}>
-            {ARCHETYPE_DESCRIPTIONS[stats?.dominantArchetype] || ARCHETYPE_DESCRIPTIONS['The Explorer']}
+            {ARCHETYPE_DESCRIPTIONS[stats?.dominantArchetype] || ARCHETYPE_DESCRIPTIONS['Intellectual']}
           </p>
         </div>
 
@@ -168,6 +164,13 @@ export default function AgentDashboard() {
                 title={`${i}:00 - ${count} conversations`}
               />
             ))}
+          </div>
+          <div className={styles.activityLabels}>
+            <span>12am</span>
+            <span>6am</span>
+            <span>12pm</span>
+            <span>6pm</span>
+            <span>11pm</span>
           </div>
         </div>
 
