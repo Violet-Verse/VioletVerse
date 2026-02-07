@@ -24,9 +24,7 @@
     "@segment/snippet": "^4.15.3",
     "@tanstack/react-query": "^5.90.20",
     "@tinymce/tinymce-react": "^6.3.0",
-    "@ai-sdk/react": "^3.0.0",
     "@vercel/analytics": "^1.0.0",
-    "ai": "^6.0.0",
     "airtable": "^0.11.4",
     "cookie": "^1.1.1",
     "isomorphic-dompurify": "^2.35.0",
@@ -45,8 +43,7 @@
     "tailwindcss": "^4.1.18",
     "tinymce": "^8.3.1",
     "viem": "^2.45.1",
-    "wagmi": "^2.19.5",
-    "zod": "^3.23.0"
+    "wagmi": "^2.19.5"
   },
   "devDependencies": {
     "eslint": "8.21.0",

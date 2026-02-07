@@ -1,6 +1,4 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
 import styles from './LiveAgent.module.css'
 
 const SUGGESTED_PROMPTS = [
@@ -10,40 +8,15 @@ const SUGGESTED_PROMPTS = [
   'What can I explore here?',
 ]
 
-function getMessageText(message) {
-  if (!message.parts || !Array.isArray(message.parts)) return ''
-  return message.parts
-    .filter((p) => p.type === 'text')
-    .map((p) => p.text)
-    .join('')
-}
-
 export default function LiveAgent() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
+  const [messages, setMessages] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
-  const chatContainerRef = useRef(null)
-
-  const chatTransport = useRef(new DefaultChatTransport({ api: '/api/chat' }))
-
-  const { messages, sendMessage, status, error } = useChat({
-    transport: chatTransport.current,
-    onError: (err) => {
-      console.log('[v0] useChat onError:', err?.message || String(err))
-    },
-  })
-
-  useEffect(() => {
-    console.log('[v0] Chat status:', status, 'Messages count:', messages.length)
-    if (messages.length > 0) {
-      const lastMsg = messages[messages.length - 1]
-      console.log('[v0] Last message role:', lastMsg.role, 'parts:', JSON.stringify(lastMsg.parts)?.slice(0, 200))
-    }
-    if (error) console.log('[v0] Chat error object:', String(error))
-  }, [status, messages, error])
-
-  const isLoading = status === 'streaming' || status === 'submitted'
+  const abortControllerRef = useRef(null)
 
   const scrollToBottom = useCallback(() => {
     if (messagesEndRef.current) {
@@ -61,15 +34,101 @@ export default function LiveAgent() {
     }
   }, [isOpen])
 
+  const sendMessage = useCallback(async (text) => {
+    if (!text.trim() || isLoading) return
+
+    setError(null)
+    const userMessage = { role: 'user', content: text }
+    const newMessages = [...messages, userMessage]
+    setMessages(newMessages)
+    setIsLoading(true)
+
+    // Add empty assistant message for streaming
+    const assistantId = Date.now()
+    setMessages((prev) => [...prev, { role: 'assistant', content: '', id: assistantId }])
+
+    try {
+      abortControllerRef.current = new AbortController()
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+        }),
+        signal: abortControllerRef.current.signal,
+      })
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        throw new Error(errorData.error || `Request failed with status ${res.status}`)
+      }
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let fullText = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
+        for (const line of lines) {
+          const trimmed = line.trim()
+          if (!trimmed || !trimmed.startsWith('data: ')) continue
+
+          try {
+            const parsed = JSON.parse(trimmed.slice(6))
+            if (parsed.type === 'delta' && parsed.text) {
+              fullText += parsed.text
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId ? { ...m, content: fullText } : m
+                )
+              )
+            }
+          } catch {
+            // Skip unparseable
+          }
+        }
+      }
+
+      // If no text was received, show a fallback
+      if (!fullText) {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId
+              ? { ...m, content: "I'm having trouble responding right now. Please try again." }
+              : m
+          )
+        )
+      }
+    } catch (err) {
+      if (err.name === 'AbortError') return
+      console.error('Chat error:', err.message)
+      setError(err.message)
+      // Remove the empty assistant message
+      setMessages((prev) => prev.filter((m) => m.id !== assistantId))
+    } finally {
+      setIsLoading(false)
+      abortControllerRef.current = null
+    }
+  }, [messages, isLoading])
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!input.trim() || isLoading) return
-    sendMessage({ text: input })
+    const text = input
     setInput('')
+    sendMessage(text)
   }
 
   const handleSuggestion = (prompt) => {
-    sendMessage({ text: prompt })
+    sendMessage(prompt)
   }
 
   const toggleChat = () => {
@@ -111,7 +170,7 @@ export default function LiveAgent() {
         </div>
 
         {/* Messages */}
-        <div className={styles.messages} ref={chatContainerRef}>
+        <div className={styles.messages}>
           {messages.length === 0 && (
             <div className={styles.welcome}>
               <div className={styles.welcomeIcon}>
@@ -140,12 +199,34 @@ export default function LiveAgent() {
             </div>
           )}
 
-          {messages.map((message) => {
-            const text = getMessageText(message)
-            if (!text) return null
+          {messages.map((message, idx) => {
+            if (!message.content) {
+              // Show typing indicator for empty assistant messages
+              if (message.role === 'assistant' && isLoading) {
+                return (
+                  <div key={message.id || idx} className={`${styles.message} ${styles.messageAssistant}`}>
+                    <div className={styles.messageAvatar}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                      </svg>
+                    </div>
+                    <div className={`${styles.bubble} ${styles.bubbleAssistant}`}>
+                      <div className={styles.typing}>
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              return null
+            }
             return (
               <div
-                key={message.id}
+                key={message.id || idx}
                 className={`${styles.message} ${
                   message.role === 'user' ? styles.messageUser : styles.messageAssistant
                 }`}
@@ -164,7 +245,7 @@ export default function LiveAgent() {
                     message.role === 'user' ? styles.bubbleUser : styles.bubbleAssistant
                   }`}
                 >
-                  {text}
+                  {message.content}
                 </div>
               </div>
             )
@@ -181,25 +262,6 @@ export default function LiveAgent() {
               </div>
               <div className={`${styles.bubble} ${styles.bubbleAssistant}`} style={{ color: '#c0392b', fontSize: '13px' }}>
                 Something went wrong. Please try again.
-              </div>
-            </div>
-          )}
-
-          {isLoading && messages.length > 0 && getMessageText(messages[messages.length - 1]) === '' && (
-            <div className={`${styles.message} ${styles.messageAssistant}`}>
-              <div className={styles.messageAvatar}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5" />
-                  <path d="M2 12l10 5 10-5" />
-                </svg>
-              </div>
-              <div className={`${styles.bubble} ${styles.bubbleAssistant}`}>
-                <div className={styles.typing}>
-                  <span />
-                  <span />
-                  <span />
-                </div>
               </div>
             </div>
           )}

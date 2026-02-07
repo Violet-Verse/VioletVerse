@@ -4,21 +4,15 @@ import Layout from "../components/Layout/AppLayout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
+import dynamic from "next/dynamic";
 
 import "@rainbow-me/rainbowkit/styles.css";
-import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
-import { WagmiProvider } from "wagmi";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { config } from "../lib/wagmi";
-
 import "../styles/fonts.css";
 import "../styles/globals.css";
 
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Router from "next/router";
-
-const queryClient = new QueryClient();
 
 NProgress.configure({
     minimum: 0.3,
@@ -37,6 +31,12 @@ Router.events.on("routeChangeComplete", (url) => {
         global.analytics.page(url);
     }
 });
+
+// Dynamic import of the Web3 providers to avoid SSR issues with RainbowKit/wagmi
+const Web3Providers = dynamic(
+    () => import("../components/Web3Providers"),
+    { ssr: false }
+);
 
 function AppContent({ Component, pageProps }) {
     const { user, loaded } = useUser();
@@ -113,21 +113,9 @@ function AppContent({ Component, pageProps }) {
 
 function MyApp({ Component, pageProps }) {
     return (
-        <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-                <RainbowKitProvider
-                    theme={darkTheme({
-                        accentColor: "#693E9A",
-                        accentColorForeground: "white",
-                        borderRadius: "medium",
-                        fontStack: "system",
-                        overlayBlur: "small",
-                    })}
-                >
-                    <AppContent Component={Component} pageProps={pageProps} />
-                </RainbowKitProvider>
-            </QueryClientProvider>
-        </WagmiProvider>
+        <Web3Providers>
+            <AppContent Component={Component} pageProps={pageProps} />
+        </Web3Providers>
     );
 }
 
