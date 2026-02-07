@@ -1,6 +1,5 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 // import Segment Snippet
 import * as snippet from "@segment/snippet";
@@ -51,18 +50,21 @@ class MyDocument extends Document {
                         />
                     )}
                     {/* Google Analytics */}
-                    <Script
+                    <script
+                        async
+                        src="https://www.googletagmanager.com/gtag/js?id=G-1GV06YH6SV"
+                    />
+                    <script
                         id="google-analytics"
-                        strategy="afterInteractive"
-                    >
-                        {`
+                        dangerouslySetInnerHTML={{
+                            __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
-
           gtag('config', 'G-1GV06YH6SV');
-        `}
-                    </Script>
+        `,
+                        }}
+                    />
                 </Head>
                 <body>
                     <Main />

@@ -1,14 +1,5 @@
 import InstagramIcon from '@mui/icons-material/Instagram'
 import TwitterIcon from '@mui/icons-material/Twitter'
-import {
-  Box,
-  Container,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core'
 import { useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -53,186 +44,102 @@ const Footer = () => {
 
   return (
     <footer className={styles.footer}>
-      <Container size="100rem" px={{ base: 16, sm: 20, md: 32 }}>
-        {/* Main Content Grid */}
-        <SimpleGrid
-          cols={{ base: 1, sm: 2, md: 5 }}
-          spacing="xl"
+      <div style={{ maxWidth: '100rem', margin: '0 auto', padding: '0 clamp(1rem, 3vw, 2rem)' }}>
+        <div
           className={styles.mainGrid}
+          style={{ display: 'grid', gap: '2rem' }}
         >
-          {/* Logo Section */}
-          <Box className={styles.section}>
-            <Group align="center" spacing={8} mb="md">
+          <div className={styles.section}>
+            <div style={{ marginBottom: '1rem' }}>
               <Image src="/WhiteLogo.svg" alt="logo light" width={143} height={80} />
-            </Group>
-            <Group spacing="md" className={styles.socialIconsDesktop}>
-              <a
-                href="https://instagram.com/violetverse.io"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-              >
+            </div>
+            <div className={styles.socialIconsDesktop} style={{ gap: '1rem' }}>
+              <a href="https://instagram.com/violetverse.io" target="_blank" rel="noreferrer" className={styles.socialLink}>
                 <InstagramIcon className={styles.socialIcon} />
               </a>
-              <a
-                href="https://twitter.com/TheVioletVerse"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-              >
+              <a href="https://twitter.com/TheVioletVerse" target="_blank" rel="noreferrer" className={styles.socialLink}>
                 <TwitterIcon className={styles.socialIcon} />
               </a>
-              <a
-                href="https://app.console.xyz/c/violetverse"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-              >
-                <Image
-                  src="/Discord.svg"
-                  alt="Discord icon"
-                  width={24}
-                  height={24}
-                  priority
-                  className={styles.discordIcon}
-                />
+              <a href="https://app.console.xyz/c/violetverse" target="_blank" rel="noreferrer" className={styles.socialLink}>
+                <Image src="/Discord.svg" alt="Discord icon" width={24} height={24} priority className={styles.discordIcon} />
               </a>
-            </Group>
-          </Box>
+            </div>
+          </div>
 
-          {/* Market Section */}
-          <Box className={styles.section}>
-            <Title order={4} className={styles.sectionTitle} mb="md">
-              <Link href="/posts" legacyBehavior>
-                <a className={styles.sectionTitleLink}>Market</a>
-              </Link>
-            </Title>
-            <Stack spacing="xs">
+          <div className={styles.section}>
+            <h4 className={styles.sectionTitle} style={{ marginBottom: '1rem' }}>
+              <Link href="/posts" legacyBehavior><a className={styles.sectionTitleLink}>Market</a></Link>
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {marketLinks.map((link) => (
-                <Link key={link.label} href={link.href} legacyBehavior>
-                  <a className={styles.link}>{link.label}</a>
-                </Link>
+                <Link key={link.label} href={link.href} legacyBehavior><a className={styles.link}>{link.label}</a></Link>
               ))}
-            </Stack>
-          </Box>
+            </div>
+          </div>
 
-          {/* Resources Section */}
-          <Box className={styles.section}>
-            <Title order={4} className={styles.sectionTitle} mb="md">
-              <Link href="/resources" legacyBehavior>
-                <a className={styles.sectionTitleLink}>Resources</a>
-              </Link>
-            </Title>
-            <Stack spacing="xs">
+          <div className={styles.section}>
+            <h4 className={styles.sectionTitle} style={{ marginBottom: '1rem' }}>
+              <Link href="/resources" legacyBehavior><a className={styles.sectionTitleLink}>Resources</a></Link>
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {resourcesLinks.map((link) => (
-                <Link key={link.label} href={link.href} legacyBehavior>
-                  <a className={styles.link}>{link.label}</a>
-                </Link>
+                <Link key={link.label} href={link.href} legacyBehavior><a className={styles.link}>{link.label}</a></Link>
               ))}
-            </Stack>
-          </Box>
+            </div>
+          </div>
 
-          {/* Community Section */}
-          <Box className={styles.section}>
-            <Title order={4} className={styles.sectionTitle} mb="md">
-              <Link href="/about" legacyBehavior>
-                <a className={styles.sectionTitleLink}>Community</a>
-              </Link>
-            </Title>
-            <Stack spacing="xs">
+          <div className={styles.section}>
+            <h4 className={styles.sectionTitle} style={{ marginBottom: '1rem' }}>
+              <Link href="/about" legacyBehavior><a className={styles.sectionTitleLink}>Community</a></Link>
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {communityLinks.map((link) =>
                 link.external ? (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={styles.link}
-                  >
-                    {link.label}
-                  </a>
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={styles.link}>{link.label}</a>
                 ) : (
-                  <Link key={link.label} href={link.href} legacyBehavior>
-                    <a className={styles.link}>{link.label}</a>
-                  </Link>
+                  <Link key={link.label} href={link.href} legacyBehavior><a className={styles.link}>{link.label}</a></Link>
                 ),
               )}
-            </Stack>
-          </Box>
+            </div>
+          </div>
 
-          {/* About Section */}
-          <Box className={styles.section}>
-            <Title order={4} className={styles.sectionTitle} mb="md">
-              <Link href="/about" legacyBehavior>
-                <a className={styles.sectionTitleLink}>About</a>
-              </Link>
-            </Title>
-            <Stack spacing="xs">
+          <div className={styles.section}>
+            <h4 className={styles.sectionTitle} style={{ marginBottom: '1rem' }}>
+              <Link href="/about" legacyBehavior><a className={styles.sectionTitleLink}>About</a></Link>
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {aboutLinks.map((link) =>
                 link.external ? (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={styles.link}
-                  >
-                    {link.label}
-                  </a>
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={styles.link}>{link.label}</a>
                 ) : (
-                  <Link key={link.label} href={link.href} legacyBehavior>
-                    <a className={styles.link}>{link.label}</a>
-                  </Link>
+                  <Link key={link.label} href={link.href} legacyBehavior><a className={styles.link}>{link.label}</a></Link>
                 ),
               )}
-            </Stack>
-          </Box>
-        </SimpleGrid>
-      </Container>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* Bottom Section */}
-      <Box className={styles.bottom}>
-        <Container size="100rem" px={{ base: 16, sm: 20, md: 32 }}>
-          <Box className={styles.bottomContainer}>
-            <Group spacing="md" className={styles.socialIconsMobile}>
-              <a
-                href="https://instagram.com/violetverse.io"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-              >
+      <div className={styles.bottom}>
+        <div style={{ maxWidth: '100rem', margin: '0 auto', padding: '0 clamp(1rem, 3vw, 2rem)' }}>
+          <div className={styles.bottomContainer}>
+            <div className={styles.socialIconsMobile} style={{ gap: '1rem' }}>
+              <a href="https://instagram.com/violetverse.io" target="_blank" rel="noreferrer" className={styles.socialLink}>
                 <InstagramIcon className={styles.socialIcon} />
               </a>
-              <a
-                href="https://twitter.com/TheVioletVerse"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-              >
+              <a href="https://twitter.com/TheVioletVerse" target="_blank" rel="noreferrer" className={styles.socialLink}>
                 <TwitterIcon className={styles.socialIcon} />
               </a>
-              <a
-                href="https://app.console.xyz/c/violetverse"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-              >
-                <Image
-                  src="/Discord.svg"
-                  alt="Discord icon"
-                  width={24}
-                  height={24}
-                  priority
-                  className={styles.discordIcon}
-                />
+              <a href="https://app.console.xyz/c/violetverse" target="_blank" rel="noreferrer" className={styles.socialLink}>
+                <Image src="/Discord.svg" alt="Discord icon" width={24} height={24} priority className={styles.discordIcon} />
               </a>
-            </Group>
-            <Text className={styles.copyright}>
-              © {new Date().getFullYear()} Violet Verse. All rights reserved.
-            </Text>
-          </Box>
-        </Container>
-      </Box>
+            </div>
+            <p className={styles.copyright}>
+              &copy; {new Date().getFullYear()} Violet Verse. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
     </footer>
   )
 }
