@@ -51,6 +51,7 @@ const NewNav = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
+
       if (currentScrollY < 50) {
         setPinned(true)
       } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
@@ -59,13 +60,16 @@ const NewNav = () => {
       } else if (currentScrollY < lastScrollY) {
         setPinned(true)
       }
+
       setLastScrollY(currentScrollY)
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
   const dashboardPermission = Boolean(user)
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
@@ -171,27 +175,64 @@ const NewNav = () => {
                   sx={{
                     flex: 1,
                     display: { xs: 'none', md: 'none', lg: 'none', xl: 'flex' },
-                    '@media (min-width: 1220px)': { display: 'flex' },
+                    '@media (min-width: 1220px)': {
+                      display: 'flex',
+                    },
                     justifyContent: 'start',
                   }}
                 >
                   <Link href="/posts" legacyBehavior>
                     <a>
-                      <Button sx={{ my: 2, color: `${navBarItemColor}`, display: 'block', mr: '15px', fontFamily: 'Ogg', fontSize: '18px', lineHeight: '130%', letterSpacing: '-0.005em', textDecoration: 'none' }}>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: navBarItemColor,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
                         Explore
                       </Button>
                     </a>
                   </Link>
                   <Link href="/enterprise" legacyBehavior>
                     <a>
-                      <Button sx={{ my: 2, color: `${navBarItemColor}`, display: 'block', mr: '15px', fontFamily: 'Ogg', fontSize: '18px', lineHeight: '130%', letterSpacing: '-0.005em', textDecoration: 'none' }}>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: navBarItemColor,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
                         Enterprise Plan
                       </Button>
                     </a>
                   </Link>
                   <Link href="/about" legacyBehavior>
                     <a>
-                      <Button sx={{ my: 2, color: `${navBarItemColor}`, display: 'block', fontFamily: 'Ogg', fontSize: '18px', lineHeight: '130%', letterSpacing: '-0.005em', textDecoration: 'none' }}>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: navBarItemColor,
+                          display: 'block',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
                         Community
                       </Button>
                     </a>
@@ -206,7 +247,13 @@ const NewNav = () => {
               </Link>
 
               {user && (
-                <Box sx={{ display: { xs: 'flex' }, flex: 1, justifyContent: 'end' }}>
+                <Box
+                  sx={{
+                    display: { xs: 'flex' },
+                    flex: 1,
+                    justifyContent: 'end',
+                  }}
+                >
                   <Box sx={{ display: { xs: 'flex' } }}>
                     <Tooltip title="Account settings">
                       <IconButton
@@ -236,8 +283,149 @@ const NewNav = () => {
                           overflow: 'visible',
                           filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                           mt: 1.5,
-                          '& .MuiAvatar-root': { width: 32, height: 32, ml: -0.5, mr: 1 },
+                          '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
                           '&:before': {
-                            content: '""', display: 'block', position: 'absolute',
-                            top: 0, right: 14, width: 10, height: 10,
-                            bgcolor: 'background.pape
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      keepMounted={true}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+                      <MenuItem
+                        onClick={() => {
+                          Router.push('/profile')
+                          if (typeof global.analytics !== 'undefined') {
+                            global.analytics.track('Profile Menu Item Clicked', {
+                              page: 'Profile Page',
+                            })
+                          }
+                          setAnchorElUser(null)
+                        }}
+                      >
+                        <Avatar
+                          alt={user?.name || 'user picture'}
+                          src={user?.picture}
+                        />
+                        Profile
+                      </MenuItem>
+                      <Divider />
+                      {dashboardPermission && (
+                        <MenuItem
+                          onClick={() => {
+                            Router.push('/dashboard')
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track('Profile Menu Item Clicked', {
+                                page: 'Dashboard Page',
+                              })
+                            }
+                            setAnchorElUser(null)
+                          }}
+                        >
+                          <ListItemIcon>
+                            <DashboardIcon />
+                          </ListItemIcon>
+                          Dashboard
+                        </MenuItem>
+                      )}
+                      <MenuItem
+                        onClick={() => {
+                          Router.push('/profile/edit')
+                          if (typeof global.analytics !== 'undefined') {
+                            global.analytics.track('Profile Menu Item Clicked', {
+                              page: 'Edit Profile Page',
+                            })
+                          }
+                          setAnchorElUser(null)
+                        }}
+                      >
+                        <ListItemIcon>
+                          <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Settings
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          if (typeof global.analytics !== 'undefined') {
+                            global.analytics.track('Logout Button Clicked')
+                          }
+                          logout()
+                          setAnchorElUser(null)
+                        }}
+                      >
+                        <ListItemIcon>
+                          <Logout fontSize="small" />
+                        </ListItemIcon>
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                </Box>
+              )}
+
+              {!user && (
+                <Box
+                  sx={{
+                    display: { xs: 'flex', md: 'flex', lg: 'flex' },
+                    flex: 1,
+                    justifyContent: 'end',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: {
+                        xs: 'none',
+                        md: 'none',
+                        lg: 'none',
+                        xl: 'flex',
+                      },
+                      '@media (min-width: 1220px)': {
+                        display: 'flex',
+                      },
+                    }}
+                  >
+                    <Button
+                      disableElevation={true}
+                      variant="contained"
+                      onClick={() => {
+                        login()
+                        if (typeof global.analytics !== 'undefined') {
+                          global.analytics.track('Login Button Clicked')
+                        }
+                      }}
+                      sx={{
+                        py: 1.5,
+                        px: 2.5,
+                        fontWeight: '400',
+                        fontSize: '16px',
+                      }}
+                    >
+                      Connect Wallet
+                    </Button>
+                  </Box>
+                </Box>
+              )}
+            </>
+          )}
+        </div>
+      </header>
+    </>
+  )
+}
+
+export default NewNav
