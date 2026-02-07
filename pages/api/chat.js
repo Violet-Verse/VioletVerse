@@ -1,5 +1,4 @@
 import { streamText, convertToModelMessages, tool } from 'ai'
-import { anthropic } from '@ai-sdk/anthropic'
 import { z } from 'zod'
 import connectDatabase from '../../lib/mongoClient'
 
@@ -43,13 +42,24 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  console.log('[v0] Chat API called')
+
   try {
     const { messages } = req.body
+    console.log('[v0] Received messages count:', messages?.length)
+
+    if (!messages || !Array.isArray(messages)) {
+      console.log('[v0] Invalid messages format')
+      return res.status(400).json({ error: 'Invalid messages format' })
+    }
+
+    const convertedMessages = await convertToModelMessages(messages)
+    console.log('[v0] Converted messages count:', convertedMessages.length)
 
     const result = streamText({
-      model: anthropic('claude-sonnet-4-20250514'),
+      model: 'anthropic/claude-sonnet-4-20250514',
       system: SYSTEM_PROMPT,
-      messages: await convertToModelMessages(messages),
+      messages: convertedMessages,
       tools: {
         searchArticles: tool({
           description: 'Search Violet Verse articles by keyword, topic, or category. Use this when the user asks about a topic that might have related articles on the site.',
@@ -58,6 +68,7 @@ export default async function handler(req, res) {
             category: z.string().nullable().describe('Optional category filter, e.g. "Web3", "Fashion", "Art", "DeFi", "NFTs"'),
           }),
           execute: async ({ query, category }) => {
+            console.log('[v0] searchArticles called with:', { query, category })
             try {
               const db = await connectDatabase()
               if (!db) return { articles: [], message: 'Database unavailable' }
@@ -87,12 +98,12 @@ export default async function handler(req, res) {
                   category: 1,
                   slug: 1,
                   created: 1,
-                  banner: 1,
                 })
                 .sort({ created: -1 })
                 .limit(5)
                 .toArray()
 
+              console.log('[v0] searchArticles found:', articles.length)
               return {
                 articles: articles.map((a) => ({
                   title: a.title,
@@ -106,7 +117,7 @@ export default async function handler(req, res) {
                 count: articles.length,
               }
             } catch (error) {
-              console.error('searchArticles tool error:', error)
+              console.error('[v0] searchArticles error:', error)
               return { articles: [], message: 'Error searching articles' }
             }
           },
@@ -117,6 +128,7 @@ export default async function handler(req, res) {
             limit: z.number().nullable().describe('Number of articles to return, defaults to 5'),
           }),
           execute: async ({ limit }) => {
+            console.log('[v0] getRecentArticles called with limit:', limit)
             try {
               const db = await connectDatabase()
               if (!db) return { articles: [], message: 'Database unavailable' }
@@ -135,6 +147,7 @@ export default async function handler(req, res) {
                 .limit(limit || 5)
                 .toArray()
 
+              console.log('[v0] getRecentArticles found:', articles.length)
               return {
                 articles: articles.map((a) => ({
                   title: a.title,
@@ -147,7 +160,7 @@ export default async function handler(req, res) {
                 count: articles.length,
               }
             } catch (error) {
-              console.error('getRecentArticles tool error:', error)
+              console.error('[v0] getRecentArticles error:', error)
               return { articles: [], message: 'Error fetching articles' }
             }
           },
@@ -158,6 +171,7 @@ export default async function handler(req, res) {
             category: z.string().describe('The category to filter by, e.g. "Web3", "Fashion", "Art", "DeFi"'),
           }),
           execute: async ({ category }) => {
+            console.log('[v0] getArticlesByCategory called with:', category)
             try {
               const db = await connectDatabase()
               if (!db) return { articles: [], message: 'Database unavailable' }
@@ -179,6 +193,7 @@ export default async function handler(req, res) {
                 .limit(5)
                 .toArray()
 
+              console.log('[v0] getArticlesByCategory found:', articles.length)
               return {
                 articles: articles.map((a) => ({
                   title: a.title,
@@ -191,7 +206,7 @@ export default async function handler(req, res) {
                 count: articles.length,
               }
             } catch (error) {
-              console.error('getArticlesByCategory tool error:', error)
+              console.error('[v0] getArticlesByCategory error:', error)
               return { articles: [], message: 'Error fetching articles' }
             }
           },
@@ -200,26 +215,41 @@ export default async function handler(req, res) {
       maxSteps: 3,
     })
 
-    const response = result.toUIMessageStreamResponse()
+    console.log('[v0] streamText initiated, piping response...')
 
-    response.headers.forEach((value, key) => {
-      res.setHeader(key, value)
-    })
+    // Set SSE headers for Pages Router
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
+    res.setHeader('Cache-Control', 'no-cache, no-transform')
+    res.setHeader('Connection', 'keep-alive')
+    res.setHeader('X-Accel-Buffering', 'no')
 
-    const reader = response.body.getReader()
-    const decoder = new TextDecoder()
+    // Use toUIMessageStream and pipe chunks to the Node.js response
+    const stream = result.toUIMessageStream()
 
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      res.write(decoder.decode(value, { stream: true }))
+    const reader = stream.getReader()
+    const encoder = new TextEncoder()
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) {
+          console.log('[v0] Stream complete')
+          break
+        }
+        // value is a UIMessageChunk, we need to send it as SSE
+        // toUIMessageStream returns Uint8Array chunks already formatted as SSE
+        res.write(value)
+      }
+    } catch (streamError) {
+      console.error('[v0] Stream reading error:', streamError)
     }
 
     res.end()
   } catch (error) {
-    console.error('Chat API error:', error)
+    console.error('[v0] Chat API error:', error?.message || error)
+    console.error('[v0] Error stack:', error?.stack)
     if (!res.headersSent) {
-      res.status(500).json({ error: 'Internal server error' })
+      res.status(500).json({ error: 'Internal server error', details: error?.message })
     }
   }
 }

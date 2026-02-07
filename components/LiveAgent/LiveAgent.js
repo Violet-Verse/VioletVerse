@@ -25,9 +25,17 @@ export default function LiveAgent() {
   const inputRef = useRef(null)
   const chatContainerRef = useRef(null)
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
+    onError: (err) => {
+      console.log('[v0] useChat error:', err?.message || err)
+    },
   })
+
+  useEffect(() => {
+    console.log('[v0] Chat status:', status, 'Messages:', messages.length)
+    if (error) console.log('[v0] Chat error state:', error)
+  }, [status, messages, error])
 
   const isLoading = status === 'streaming' || status === 'submitted'
 
