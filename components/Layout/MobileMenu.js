@@ -1,54 +1,4 @@
-// Simple hamburger button (replaces Mantine Burger for v5 compat)
-const BurgerButton = ({ opened, onClick, color, className }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={className}
-    aria-label={opened ? 'Close menu' : 'Open menu'}
-    style={{
-      background: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      padding: '4px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '34px',
-      height: '34px',
-      gap: opened ? '0px' : '5px',
-      position: 'relative',
-    }}
-  >
-    <span style={{
-      display: 'block',
-      width: '22px',
-      height: '2px',
-      backgroundColor: color || 'black',
-      borderRadius: '1px',
-      transition: 'transform 0.3s ease, opacity 0.3s ease',
-      transform: opened ? 'translateY(3.5px) rotate(45deg)' : 'none',
-    }} />
-    <span style={{
-      display: 'block',
-      width: '22px',
-      height: '2px',
-      backgroundColor: color || 'black',
-      borderRadius: '1px',
-      transition: 'opacity 0.3s ease',
-      opacity: opened ? 0 : 1,
-    }} />
-    <span style={{
-      display: 'block',
-      width: '22px',
-      height: '2px',
-      backgroundColor: color || 'black',
-      borderRadius: '1px',
-      transition: 'transform 0.3s ease, opacity 0.3s ease',
-      transform: opened ? 'translateY(-3.5px) rotate(-45deg)' : 'none',
-    }} />
-  </button>
-)
+import { Burger } from '@mantine/core'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { cubicBezier, easeOut } from 'motion'
 import { AnimatePresence, motion } from 'motion/react'
@@ -56,6 +6,7 @@ import Link from 'next/link'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import mobileMenuClasses from './MobileMenu.module.css'
 
+// Animation variants
 const menuItemVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.98 },
   visible: (index) => ({
@@ -102,6 +53,7 @@ const submenuHoverProps = {
   whileTap: { scale: 0.98 },
 }
 
+// Reusable MenuItem component
 const MenuItem = memo(({ index, children }) => (
   <motion.div
     className={mobileMenuClasses.menuItem}
@@ -118,6 +70,7 @@ const MenuItem = memo(({ index, children }) => (
 
 MenuItem.displayName = 'MenuItem'
 
+// Reusable SubmenuItem component
 const SubmenuItem = memo(({ index, children }) => (
   <motion.div
     className={mobileMenuClasses.submenuItem}
@@ -147,4 +100,192 @@ const MobileMenu = ({
   const handleMenuClick = useCallback(
     (hasSubmenu, submenuId) => {
       if (hasSubmenu && submenuId) {
-        se
+        setOpenSubmenu(openSubmenu === submenuId ? null : submenuId)
+        if (typeof global !== 'undefined' && global.analytics) {
+          global.analytics.track('Mobile Menu Submenu Toggled', {
+            submenu: submenuId,
+            action: openSubmenu === submenuId ? 'closed' : 'opened',
+          })
+        }
+      } else {
+        setIsMobileMenuOpen(false)
+        setOpenSubmenu(null)
+      }
+    },
+    [openSubmenu, setIsMobileMenuOpen],
+  )
+
+  const handleSubmenuClick = useCallback(
+    (category) => {
+      setIsMobileMenuOpen(false)
+      setOpenSubmenu(null)
+      if (typeof global !== 'undefined' && global.analytics) {
+        global.analytics.track('Mobile Menu Category Selected', {
+          category,
+        })
+      }
+    },
+    [setIsMobileMenuOpen],
+  )
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false)
+        setOpenSubmenu(null)
+      }
+    }
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isMobileMenuOpen, setIsMobileMenuOpen])
+
+  const categories = [
+    { name: 'Tech', href: '/posts?category=Tech' },
+    { name: 'Lifestyle', href: '/posts?category=Lifestyle' },
+    { name: 'Education', href: '/posts?category=Education' },
+  ]
+
+  return (
+    <div className={mobileMenuClasses.mobileMenuContainer} ref={menuRef}>
+      <Burger
+        opened={isMobileMenuOpen}
+        onClick={() => {
+          setIsMobileMenuOpen(!isMobileMenuOpen)
+          if (typeof global !== 'undefined' && global.analytics) {
+            global.analytics.track('Mobile Menu Toggled', {
+              action: !isMobileMenuOpen ? 'opened' : 'closed',
+            })
+          }
+        }}
+        size="sm"
+        color={navBarItemColor || 'var(--mantine-color-black)'}
+        className={mobileMenuClasses.burger}
+      />
+
+      <AnimatePresence mode="wait">
+        {isMobileMenuOpen && (
+          <motion.div
+            className={mobileMenuClasses.menuContent}
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+          >
+            {/* Connect Wallet - Only show if not logged in */}
+            {!user && loaded && (
+              <MenuItem index={0}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof global !== 'undefined' && global.analytics) {
+                      global.analytics.track('Mobile Menu Login Clicked')
+                    }
+                    onLogin()
+                    handleMenuClick(false)
+                  }}
+                  className={mobileMenuClasses.menuButton}
+                >
+                  Connect Wallet
+                </button>
+              </MenuItem>
+            )}
+
+            {/* Explore with Categories Submenu */}
+            <MenuItem index={!user && loaded ? 1 : 0}>
+              <button
+                type="button"
+                onClick={() => handleMenuClick(true, 'explore')}
+                className={mobileMenuClasses.menuButton}
+              >
+                <span>Explore</span>
+                <motion.div
+                  animate={{ rotate: openSubmenu === 'explore' ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className={mobileMenuClasses.chevron}
+                >
+                  <ExpandMoreIcon sx={{ fontSize: 20 }} />
+                </motion.div>
+              </button>
+            </MenuItem>
+
+            {/* Categories Submenu */}
+            <AnimatePresence>
+              {openSubmenu === 'explore' && (
+                <motion.div
+                  variants={submenuContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className={mobileMenuClasses.submenuContainer}
+                >
+                  {categories.map((category, subIndex) => (
+                    <SubmenuItem key={category.href} index={subIndex}>
+                      <Link
+                        href={category.href}
+                        legacyBehavior
+                        onClick={() => handleSubmenuClick(category.name)}
+                      >
+                        <a className={mobileMenuClasses.submenuButton}>
+                          {category.name}
+                        </a>
+                      </Link>
+                    </SubmenuItem>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Enterprise Plan */}
+            <MenuItem index={!user && loaded ? 2 : 1}>
+              <Link
+                href="/enterprise"
+                legacyBehavior
+                onClick={() => handleMenuClick(false)}
+              >
+                <a className={mobileMenuClasses.menuButton}>
+                  Enterprise Plan
+                </a>
+              </Link>
+            </MenuItem>
+
+            {/* VV VR */}
+            <MenuItem index={!user && loaded ? 3 : 2}>
+              <a
+                target="_blank"
+                href="/vr"
+                rel="noopener noreferrer"
+                onClick={() => handleMenuClick(false)}
+                className={mobileMenuClasses.menuButton}
+              >
+                VV VR
+              </a>
+            </MenuItem>
+
+            {/* Community */}
+            <MenuItem index={!user && loaded ? 4 : 3}>
+              <Link
+                href="/about"
+                legacyBehavior
+                onClick={() => handleMenuClick(false)}
+              >
+                <a className={mobileMenuClasses.menuButton}>
+                  Community
+                </a>
+              </Link>
+            </MenuItem>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+export default MobileMenu
+

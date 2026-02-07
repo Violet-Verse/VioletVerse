@@ -14,6 +14,7 @@ import {
   Divider,
   ListItemIcon,
 } from '@mui/material'
+import { Overlay } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
@@ -32,6 +33,7 @@ const NewNav = () => {
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
 
+  // Identify User for Analytics
   useEffect(() => {
     if (user && typeof global.analytics !== 'undefined') {
       global.analytics.identify(user?.userId, {
@@ -45,6 +47,7 @@ const NewNav = () => {
     setIsHydrated(true)
   }, [])
 
+  // Custom scroll-based header visibility (replacement for useHeadroom)
   const [pinned, setPinned] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -53,11 +56,14 @@ const NewNav = () => {
       const currentScrollY = window.scrollY
 
       if (currentScrollY < 50) {
+        // Always show header when near top
         setPinned(true)
       } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down - hide header
         setPinned(false)
-        setIsMobileMenuOpen(false)
+        setIsMobileMenuOpen(false) // Close mobile menu when header is hidden
       } else if (currentScrollY < lastScrollY) {
+        // Scrolling up - show header
         setPinned(true)
       }
 
@@ -84,6 +90,7 @@ const NewNav = () => {
     setAnchorElUser(null)
   }
 
+  // Navigate to /connect for wallet connection
   const login = () => {
     Router.push('/connect')
   }
@@ -132,19 +139,12 @@ const NewNav = () => {
           setFirstVisit()
         }}
       />
+      {/* Overlay rendered at header level to blur background content */}
       {isMobileMenuOpen && (
-        <div
+        <Overlay
+          fixed={true}
           onClick={() => setIsMobileMenuOpen(false)}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 40,
-            backdropFilter: 'blur(5px)',
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          }}
+          style={{ zIndex: 40, backdropFilter: 'blur(5px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
         />
       )}
       <header
@@ -155,6 +155,7 @@ const NewNav = () => {
         >
           {loaded && (
             <>
+              {/* Mobile Menu | XS Breakpoint */}
               <div
                 className={`${classes.menuContainer} ${classes.mobile} ${isHydrated ? classes.hydrated : ''}`}
               >
@@ -168,6 +169,7 @@ const NewNav = () => {
                 />
               </div>
 
+              {/* Menu Items | Desktop only (lg and above) */}
               <div
                 className={`${classes.menuContainer} ${classes.desktop} ${isHydrated ? classes.hydrated : ''}`}
               >
@@ -186,7 +188,7 @@ const NewNav = () => {
                       <Button
                         sx={{
                           my: 2,
-                          color: navBarItemColor,
+                          color: `${navBarItemColor}`,
                           display: 'block',
                           mr: '15px',
                           fontFamily: 'Ogg',
@@ -205,7 +207,7 @@ const NewNav = () => {
                       <Button
                         sx={{
                           my: 2,
-                          color: navBarItemColor,
+                          color: `${navBarItemColor}`,
                           display: 'block',
                           mr: '15px',
                           fontFamily: 'Ogg',
@@ -224,7 +226,7 @@ const NewNav = () => {
                       <Button
                         sx={{
                           my: 2,
-                          color: navBarItemColor,
+                          color: `${navBarItemColor}`,
                           display: 'block',
                           fontFamily: 'Ogg',
                           fontSize: '18px',
@@ -240,186 +242,223 @@ const NewNav = () => {
                 </Box>
               </div>
 
+              {/* Logo | All Breakpoints */}
               <Link href="/" legacyBehavior>
                 <a className={classes.logo}>
                   <Image src="/Logo.svg" alt="Violet Verse" height={59} width={105} />
                 </a>
               </Link>
 
-              {user && (
-                <Box
-                  sx={{
-                    display: { xs: 'flex' },
-                    flex: 1,
-                    justifyContent: 'end',
-                  }}
-                >
-                  <Box sx={{ display: { xs: 'flex' } }}>
-                    <Tooltip title="Account settings">
-                      <IconButton
-                        onClick={(event) => {
-                          if (typeof global.analytics !== 'undefined') {
-                            global.analytics.track('Profile Menu Displayed')
-                          }
-                          handleOpenUserMenu(event)
-                        }}
-                        size="small"
-                        aria-controls={open ? 'account-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                      >
-                        <UserAvatar user={user} />
-                      </IconButton>
-                    </Tooltip>
-                    <Menu
-                      sx={{ mt: '45px' }}
-                      id="menu-appbar"
-                      anchorEl={anchorElUser}
-                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-                      PaperProps={{
-                        elevation: 0,
-                        sx: {
-                          overflow: 'visible',
-                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                          mt: 1.5,
-                          '& .MuiAvatar-root': {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                          },
-                          '&:before': {
-                            content: '""',
-                            display: 'block',
-                            position: 'absolute',
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: 'background.paper',
-                            transform: 'translateY(-50%) rotate(45deg)',
-                            zIndex: 0,
-                          },
-                        },
+                {/* Profile Menu || Logged In*/}
+
+                {user && (
+                  <Box
+                    sx={{
+                      display: { xs: 'flex' },
+                      flex: 1,
+                      justifyContent: 'end',
+                    }}
+                  >
+                    {/* Profile Avatar Menu | All Breakpoints */}
+
+                    <Box
+                      sx={{
+                        display: { xs: 'flex' },
                       }}
-                      keepMounted={true}
-                      open={Boolean(anchorElUser)}
-                      onClose={handleCloseUserMenu}
                     >
-                      <MenuItem
-                        onClick={() => {
-                          Router.push('/profile')
-                          if (typeof global.analytics !== 'undefined') {
-                            global.analytics.track('Profile Menu Item Clicked', {
-                              page: 'Profile Page',
-                            })
+                      <Tooltip title="Account settings">
+                        <IconButton
+                          onClick={(event) => {
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track('Profile Menu Displayed')
+                            }
+                            handleOpenUserMenu(event)
+                          }}
+                          size="small"
+                          aria-controls={
+                            open
+                              ? 'account-menu'
+                              : undefined
                           }
-                          setAnchorElUser(null)
+                          aria-haspopup="true"
+                          aria-expanded={
+                            open
+                              ? 'true'
+                              : undefined
+                          }
+                        >
+                          <UserAvatar user={user} />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        transformOrigin={{
+                          horizontal: 'right',
+                          vertical: 'top',
                         }}
+                        anchorOrigin={{
+                          horizontal: 'right',
+                          vertical: 'top',
+                        }}
+                        PaperProps={{
+                          elevation: 0,
+                          sx: {
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: 1.5,
+                            '& .MuiAvatar-root': {
+                              width: 32,
+                              height: 32,
+                              ml: -0.5,
+                              mr: 1,
+                            },
+                            '&:before': {
+                              content: '""',
+                              display: 'block',
+                              position:
+                                'absolute',
+                              top: 0,
+                              right: 14,
+                              width: 10,
+                              height: 10,
+                              bgcolor:
+                                'background.paper',
+                              transform:
+                                'translateY(-50%) rotate(45deg)',
+                              zIndex: 0,
+                            },
+                          },
+                        }}
+                        keepMounted={true}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
                       >
-                        <Avatar
-                          alt={user?.name || 'user picture'}
-                          src={user?.picture}
-                        />
-                        Profile
-                      </MenuItem>
-                      <Divider />
-                      {dashboardPermission && (
                         <MenuItem
                           onClick={() => {
-                            Router.push('/dashboard')
+                            Router.push('/profile')
                             if (typeof global.analytics !== 'undefined') {
-                              global.analytics.track('Profile Menu Item Clicked', {
-                                page: 'Dashboard Page',
-                              })
+                              global.analytics.track(
+                                'Profile Menu Item Clicked',
+                                { page: 'Profile Page' }
+                              )
+                            }
+                            setAnchorElUser(null)
+                          }}
+                        >
+                          <Avatar
+                            alt={
+                              user?.name ||
+                              'user picture'
+                            }
+                            src={user?.picture}
+                          />
+                          Profile
+                        </MenuItem>
+                        <Divider />
+
+                        {dashboardPermission && (
+                          <MenuItem
+                            onClick={() => {
+                              Router.push('/dashboard')
+                              if (typeof global.analytics !== 'undefined') {
+                                global.analytics.track(
+                                  'Profile Menu Item Clicked',
+                                  { page: 'Dashboard Page' }
+                                )
+                              }
+                              setAnchorElUser(null)
+                            }}
+                          >
+                            <ListItemIcon>
+                              <DashboardIcon />
+                            </ListItemIcon>
+                            Dashboard
+                          </MenuItem>
+                        )}
+                        <MenuItem
+                          onClick={() => {
+                            Router.push('/profile/edit')
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track(
+                                'Profile Menu Item Clicked',
+                                { page: 'Edit Profile Page' }
+                              )
                             }
                             setAnchorElUser(null)
                           }}
                         >
                           <ListItemIcon>
-                            <DashboardIcon />
+                            <Settings fontSize="small" />
                           </ListItemIcon>
-                          Dashboard
+                          Settings
                         </MenuItem>
-                      )}
-                      <MenuItem
-                        onClick={() => {
-                          Router.push('/profile/edit')
-                          if (typeof global.analytics !== 'undefined') {
-                            global.analytics.track('Profile Menu Item Clicked', {
-                              page: 'Edit Profile Page',
-                            })
-                          }
-                          setAnchorElUser(null)
-                        }}
-                      >
-                        <ListItemIcon>
-                          <Settings fontSize="small" />
-                        </ListItemIcon>
-                        Settings
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          if (typeof global.analytics !== 'undefined') {
-                            global.analytics.track('Logout Button Clicked')
-                          }
-                          logout()
-                          setAnchorElUser(null)
-                        }}
-                      >
-                        <ListItemIcon>
-                          <Logout fontSize="small" />
-                        </ListItemIcon>
-                        Logout
-                      </MenuItem>
-                    </Menu>
+                        <MenuItem
+                          onClick={() => {
+                            if (typeof global.analytics !== 'undefined') {
+                              global.analytics.track('Logout Button Clicked')
+                            }
+                            logout()
+                            setAnchorElUser(null)
+                          }}
+                        >
+                          <ListItemIcon>
+                            <Logout fontSize="small" />
+                          </ListItemIcon>
+                          Logout
+                        </MenuItem>
+                      </Menu>
+                    </Box>
                   </Box>
-                </Box>
-              )}
+                )}
 
-              {!user && (
-                <Box
-                  sx={{
-                    display: { xs: 'flex', md: 'flex', lg: 'flex' },
-                    flex: 1,
-                    justifyContent: 'end',
-                  }}
-                >
+                {/* Connect Wallet || Logged Out */}
+
+                {!user && (
                   <Box
                     sx={{
-                      display: {
-                        xs: 'none',
-                        md: 'none',
-                        lg: 'none',
-                        xl: 'flex',
-                      },
-                      '@media (min-width: 1220px)': {
-                        display: 'flex',
-                      },
+                      display: { xs: 'flex', md: 'flex', lg: 'flex' },
+                      flex: 1,
+                      justifyContent: 'end',
                     }}
                   >
-                    <Button
-                      disableElevation={true}
-                      variant="contained"
-                      onClick={() => {
-                        login()
-                        if (typeof global.analytics !== 'undefined') {
-                          global.analytics.track('Login Button Clicked')
-                        }
-                      }}
+                    {/* Connect Wallet | Desktop only (1220px and above) */}
+                    {/* Mobile/Tablet users access Connect Wallet through MobileMenu dropdown */}
+                    <Box
                       sx={{
-                        py: 1.5,
-                        px: 2.5,
-                        fontWeight: '400',
-                        fontSize: '16px',
+                        display: {
+                          xs: 'none',
+                          md: 'none',
+                          lg: 'none',
+                          xl: 'flex',
+                        },
+                        '@media (min-width: 1220px)': {
+                          display: 'flex',
+                        },
                       }}
                     >
-                      Connect Wallet
-                    </Button>
+                      <Button
+                        disableElevation={true}
+                        variant="contained"
+                        onClick={() => {
+                          login()
+                          if (typeof global.analytics !== 'undefined') {
+                            global.analytics.track('Login Button Clicked')
+                          }
+                        }}
+                        sx={{
+                          py: 1.5,
+                          px: 2.5,
+                          fontWeight: '400',
+                          fontSize: '16px',
+                        }}
+                      >
+                        Connect Wallet
+                      </Button>
+                    </Box>
                   </Box>
-                </Box>
-              )}
+                )}
             </>
           )}
         </div>
