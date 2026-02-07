@@ -4,18 +4,33 @@ import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 
 export async function getServerSideProps() {
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const data = await collection.find({ hidden: false }).toArray();
+    let posts = [];
+    let authors = [];
+    let contributors = [];
 
-    const authors = await getUsersByRole("admin");
-    const contributors = await getUsersByRole("contributor");
+    try {
+        const db = await connectDatabase();
+        if (db) {
+            const collection = db.collection("posts");
+            const data = await collection.find({ hidden: false }).toArray();
+            posts = JSON.parse(JSON.stringify(data));
+        }
+    } catch (error) {
+        console.error("Error fetching posts:", error.message);
+    }
+
+    try {
+        authors = await getUsersByRole("admin");
+        contributors = await getUsersByRole("contributor");
+    } catch (error) {
+        console.error("Error fetching users:", error.message);
+    }
 
     return {
         props: {
-            posts: JSON.parse(JSON.stringify(data)),
-            authors: authors,
-            contributors: contributors,
+            posts,
+            authors,
+            contributors,
         },
     };
 }
