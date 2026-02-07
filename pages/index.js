@@ -9,18 +9,38 @@ import { getUsersByRole } from './api/database/getUserByEmail'
 import connectDatabase from '../lib/mongoClient'
 
 export async function getServerSideProps() {
-  const db = await connectDatabase()
-  const collection = db.collection('posts')
-  const data = await collection.find({ hidden: false }).toArray()
+  let posts = []
+  let authors = []
+  let contributors = []
 
-  const authors = await getUsersByRole('admin')
-  const contributors = await getUsersByRole('contributor')
+  try {
+    const db = await connectDatabase()
+    if (db) {
+      const collection = db.collection('posts')
+      const data = await collection.find({ hidden: false }).toArray()
+      posts = JSON.parse(JSON.stringify(data))
+    }
+  } catch (error) {
+    console.error("Error fetching posts from MongoDB:", error.message)
+  }
+
+  try {
+    authors = await getUsersByRole('admin')
+  } catch (error) {
+    console.error("Error fetching authors:", error.message)
+  }
+
+  try {
+    contributors = await getUsersByRole('contributor')
+  } catch (error) {
+    console.error("Error fetching contributors:", error.message)
+  }
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(data)),
-      authors: authors,
-      contributors: contributors,
+      posts,
+      authors,
+      contributors,
     },
   }
 }
@@ -40,47 +60,6 @@ const Home = ({ posts, authors, contributors }) => {
       {/* Art Basel Post */}
       <ArtBaselCard />
 
-      {/* Claim Poap */}
-      {/* <Box
-                sx={{
-                    borderTop: 100,
-                    borderBottom: 100,
-                    borderColor: "#0A0510",
-                    backgroundColor: "#0A0510",
-                    textAlign: {
-                        xs: "center",
-                    },
-                }}
-            >
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={4}
-                >
-                    <Grid item>
-                        <h2 style={{ color: "white", fontSize: "28px" }}>
-                            Frens at Art Basel, claim your free VV POAP!
-                        </h2>
-                    </Grid>
-                    <Grid item>
-                        <Image
-                            src="/vvCircleLogo.svg"
-                            alt="vv logo"
-                            height={80}
-                            width={80}
-                        />
-                    </Grid>
-                </Grid>
-                <Link href="https://kiosk.poap.xyz/#/event/hog54Jm3tROGR2jbwb9A">
-                    <Button variant="contained" disableElevation sx={{ mt: 3 }}>
-                        Claim Violet Verse POAP
-                    </Button>
-                </Link>
-            </Box> */}
-
-      {/* Main Content */}
       <Box
         sx={{
           px: {

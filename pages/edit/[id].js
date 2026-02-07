@@ -6,27 +6,37 @@ import { ObjectId } from "mongodb";
 
 export async function getServerSideProps(context) {
     const postId = context.params.id;
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const postData = await collection
-        .find({ _id: new ObjectId(postId) })
-        .toArray();
 
-    if (!postData || postData.length === 0) {
+    try {
+        const db = await connectDatabase();
+        if (!db) {
+            return { notFound: true, props: { posts: {} } };
+        }
+
+        const collection = db.collection("posts");
+        const postData = await collection
+            .find({ _id: new ObjectId(postId) })
+            .toArray();
+
+        if (!postData || postData.length === 0) {
+            return { notFound: true, props: { posts: {} } };
+        }
+
+        const lastEditor =
+            (await getUserByIssuer(postData?.[0]?.lastEditedBy)) ?? null;
+
+        return {
+            props: {
+                posts: JSON.parse(JSON.stringify(postData[0])),
+                lastEditor,
+                protected: true,
+                userTypes: ["admin", "contributor"],
+            },
+        };
+    } catch (error) {
+        console.error("Error in edit SSR:", error.message);
         return { notFound: true, props: { posts: {} } };
     }
-
-    const lastEditor =
-        (await getUserByIssuer(postData?.[0]?.lastEditedBy)) ?? null;
-
-    return {
-        props: {
-            posts: JSON.parse(JSON.stringify(postData[0])),
-            lastEditor,
-            protected: true,
-            userTypes: ["admin", "contributor"],
-        },
-    };
 }
 
 const EditArticle = ({ posts, lastEditor }) => {

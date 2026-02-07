@@ -29,25 +29,34 @@ import connectDatabase from "../lib/mongoClient";
 export async function getServerSideProps(context) {
     const id = context.params.articlePage;
 
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const allPosts = await collection.find({ hidden: false }).toArray();
-    const data = await collection.find({ slug: id }).toArray();
-    const authorData = await getAuthorForPost(id);
-    const contributorData = await getContributorForPost(id);
+    try {
+        const db = await connectDatabase();
+        if (!db) {
+            return { notFound: true, props: { posts: {} } };
+        }
 
-    if (!data || data.length === 0) {
+        const collection = db.collection("posts");
+        const allPosts = await collection.find({ hidden: false }).toArray();
+        const data = await collection.find({ slug: id }).toArray();
+        const authorData = await getAuthorForPost(id);
+        const contributorData = await getContributorForPost(id);
+
+        if (!data || data.length === 0) {
+            return { notFound: true, props: { posts: {} } };
+        }
+
+        return {
+            props: {
+                posts: JSON.parse(JSON.stringify(data[0])),
+                allPosts: JSON.parse(JSON.stringify(allPosts)),
+                authorData: authorData,
+                contributorData: contributorData || null,
+            },
+        };
+    } catch (error) {
+        console.error("Error in articlePage SSR:", error.message);
         return { notFound: true, props: { posts: {} } };
     }
-
-    return {
-        props: {
-            posts: JSON.parse(JSON.stringify(data[0])),
-            allPosts: JSON.parse(JSON.stringify(allPosts)),
-            authorData: authorData,
-            contributorData: contributorData || null,
-        },
-    };
 }
 
 const fetcher = (url) =>
