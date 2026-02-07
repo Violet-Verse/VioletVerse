@@ -220,6 +220,35 @@ export default async function handler(req, res) {
 
     res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`)
     res.end()
+
+    // Log interaction to agent_interactions collection (fire and forget)
+    try {
+      const db = await connectDatabase()
+      if (db && userText) {
+        const topicMap = {
+          'NFT': ['nft', 'nfts', 'non-fungible'],
+          'DeFi': ['defi', 'yield', 'liquidity'],
+          'Web3': ['web3', 'web 3', 'decentralized'],
+          'Blockchain': ['blockchain', 'ledger'],
+          'Crypto': ['crypto', 'bitcoin', 'ethereum', 'solana'],
+          'Fashion': ['fashion', 'luxury', 'brand', 'style'],
+          'Art': ['art', 'artist', 'creative', 'gallery'],
+          'Metaverse': ['metaverse', 'virtual'],
+          'Education': ['learn', 'explain', 'what is', 'how to', 'guide'],
+        }
+        const lower = userText.toLowerCase()
+        const topics = Object.entries(topicMap)
+          .filter(([, kws]) => kws.some((kw) => lower.includes(kw)))
+          .map(([t]) => t)
+        if (topics.length === 0) topics.push('General')
+
+        db.collection('agent_interactions').insertOne({
+          userMessage: userText.slice(0, 500),
+          topics,
+          timestamp: new Date(),
+        }).catch(() => {})
+      }
+    } catch (_) { /* non-critical */ }
   } catch (error) {
     console.error('Chat API error:', error?.message)
     if (!res.headersSent) {

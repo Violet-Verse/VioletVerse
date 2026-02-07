@@ -239,6 +239,25 @@ const NewNav = () => {
                       </Button>
                     </a>
                   </Link>
+                  <Link href="/agent" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          ml: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Agent
+                      </Button>
+                    </a>
+                  </Link>
                 </Box>
               </div>
 

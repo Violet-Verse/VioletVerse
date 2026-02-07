@@ -280,6 +280,19 @@ const MobileMenu = ({
                 </a>
               </Link>
             </MenuItem>
+
+            {/* Agent */}
+            <MenuItem index={!user && loaded ? 5 : 4}>
+              <Link
+                href="/agent"
+                legacyBehavior
+                onClick={() => handleMenuClick(false)}
+              >
+                <a className={mobileMenuClasses.menuButton}>
+                  Agent
+                </a>
+              </Link>
+            </MenuItem>
           </motion.div>
         )}
       </AnimatePresence>
