@@ -25,16 +25,22 @@ export default function LiveAgent() {
   const inputRef = useRef(null)
   const chatContainerRef = useRef(null)
 
+  const chatTransport = useRef(new DefaultChatTransport({ api: '/api/chat' }))
+
   const { messages, sendMessage, status, error } = useChat({
-    transport: new DefaultChatTransport({ api: '/api/chat' }),
+    transport: chatTransport.current,
     onError: (err) => {
-      console.log('[v0] useChat error:', err?.message || err)
+      console.log('[v0] useChat onError:', err?.message || String(err))
     },
   })
 
   useEffect(() => {
-    console.log('[v0] Chat status:', status, 'Messages:', messages.length)
-    if (error) console.log('[v0] Chat error state:', error)
+    console.log('[v0] Chat status:', status, 'Messages count:', messages.length)
+    if (messages.length > 0) {
+      const lastMsg = messages[messages.length - 1]
+      console.log('[v0] Last message role:', lastMsg.role, 'parts:', JSON.stringify(lastMsg.parts)?.slice(0, 200))
+    }
+    if (error) console.log('[v0] Chat error object:', String(error))
   }, [status, messages, error])
 
   const isLoading = status === 'streaming' || status === 'submitted'
@@ -163,6 +169,21 @@ export default function LiveAgent() {
               </div>
             )
           })}
+
+          {error && (
+            <div className={`${styles.message} ${styles.messageAssistant}`}>
+              <div className={styles.messageAvatar}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="15" y1="9" x2="9" y2="15" />
+                  <line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
+              </div>
+              <div className={`${styles.bubble} ${styles.bubbleAssistant}`} style={{ color: '#c0392b', fontSize: '13px' }}>
+                Something went wrong. Please try again.
+              </div>
+            </div>
+          )}
 
           {isLoading && messages.length > 0 && getMessageText(messages[messages.length - 1]) === '' && (
             <div className={`${styles.message} ${styles.messageAssistant}`}>

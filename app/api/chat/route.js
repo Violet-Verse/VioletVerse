@@ -1,10 +1,8 @@
 import { streamText, convertToModelMessages, tool } from 'ai'
 import { z } from 'zod'
-import connectDatabase from '../../lib/mongoClient'
+import connectDatabase from '../../../lib/mongoClient'
 
-export const config = {
-  maxDuration: 60,
-}
+export const maxDuration = 60
 
 const SYSTEM_PROMPT = `You are Violet, the AI guide for Violet Verse — a Web3 lifestyle platform at violetverse.io.
 
@@ -37,24 +35,23 @@ Guidelines:
 - Never make up article titles or URLs — only reference articles returned by the searchArticles tool
 - When sharing article links, format them as: violetverse.io/{slug}`
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  console.log('[v0] Chat API called')
+export async function POST(req) {
+  console.log('[v0] App Router chat API called')
 
   try {
-    const { messages } = req.body
-    console.log('[v0] Received messages count:', messages?.length)
+    const body = await req.json()
+    const messages = body?.messages
+    console.log('[v0] Messages count:', messages?.length)
 
     if (!messages || !Array.isArray(messages)) {
-      console.log('[v0] Invalid messages format')
-      return res.status(400).json({ error: 'Invalid messages format' })
+      return new Response(JSON.stringify({ error: 'Invalid messages format' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     const convertedMessages = await convertToModelMessages(messages)
-    console.log('[v0] Converted messages count:', convertedMessages.length)
+    console.log('[v0] Converted messages:', convertedMessages.length)
 
     const result = streamText({
       model: 'anthropic/claude-sonnet-4-20250514',
@@ -64,16 +61,14 @@ export default async function handler(req, res) {
         searchArticles: tool({
           description: 'Search Violet Verse articles by keyword, topic, or category. Use this when the user asks about a topic that might have related articles on the site.',
           inputSchema: z.object({
-            query: z.string().describe('The search query — a keyword, topic, or phrase to search for in article titles, subtitles, and categories'),
+            query: z.string().describe('The search query — a keyword, topic, or phrase to search for'),
             category: z.string().nullable().describe('Optional category filter, e.g. "Web3", "Fashion", "Art", "DeFi", "NFTs"'),
           }),
           execute: async ({ query, category }) => {
-            console.log('[v0] searchArticles called with:', { query, category })
+            console.log('[v0] searchArticles:', { query, category })
             try {
               const db = await connectDatabase()
               if (!db) return { articles: [], message: 'Database unavailable' }
-
-              const collection = db.collection('posts')
 
               const filter = {
                 hidden: false,
@@ -84,21 +79,13 @@ export default async function handler(req, res) {
                   { category: { $regex: query, $options: 'i' } },
                 ],
               }
-
               if (category) {
                 filter.category = { $regex: category, $options: 'i' }
               }
 
-              const articles = await collection
+              const articles = await db.collection('posts')
                 .find(filter)
-                .project({
-                  title: 1,
-                  subtitle: 1,
-                  tldr: 1,
-                  category: 1,
-                  slug: 1,
-                  created: 1,
-                })
+                .project({ title: 1, subtitle: 1, tldr: 1, category: 1, slug: 1, created: 1 })
                 .sort({ created: -1 })
                 .limit(5)
                 .toArray()
@@ -111,38 +98,30 @@ export default async function handler(req, res) {
                   tldr: a.tldr || '',
                   category: a.category || '',
                   slug: a.slug,
-                  date: a.created,
                   url: `violetverse.io/${a.slug}`,
                 })),
                 count: articles.length,
               }
             } catch (error) {
-              console.error('[v0] searchArticles error:', error)
+              console.error('[v0] searchArticles error:', error?.message)
               return { articles: [], message: 'Error searching articles' }
             }
           },
         }),
         getRecentArticles: tool({
-          description: 'Get the most recent articles published on Violet Verse. Use this when the user wants to know what is new or trending.',
+          description: 'Get the most recent articles published on Violet Verse.',
           inputSchema: z.object({
             limit: z.number().nullable().describe('Number of articles to return, defaults to 5'),
           }),
           execute: async ({ limit }) => {
-            console.log('[v0] getRecentArticles called with limit:', limit)
+            console.log('[v0] getRecentArticles called')
             try {
               const db = await connectDatabase()
               if (!db) return { articles: [], message: 'Database unavailable' }
 
-              const collection = db.collection('posts')
-              const articles = await collection
+              const articles = await db.collection('posts')
                 .find({ hidden: false })
-                .project({
-                  title: 1,
-                  subtitle: 1,
-                  category: 1,
-                  slug: 1,
-                  created: 1,
-                })
+                .project({ title: 1, subtitle: 1, category: 1, slug: 1, created: 1 })
                 .sort({ created: -1 })
                 .limit(limit || 5)
                 .toArray()
@@ -154,41 +133,30 @@ export default async function handler(req, res) {
                   subtitle: a.subtitle || '',
                   category: a.category || '',
                   slug: a.slug,
-                  date: a.created,
                   url: `violetverse.io/${a.slug}`,
                 })),
                 count: articles.length,
               }
             } catch (error) {
-              console.error('[v0] getRecentArticles error:', error)
+              console.error('[v0] getRecentArticles error:', error?.message)
               return { articles: [], message: 'Error fetching articles' }
             }
           },
         }),
         getArticlesByCategory: tool({
-          description: 'Get articles filtered by a specific category. Use this when the user asks about a specific topic area.',
+          description: 'Get articles filtered by a specific category.',
           inputSchema: z.object({
             category: z.string().describe('The category to filter by, e.g. "Web3", "Fashion", "Art", "DeFi"'),
           }),
           execute: async ({ category }) => {
-            console.log('[v0] getArticlesByCategory called with:', category)
+            console.log('[v0] getArticlesByCategory:', category)
             try {
               const db = await connectDatabase()
               if (!db) return { articles: [], message: 'Database unavailable' }
 
-              const collection = db.collection('posts')
-              const articles = await collection
-                .find({
-                  hidden: false,
-                  category: { $regex: category, $options: 'i' },
-                })
-                .project({
-                  title: 1,
-                  subtitle: 1,
-                  category: 1,
-                  slug: 1,
-                  created: 1,
-                })
+              const articles = await db.collection('posts')
+                .find({ hidden: false, category: { $regex: category, $options: 'i' } })
+                .project({ title: 1, subtitle: 1, category: 1, slug: 1, created: 1 })
                 .sort({ created: -1 })
                 .limit(5)
                 .toArray()
@@ -200,13 +168,12 @@ export default async function handler(req, res) {
                   subtitle: a.subtitle || '',
                   category: a.category || '',
                   slug: a.slug,
-                  date: a.created,
                   url: `violetverse.io/${a.slug}`,
                 })),
                 count: articles.length,
               }
             } catch (error) {
-              console.error('[v0] getArticlesByCategory error:', error)
+              console.error('[v0] getArticlesByCategory error:', error?.message)
               return { articles: [], message: 'Error fetching articles' }
             }
           },
@@ -215,41 +182,14 @@ export default async function handler(req, res) {
       maxSteps: 3,
     })
 
-    console.log('[v0] streamText initiated, piping response...')
-
-    // Set SSE headers for Pages Router
-    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
-    res.setHeader('Cache-Control', 'no-cache, no-transform')
-    res.setHeader('Connection', 'keep-alive')
-    res.setHeader('X-Accel-Buffering', 'no')
-
-    // Use toUIMessageStream and pipe chunks to the Node.js response
-    const stream = result.toUIMessageStream()
-
-    const reader = stream.getReader()
-    const encoder = new TextEncoder()
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) {
-          console.log('[v0] Stream complete')
-          break
-        }
-        // value is a UIMessageChunk, we need to send it as SSE
-        // toUIMessageStream returns Uint8Array chunks already formatted as SSE
-        res.write(value)
-      }
-    } catch (streamError) {
-      console.error('[v0] Stream reading error:', streamError)
-    }
-
-    res.end()
+    console.log('[v0] Returning stream response')
+    return result.toUIMessageStreamResponse()
   } catch (error) {
-    console.error('[v0] Chat API error:', error?.message || error)
-    console.error('[v0] Error stack:', error?.stack)
-    if (!res.headersSent) {
-      res.status(500).json({ error: 'Internal server error', details: error?.message })
-    }
+    console.error('[v0] Chat API error:', error?.message)
+    console.error('[v0] Stack:', error?.stack)
+    return new Response(JSON.stringify({ error: 'Internal server error', details: error?.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 }
