@@ -9,6 +9,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Provider as LyketProvider } from "@lyket/react";
 import { Analytics } from "@vercel/analytics/react";
 import { useRouter } from 'next/router';
+import LiveAgent from "../LiveAgent/LiveAgent";
 
 const Layout = ({ children }) => {
     const { user } = useUser();
@@ -143,6 +144,7 @@ const Layout = ({ children }) => {
                         <Analytics />
                     </Box>
                     <Footer />
+                    <LiveAgent />
                 </Box>
             </NextUIProvider>
         </ThemeProvider>
