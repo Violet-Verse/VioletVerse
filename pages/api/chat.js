@@ -14,8 +14,13 @@ Your expertise:
 - Violet Verse content: articles, community events, educational resources
 - The Violet Verse platform itself: how to navigate, explore, contribute
 
+IMPORTANT — Article Search Results:
+You have access to REAL articles from the Violet Verse database. When article search results are included below, you MUST reference them directly by title and URL. Do NOT say "I don't have access to search" or "I can't find specific articles." The articles listed in the context are real, published articles on violetverse.io. Always link to them using their exact URLs.
+
+If no articles match the user's query, say so honestly and suggest they browse violetverse.io/posts for more content.
+
 Site navigation you can help with:
-- /posts — Explore all articles
+- /posts — Browse all articles
 - /enterprise — Enterprise Plan for brands and businesses
 - /about — Community page
 - /connect — Connect your wallet to join
@@ -24,41 +29,61 @@ Site navigation you can help with:
 Guidelines:
 - Keep responses concise (2-4 sentences for simple questions, more for complex topics)
 - Use a friendly, modern tone that matches Violet Verse's brand
-- If you know about relevant articles, suggest them
+- ALWAYS reference specific articles when they appear in your context — include the title and full URL
 - If asked about something outside your expertise, be honest and redirect gracefully`
 
-async function searchArticles(query, category) {
+async function searchArticles(query) {
   try {
     const db = await connectDatabase()
     if (!db) return []
 
-    const filter = {
-      hidden: false,
+    // Break the query into meaningful words (3+ chars) for broader matching
+    const stopWords = new Set(['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'had', 'her', 'was', 'one', 'our', 'out', 'has', 'have', 'with', 'that', 'this', 'from', 'they', 'been', 'said', 'each', 'what', 'about', 'their', 'will', 'there', 'when', 'where', 'how', 'does', 'tell', 'show', 'find', 'any', 'some'])
+    const words = query
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, '')
+      .split(/\s+/)
+      .filter((w) => w.length >= 3 && !stopWords.has(w))
+
+    if (words.length === 0) return []
+
+    // Build $or conditions: match each word against title, subtitle, tldr, category, body
+    const wordConditions = words.map((word) => ({
       $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { subtitle: { $regex: query, $options: 'i' } },
-        { tldr: { $regex: query, $options: 'i' } },
-        { category: { $regex: query, $options: 'i' } },
+        { title: { $regex: word, $options: 'i' } },
+        { subtitle: { $regex: word, $options: 'i' } },
+        { tldr: { $regex: word, $options: 'i' } },
+        { category: { $regex: word, $options: 'i' } },
+        { body: { $regex: word, $options: 'i' } },
       ],
-    }
-    if (category) {
-      filter.category = { $regex: category, $options: 'i' }
-    }
+    }))
+
+    // Also try matching the full query phrase
+    const phraseConditions = [
+      { title: { $regex: query, $options: 'i' } },
+      { subtitle: { $regex: query, $options: 'i' } },
+      { tldr: { $regex: query, $options: 'i' } },
+      { category: { $regex: query, $options: 'i' } },
+    ]
 
     const articles = await db
       .collection('posts')
-      .find(filter)
+      .find({
+        hidden: false,
+        $or: [...phraseConditions, ...wordConditions],
+      })
       .project({ title: 1, subtitle: 1, tldr: 1, category: 1, slug: 1, created: 1 })
       .sort({ created: -1 })
-      .limit(5)
+      .limit(8)
       .toArray()
 
     return articles.map((a) => ({
       title: a.title,
       subtitle: a.subtitle || '',
+      tldr: a.tldr || '',
       category: a.category || '',
       slug: a.slug,
-      url: `violetverse.io/${a.slug}`,
+      url: `https://violetverse.io/${a.slug}`,
     }))
   } catch (err) {
     console.error('searchArticles error:', err?.message)
@@ -74,7 +99,7 @@ async function getRecentArticles(limit = 5) {
     const articles = await db
       .collection('posts')
       .find({ hidden: false })
-      .project({ title: 1, subtitle: 1, category: 1, slug: 1, created: 1 })
+      .project({ title: 1, subtitle: 1, tldr: 1, category: 1, slug: 1, created: 1 })
       .sort({ created: -1 })
       .limit(limit)
       .toArray()
@@ -84,7 +109,7 @@ async function getRecentArticles(limit = 5) {
       subtitle: a.subtitle || '',
       category: a.category || '',
       slug: a.slug,
-      url: `violetverse.io/${a.slug}`,
+      url: `https://violetverse.io/${a.slug}`,
     }))
   } catch (err) {
     console.error('getRecentArticles error:', err?.message)
@@ -93,31 +118,34 @@ async function getRecentArticles(limit = 5) {
 }
 
 async function buildContextFromDB(userMessage) {
-  const lowerMsg = userMessage.toLowerCase()
   let context = ''
 
-  // Search for related articles if the message seems topical
-  const topicKeywords = ['article', 'read', 'learn', 'nft', 'web3', 'defi', 'fashion', 'art', 'blockchain', 'crypto', 'brand', 'luxury', 'metaverse', 'dao', 'smart contract', 'wallet', 'token']
-  const shouldSearch = topicKeywords.some((kw) => lowerMsg.includes(kw))
-
-  if (shouldSearch || lowerMsg.includes('what') || lowerMsg.includes('tell me') || lowerMsg.includes('how')) {
-    const articles = await searchArticles(userMessage, null)
-    if (articles.length > 0) {
-      context += '\n\nRelevant Violet Verse articles I found:\n'
-      articles.forEach((a) => {
-        context += `- "${a.title}" (${a.category}) — violetverse.io/${a.slug}\n`
-      })
-      context += '\nYou can reference these articles in your response when relevant. Always use the exact URLs provided.'
-    }
+  // ALWAYS search for articles related to the user's question
+  const articles = await searchArticles(userMessage)
+  if (articles.length > 0) {
+    context += '\n\n--- ARTICLE SEARCH RESULTS (from Violet Verse database) ---\n'
+    context += 'These are REAL published articles. Reference them by title and URL in your response:\n\n'
+    articles.forEach((a, i) => {
+      context += `${i + 1}. "${a.title}"`
+      if (a.category) context += ` [${a.category}]`
+      context += `\n   URL: ${a.url}`
+      if (a.subtitle) context += `\n   Subtitle: ${a.subtitle}`
+      if (a.tldr) context += `\n   Summary: ${a.tldr.slice(0, 200)}`
+      context += '\n\n'
+    })
+    context += '--- END SEARCH RESULTS ---\n'
   }
 
-  if (lowerMsg.includes('latest') || lowerMsg.includes('recent') || lowerMsg.includes('new')) {
+  // Also include recent articles for broader context
+  const lowerMsg = userMessage.toLowerCase()
+  if (lowerMsg.includes('latest') || lowerMsg.includes('recent') || lowerMsg.includes('new') || lowerMsg.includes('trending') || articles.length === 0) {
     const recent = await getRecentArticles(5)
     if (recent.length > 0) {
-      context += '\n\nLatest articles on Violet Verse:\n'
+      context += '\n\n--- LATEST ARTICLES ON VIOLET VERSE ---\n'
       recent.forEach((a) => {
-        context += `- "${a.title}" (${a.category}) — violetverse.io/${a.slug}\n`
+        context += `- "${a.title}" (${a.category}) — ${a.url}\n`
       })
+      context += '--- END LATEST ---\n'
     }
   }
 
@@ -206,7 +234,6 @@ export default async function handler(req, res) {
             const parsed = JSON.parse(data)
 
             if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
-              // Send text delta to client
               res.write(`data: ${JSON.stringify({ type: 'delta', text: parsed.delta.text })}\n\n`)
             } else if (parsed.type === 'message_stop') {
               res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`)
