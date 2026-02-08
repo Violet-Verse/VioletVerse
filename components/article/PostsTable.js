@@ -337,9 +337,12 @@ function PostsTable(props) {
                             .map((row) => (
                                 <TableRow key={row.slug}>
                                     <TableCell>
-                                        <Link href={`/${row.slug}`} legacyBehavior>
-                                            <a>{row.title}</a>
-                                        </Link>
+                                        <span
+                                            style={{ color: "#693E9A", cursor: "pointer" }}
+                                            onClick={() => Router.push(`/${row.slug}`)}
+                                        >
+                                            {row.title}
+                                        </span>
                                     </TableCell>
                                     <TableCell>{row.author}</TableCell>
                                     <TableCell>{row.created}</TableCell>

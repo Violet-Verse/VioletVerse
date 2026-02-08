@@ -9,7 +9,7 @@ import {
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
-import Link from "next/link";
+
 import useSWR from "swr";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -230,47 +230,39 @@ const Article = ({
                             >
                                 <UserAvatar user={contributor || author} />
 
-                                <Link
-                                    href={`/user/${
-                                        contributor?.username ||
-                                        author?.username
-                                    }`}
-                                    legacyBehavior
-                                >
-                                    <Tooltip
-                                        title={
-                                            contributor
-                                                ? "Community Contributor"
-                                                : ""
-                                        }
-                                        arrow
-                                        PopperProps={{
-                                            modifiers: [
-                                                {
-                                                    name: "offset",
-                                                    options: {
-                                                        offset: [0, -15],
-                                                    },
+                                <Tooltip
+                                    title={
+                                        contributor
+                                            ? "Community Contributor"
+                                            : ""
+                                    }
+                                    arrow
+                                    PopperProps={{
+                                        modifiers: [
+                                            {
+                                                name: "offset",
+                                                options: {
+                                                    offset: [0, -15],
                                                 },
-                                            ],
+                                            },
+                                        ],
+                                    }}
+                                >
+                                    <p
+                                        className="secondary"
+                                        style={{
+                                            color: contributor
+                                                ? "gray"
+                                                : "#693E9A",
+                                            cursor: "pointer",
                                         }}
+                                        onClick={() => Router.push(`/user/${contributor?.username || author?.username}`)}
                                     >
-                                        <a>
-                                            <p
-                                                className="secondary"
-                                                style={{
-                                                    color: contributor
-                                                        ? "gray"
-                                                        : "#693E9A",
-                                                }}
-                                            >
-                                                By{" "}
-                                                {contributor?.name ||
-                                                    author?.name}
-                                            </p>
-                                        </a>
-                                    </Tooltip>
-                                </Link>
+                                        By{" "}
+                                        {contributor?.name ||
+                                            author?.name}
+                                    </p>
+                                </Tooltip>
                             </Stack>
                             <Stack
                                 direction="row"
@@ -289,30 +281,22 @@ const Article = ({
                                             : ""
                                     }
                                 >
-                                    <Link
-                                        href={`/user/${
-                                            contributor?.username ||
-                                            author?.username
-                                        }`}
-                                        legacyBehavior
+                                    <p
+                                        className="secondary"
+                                        style={{
+                                            fontWeight: "400",
+                                            fontSize: "18px",
+                                            color: contributor
+                                                ? "gray"
+                                                : "#693E9A",
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={() => Router.push(`/user/${contributor?.username || author?.username}`)}
                                     >
-                                        <a>
-                                            <p
-                                                className="secondary"
-                                                style={{
-                                                    fontWeight: "400",
-                                                    fontSize: "18px",
-                                                    color: contributor
-                                                        ? "gray"
-                                                        : "#693E9A",
-                                                }}
-                                            >
-                                                BY{" "}
-                                                {contributor?.name.toUpperCase() ||
-                                                    author?.name.toUpperCase()}
-                                            </p>
-                                        </a>
-                                    </Link>
+                                        BY{" "}
+                                        {contributor?.name.toUpperCase() ||
+                                            author?.name.toUpperCase()}
+                                    </p>
                                 </Tooltip>
                             </Stack>
                         </Grid>
@@ -367,22 +351,19 @@ const Article = ({
                                     display: { xs: "flex", sm: "none" },
                                 }}
                             >
-                                <Link href={`/edit/` + posts._id} legacyBehavior>
-                                    <a>
-                                        <Button
-                                            variant="contained"
-                                            disableElevation
-                                            style={{
-                                                color: "#693E9A",
-                                                marginTop: "0",
-                                                fontSize: "16px",
-                                                padding: "4px 40px",
-                                            }}
-                                        >
-                                            Edit
-                                        </Button>
-                                    </a>
-                                </Link>
+                                <Button
+                                    variant="contained"
+                                    disableElevation
+                                    style={{
+                                        color: "#693E9A",
+                                        marginTop: "0",
+                                        fontSize: "16px",
+                                        padding: "4px 40px",
+                                    }}
+                                    onClick={() => Router.push(`/edit/${posts._id}`)}
+                                >
+                                    Edit
+                                </Button>
                             </Grid>
                         )}
 
@@ -437,16 +418,13 @@ const Article = ({
                                         display: { xs: "none", sm: "flex" },
                                     }}
                                 >
-                                    <Link href={`/edit/` + posts._id} legacyBehavior>
-                                        <a>
-                                            <p
-                                                className="secondary"
-                                                style={{ color: "#693E9A" }}
-                                            >
-                                                Edit
-                                            </p>
-                                        </a>
-                                    </Link>
+                                    <p
+                                        className="secondary"
+                                        style={{ color: "#693E9A", cursor: "pointer" }}
+                                        onClick={() => Router.push(`/edit/${posts._id}`)}
+                                    >
+                                        Edit
+                                    </p>
                                 </Grid>
                             </>
                         )}

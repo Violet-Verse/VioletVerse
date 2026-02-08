@@ -6,7 +6,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { Box, Grid } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
+import Router from "next/router";
 
 import { members } from "../components/Placeholder/UserData";
 
@@ -137,26 +137,21 @@ const About = () => {
                 </Grid>
                 {team.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Link
-                            href={
-                                "/team/" +
-                                member.name.replace(/\s+/g, "-").toLowerCase()
-                            }
-                            legacyBehavior
+                        <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => Router.push("/team/" + member.name.replace(/\s+/g, "-").toLowerCase())}
                         >
-                            <a>
-                                <Image
-                                    width={1000}
-                                    height={1159}
-                                    src={member.photo}
-                                    alt="Default Image"
-                                    className="image"
-                                    objectFit={"cover"}
-                                    placeholder="blur"
-                                    blurDataURL={member.photo}
-                                />
-                            </a>
-                        </Link>
+                            <Image
+                                width={1000}
+                                height={1159}
+                                src={member.photo}
+                                alt="Default Image"
+                                className="image"
+                                objectFit={"cover"}
+                                placeholder="blur"
+                                blurDataURL={member.photo}
+                            />
+                        </div>
                         <Box
                             sx={{
                                 textAlign: {
@@ -166,25 +161,15 @@ const About = () => {
                                 },
                             }}
                         >
-                            <Link
-                                href={
-                                    "/team/" +
-                                    member.name
-                                        .replace(/\s+/g, "-")
-                                        .toLowerCase()
-                                }
-                                legacyBehavior
+                            <h4
+                                style={{
+                                    marginTop: "15px",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => Router.push("/team/" + member.name.replace(/\s+/g, "-").toLowerCase())}
                             >
-                                <a>
-                                    <h4
-                                        style={{
-                                            marginTop: "15px",
-                                        }}
-                                    >
-                                        {member.name}
-                                    </h4>
-                                </a>
-                            </Link>
+                                {member.name}
+                            </h4>
                             <h3
                                 style={{
                                     fontFamily: "Test Calibre",
@@ -309,26 +294,21 @@ const About = () => {
                 </Grid>
                 {contributor.map((member) => (
                     <Grid item xs={12} sm={6} lg={3} key={member.id}>
-                        <Link
-                            href={
-                                "/team/" +
-                                member.name.replace(/\s+/g, "-").toLowerCase()
-                            }
-                            legacyBehavior
+                        <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => Router.push("/team/" + member.name.replace(/\s+/g, "-").toLowerCase())}
                         >
-                            <a>
-                                <Image
-                                    width={1000}
-                                    height={1000}
-                                    src={member.photo}
-                                    alt="Default Image"
-                                    className="image"
-                                    objectFit={"cover"}
-                                    placeholder="blur"
-                                    blurDataURL={member.photo}
-                                />
-                            </a>
-                        </Link>
+                            <Image
+                                width={1000}
+                                height={1000}
+                                src={member.photo}
+                                alt="Default Image"
+                                className="image"
+                                objectFit={"cover"}
+                                placeholder="blur"
+                                blurDataURL={member.photo}
+                            />
+                        </div>
                         <Box
                             sx={{
                                 textAlign: {
@@ -339,25 +319,15 @@ const About = () => {
                             }}
                         >
                             {" "}
-                            <Link
-                                href={
-                                    "/team/" +
-                                    member.name
-                                        .replace(/\s+/g, "-")
-                                        .toLowerCase()
-                                }
-                                legacyBehavior
+                            <h4
+                                style={{
+                                    marginTop: "15px",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => Router.push("/team/" + member.name.replace(/\s+/g, "-").toLowerCase())}
                             >
-                                <a>
-                                    <h4
-                                        style={{
-                                            marginTop: "15px",
-                                        }}
-                                    >
-                                        {member.name}
-                                    </h4>
-                                </a>
-                            </Link>
+                                {member.name}
+                            </h4>
                             <h3
                                 style={{
                                     fontFamily: "Test Calibre",

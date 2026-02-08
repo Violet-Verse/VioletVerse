@@ -97,16 +97,15 @@ function DraftsPanel({ posts, authors, contributors }) {
                     </p>
                 </Grid>
                 <Grid item>
-                    <Link href="/dashboard" legacyBehavior>
-                        <a>
-                            <Button
-                                color="secondary"
-                                variant="contained"
-                                disableElevation
-                                sx={{ px: 5, py: 1 }}
-                            >
-                                Back to Dashboard
-                            </Button>
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        disableElevation
+                        sx={{ px: 5, py: 1 }}
+                        onClick={() => Router.push('/dashboard')}
+                    >
+                        Back to Dashboard
+                    </Button>
                         </a>
                     </Link>
                 </Grid>

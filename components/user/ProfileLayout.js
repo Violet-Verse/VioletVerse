@@ -7,6 +7,7 @@ import {
     IconButton,
     Tooltip,
 } from "@mui/material";
+import Router from "next/router";
 import { useUser } from "../../hooks/useAuth";
 import React, { useState } from "react";
 import Link from "next/link";
@@ -86,32 +87,25 @@ const ProfileLayout = (props) => {
                 )}
                 {dashboardPermission && (
                     <Grid item>
-                        <Link href="/dashboard" legacyBehavior>
-                            <a>
-                                <Button variant="contained" disableElevation>
-                                    Creator Dashboard
-                                </Button>
-                            </a>
-                        </Link>
+                        <Button variant="contained" disableElevation onClick={() => Router.push('/dashboard')}>
+                            Creator Dashboard
+                        </Button>
                     </Grid>
                 )}
                 {isOwner && (
                     <Grid item>
-                        <Link href="/profile/edit" legacyBehavior>
-                            <a>
-                                <Button
-                                    variant="contained"
-                                    disableElevation
-                                    sx={{
-                                        backgroundColor: "white",
-                                        border: 1,
-                                        borderColor: "#DED1F7",
-                                    }}
-                                >
-                                    Edit Profile
-                                </Button>
-                            </a>
-                        </Link>
+                        <Button
+                            variant="contained"
+                            disableElevation
+                            sx={{
+                                backgroundColor: "white",
+                                border: 1,
+                                borderColor: "#DED1F7",
+                            }}
+                            onClick={() => Router.push('/profile/edit')}
+                        >
+                            Edit Profile
+                        </Button>
                     </Grid>
                 )}
             </Grid>
@@ -131,24 +125,17 @@ const ProfileLayout = (props) => {
                     }}
                 >
                     {!isPublicPage ? (
-                        <Link
-                            href={
-                                env == "development"
-                                    ? `/user/${user?.username}`
-                                    : `/user/${user?.username}`
-                            }
-                            legacyBehavior
-                        >
-                            <Tooltip title="Visit public profile page">
-                                
-                                   <a style={{
-                                        fontSize: "22px",
-                                    }}
-                                >
-                                    @{user?.username}
-                                </a>
-                            </Tooltip>
-                        </Link>
+                        <Tooltip title="Visit public profile page">
+                            <span
+                                style={{
+                                    fontSize: "22px",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => Router.push(`/user/${user?.username}`)}
+                            >
+                                @{user?.username}
+                            </span>
+                        </Tooltip>
                     ) : (
                         `@${user?.username}`
                     )}

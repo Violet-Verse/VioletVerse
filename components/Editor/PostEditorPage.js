@@ -255,11 +255,12 @@ const PostEditorPage = (props) => {
                 <Grid container>
                     {editorMode && (
                         <Grid item xs={12}>
-                            <Link href={`/` + posts.slug} legacyBehavior>
-                                <a>
-                                    <p>Back to Post</p>
-                                </a>
-                            </Link>
+                            <p
+                                style={{ cursor: "pointer", color: "#693E9A" }}
+                                onClick={() => Router.push(`/${posts.slug}`)}
+                            >
+                                Back to Post
+                            </p>
                         </Grid>
                     )}
                     {editorMode && posts?.lastEditedBy && (
