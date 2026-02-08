@@ -32,7 +32,7 @@ Router.events.on("routeChangeComplete", (url) => {
     }
 });
 
-// Dynamic import of the Web3 providers to avoid SSR issues with RainbowKit/wagmi
+// Dynamic import of Privy provider to avoid SSR issues
 const Web3Providers = dynamic(
     () => import("../components/Web3Providers"),
     { ssr: false }
