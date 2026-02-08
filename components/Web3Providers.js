@@ -1,4 +1,5 @@
 import { PrivyProvider } from "@privy-io/react-auth";
+import { polygon } from "viem/chains";
 
 export default function Web3Providers({ children }) {
     return (
@@ -12,19 +13,10 @@ export default function Web3Providers({ children }) {
                 },
                 loginMethods: ["email", "wallet", "google", "twitter"],
                 embeddedWallets: {
-                    ethereum: {
-                        createOnLogin: "users-without-wallets",
-                    },
+                    createOnLogin: "users-without-wallets",
                 },
-                defaultChain: {
-                    id: 137,
-                    name: "Polygon",
-                    network: "matic",
-                    nativeCurrency: { name: "MATIC", symbol: "MATIC", decimals: 18 },
-                    rpcUrls: {
-                        default: { http: ["https://polygon-rpc.com"] },
-                    },
-                },
+                defaultChain: polygon,
+                supportedChains: [polygon],
             }}
         >
             {children}
