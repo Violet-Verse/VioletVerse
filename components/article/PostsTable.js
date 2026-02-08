@@ -337,7 +337,7 @@ function PostsTable(props) {
                             .map((row) => (
                                 <TableRow key={row.slug}>
                                     <TableCell>
-                                        <Link href={`/${row.slug}`}>
+                                        <Link href={`/${row.slug}`} legacyBehavior>
                                             <a>{row.title}</a>
                                         </Link>
                                     </TableCell>

@@ -30,7 +30,7 @@ export default function Resources() {
               Join Melissa Henderson as she discusses fashion tech applications and products with leading voices in the web3 community.
             </p>
             {/* Link to YouTube video added here */}
-            <Link href={youtubeVideoUrl}>
+            <Link href={youtubeVideoUrl} legacyBehavior>
               <a>
                 Watch Video
               </a>
