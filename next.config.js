@@ -15,7 +15,14 @@ const nextConfig = {
       "pbs.twimg.com",
     ],
   },
+  // Force fresh build ID to bust stale cache
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
   webpack: (config, { isServer }) => {
+    // Disable persistent filesystem cache to force recompilation from source
+    config.cache = false;
+
     config.module.rules.push({
       test: /\.m?js$/,
       type: 'javascript/auto',
