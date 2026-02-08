@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
+
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const NotFound = () => {
@@ -45,9 +45,7 @@ const NotFound = () => {
             </Box>
             <p>
                 Going back to the{" "}
-                <Link href="/" legacyBehavior>
-                    <a>homepage</a>
-                </Link>{" "}
+                <span style={{ color: "#693E9A", cursor: "pointer" }} onClick={() => Router.push("/")}>homepage</span>{" "}
                 in {seconds}...
             </p>
         </Box>

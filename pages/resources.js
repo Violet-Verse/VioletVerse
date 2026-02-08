@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 
 export default function Resources() {
   const youtubeVideoUrl = "https://www.youtube.com/watch?v=CuexuxZw7h4&list=PLZT4-JBaGj0bMJLBoNuhQiyJq1cLhAhKn";
@@ -30,11 +30,9 @@ export default function Resources() {
               Join Melissa Henderson as she discusses fashion tech applications and products with leading voices in the web3 community.
             </p>
             {/* Link to YouTube video added here */}
-            <Link href={youtubeVideoUrl} legacyBehavior>
-              <a>
-                Watch Video
-              </a>
-            </Link>
+            <a href={youtubeVideoUrl} target="_blank" rel="noopener noreferrer">
+              Watch Video
+            </a>
           </div>
         </div>
         {/* Other sections */}

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
+
 import styles from './AgentDashboard.module.css'
 
 const ARCHETYPE_DESCRIPTIONS = {
@@ -218,12 +218,15 @@ export default function AgentDashboard() {
           <div className={styles.cardLabel}>Latest on Violet Verse</div>
           <div className={styles.articleList}>
             {(stats?.recentArticles || []).map((article) => (
-              <Link key={article.slug} href={`/${article.slug}`} legacyBehavior>
-                <a className={styles.articleItem}>
-                  <span className={styles.articleTitle}>{article.title}</span>
-                  <span className={styles.articleCategory}>{article.category}</span>
-                </a>
-              </Link>
+              <div
+                key={article.slug}
+                className={styles.articleItem}
+                style={{ cursor: "pointer" }}
+                onClick={() => window.location.href = `/${article.slug}`}
+              >
+                <span className={styles.articleTitle}>{article.title}</span>
+                <span className={styles.articleCategory}>{article.category}</span>
+              </div>
             ))}
           </div>
         </div>

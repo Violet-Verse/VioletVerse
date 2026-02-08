@@ -1,5 +1,5 @@
 import { Button, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
-import Link from 'next/link'
+
 import dynamic from 'next/dynamic'
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
 import styles from '../../styles/Home.module.css'
@@ -79,62 +79,56 @@ const HeroSection = () => {
           }}
         >
           <Grid item>
-            <Link href={spotlightPost.url} legacyBehavior>
-              <a>
-                <Box
-                  component="span"
-                  sx={{
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    cursor: 'pointer',
-                  }}
-                  role="link"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      window.location.href = spotlightPost.url;
-                    }
-                  }}
-                >
-                  <p
-                    style={{
-                      fontFamily: 'stratos-lights',
-                      color: 'black',
-                      fontStyle: 'italic',
-                      fontWeight: '200',
-                      fontSize: 'clamp(24px, 4vw, 36px)',
-                      lineHeight: '130%',
-                      letterSpacing: '-0.01em',
-                      margin: 0,
-                    }}
-                  >
-                    {spotlightPost.subtitle}
-                  </p>
-                </Box>
-              </a>
-            </Link>
+            <Box
+              component="span"
+              sx={{
+                textDecoration: 'none',
+                color: 'inherit',
+                cursor: 'pointer',
+              }}
+              role="link"
+              tabIndex={0}
+              onClick={() => window.location.href = spotlightPost.url}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  window.location.href = spotlightPost.url;
+                }
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: 'stratos-lights',
+                  color: 'black',
+                  fontStyle: 'italic',
+                  fontWeight: '200',
+                  fontSize: 'clamp(24px, 4vw, 36px)',
+                  lineHeight: '130%',
+                  letterSpacing: '-0.01em',
+                  margin: 0,
+                }}
+              >
+                {spotlightPost.subtitle}
+              </p>
+            </Box>
           </Grid>
 
           <Grid item>
-            <Link href={spotlightPost.url} legacyBehavior>
-              <a>
-                <Button
-                  size="large"
-                  variant="contained"
-                  disableElevation={true}
-                  sx={{
-                    fontSize: { xs: '14px', sm: '16px' },
-                    padding: { xs: '10px 24px', sm: '12px 28px' },
-                    minHeight: '44px', // Touch target size
-                  }}
-                >
-                  {isMobile
-                    ? 'Watch Now'
-                    : 'Check out the latest Fashion and Tech Stories'}
-                </Button>
-              </a>
-            </Link>
+            <Button
+              size="large"
+              variant="contained"
+              disableElevation={true}
+              onClick={() => window.location.href = spotlightPost.url}
+              sx={{
+                fontSize: { xs: '14px', sm: '16px' },
+                padding: { xs: '10px 24px', sm: '12px 28px' },
+                minHeight: '44px',
+              }}
+            >
+              {isMobile
+                ? 'Watch Now'
+                : 'Check out the latest Fashion and Tech Stories'}
+            </Button>
           </Grid>
         </Grid>
       </Box>

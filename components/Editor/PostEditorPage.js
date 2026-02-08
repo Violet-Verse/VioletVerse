@@ -16,7 +16,6 @@ import { Editor } from "@tinymce/tinymce-react";
 import useSWR from "swr";
 import Image from "next/image";
 import Router from "next/router";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useUser } from "../../hooks/useAuth";

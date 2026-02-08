@@ -1,6 +1,6 @@
 import { Grid, Box } from "@mui/material";
 import Image from "next/image";
-import Link from "next/link";
+
 import styles from "../../styles/InfoBlock.module.css";
 
 const InfoBlock = (props) => {
@@ -108,13 +108,13 @@ const InfoBlock = (props) => {
                                     </h5>
                                 </Grid>
                                 <Grid item={true}>
-                                    <Link href={section.url} legacyBehavior={true}>
-                                        <a href={section.url}>
-                                            <h5 className={styles.link}>
-                                                Learn more
-                                            </h5>
-                                        </a>
-                                    </Link>
+                                    <h5
+                                        className={styles.link}
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => window.location.href = section.url}
+                                    >
+                                        Learn more
+                                    </h5>
                                 </Grid>
                             </Grid>
                         </Box>

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Box, Button, CircularProgress, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 import useSWR from "swr";
-import Link from "next/link";
+import Router from "next/router";
 import dateFormatter from "../../lib/dateFormatter";
 
 export async function getStaticProps(context) {
@@ -79,11 +79,12 @@ const Profile = () => {
                         <Grid container direction="column" spacing={4}>
                             <Grid item>
                                 <h1>Settings</h1>
-                                <Link href="/profile" legacyBehavior>
-                                    <a>
-                                        <p>Back to Profile</p>
-                                    </a>
-                                </Link>
+                                <p
+                                    style={{ color: "#693E9A", cursor: "pointer" }}
+                                    onClick={() => Router.push("/profile")}
+                                >
+                                    Back to Profile
+                                </p>
                             </Grid>
 
                             <Grid item>

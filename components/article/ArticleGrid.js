@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import Router from "next/router";
-import Link from "next/link";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import youtubeParser from "../../lib/getYouTubeThumbnail";
@@ -357,17 +357,17 @@ const ArticleGrid = (props) => {
                                 display: "flex",
                             }}
                         >
-                            <Link href={"/" + post.slug} legacyBehavior>
-                                <a
-                                    href={"/" + post.slug}
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        width: "100%",
-                                        textDecoration: "none",
-                                        color: "inherit",
-                                    }}
-                                >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    width: "100%",
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => window.location.href = "/" + post.slug}
+                            >
                                     <Box
                                         sx={{
                                             backgroundColor: "#F9F4FE",
@@ -476,8 +476,7 @@ const ArticleGrid = (props) => {
                                             in {post.category}
                                         </h6>
                                     </Box>
-                                </a>
-                            </Link>
+                            </div>
                         </Grid>
                     ))}
                     {!maximum && totalPages > 1 && (

@@ -1,7 +1,6 @@
 import { Button, Grid, Box, Chip, Divider, CircularProgress } from "@mui/material";
 import { usePrivy } from "@privy-io/react-auth";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import Router, { useRouter } from "next/router";
 import useSWR from "swr";
 
 export async function getStaticProps(context) {
@@ -145,59 +144,57 @@ const Dashboard = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
-                            <Link href="/posts/create" legacyBehavior>
-                                <a style={{ textDecoration: "none" }}>
-                                    <Box sx={{
-                                        border: "1px solid rgba(105, 62, 154, 0.3)",
-                                        borderRadius: "12px",
-                                        p: 3,
-                                        textAlign: "center",
-                                        cursor: "pointer",
-                                        transition: "all 0.2s",
-                                        "&:hover": {
-                                            borderColor: "#693E9A",
-                                            background: "rgba(105, 62, 154, 0.08)",
-                                        },
-                                    }}>
-                                        <Box sx={{ fontSize: "28px", mb: 1 }}>
-                                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#693E9A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M12 5v14M5 12h14" />
-                                            </svg>
-                                        </Box>
-                                        <p style={{
-                                            fontWeight: "600",
-                                            fontSize: "14px",
-                                            margin: 0,
-                                        }}>
-                                            New Article
-                                        </p>
-                                        <p style={{
-                                            fontSize: "12px",
-                                            color: "#999",
-                                            margin: "4px 0 0 0",
-                                        }}>
-                                            Create content
-                                        </p>
-                                    </Box>
-                                </a>
-                            </Link>
+                            <Box
+                                onClick={() => Router.push("/posts/create")}
+                                sx={{
+                                    border: "1px solid rgba(105, 62, 154, 0.3)",
+                                    borderRadius: "12px",
+                                    p: 3,
+                                    textAlign: "center",
+                                    cursor: "pointer",
+                                    transition: "all 0.2s",
+                                    "&:hover": {
+                                        borderColor: "#693E9A",
+                                        background: "rgba(105, 62, 154, 0.08)",
+                                    },
+                                }}>
+                                <Box sx={{ fontSize: "28px", mb: 1 }}>
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#693E9A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M12 5v14M5 12h14" />
+                                    </svg>
+                                </Box>
+                                <p style={{
+                                    fontWeight: "600",
+                                    fontSize: "14px",
+                                    margin: 0,
+                                }}>
+                                    New Article
+                                </p>
+                                <p style={{
+                                    fontSize: "12px",
+                                    color: "#999",
+                                    margin: "4px 0 0 0",
+                                }}>
+                                    Create content
+                                </p>
+                            </Box>
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                            <Link href="/drafts" legacyBehavior>
-                                <a style={{ textDecoration: "none" }}>
-                                    <Box sx={{
-                                        border: "1px solid rgba(105, 62, 154, 0.3)",
-                                        borderRadius: "12px",
-                                        p: 3,
-                                        textAlign: "center",
-                                        cursor: "pointer",
-                                        transition: "all 0.2s",
-                                        "&:hover": {
-                                            borderColor: "#693E9A",
-                                            background: "rgba(105, 62, 154, 0.08)",
-                                        },
-                                    }}>
+                            <Box
+                                onClick={() => Router.push("/drafts")}
+                                sx={{
+                                    border: "1px solid rgba(105, 62, 154, 0.3)",
+                                    borderRadius: "12px",
+                                    p: 3,
+                                    textAlign: "center",
+                                    cursor: "pointer",
+                                    transition: "all 0.2s",
+                                    "&:hover": {
+                                        borderColor: "#693E9A",
+                                        background: "rgba(105, 62, 154, 0.08)",
+                                    },
+                                }}>
                                         <Box sx={{ fontSize: "28px", mb: 1 }}>
                                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#693E9A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -220,16 +217,14 @@ const Dashboard = () => {
                                         }}>
                                             Review & approve
                                         </p>
-                                    </Box>
-                                </a>
-                            </Link>
+                            </Box>
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                            <Link href="/posts" legacyBehavior>
-                                <a style={{ textDecoration: "none" }}>
-                                    <Box sx={{
-                                        border: "1px solid rgba(105, 62, 154, 0.3)",
+                            <Box
+                                onClick={() => Router.push("/posts")}
+                                sx={{
+                                    border: "1px solid rgba(105, 62, 154, 0.3)",
                                         borderRadius: "12px",
                                         p: 3,
                                         textAlign: "center",
@@ -261,9 +256,7 @@ const Dashboard = () => {
                                         }}>
                                             Browse articles
                                         </p>
-                                    </Box>
-                                </a>
-                            </Link>
+                            </Box>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -303,33 +296,31 @@ const Dashboard = () => {
                             <p style={{ color: "#999", margin: 0 }}>
                                 {"You haven't created any articles yet."}
                             </p>
-                            <Link href="/posts/create" legacyBehavior>
-                                <a style={{ textDecoration: "none" }}>
-                                    <Button
-                                        variant="outlined"
-                                        sx={{
-                                            mt: 2,
-                                            borderColor: "#693E9A",
-                                            color: "#693E9A",
-                                            "&:hover": {
-                                                borderColor: "#693E9A",
-                                                background: "rgba(105, 62, 154, 0.08)",
-                                            },
-                                        }}
-                                    >
-                                        Create your first article
-                                    </Button>
-                                </a>
-                            </Link>
+                            <Button
+                                variant="outlined"
+                                onClick={() => Router.push("/posts/create")}
+                                sx={{
+                                    mt: 2,
+                                    borderColor: "#693E9A",
+                                    color: "#693E9A",
+                                    "&:hover": {
+                                        borderColor: "#693E9A",
+                                        background: "rgba(105, 62, 154, 0.08)",
+                                    },
+                                }}
+                            >
+                                Create your first article
+                            </Button>
                         </Box>
                     )}
 
                     {!postsLoading && userPosts && userPosts.length > 0 && (
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
                             {userPosts.map((post, i) => (
-                                <Link key={post._id || i} href={`/edit/${post._id}`} legacyBehavior>
-                                    <a style={{ textDecoration: "none" }}>
-                                        <Box sx={{
+                                <Box
+                                    key={post._id || i}
+                                    onClick={() => Router.push(`/edit/${post._id}`)}
+                                    sx={{
                                             border: "1px solid rgba(105, 62, 154, 0.2)",
                                             borderRadius: "10px",
                                             p: 2,
@@ -372,9 +363,7 @@ const Dashboard = () => {
                                                     fontSize: "11px",
                                                 }}
                                             />
-                                        </Box>
-                                    </a>
-                                </Link>
+                                </Box>
                             ))}
                         </Box>
                     )}

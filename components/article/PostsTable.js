@@ -19,7 +19,6 @@ import {
     DialogContentText,
     CircularProgress,
 } from "@mui/material";
-import Link from "next/link";
 import Router from "next/router";
 
 function PostsTable(props) {

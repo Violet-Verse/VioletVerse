@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
 import dynamic from "next/dynamic";
 
-
 import "../styles/fonts.css";
 import "../styles/globals.css";
 
@@ -25,20 +24,18 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-// Analytics call on page reroute
 Router.events.on("routeChangeComplete", (url) => {
-    if (typeof global.analytics !== 'undefined') {
+    if (typeof global.analytics !== "undefined") {
         global.analytics.page(url);
     }
 });
 
-// Dynamic import of Privy provider to avoid SSR issues
-const PrivyAuthProvider = dynamic(
+const PrivyAuth = dynamic(
     () => import("../components/PrivyAuthProvider"),
     { ssr: false }
 );
 
-function AppContent({ Component, pageProps }) {
+function PageContent({ Component, pageProps }) {
     const { user, loaded } = useUser();
     const router = useRouter();
 
@@ -66,7 +63,6 @@ function AppContent({ Component, pageProps }) {
         }
     }, [loadingUser, noAccess, seconds, router]);
 
-    // User state loading
     if (loadingUser) {
         return (
             <Layout>
@@ -83,7 +79,6 @@ function AppContent({ Component, pageProps }) {
         );
     }
 
-    // Access Rejected
     if (noAccess) {
         return (
             <Layout>
@@ -111,12 +106,12 @@ function AppContent({ Component, pageProps }) {
     );
 }
 
-function MyApp({ Component, pageProps }) {
+function VioletVerseApp({ Component, pageProps }) {
     return (
-        <PrivyAuthProvider>
-            <AppContent Component={Component} pageProps={pageProps} />
-        </PrivyAuthProvider>
+        <PrivyAuth>
+            <PageContent Component={Component} pageProps={pageProps} />
+        </PrivyAuth>
     );
 }
 
-export default MyApp;
+export default VioletVerseApp;

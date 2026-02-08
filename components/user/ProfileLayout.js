@@ -10,7 +10,6 @@ import {
 import Router from "next/router";
 import { useUser } from "../../hooks/useAuth";
 import React, { useState } from "react";
-import Link from "next/link";
 import EditPicture from "../Modal/EditPicture";
 import TwitterIcon from "@mui/icons-material/Twitter";
 

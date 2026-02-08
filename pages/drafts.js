@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import SplitscreenIcon from "@mui/icons-material/Splitscreen";
-import Link from "next/link";
+
 import { useRouter } from "next/router";
 import Router from "next/router";
 import dynamic from "next/dynamic"; // Dynamic import for better performance
@@ -106,8 +106,6 @@ function DraftsPanel({ posts, authors, contributors }) {
                     >
                         Back to Dashboard
                     </Button>
-                        </a>
-                    </Link>
                 </Grid>
             </Grid>
 
