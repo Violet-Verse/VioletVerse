@@ -1,21 +1,9 @@
 import { table } from "../utils/userTable";
-import { postTable, minifyRecords } from "../utils/postsTable";
-import connectDatabase from "../../../lib/mongoClient";
 
-export async function getAuthorForPost(id) {
+export async function getAuthorForPost(post) {
     try {
-        const db = await connectDatabase();
-        if (!db) return null;
-
-        const collection = db.collection("posts");
-        const posts = await collection.find({ slug: id }).toArray();
-
-        if (posts.length === 0) {
-            return null;
-        }
-
-        const userId = posts[0].createdBy;
-
+        const userId = post?.createdBy;
+        if (!userId) return null;
         if (!table) return { user: null };
 
         const authorData = await table
@@ -24,27 +12,17 @@ export async function getAuthorForPost(id) {
             })
             .firstPage();
 
-        return { user: authorData[0]?.fields };
+        return { user: authorData[0]?.fields || null };
     } catch (error) {
         console.error("Error getting author for post:", error.message);
         return null;
     }
 }
 
-export async function getContributorForPost(id) {
+export async function getContributorForPost(post) {
     try {
-        const db = await connectDatabase();
-        if (!db) return null;
-
-        const collection = db.collection("posts");
-        const posts = await collection.find({ slug: id }).toArray();
-
-        if (posts.length === 0) {
-            return null;
-        }
-
-        const email = posts[0].contributor;
-
+        const email = post?.contributor;
+        if (!email) return null;
         if (!table) return { user: null };
 
         const contributorData = await table

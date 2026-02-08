@@ -36,18 +36,24 @@ export async function getServerSideProps(context) {
         }
 
         const collection = db.collection("posts");
-        const allPosts = await collection.find({ hidden: false }).toArray();
-        const data = await collection.find({ slug: id }).toArray();
-        const authorData = await getAuthorForPost(id);
-        const contributorData = await getContributorForPost(id);
+        const [allPosts, data] = await Promise.all([
+            collection.find({ hidden: false }).toArray(),
+            collection.find({ slug: id }).toArray(),
+        ]);
 
         if (!data || data.length === 0) {
             return { notFound: true, props: { posts: {} } };
         }
 
+        const post = data[0];
+        const [authorData, contributorData] = await Promise.all([
+            getAuthorForPost(post),
+            getContributorForPost(post),
+        ]);
+
         return {
             props: {
-                posts: JSON.parse(JSON.stringify(data[0])),
+                posts: JSON.parse(JSON.stringify(post)),
                 allPosts: JSON.parse(JSON.stringify(allPosts)),
                 authorData: authorData,
                 contributorData: contributorData || null,
