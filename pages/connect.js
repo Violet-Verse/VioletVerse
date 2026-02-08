@@ -1,28 +1,27 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import { Box, Grid } from "@mui/material";
+import { usePrivy } from "@privy-io/react-auth";
+import { Box } from "@mui/material";
 import Image from "next/image";
 import Head from "next/head";
 
 const ConnectPage = () => {
-    const { isConnected, address } = useAccount();
+    const { ready, authenticated, login } = usePrivy();
     const router = useRouter();
 
     useEffect(() => {
-        if (isConnected && address) {
+        if (ready && authenticated) {
             router.push("/dashboard");
         }
-    }, [isConnected, address, router]);
+    }, [ready, authenticated, router]);
 
     return (
         <>
             <Head>
-                <title>Connect Wallet | Violet Verse</title>
+                <title>Connect | Violet Verse</title>
                 <meta
                     name="description"
-                    content="Connect your wallet to Violet Verse, a Web3 lifestyle platform on Polygon."
+                    content="Sign in to Violet Verse, a Web3 lifestyle platform."
                 />
             </Head>
             <Box
@@ -44,7 +43,7 @@ const ConnectPage = () => {
                     style={{ marginBottom: "32px" }}
                 />
 
-                <h1 style={{ marginBottom: "8px" }}>Connect Your Wallet</h1>
+                <h1 style={{ marginBottom: "8px" }}>Welcome to Violet Verse</h1>
                 <p
                     style={{
                         color: "#666",
@@ -52,19 +51,38 @@ const ConnectPage = () => {
                         marginBottom: "32px",
                     }}
                 >
-                    Join the Violet Verse Web3 lifestyle community on Polygon.
-                    Connect your wallet to access the Creator Dashboard.
+                    Sign in with your email, wallet, or social account to join
+                    the Web3 lifestyle community.
                 </p>
 
-                <ConnectButton
-                    showBalance={false}
-                    chainStatus="icon"
-                    accountStatus="address"
-                />
+                <button
+                    onClick={login}
+                    disabled={!ready}
+                    style={{
+                        backgroundColor: "#693E9A",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "12px",
+                        padding: "14px 32px",
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        cursor: ready ? "pointer" : "not-allowed",
+                        opacity: ready ? 1 : 0.6,
+                        transition: "all 0.2s ease",
+                    }}
+                    onMouseOver={(e) => {
+                        if (ready) e.currentTarget.style.backgroundColor = "#7c4db0";
+                    }}
+                    onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = "#693E9A";
+                    }}
+                >
+                    {ready ? "Sign In" : "Loading..."}
+                </button>
 
-                {isConnected && (
+                {authenticated && (
                     <p style={{ marginTop: "16px", color: "#693E9A" }}>
-                        Connected! Redirecting to dashboard...
+                        Signed in! Redirecting to dashboard...
                     </p>
                 )}
             </Box>

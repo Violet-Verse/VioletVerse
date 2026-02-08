@@ -192,7 +192,7 @@ const MobileMenu = ({
                   }}
                   className={mobileMenuClasses.menuButton}
                 >
-                  Connect Wallet
+                  Sign In
                 </button>
               </MenuItem>
             )}

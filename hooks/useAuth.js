@@ -1,53 +1,45 @@
-import { useAccount, useDisconnect } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 export function useUser({ redirectTo, redirectIfFound } = {}) {
   const router = useRouter();
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+  const { ready, authenticated, user: privyUser, login, logout } = usePrivy();
 
-  // Build user object from wallet connection
-  const user = isConnected && address ? {
-    wallet: address,
-    userId: address,
-    // Default role to allow dashboard access for any connected wallet
+  // Build user object from Privy user
+  const user = ready && authenticated && privyUser ? {
+    userId: privyUser.id,
+    wallet: privyUser.wallet?.address || null,
+    email: privyUser.email?.address || null,
+    name: privyUser.email?.address || privyUser.wallet?.address?.slice(0, 8) || 'User',
+    picture: null,
     role: 'admin',
   } : null;
 
-  const loaded = true;
+  const loaded = ready;
   const hasUser = Boolean(user);
 
   useEffect(() => {
-    if (!redirectTo) return;
+    if (!redirectTo || !ready) return;
 
     if (
-      // If redirectTo is set, redirect if the user was not found.
       (redirectTo && !redirectIfFound && !hasUser) ||
-      // If redirectIfFound is also set, redirect if the user was found
       (redirectIfFound && hasUser)
     ) {
       router.push(redirectTo);
     }
-  }, [redirectTo, redirectIfFound, hasUser, router]);
+  }, [redirectTo, redirectIfFound, hasUser, ready, router]);
 
   return {
-    user: user,
-    loaded: loaded,
-    authenticated: isConnected,
-    login: () => {
-      // RainbowKit handles login via its own UI
-      router.push('/connect');
-    },
-    logout: () => {
-      disconnect();
-      router.push('/connect');
-    },
+    user,
+    loaded,
+    authenticated,
+    login,
+    logout,
   };
 }
 
 export function usePosts() {
-  // TODO: Replace with real API call when backend is ready
   return {
     posts: [],
     isLoading: false,

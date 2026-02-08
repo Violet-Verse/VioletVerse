@@ -28,7 +28,7 @@ import classes from './Navbar.module.css'
 
 const NewNav = () => {
   const router = useRouter()
-  const { user, loaded, logout } = useUser()
+  const { user, loaded, logout, login } = useUser()
   const isEnterprise = router.asPath.includes('enterprise')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
@@ -90,10 +90,7 @@ const NewNav = () => {
     setAnchorElUser(null)
   }
 
-  // Navigate to /connect for wallet connection
-  const login = () => {
-    Router.push('/connect')
-  }
+  // Privy login is provided by useUser() hook
 
   useEffect(() => {
     const ctaClosed = () => {
@@ -473,7 +470,7 @@ const NewNav = () => {
                           fontSize: '16px',
                         }}
                       >
-                        Connect Wallet
+                        Sign In
                       </Button>
                     </Box>
                   </Box>

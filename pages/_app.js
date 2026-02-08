@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
 import dynamic from "next/dynamic";
 
-import "@rainbow-me/rainbowkit/styles.css";
+
 import "../styles/fonts.css";
 import "../styles/globals.css";
 

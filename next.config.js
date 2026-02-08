@@ -3,7 +3,7 @@ const nextConfig = {
       reactStrictMode: true,
       swcMinify: true,
       transpilePackages: [
-            '@rainbow-me/rainbowkit',
+            '@privy-io/react-auth',
       ],
       images: {
               domains: [

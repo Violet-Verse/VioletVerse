@@ -1,7 +1,6 @@
 import { Button, Grid, Box, Chip } from "@mui/material";
-import { useAccount, useDisconnect } from "wagmi";
+import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/router";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export async function getStaticProps(context) {
     return {
@@ -12,12 +11,14 @@ export async function getStaticProps(context) {
 }
 
 const Dashboard = () => {
-    const { address, isConnected } = useAccount();
-    const { disconnect } = useDisconnect();
+    const { user, logout, ready, authenticated } = usePrivy();
     const router = useRouter();
 
-    const handleDisconnect = () => {
-        disconnect();
+    const walletAddress = user?.wallet?.address;
+    const emailAddress = user?.email?.address;
+
+    const handleLogout = async () => {
+        await logout();
         router.push("/connect");
     };
 
@@ -48,11 +49,11 @@ const Dashboard = () => {
                 <Grid item>
                     <p style={{ textAlign: "center", maxWidth: "500px" }}>
                         Welcome to the Violet Verse Creator Dashboard.
-                        You are connected to the Polygon network.
+                        You are signed in and ready to create.
                     </p>
                 </Grid>
 
-                {/* Wallet Info */}
+                {/* Account Info */}
                 <Grid item>
                     <Box
                         sx={{
@@ -63,54 +64,72 @@ const Dashboard = () => {
                             minWidth: { xs: "280px", sm: "400px" },
                         }}
                     >
-                        <p style={{ fontWeight: "600", marginBottom: "8px" }}>
-                            Connected Wallet
-                        </p>
-                        <code
-                            style={{
-                                fontSize: "14px",
-                                backgroundColor: "#f5f5f5",
-                                padding: "6px 12px",
-                                borderRadius: "8px",
-                                display: "inline-block",
-                                marginBottom: "12px",
-                            }}
-                        >
-                            {address
-                                ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                                : ""}
-                        </code>
-                        <br />
-                        <Chip
-                            label="Polygon"
-                            size="small"
-                            sx={{
-                                backgroundColor: "#7B3FE4",
-                                color: "white",
-                                fontWeight: "500",
-                            }}
-                        />
+                        {emailAddress && (
+                            <>
+                                <p style={{ fontWeight: "600", marginBottom: "8px" }}>
+                                    Email
+                                </p>
+                                <code
+                                    style={{
+                                        fontSize: "14px",
+                                        backgroundColor: "#f5f5f5",
+                                        padding: "6px 12px",
+                                        borderRadius: "8px",
+                                        display: "inline-block",
+                                        marginBottom: "12px",
+                                    }}
+                                >
+                                    {emailAddress}
+                                </code>
+                                <br />
+                            </>
+                        )}
+
+                        {walletAddress && (
+                            <>
+                                <p style={{ fontWeight: "600", marginBottom: "8px", marginTop: emailAddress ? "16px" : 0 }}>
+                                    Wallet
+                                </p>
+                                <code
+                                    style={{
+                                        fontSize: "14px",
+                                        backgroundColor: "#f5f5f5",
+                                        padding: "6px 12px",
+                                        borderRadius: "8px",
+                                        display: "inline-block",
+                                        marginBottom: "12px",
+                                    }}
+                                >
+                                    {`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}
+                                </code>
+                                <br />
+                                <Chip
+                                    label="Polygon"
+                                    size="small"
+                                    sx={{
+                                        backgroundColor: "#7B3FE4",
+                                        color: "white",
+                                        fontWeight: "500",
+                                    }}
+                                />
+                            </>
+                        )}
+
+                        {!emailAddress && !walletAddress && (
+                            <p style={{ color: "#999" }}>Account connected via Privy</p>
+                        )}
                     </Box>
                 </Grid>
 
-                {/* RainbowKit button for chain switching etc */}
-                <Grid item>
-                    <ConnectButton
-                        showBalance={true}
-                        chainStatus="full"
-                        accountStatus="address"
-                    />
-                </Grid>
-
-                {/* Disconnect */}
+                {/* Sign Out */}
                 <Grid item>
                     <Button
                         variant="outlined"
                         color="secondary"
-                        onClick={handleDisconnect}
+                        onClick={handleLogout}
                         sx={{ px: 4, py: 1 }}
                     >
-                        Disconnect Wallet
+                        Sign Out
                     </Button>
                 </Grid>
             </Grid>
