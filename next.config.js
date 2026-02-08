@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
       reactStrictMode: true,
@@ -26,6 +28,12 @@ const nextConfig = {
                   },
         });
 
+        // Force legacyBehavior on all next/link imports to prevent SSR errors
+        config.resolve.alias = {
+          ...config.resolve.alias,
+          'next/link': path.resolve(__dirname, 'lib/LegacyLink.js'),
+        };
+
         // Ignore optional React Native dependencies from MetaMask SDK
         config.resolve.fallback = {
           ...config.resolve.fallback,
@@ -34,6 +42,7 @@ const nextConfig = {
         if (!isServer) {
           config.resolve.alias = {
             ...config.resolve.alias,
+            'next/link': path.resolve(__dirname, 'lib/LegacyLink.js'),
             '@react-native-async-storage/async-storage': false,
           };
         }

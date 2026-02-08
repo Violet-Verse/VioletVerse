@@ -33,8 +33,8 @@ Router.events.on("routeChangeComplete", (url) => {
 });
 
 // Dynamic import of Privy provider to avoid SSR issues
-const Web3Providers = dynamic(
-    () => import("../components/Web3Providers"),
+const PrivyAuthProvider = dynamic(
+    () => import("../components/PrivyAuthProvider"),
     { ssr: false }
 );
 
@@ -113,9 +113,9 @@ function AppContent({ Component, pageProps }) {
 
 function MyApp({ Component, pageProps }) {
     return (
-        <Web3Providers>
+        <PrivyAuthProvider>
             <AppContent Component={Component} pageProps={pageProps} />
-        </Web3Providers>
+        </PrivyAuthProvider>
     );
 }
 
