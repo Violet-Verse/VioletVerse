@@ -1,20 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import Image from "next/image";
 import Head from "next/head";
+import { useSWRConfig } from "swr";
 
 const ConnectPage = () => {
     const { isConnected, address } = useAccount();
     const router = useRouter();
+    const { mutate } = useSWRConfig();
+    const hasVerified = useRef(false);
 
     useEffect(() => {
-        if (isConnected && address) {
-            router.push("/dashboard");
+        if (isConnected && address && !hasVerified.current) {
+            hasVerified.current = true;
+
+            // Create a session by calling verify with wallet data
+            fetch("/api/auth/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    address: address,
+                    chainType: "ethereum",
+                    walletType: "rainbowkit",
+                }),
+            })
+                .then((response) => response.json())
+                .then(() => {
+                    mutate("/api/database/getUser");
+                    router.push("/dashboard");
+                })
+                .catch((err) => {
+                    console.error("Session creation error:", err);
+                    router.push("/dashboard");
+                });
         }
-    }, [isConnected, address, router]);
+    }, [isConnected, address, router, mutate]);
 
     return (
         <>
