@@ -142,6 +142,7 @@ const About = () => {
                                 "/team/" +
                                 member.name.replace(/\s+/g, "-").toLowerCase()
                             }
+                            legacyBehavior
                         >
                             <a>
                                 <Image
@@ -172,6 +173,7 @@ const About = () => {
                                         .replace(/\s+/g, "-")
                                         .toLowerCase()
                                 }
+                                legacyBehavior
                             >
                                 <a>
                                     <h4
@@ -312,6 +314,7 @@ const About = () => {
                                 "/team/" +
                                 member.name.replace(/\s+/g, "-").toLowerCase()
                             }
+                            legacyBehavior
                         >
                             <a>
                                 <Image
@@ -343,6 +346,7 @@ const About = () => {
                                         .replace(/\s+/g, "-")
                                         .toLowerCase()
                                 }
+                                legacyBehavior
                             >
                                 <a>
                                     <h4

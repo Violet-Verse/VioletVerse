@@ -79,7 +79,7 @@ const Profile = () => {
                         <Grid container direction="column" spacing={4}>
                             <Grid item>
                                 <h1>Settings</h1>
-                                <Link href="/profile">
+                                <Link href="/profile" legacyBehavior>
                                     <a>
                                         <p>Back to Profile</p>
                                     </a>

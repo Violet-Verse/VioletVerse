@@ -45,7 +45,7 @@ const NotFound = () => {
             </Box>
             <p>
                 Going back to the{" "}
-                <Link href="/">
+                <Link href="/" legacyBehavior>
                     <a>homepage</a>
                 </Link>{" "}
                 in {seconds}...

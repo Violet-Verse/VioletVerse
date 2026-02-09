@@ -86,7 +86,7 @@ const ProfileLayout = (props) => {
                 )}
                 {dashboardPermission && (
                     <Grid item>
-                        <Link href="/dashboard">
+                        <Link href="/dashboard" legacyBehavior>
                             <a>
                                 <Button variant="contained" disableElevation>
                                     Creator Dashboard
@@ -97,7 +97,7 @@ const ProfileLayout = (props) => {
                 )}
                 {isOwner && (
                     <Grid item>
-                        <Link href="/profile/edit">
+                        <Link href="/profile/edit" legacyBehavior>
                             <a>
                                 <Button
                                     variant="contained"
@@ -137,6 +137,7 @@ const ProfileLayout = (props) => {
                                     ? `/user/${user?.username}`
                                     : `/user/${user?.username}`
                             }
+                            legacyBehavior
                         >
                             <Tooltip title="Visit public profile page">
                                 

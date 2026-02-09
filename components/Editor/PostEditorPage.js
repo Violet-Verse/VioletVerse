@@ -255,7 +255,7 @@ const PostEditorPage = (props) => {
                 <Grid container>
                     {editorMode && (
                         <Grid item xs={12}>
-                            <Link href={`/` + posts.slug}>
+                            <Link href={`/` + posts.slug} legacyBehavior>
                                 <a>
                                     <p>Back to Post</p>
                                 </a>
