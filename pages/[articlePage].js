@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
     try {
         const db = await connectDatabase();
         if (!db) {
-            return { notFound: true, props: { posts: {} } };
+            return { notFound: true };
         }
 
         const collection = db.collection("posts");
@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
         const contributorData = await getContributorForPost(id);
 
         if (!data || data.length === 0) {
-            return { notFound: true, props: { posts: {} } };
+            return { notFound: true };
         }
 
         return {
@@ -55,7 +55,7 @@ export async function getServerSideProps(context) {
         };
     } catch (error) {
         console.error("Error in articlePage SSR:", error.message);
-        return { notFound: true, props: { posts: {} } };
+        return { notFound: true };
     }
 }
 
@@ -76,8 +76,8 @@ const Article = ({
     const { user, loaded } = useUser();
     const author = authorData?.user;
     const contributor = contributorData?.user;
-    const postDate = dateFormatter(posts.created);
-    const updateDate = dateFormatter(posts?.lastUpdated);
+    const postDate = dateFormatter(posts.created) || "";
+    const updateDate = dateFormatter(posts?.lastUpdated) || "";
     const editPermission =
         loaded && (user?.userId == author?.userId || user?.role == "admin");
 
@@ -210,7 +210,7 @@ const Article = ({
                         </p>
                     </Grid>
                 </Grid>
-                {contributorData && (
+                {(contributor || author) && (
                     <Grid
                         container
                         direction={{ xs: "column", sm: "row" }}
@@ -306,8 +306,7 @@ const Article = ({
                                                 }}
                                             >
                                                 BY{" "}
-                                                {contributor?.name.toUpperCase() ||
-                                                    author?.name.toUpperCase()}
+                                                {(contributor?.name || author?.name || "").toUpperCase()}
                                             </p>
                                         </a>
                                     </Link>
@@ -469,7 +468,7 @@ const Article = ({
                     direction="column"
                     spacing={3}
                 >
-                    {!posts.video && (
+                    {!posts.video && posts.banner && (
                         <Grid item sx={{ my: { xs: 3, sm: 4, md: 6 }, width: "100%" }}>
                             <Box
                                 sx={{
