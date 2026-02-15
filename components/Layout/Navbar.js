@@ -3,9 +3,8 @@ import Logout from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
-import * as fcl from '@blocto/fcl'
+import { usePrivy } from '@privy-io/react-auth'
 import { useSWRConfig } from 'swr'
-import '../../flow/config.js'
 import {
   Box,
   Button,
@@ -21,7 +20,7 @@ import { Overlay } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useUser } from '../../hooks/useAuth'
 import UserAvatar from '../user/UserAvatar'
 import { nFormatter, useFlowContext } from '../Context/flowContext'
@@ -29,12 +28,23 @@ import SignUpCTA from '../Modal/SignUpCTA.js'
 import { useRouter } from 'next/router'
 import MobileMenu from './MobileMenu'
 import classes from './Navbar.module.css'
+
 const NewNav = () => {
   const router = useRouter()
   const { user, loaded } = useUser()
+  const {
+    login: privyLogin,
+    logout: privyLogout,
+    authenticated,
+    ready,
+    getAccessToken,
+  } = usePrivy()
   const isEnterprise = router.asPath.includes('enterprise')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
+  const verifyingRef = useRef(false)
+
+  const { mutate } = useSWRConfig()
 
   // Identify User for Analytics
   useEffect(() => {
@@ -49,6 +59,56 @@ const NewNav = () => {
   useEffect(() => {
     setIsHydrated(true)
   }, [])
+
+  // After Privy authentication, verify with our server and create session
+  useEffect(() => {
+    const verifyPrivyUser = async () => {
+      if (!ready || !authenticated || user || verifyingRef.current) return
+
+      verifyingRef.current = true
+
+      try {
+        const accessToken = await getAccessToken()
+
+        const response = await fetch('/api/auth/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accessToken }),
+        })
+
+        const result = await response.json()
+
+        if (response.ok) {
+          global.analytics.track(
+            result.registration
+              ? 'User Registration Success'
+              : 'User Login Success ',
+            {
+              ...(result.registration && {
+                userId: result.userData.userId,
+              }),
+              ...(result.registration && {
+                email: result.userData.email,
+              }),
+              ...(result.registration && {
+                role: result.userData.role,
+              }),
+            },
+          )
+          mutate('/api/database/getUser')
+        } else {
+          await privyLogout()
+        }
+      } catch (err) {
+        console.error('Verify error:', err)
+        await privyLogout()
+      } finally {
+        verifyingRef.current = false
+      }
+    }
+
+    verifyPrivyUser()
+  }, [authenticated, user, ready])
 
   // Custom scroll-based header visibility (replacement for useHeadroom)
   const [pinned, setPinned] = useState(true)
@@ -93,61 +153,8 @@ const NewNav = () => {
     setAnchorElUser(null)
   }
 
-  const { mutate } = useSWRConfig()
-
-  const login = async () => {
-    try {
-      const res = await fcl.authenticate()
-
-      const accountProofService = res.services.find(
-        (services) => services.type === 'account-proof'
-      )
-
-      const userEmail = res.services.find(
-        (services) => services.type === 'open-id'
-      ).data.email.email
-
-      if (accountProofService) {
-        fetch('/api/auth/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            address: accountProofService.data.address,
-            nonce: accountProofService.data.nonce,
-            signatures: accountProofService.data.signatures,
-            userEmail,
-          }),
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            global.analytics.track(
-              result.registration
-                ? 'User Registration Success'
-                : 'User Login Success ',
-              {
-                ...(result.registration && {
-                  userId: result.userData.userId,
-                }),
-                ...(result.registration && {
-                  email: result.userData.email,
-                }),
-                ...(result.registration && {
-                  role: result.userData.role,
-                }),
-                ...(result.registration && {
-                  flowAddress: result.userData.flowAddress,
-                }),
-              },
-            )
-            mutate('/api/database/getUser')
-          })
-          .catch(() => {
-            fcl.unauthenticate()
-          })
-      }
-    } catch {
-      // Authentication error handled silently
-    }
+  const login = () => {
+    privyLogin()
   }
 
   useEffect(() => {
@@ -504,8 +511,8 @@ const NewNav = () => {
                           Settings
                         </MenuItem>
                         <MenuItem
-                          onClick={() => {
-                            fcl.unauthenticate()
+                          onClick={async () => {
+                            await privyLogout()
                             global.analytics.track(
                               'Logout Button Clicked'
                             )
@@ -525,7 +532,7 @@ const NewNav = () => {
                   </Box>
                 )}
 
-                {/* Connect Wallet || Logged Out */}
+                {/* Sign In || Logged Out */}
 
                 {!user && (
                   <Box
@@ -535,8 +542,8 @@ const NewNav = () => {
                       justifyContent: 'end',
                     }}
                   >
-                    {/* Connect Wallet | Desktop only (1220px and above) */}
-                    {/* Mobile/Tablet users access Connect Wallet through MobileMenu dropdown */}
+                    {/* Sign In | Desktop only (1220px and above) */}
+                    {/* Mobile/Tablet users access Sign In through MobileMenu dropdown */}
                     <Box
                       sx={{
                         display: {
@@ -566,7 +573,7 @@ const NewNav = () => {
                           fontSize: '16px',
                         }}
                       >
-                        Connect Wallet
+                        Sign In
                       </Button>
                     </Box>
                   </Box>

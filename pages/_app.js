@@ -4,6 +4,7 @@ import Layout from "../components/Layout/AppLayout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
+import { PrivyProvider } from "@privy-io/react-auth";
 
 import "../styles/fonts.css";
 import "../styles/globals.css";
@@ -27,6 +28,14 @@ Router.events.on("routeChangeError", () => NProgress.done());
 Router.events.on("routeChangeComplete", (url) => {
     global.analytics.page(url);
 });
+
+const privyConfig = {
+    loginMethods: ["email", "wallet"],
+    appearance: {
+        theme: "light",
+        accentColor: "#693E9A",
+    },
+};
 
 function MyApp({ Component, pageProps }) {
     const { user, loaded } = useUser();
@@ -59,45 +68,67 @@ function MyApp({ Component, pageProps }) {
     // User state loading
     if (loadingUser) {
         return (
-            <Layout>
-                <Grid
-                    container
-                    spacing={0}
-                    direction="column"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <ClipLoader color="#693E9A" />
-                </Grid>
-            </Layout>
+            <PrivyProvider
+                appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+                config={privyConfig}
+            >
+                <Layout>
+                    <Grid
+                        container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <ClipLoader color="#693E9A" />
+                    </Grid>
+                </Layout>
+            </PrivyProvider>
         );
     }
 
     // Access Rejected
     if (noAccess) {
         return (
-            <Layout>
-                <Grid
-                    container
-                    justifyContent="center"
-                    sx={{ textAlign: "center" }}
-                >
-                    <Grid item>
-                        <p>Sorry, you don&apos;t have access to this page.</p>
+            <PrivyProvider
+                appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+                config={privyConfig}
+            >
+                <Layout>
+                    <Grid
+                        container
+                        justifyContent="center"
+                        sx={{ textAlign: "center" }}
+                    >
+                        <Grid item>
+                            <p>Sorry, you don&apos;t have access to this page.</p>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Layout>
+                </Layout>
+            </PrivyProvider>
         );
     }
 
     if (vrSite) {
-        return <Component {...pageProps} />;
+        return (
+            <PrivyProvider
+                appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+                config={privyConfig}
+            >
+                <Component {...pageProps} />
+            </PrivyProvider>
+        );
     }
 
     return (
-        <Layout>
-            <Component {...pageProps} />
-        </Layout>
+        <PrivyProvider
+            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+            config={privyConfig}
+        >
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </PrivyProvider>
     );
 }
 

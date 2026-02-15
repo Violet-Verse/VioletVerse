@@ -4,6 +4,7 @@ import * as types from "@onflow/types";
 import React, { useState, useEffect } from "react";
 import { getBalance } from "../../cadence/scripts/getBalance";
 import { useUser } from "../../hooks/useAuth";
+import "../../flow/config.js";
 
 const FlowContext = createContext();
 

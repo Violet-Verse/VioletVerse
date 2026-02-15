@@ -1,198 +1,193 @@
-import * as fcl from "@blocto/fcl";
+import { PrivyClient } from "@privy-io/node";
 import Iron from "@hapi/iron";
 import CookieService from "../../../lib/cookie";
 import { table } from "../utils/userTable";
-import { deleteNonce, getNonce } from "../aws/nonceControl";
 import fetch from "node-fetch";
 
+const privyClient = new PrivyClient({
+    appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID,
+    appSecret: process.env.PRIVY_APP_SECRET,
+});
+
+// Helper: find user by email in Airtable
+async function findUserByEmail(email) {
+    if (!email) return null;
+    const records = await table
+        .select({
+            filterByFormula: `{email} = "${email}"`,
+        })
+        .firstPage();
+    return records[0]?.fields || null;
+}
+
+// Helper: find user by userId in Airtable
+async function findUserByUserId(userId) {
+    if (!userId) return null;
+    const records = await table
+        .select({
+            filterByFormula: `{userId} = "${userId}"`,
+        })
+        .firstPage();
+    return records[0]?.fields || null;
+}
+
+// Helper: create new user in Airtable
+function createUser(userId, email) {
+    return new Promise((resolve, reject) => {
+        table.create(
+            [
+                {
+                    fields: {
+                        userId: userId,
+                        email: email || "",
+                        role: "user",
+                        flowAddress: "",
+                        username: userId,
+                        name: userId,
+                    },
+                },
+            ],
+            (err, records) => {
+                if (err) return reject(err);
+                resolve(records[0].fields);
+            }
+        );
+    });
+}
+
+// Helper: create Stardust player
+async function createStardustPlayer(userId, email) {
+    try {
+        const res = await fetch("https://core-api.stardust.gg/v1/player/create", {
+            method: "POST",
+            headers: {
+                accept: "application/json",
+                "content-type": "application/json",
+                "x-api-key": process.env.STARDUST_KEY,
+            },
+            body: JSON.stringify({ userId, email }),
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Stardust.gg create error:", err);
+        return null;
+    }
+}
+
+// Helper: get Stardust player
+async function getStardustPlayer(userId) {
+    try {
+        const res = await fetch(
+            `https://core-api.stardust.gg/v1/player/get?playerId=${userId}`,
+            {
+                method: "GET",
+                headers: {
+                    accept: "application/json",
+                    "x-api-key": process.env.STARDUST_KEY,
+                },
+            }
+        );
+        return await res.json();
+    } catch (err) {
+        console.error("Stardust.gg get error:", err);
+        return null;
+    }
+}
+
 export default async function handler(req, res) {
-    const data = req.body;
-    const nonce = data.nonce;
-    const user = {
-        issuer: data.address,
-        address: data.address,
-        email: data.userEmail,
-    };
-
-    console.log("Wallet Nonce", nonce);
-
-    const validNonce = await getNonce(nonce);
-
-    if (!validNonce) {
-        console.log("Invalid Nonce", validNonce);
-        return res.status(401).end();
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
     }
 
-    deleteNonce(nonce);
+    const { accessToken } = req.body;
 
-    const verified = await fcl.AppUtils.verifyAccountProof("VioletVerse", data);
+    if (!accessToken) {
+        return res.status(400).json({ error: "Missing access token" });
+    }
 
-    if (verified) {
-        const users = [];
-        table
-            .select({
-                filterByFormula: `{userId} = "${data.address}"`,
-            })
-            .eachPage(
-                function page(records, fetchNextPage) {
-                    records.forEach(function (record) {
-                        console.log("Retrieved User:", record.get("userId"));
-                        users.push(record.get("userId"));
-                    });
-                    fetchNextPage();
-                },
-                async function done(err) {
-                    if (users.length >= 1) {
-                        // User found in database
-                        const token = await Iron.seal(
-                            user,
-                            process.env.TOKEN_SECRET,
-                            Iron.defaults
-                        );
-                        CookieService(res, token);
+    try {
+        // 1. Verify the Privy access token
+        const verifiedClaims = await privyClient
+            .utils()
+            .auth()
+            .verifyAccessToken(accessToken);
+        const privyUserId = verifiedClaims.user_id;
 
-                        // Check if user exists on Stardust.gg
-                        const stardustUrl = `https://core-api.stardust.gg/v1/player/get?playerId=${user.address}`;
-                        const stardustOptions = {
-                            method: "GET",
-                            headers: {
-                                accept: "application/json",
-                                "x-api-key": process.env.STARDUST_KEY,
-                            },
-                        };
+        // 2. Get the full Privy user to extract email and wallet info
+        const privyUser = await privyClient.users._get(privyUserId);
 
-                        fetch(stardustUrl, stardustOptions)
-                            .then((stardustRes) => stardustRes.json())
-                            .then((stardustJson) => {
-                                // Check if user exists in Stardust.gg response
-                                if (stardustJson) {
-                                    // User exists in Stardust.gg
-                                    return res.status(200).json({
-                                        userData: users,
-                                        registration: false,
-                                        stardustData: stardustJson,
-                                    });
-                                } else {
-                                    // User does not exist in Stardust.gg -- ADD NEW USER
-                                    table.create(
-                                        [
-                                            {
-                                                fields: {
-                                                    userId: `${user.address}`,
-                                                    email: `${user.email}`,
-                                                    role: "user",
-                                                    flowAddress: `${req.body.address}`,
-                                                    username: `${req.body.address}`,
-                                                    name: `${req.body.address}`,
-                                                },
-                                            },
-                                        ],
-                                        async function (err, records) {
-                                            if (err) {
-                                                console.error(err);
-                                                return res.status(400).end();
-                                            }
-                                            const token = await Iron.seal(
-                                                user,
-                                                process.env.TOKEN_SECRET,
-                                                Iron.defaults
-                                            );
-                                            CookieService(res, token);
-                                            return res.status(200).json({
-                                                userData: records[0].fields,
-                                                registration: true,
-                                                stardustData: null,
-                                            });
-                                        }
-                                    );
-                                }
-                            })
-                            .catch((err) => {
-                                console.error("Stardust.gg error:", err);
-                                return res.status(200).json({
-                                    userData: users,
-                                    registration: false,
-                                    stardustData: null,
-                                });
-                            });
-                    } else {
-                        // User not found in database -- ADD NEW USER
-                        try {
-                            table.create(
-                                [
-                                    {
-                                        fields: {
-                                            userId: `${user.address}`,
-                                            email: `${user.email}`,
-                                            role: "user",
-                                            flowAddress: `${req.body.address}`,
-                                            username: `${req.body.address}`,
-                                            name: `${req.body.address}`,
-                                        },
-                                    },
-                                ],
-                                async function (err, records) {
-                                    if (err) {
-                                        console.error(err);
-                                        return res.status(400).end();
-                                    }
-                                    const token = await Iron.seal(
-                                        user,
-                                        process.env.TOKEN_SECRET,
-                                        Iron.defaults
-                                    );
-                                    CookieService(res, token);
+        const email =
+            privyUser.linked_accounts?.find((a) => a.type === "email")
+                ?.address || null;
 
-                                    // Create new player in Stardust.gg
-                                    const stardustUrl =
-                                        "https://core-api.stardust.gg/v1/player/create";
-                                    const stardustOptions = {
-                                        method: "POST",
-                                        headers: {
-                                            accept: "application/json",
-                                            "content-type": "application/json",
-                                            "x-api-key":
-                                                process.env.STARDUST_KEY,
-                                        },
-                                        body: JSON.stringify({
-                                            userId: user.address,
-                                            email: user.email,
-                                        }),
-                                    };
+        const walletAddress =
+            privyUser.linked_accounts?.find((a) => a.type === "wallet")
+                ?.address || null;
 
-                                    fetch(stardustUrl, stardustOptions)
-                                        .then((stardustRes) =>
-                                            stardustRes.json()
-                                        )
-                                        .then((stardustJson) => {
-                                            return res.status(200).json({
-                                                userData: records[0].fields,
-                                                registration: true,
-                                                stardustData: stardustJson,
-                                            });
-                                        })
-                                        .catch((err) => {
-                                            console.error(
-                                                "Stardust.gg error:",
-                                                err
-                                            );
-                                            return res.status(200).json({
-                                                userData: records[0].fields,
-                                                registration: true,
-                                                stardustData: null,
-                                            });
-                                        });
-                                }
-                            );
-                        } catch (err) {
-                            console.log(err);
-                        }
-                    }
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                }
+        // 3. Migration: try to find existing user by email first
+        let existingUser = null;
+
+        if (email) {
+            existingUser = await findUserByEmail(email);
+        }
+
+        // 4. If no match by email, try by Privy user ID (for returning Privy users)
+        if (!existingUser) {
+            existingUser = await findUserByUserId(privyUserId);
+        }
+
+        if (existingUser) {
+            // Existing user found -- use their existing userId as issuer
+            const sessionUser = {
+                issuer: existingUser.userId,
+                address: existingUser.userId,
+                email: email || existingUser.email,
+            };
+
+            const token = await Iron.seal(
+                sessionUser,
+                process.env.TOKEN_SECRET,
+                Iron.defaults
             );
+            CookieService(res, token);
+
+            const stardustData = await getStardustPlayer(existingUser.userId);
+
+            return res.status(200).json({
+                userData: existingUser,
+                registration: false,
+                stardustData,
+            });
+        } else {
+            // 5. New user -- create in Airtable with Privy user ID as userId
+            const newUser = await createUser(privyUserId, email);
+
+            const sessionUser = {
+                issuer: privyUserId,
+                address: privyUserId,
+                email: email || "",
+            };
+
+            const token = await Iron.seal(
+                sessionUser,
+                process.env.TOKEN_SECRET,
+                Iron.defaults
+            );
+            CookieService(res, token);
+
+            const stardustData = await createStardustPlayer(
+                privyUserId,
+                email
+            );
+
+            return res.status(200).json({
+                userData: newUser,
+                registration: true,
+                stardustData,
+            });
+        }
+    } catch (err) {
+        console.error("Privy verify error:", err);
+        return res.status(401).json({ error: "Authentication failed" });
     }
 }
