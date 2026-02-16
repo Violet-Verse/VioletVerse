@@ -1,6 +1,6 @@
 import { PrivyClient } from "@privy-io/node";
 import Iron from "@hapi/iron";
-import CookieService from "../../../lib/cookie";
+import CookieService, { MAX_AGE } from "../../../lib/cookie";
 import { table } from "../utils/userTable";
 import fetch from "node-fetch";
 
@@ -114,7 +114,7 @@ export default async function handler(req, res) {
         const privyUserId = verifiedClaims.user_id;
 
         // 2. Get the full Privy user to extract email and wallet info
-        const privyUser = await privyClient.users._get(privyUserId);
+        const privyUser = await privyClient.users()._get(privyUserId);
 
         const email =
             privyUser.linked_accounts?.find((a) => a.type === "email")
@@ -142,6 +142,8 @@ export default async function handler(req, res) {
                 issuer: existingUser.userId,
                 address: existingUser.userId,
                 email: email || existingUser.email,
+                createdAt: Date.now(),
+                maxAge: MAX_AGE,
             };
 
             const token = await Iron.seal(
@@ -166,6 +168,8 @@ export default async function handler(req, res) {
                 issuer: privyUserId,
                 address: privyUserId,
                 email: email || "",
+                createdAt: Date.now(),
+                maxAge: MAX_AGE,
             };
 
             const token = await Iron.seal(
