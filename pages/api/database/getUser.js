@@ -22,12 +22,11 @@ export async function getUserByUsername(username) {
 }
 
 export default async function handler(req, res) {
-    const session = await getLoginSession(req);
-
-    // Retrieved Session
-    // Now get user data.....
-
-    const userData = await getUserByIssuer(session?.issuer);
-
-    res.status(200).json({ user: userData || null });
+    try {
+        const session = await getLoginSession(req);
+        const userData = await getUserByIssuer(session?.issuer);
+        res.status(200).json({ user: userData || null });
+    } catch (err) {
+        res.status(200).json({ user: null });
+    }
 }

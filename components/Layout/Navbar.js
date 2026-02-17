@@ -79,23 +79,27 @@ const NewNav = () => {
         const result = await response.json()
 
         if (response.ok) {
-          global.analytics.track(
-            result.registration
-              ? 'User Registration Success'
-              : 'User Login Success ',
-            {
-              ...(result.registration && {
-                userId: result.userData.userId,
-              }),
-              ...(result.registration && {
-                email: result.userData.email,
-              }),
-              ...(result.registration && {
-                role: result.userData.role,
-              }),
-            },
-          )
+          // Refresh user data first (critical path)
           mutate('/api/database/getUser')
+          // Analytics is non-critical — don't let it block auth flow
+          try {
+            global.analytics.track(
+              result.registration
+                ? 'User Registration Success'
+                : 'User Login Success ',
+              {
+                ...(result.registration && {
+                  userId: result.userData.userId,
+                }),
+                ...(result.registration && {
+                  email: result.userData.email,
+                }),
+                ...(result.registration && {
+                  role: result.userData.role,
+                }),
+              },
+            )
+          } catch (_) {}
         } else {
           await privyLogout()
         }
@@ -108,7 +112,7 @@ const NewNav = () => {
     }
 
     verifyPrivyUser()
-  }, [authenticated, user, ready])
+  }, [authenticated, user, ready, getAccessToken, mutate, privyLogout])
 
   // Custom scroll-based header visibility (replacement for useHeadroom)
   const [pinned, setPinned] = useState(true)
