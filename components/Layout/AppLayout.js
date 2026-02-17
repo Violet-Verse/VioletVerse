@@ -6,7 +6,6 @@ import Navbar from "./Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from "../Context/UserContext";
 import { useUser } from "../../hooks/useAuth";
-import { NextUIProvider } from "@nextui-org/react";
 import { FlowWrapper } from "../Context/flowContext";
 import { Provider } from "@lyket/react";
 import { Analytics } from "@vercel/analytics/react";
@@ -94,7 +93,6 @@ const Layout = ({ children }) => {
             <Provider apiKey={process.env.NEXT_PUBLIC_LYKET_API}>
                 <FlowWrapper>
                     <ThemeProvider theme={theme}>
-                        <NextUIProvider>
                             <Head>
                                 <link rel="icon" href="/favicon.ico" />
                                 <link
@@ -173,7 +171,6 @@ const Layout = ({ children }) => {
                                 </Box>
                                 <Footer />
                             </Box>
-                        </NextUIProvider>
                     </ThemeProvider>
                 </FlowWrapper>
             </Provider>

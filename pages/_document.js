@@ -1,6 +1,5 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import { CssBaseline } from "@nextui-org/react";
 import Script from "next/script";
 
 // import Segment Snippet
@@ -37,7 +36,6 @@ class MyDocument extends Document {
                 <Head>
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3918344970480538"
      crossorigin="anonymous"></script>
-                    {CssBaseline.flush()}
                     {/* Segment Analytics Injection  */}
                     <script
                         id="segment-script"
