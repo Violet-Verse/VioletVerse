@@ -6,8 +6,8 @@ const FutureByMelissaCard = () => {
       sx={{
         borderTop: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
         borderBottom: { xs: 'clamp(24px, 4vw, 50px)', md: 'clamp(24px, 4vw, 50px)' },
-        borderColor: '#F9F4FE',
-        backgroundColor: '#F9F4FE',
+        borderColor: '#f2f4f3',
+        backgroundColor: '#f2f4f3',
         borderRadius: '32px',
         px: {
           xs: '5%',
