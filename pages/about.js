@@ -38,8 +38,7 @@ const About = () => {
                 <meta name="twitter:image:src" content={siteImage} />
             </Head>
 
-            {/* First section */}
-            {/* About the Violet Verse */}
+            {/* First section — About + Photo */}
             <Box
                 sx={{
                     px: {
@@ -68,21 +67,17 @@ const About = () => {
                     }}
                 >
                     <h1 style={{ whiteSpace: "pre-wrap" }}>
-                        {"About the \nViolet Verse"}
+                        {"About\nViolet Verse"}
                     </h1>
-                    <Box sx={{ padding: { xs: "0px 5%", md: "0px" } }}>
+                    <Box sx={{ padding: { xs: "0px 5%", md: "0px" }, mt: 2 }}>
                         <p className="secondary">
-                            Violet Verse, Inc. is a Web3-powered lifestyle
-                            content marketplace and software solution for the
-                            fashion media community. We are creators, Web3
-                            operators, technologists, innovators, and fashion
-                            enthusiasts. Our mission is to document the spirit
-                            and personality of technology through immersive
-                            storytelling, using our proprietary infrastructure.
+                            Violet Verse is a creative studio at the intersection
+                            of content, AI, and global experiences. We publish,
+                            we build, and we take you places — rooted in over a
+                            decade of editorial and brand work across media,
+                            technology, and culture.
                         </p>
                     </Box>
-                    <Grid container direction="row" spacing={2}></Grid>
-                    <Grid container spacing={2}></Grid>
                 </Grid>
                 <Grid item md={12} lg={8} align="center">
                     <Image
@@ -98,12 +93,235 @@ const About = () => {
             </Grid>
             </Box>
 
+            {/* Three Ways We Work */}
+            <Box
+                sx={{
+                    backgroundColor: "#0a0908",
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                    py: { xs: 6, sm: 8, md: 10 },
+                }}
+            >
+                <Grid container direction="column" spacing={5}>
+                    <Grid item>
+                        <h2 style={{ color: "#f2f4f3", letterSpacing: "-0.02em" }}>
+                            Three Ways We Work
+                        </h2>
+                    </Grid>
+                    <Grid item>
+                        <Grid container spacing={3}>
+                            {[
+                                {
+                                    label: "PUBLISH",
+                                    name: "The Verse",
+                                    desc: "Editorial coverage at the intersection of culture, technology, and lifestyle. Stories told by writers, creators, and tastemakers who live it.",
+                                    href: "/posts",
+                                    cta: "Read the Journal",
+                                },
+                                {
+                                    label: "BUILD",
+                                    name: "Violet Verse Experts",
+                                    desc: "A 6-week expert data pilot for applied AI teams. We validate human data and RL strategies before you scale.",
+                                    href: "/experts",
+                                    cta: "Learn More",
+                                },
+                                {
+                                    label: "EXPERIENCE",
+                                    name: "Travel",
+                                    desc: "Curated travel experiences for culture, crypto, and creative communities — guided by a decade of on-the-ground coverage.",
+                                    href: "/travel",
+                                    cta: "Plan Your Trip",
+                                },
+                            ].map((pillar) => (
+                                <Grid item xs={12} md={4} key={pillar.label}>
+                                    <Box
+                                        sx={{
+                                            border: "1px solid rgba(169,146,125,0.2)",
+                                            borderRadius: "20px",
+                                            p: 3,
+                                            height: "100%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: 2,
+                                        }}
+                                    >
+                                        <Box>
+                                            <p
+                                                style={{
+                                                    color: "#a9927d",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Test Calibre",
+                                                    letterSpacing: "0.1em",
+                                                    textTransform: "uppercase",
+                                                    marginBottom: "8px",
+                                                }}
+                                            >
+                                                {pillar.label}
+                                            </p>
+                                            <h3
+                                                style={{
+                                                    color: "#f2f4f3",
+                                                    fontSize: "20px",
+                                                    marginBottom: "8px",
+                                                }}
+                                            >
+                                                {pillar.name}
+                                            </h3>
+                                            <p
+                                                style={{
+                                                    color: "rgba(242,244,243,0.7)",
+                                                    fontSize: "15px",
+                                                    lineHeight: "155%",
+                                                    fontFamily: "stratos-lights",
+                                                    margin: 0,
+                                                }}
+                                            >
+                                                {pillar.desc}
+                                            </p>
+                                        </Box>
+                                        <Box sx={{ mt: "auto" }}>
+                                            <Link
+                                                href={pillar.href}
+                                                legacyBehavior
+                                            >
+                                                <a
+                                                    style={{
+                                                        color: "#a9927d",
+                                                        fontFamily: "stratos-lights",
+                                                        fontSize: "15px",
+                                                        textDecoration: "none",
+                                                        borderBottom: "1px solid rgba(169,146,125,0.4)",
+                                                        paddingBottom: "2px",
+                                                    }}
+                                                >
+                                                    {pillar.cta} →
+                                                </a>
+                                            </Link>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+
+            {/* Founder Bio */}
+            <Box
+                sx={{
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                    py: { xs: 6, sm: 8, md: 10 },
+                }}
+            >
+                <Grid container spacing={6} alignItems="flex-start">
+                    <Grid item xs={12} md={5}>
+                        <p
+                            style={{
+                                color: "#a9927d",
+                                fontSize: "13px",
+                                fontFamily: "Test Calibre",
+                                letterSpacing: "0.06em",
+                                textTransform: "uppercase",
+                                marginBottom: "16px",
+                            }}
+                        >
+                            Founder
+                        </p>
+                        <h2 style={{ marginBottom: "6px" }}>Melissa Henderson</h2>
+                        <p
+                            style={{
+                                color: "#5e503f",
+                                fontFamily: "Test Calibre",
+                                fontSize: "16px",
+                                marginBottom: "20px",
+                            }}
+                        >
+                            Founder &amp; CEO, Violet Verse
+                        </p>
+                        <p className="secondary">
+                            14 years building at the intersection of media, marketing, and emerging
+                            technology. Melissa has contributed to Elle, Essence, HuffPost, and
+                            Women in Clothes (Penguin), spoken at ETHDenver &apos;22 &apos;23 &apos;24
+                            and the ISSUU Creator Summit, and worked with Nike, Netflix, Samsung,
+                            Cash App, Block, Scale AI, La Prairie, and Delta.
+                        </p>
+                    </Grid>
+                    <Grid item xs={12} md={7}>
+                        <Grid container spacing={2}>
+                            {[
+                                {
+                                    label: "Published",
+                                    value: "Elle, Essence, HuffPost, Women in Clothes (Penguin)",
+                                },
+                                {
+                                    label: "Spoke At",
+                                    value: "ETHDenver '22 '23 '24, ISSUU Creator Summit",
+                                },
+                                {
+                                    label: "Worked With",
+                                    value: "Nike, Netflix, Samsung, Cash App, Block, Scale AI, La Prairie, Delta",
+                                },
+                                {
+                                    label: "Recognized",
+                                    value: "Fashion Group International Award, Miami Tourism Board Award",
+                                },
+                            ].map((item) => (
+                                <Grid item xs={12} sm={6} key={item.label}>
+                                    <Box
+                                        sx={{
+                                            borderLeft: "3px solid #a9927d",
+                                            pl: 2,
+                                            py: 0.5,
+                                        }}
+                                    >
+                                        <p
+                                            style={{
+                                                color: "#a9927d",
+                                                fontSize: "12px",
+                                                fontFamily: "Test Calibre",
+                                                letterSpacing: "0.06em",
+                                                textTransform: "uppercase",
+                                                marginBottom: "4px",
+                                            }}
+                                        >
+                                            {item.label}
+                                        </p>
+                                        <p
+                                            style={{
+                                                color: "#0a0908",
+                                                fontSize: "15px",
+                                                fontFamily: "stratos-lights",
+                                                lineHeight: "150%",
+                                                margin: 0,
+                                            }}
+                                        >
+                                            {item.value}
+                                        </p>
+                                    </Box>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+
             {/* 2nd Section */}
             {/* Our Team */}
 
             <Box
                 sx={{
-                    backgroundColor: "#ece6f9",
+                    backgroundColor: "#f2f4f3",
                     py: { xs: 4, sm: 6, md: 8 },
                     width: "100%",
                 }}
@@ -461,6 +679,71 @@ const About = () => {
                     </Grid>
                 ))}
                 </Grid>
+            </Box>
+            {/* We've Worked With */}
+            <Box
+                sx={{
+                    backgroundColor: "#0a0908",
+                    px: {
+                        xs: "5%",
+                        sm: "5%",
+                        md: "10%",
+                        lg: "15%",
+                        xl: "20%",
+                    },
+                    py: { xs: 6, sm: 8, md: 10 },
+                    textAlign: "center",
+                }}
+            >
+                <p
+                    style={{
+                        color: "#a9927d",
+                        fontSize: "13px",
+                        fontFamily: "Test Calibre",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        marginBottom: "40px",
+                    }}
+                >
+                    We&apos;ve Worked With
+                </p>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        gap: { xs: "12px 20px", md: "16px 32px" },
+                        maxWidth: "900px",
+                        mx: "auto",
+                    }}
+                >
+                    {[
+                        "Nike",
+                        "Netflix",
+                        "Samsung",
+                        "Cash App",
+                        "Block",
+                        "Scale AI",
+                        "La Prairie",
+                        "Delta",
+                        "eBay",
+                        "Miami Swim Week",
+                    ].map((brand) => (
+                        <span
+                            key={brand}
+                            style={{
+                                color: "rgba(242,244,243,0.55)",
+                                fontFamily: "Test Calibre",
+                                fontSize: "clamp(14px, 2vw, 18px)",
+                                letterSpacing: "0.04em",
+                                fontWeight: "500",
+                                transition: "color 0.2s ease",
+                            }}
+                        >
+                            {brand}
+                        </span>
+                    ))}
+                </Box>
             </Box>
         </>
     );
