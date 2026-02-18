@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 const Layout = ({ children }) => {
     const { user } = useUser();
     const router = useRouter();
-    const isEnterprise = router.asPath.includes("enterprise");
+    const isEnterprise = router.asPath.includes("enterprise") || router.asPath.includes("experts");
     const color = isEnterprise ? "siteContainerBlack" : "white";
     const siteTitle = "Violet Verse: A Web3 Lifestyle Platform | Violet Verse";
     const metaTitle = "Violet Verse: A Web3 Lifestyle Platform";
@@ -56,10 +56,10 @@ const Layout = ({ children }) => {
         },
         palette: {
             primary: {
-                light: "#E5DBF9",
-                main: "#DED1F7",
-                dark: "#B3A8C6",
-                contrastText: "#43226D",
+                light: "#a9927d",
+                main: "#49111c",
+                dark: "#0a0908",
+                contrastText: "#f2f4f3",
             },
         },
     });
