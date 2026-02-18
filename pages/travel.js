@@ -18,15 +18,34 @@ const Travel = () => {
         type: "",
         notes: "",
     });
+    const [submitStatus, setSubmitStatus] = useState(null); // null | "success" | "error"
+    const [submitting, setSubmitting] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Form submission — connect to your preferred service
-        alert("Thanks! We'll be in touch soon.");
+        setSubmitting(true);
+        setSubmitStatus(null);
+        try {
+            const res = await fetch("/api/submitTravelForm", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+            if (res.ok) {
+                setSubmitStatus("success");
+                setFormData({ name: "", email: "", destination: "", dates: "", type: "", notes: "" });
+            } else {
+                setSubmitStatus("error");
+            }
+        } catch {
+            setSubmitStatus("error");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const inputStyle = {
@@ -536,6 +555,7 @@ const Travel = () => {
                                         type="submit"
                                         variant="contained"
                                         disableElevation
+                                        disabled={submitting}
                                         sx={{
                                             py: 1.75,
                                             px: 5,
@@ -543,9 +563,41 @@ const Travel = () => {
                                             fontWeight: "400",
                                         }}
                                     >
-                                        Send My Request
+                                        {submitting ? "Sending…" : "Send My Request"}
                                     </Button>
                                 </Grid>
+                                {submitStatus === "success" && (
+                                    <Grid item xs={12}>
+                                        <Box
+                                            sx={{
+                                                backgroundColor: "rgba(73,17,28,0.08)",
+                                                border: "1px solid rgba(73,17,28,0.2)",
+                                                borderRadius: "12px",
+                                                p: 2.5,
+                                            }}
+                                        >
+                                            <p style={{ color: "#49111c", margin: 0, fontFamily: "stratos-lights" }}>
+                                                ✓ Your request has been sent! We&apos;ll be in touch within 48 hours.
+                                            </p>
+                                        </Box>
+                                    </Grid>
+                                )}
+                                {submitStatus === "error" && (
+                                    <Grid item xs={12}>
+                                        <Box
+                                            sx={{
+                                                backgroundColor: "rgba(200,0,0,0.06)",
+                                                border: "1px solid rgba(200,0,0,0.2)",
+                                                borderRadius: "12px",
+                                                p: 2.5,
+                                            }}
+                                        >
+                                            <p style={{ color: "#900", margin: 0, fontFamily: "stratos-lights" }}>
+                                                Something went wrong. Please try again or email us directly.
+                                            </p>
+                                        </Box>
+                                    </Grid>
+                                )}
                             </Grid>
                         </form>
                     </Grid>
