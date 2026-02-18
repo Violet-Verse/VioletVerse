@@ -8,12 +8,6 @@ const HeroSection = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true })
   
-  const spotlightPost = {
-    title: ' ',
-    subtitle: '',
-    url: '/eth-denver-tVvOGAqXKR',
-  }
-
   return (
     <Box
       sx={{
@@ -49,6 +43,21 @@ const HeroSection = () => {
           loop={true}
         />
       </Box>
+      {/* Gradient overlay for text readability */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: {
+            xs: 'linear-gradient(to right, rgba(10,9,8,0.72) 0%, rgba(10,9,8,0.3) 100%)',
+            md: 'linear-gradient(to right, rgba(10,9,8,0.65) 0%, rgba(10,9,8,0.1) 70%, transparent 100%)',
+          },
+          zIndex: 1,
+        }}
+      />
       <Box
         className={styles.overlay}
         sx={{
@@ -60,7 +69,7 @@ const HeroSection = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: { xs: 'center', md: 'flex-start' },
-          zIndex: 1,
+          zIndex: 2,
           px: {
             xs: '5%',
             sm: '5%',
@@ -74,50 +83,44 @@ const HeroSection = () => {
           direction="column"
           spacing={2}
           sx={{
-            maxWidth: { xs: '100%', md: '1040px' },
+            maxWidth: { xs: '100%', md: '680px' },
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
           <Grid item>
-            <Link href={spotlightPost.url} legacyBehavior>
-              <a>
-                <Box
-                  component="span"
-                  sx={{
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    cursor: 'pointer',
-                  }}
-                  role="link"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      window.location.href = spotlightPost.url;
-                    }
-                  }}
-                >
-                  <p
-                    style={{
-                      fontFamily: 'stratos-lights',
-                      color: 'black',
-                      fontStyle: 'italic',
-                      fontWeight: '200',
-                      fontSize: 'clamp(24px, 4vw, 36px)',
-                      lineHeight: '130%',
-                      letterSpacing: '-0.01em',
-                      margin: 0,
-                    }}
-                  >
-                    {spotlightPost.subtitle}
-                  </p>
-                </Box>
-              </a>
-            </Link>
+            <h1
+              style={{
+                color: '#f2f4f3',
+                fontSize: 'clamp(28px, 5vw, 56px)',
+                lineHeight: '1.1',
+                letterSpacing: '-0.02em',
+                textShadow: '0 2px 12px rgba(10,9,8,0.4)',
+                margin: 0,
+              }}
+            >
+              Media. Intelligence. Experience.
+            </h1>
           </Grid>
 
           <Grid item>
-            <Link href={spotlightPost.url} legacyBehavior>
+            <p
+              style={{
+                fontFamily: 'stratos-lights',
+                color: 'rgba(242,244,243,0.9)',
+                fontSize: 'clamp(14px, 1.8vw, 18px)',
+                lineHeight: '145%',
+                letterSpacing: '0.005em',
+                margin: 0,
+                textShadow: '0 1px 6px rgba(10,9,8,0.3)',
+              }}
+            >
+              Violet Verse is a creative studio at the intersection of content, AI,
+              and global experiences. We publish, we build, and we take you places.
+            </p>
+          </Grid>
+
+          <Grid item>
+            <Link href="/posts" legacyBehavior>
               <a>
                 <Button
                   size="large"
@@ -126,12 +129,10 @@ const HeroSection = () => {
                   sx={{
                     fontSize: { xs: '14px', sm: '16px' },
                     padding: { xs: '10px 24px', sm: '12px 28px' },
-                    minHeight: '44px', // Touch target size
+                    minHeight: '44px',
                   }}
                 >
-                  {isMobile
-                    ? 'Watch Now'
-                    : 'Check out the latest Fashion and Tech Stories'}
+                  {isMobile ? 'Read the Journal' : 'Read the Journal'}
                 </Button>
               </a>
             </Link>
