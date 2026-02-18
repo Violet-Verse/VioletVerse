@@ -48,7 +48,7 @@ const NewNav = () => {
     ready,
     getAccessToken,
   } = usePrivy()
-  const isEnterprise = router.asPath.includes('enterprise')
+  const isEnterprise = router.asPath.includes('enterprise') || router.asPath.includes('experts')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
   const verifyingRef = useRef(false)
@@ -270,7 +270,7 @@ const NewNav = () => {
                           textDecoration: 'none',
                         }}
                       >
-                        Explore
+                        Journal
                       </Button>
                     </a>
                   </Link>
@@ -290,6 +290,44 @@ const NewNav = () => {
                         }}
                       >
                         Enterprise Plan
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href="/experts" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Experts
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href="/travel" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Travel
                       </Button>
                     </a>
                   </Link>
@@ -320,6 +358,41 @@ const NewNav = () => {
                   <Image src="/Logo.svg" alt="Violet Verse" height={59} width={105} />
                 </a>
               </Link>
+
+                {/* Book a Call CTA | All users, desktop only */}
+                <Box
+                  sx={{
+                    display: {
+                      xs: 'none',
+                      md: 'none',
+                      lg: 'none',
+                      xl: 'flex',
+                    },
+                    '@media (min-width: 1220px)': {
+                      display: 'flex',
+                    },
+                    mr: 1,
+                  }}
+                >
+                  <a
+                    href="https://calendly.com/violetverse"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      disableElevation
+                      variant="contained"
+                      sx={{
+                        py: 1.5,
+                        px: 2.5,
+                        fontWeight: '400',
+                        fontSize: '16px',
+                      }}
+                    >
+                      Book a Call
+                    </Button>
+                  </a>
+                </Box>
 
                 {/* Connect Wallet + VV Tokens || Logged In*/}
 

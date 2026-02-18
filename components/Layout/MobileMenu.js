@@ -197,14 +197,14 @@ const MobileMenu = ({
               </MenuItem>
             )}
 
-            {/* Explore with Categories Submenu */}
+            {/* Journal with Categories Submenu */}
             <MenuItem index={!user && loaded ? 1 : 0}>
               <button
                 type="button"
                 onClick={() => handleMenuClick(true, 'explore')}
                 className={mobileMenuClasses.menuButton}
               >
-                <span>Explore</span>
+                <span>Journal</span>
                 <motion.div
                   animate={{ rotate: openSubmenu === 'explore' ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
@@ -255,8 +255,34 @@ const MobileMenu = ({
               </Link>
             </MenuItem>
 
-            {/* VV VR */}
+            {/* Experts */}
             <MenuItem index={!user && loaded ? 3 : 2}>
+              <Link
+                href="/experts"
+                legacyBehavior
+                onClick={() => handleMenuClick(false)}
+              >
+                <a className={mobileMenuClasses.menuButton}>
+                  Experts
+                </a>
+              </Link>
+            </MenuItem>
+
+            {/* Travel */}
+            <MenuItem index={!user && loaded ? 4 : 3}>
+              <Link
+                href="/travel"
+                legacyBehavior
+                onClick={() => handleMenuClick(false)}
+              >
+                <a className={mobileMenuClasses.menuButton}>
+                  Travel
+                </a>
+              </Link>
+            </MenuItem>
+
+            {/* VV VR */}
+            <MenuItem index={!user && loaded ? 5 : 4}>
               <a
                 target="_blank"
                 href="/vr"
@@ -269,7 +295,7 @@ const MobileMenu = ({
             </MenuItem>
 
             {/* Community */}
-            <MenuItem index={!user && loaded ? 4 : 3}>
+            <MenuItem index={!user && loaded ? 6 : 5}>
               <Link
                 href="/about"
                 legacyBehavior
