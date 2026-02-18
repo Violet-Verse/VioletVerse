@@ -34,7 +34,7 @@ const Posts = ({ posts, authors, contributors }) => {
             }}
         >
             <ArticleGrid
-                title="Layers of the Verse"
+                title="Pages of the Verse"
                 posts={posts}
                 authors={authors}
                 contributors={contributors}

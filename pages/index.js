@@ -97,7 +97,7 @@ const Home = ({ posts, authors, contributors }) => {
         {/* Curated Content Marketplace */}
         <FutureByMelissaCard />
 
-        {/* Layers of the Verse */}
+        {/* Pages of the Verse */}
         <LayersOfTheVerse
           posts={posts}
           authors={authors}
