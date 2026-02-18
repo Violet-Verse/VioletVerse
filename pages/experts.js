@@ -33,7 +33,7 @@ const Experts = () => {
         "A 6-week expert data pilot for applied AI teams who need signal, not noise.";
 
     return (
-        <Box mb={-7} className="enterprise-test" style={{ backgroundColor: "#0a0908" }}>
+        <Box mb={-7} className="enterprise-test" style={{ backgroundColor: "#0a0908", overflowX: "hidden" }}>
             <Head>
                 <title>{siteTitle}</title>
                 <meta name="description" content={metaDescription} />
