@@ -26,7 +26,9 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // Analytics call on page reroute
 Router.events.on("routeChangeComplete", (url) => {
-    global.analytics.page(url);
+    if (typeof global !== "undefined" && global.analytics) {
+        global.analytics.page(url);
+    }
 });
 
 const privyConfig = {
@@ -37,7 +39,16 @@ const privyConfig = {
     },
 };
 
-function MyApp({ Component, pageProps }) {
+const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+
+if (!PRIVY_APP_ID) {
+    console.warn(
+        "WARNING: NEXT_PUBLIC_PRIVY_APP_ID is not set. Authentication will not work. " +
+            "Set this environment variable in Vercel and redeploy."
+    );
+}
+
+function AppContent({ Component, pageProps }) {
     const { user, loaded } = useUser();
     const router = useRouter();
 
@@ -68,66 +79,55 @@ function MyApp({ Component, pageProps }) {
     // User state loading
     if (loadingUser) {
         return (
-            <PrivyProvider
-                appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
-                config={privyConfig}
-            >
-                <Layout>
-                    <Grid
-                        container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
-                        <ClipLoader color="#693E9A" />
-                    </Grid>
-                </Layout>
-            </PrivyProvider>
+            <Layout>
+                <Grid
+                    container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <ClipLoader color="#693E9A" />
+                </Grid>
+            </Layout>
         );
     }
 
     // Access Rejected
     if (noAccess) {
         return (
-            <PrivyProvider
-                appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
-                config={privyConfig}
-            >
-                <Layout>
-                    <Grid
-                        container
-                        justifyContent="center"
-                        sx={{ textAlign: "center" }}
-                    >
-                        <Grid item>
-                            <p>Sorry, you don&apos;t have access to this page.</p>
-                        </Grid>
+            <Layout>
+                <Grid
+                    container
+                    justifyContent="center"
+                    sx={{ textAlign: "center" }}
+                >
+                    <Grid item>
+                        <p>Sorry, you don&apos;t have access to this page.</p>
                     </Grid>
-                </Layout>
-            </PrivyProvider>
+                </Grid>
+            </Layout>
         );
     }
 
     if (vrSite) {
-        return (
-            <PrivyProvider
-                appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
-                config={privyConfig}
-            >
-                <Component {...pageProps} />
-            </PrivyProvider>
-        );
+        return <Component {...pageProps} />;
     }
 
     return (
+        <Layout>
+            <Component {...pageProps} />
+        </Layout>
+    );
+}
+
+function MyApp(props) {
+    return (
         <PrivyProvider
-            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+            appId={PRIVY_APP_ID || "missing-privy-app-id"}
             config={privyConfig}
         >
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <AppContent {...props} />
         </PrivyProvider>
     );
 }

@@ -29,6 +29,15 @@ import { useRouter } from 'next/router'
 import MobileMenu from './MobileMenu'
 import classes from './Navbar.module.css'
 
+// Safe analytics helper — prevents crashes if analytics script hasn't loaded
+function track(event, props) {
+  try {
+    if (typeof global !== 'undefined' && global.analytics) {
+      global.analytics.track(event, props)
+    }
+  } catch (_) {}
+}
+
 const NewNav = () => {
   const router = useRouter()
   const { user, loaded } = useUser()
@@ -49,10 +58,14 @@ const NewNav = () => {
   // Identify User for Analytics
   useEffect(() => {
     if (user) {
-      global.analytics.identify(user?.userId, {
-        username: user?.name,
-        email: user?.email,
-      })
+      try {
+        if (typeof global !== 'undefined' && global.analytics) {
+          global.analytics.identify(user?.userId, {
+            username: user?.name,
+            email: user?.email,
+          })
+        }
+      } catch (_) {}
     }
   }, [loaded, user])
 
@@ -82,24 +95,22 @@ const NewNav = () => {
           // Refresh user data first (critical path)
           mutate('/api/database/getUser')
           // Analytics is non-critical — don't let it block auth flow
-          try {
-            global.analytics.track(
-              result.registration
-                ? 'User Registration Success'
-                : 'User Login Success ',
-              {
-                ...(result.registration && {
-                  userId: result.userData.userId,
-                }),
-                ...(result.registration && {
-                  email: result.userData.email,
-                }),
-                ...(result.registration && {
-                  role: result.userData.role,
-                }),
-              },
-            )
-          } catch (_) {}
+          track(
+            result.registration
+              ? 'User Registration Success'
+              : 'User Login Success ',
+            {
+              ...(result.registration && {
+                userId: result.userData.userId,
+              }),
+              ...(result.registration && {
+                email: result.userData.email,
+              }),
+              ...(result.registration && {
+                role: result.userData.role,
+              }),
+            },
+          )
         } else {
           await privyLogout()
         }
@@ -153,11 +164,12 @@ const NewNav = () => {
   }
 
   const handleCloseUserMenu = () => {
-    global.analytics.track('Profile Menu Hidden')
+    track('Profile Menu Hidden')
     setAnchorElUser(null)
   }
 
   const login = () => {
+    if (!ready) return
     privyLogin()
   }
 
@@ -170,7 +182,7 @@ const NewNav = () => {
     const shouldShowCTA = loaded && !ctaClosed() && !user
     if (shouldShowCTA) {
       setSignupCTA(true)
-      global.analytics.track('Signup CTA Displayed')
+      track('Signup CTA Displayed')
     } else {
       setSignupCTA(false)
     }
@@ -190,11 +202,11 @@ const NewNav = () => {
       <SignUpCTA
         open={signupCTA}
         handleClose={() => {
-          global.analytics.track('Signup CTA Hidden')
+          track('Signup CTA Hidden')
           setFirstVisit()
         }}
         handleSignup={() => {
-          global.analytics.track('Signup CTA Clicked')
+          track('Signup CTA Clicked')
           login()
           setFirstVisit()
         }}
@@ -364,12 +376,8 @@ const NewNav = () => {
                       <Tooltip title="Account settings">
                         <IconButton
                           onClick={(event) => {
-                            global.analytics.track(
-                              'Profile Menu Displayed'
-                            )
-                            handleOpenUserMenu(
-                              event
-                            )
+                            track('Profile Menu Displayed')
+                            handleOpenUserMenu(event)
                           }}
                           size="small"
                           aria-controls={
@@ -435,12 +443,9 @@ const NewNav = () => {
                         <MenuItem
                           onClick={() => {
                             Router.push('/profile')
-                            global.analytics.track(
-                              'Profile Menu Item Clicked',
-                              {
-                                page: 'Profile Page',
-                              }
-                            )
+                            track('Profile Menu Item Clicked', {
+                              page: 'Profile Page',
+                            })
                             setAnchorElUser(null)
                           }}
                         >
@@ -458,18 +463,11 @@ const NewNav = () => {
                         {dashboardPermission && (
                           <MenuItem
                             onClick={() => {
-                              Router.push(
-                                '/dashboard'
-                              )
-                              global.analytics.track(
-                                'Profile Menu Item Clicked',
-                                {
-                                  page: 'Dashboard Page',
-                                }
-                              )
-                              setAnchorElUser(
-                                null
-                              )
+                              Router.push('/dashboard')
+                              track('Profile Menu Item Clicked', {
+                                page: 'Dashboard Page',
+                              })
+                              setAnchorElUser(null)
                             }}
                           >
                             <ListItemIcon>
@@ -481,12 +479,9 @@ const NewNav = () => {
                         <MenuItem
                           onClick={() => {
                             Router.push('/tokens')
-                            global.analytics.track(
-                              'Profile Menu Item Clicked',
-                              {
-                                page: 'Dashboard Page',
-                              }
-                            )
+                            track('Profile Menu Item Clicked', {
+                              page: 'My Wallet Page',
+                            })
                             setAnchorElUser(null)
                           }}
                         >
@@ -497,15 +492,10 @@ const NewNav = () => {
                         </MenuItem>
                         <MenuItem
                           onClick={() => {
-                            Router.push(
-                              '/profile/edit'
-                            )
-                            global.analytics.track(
-                              'Profile Menu Item Clicked',
-                              {
-                                page: 'Edit Profile Page',
-                              }
-                            )
+                            Router.push('/profile/edit')
+                            track('Profile Menu Item Clicked', {
+                              page: 'Edit Profile Page',
+                            })
                             setAnchorElUser(null)
                           }}
                         >
@@ -517,12 +507,8 @@ const NewNav = () => {
                         <MenuItem
                           onClick={async () => {
                             await privyLogout()
-                            global.analytics.track(
-                              'Logout Button Clicked'
-                            )
-                            Router.push(
-                              '/api/auth/logout'
-                            )
+                            track('Logout Button Clicked')
+                            Router.push('/api/auth/logout')
                             setAnchorElUser(null)
                           }}
                         >
@@ -566,9 +552,7 @@ const NewNav = () => {
                         variant="contained"
                         onClick={() => {
                           login()
-                          global.analytics.track(
-                            'Login Button Clicked'
-                          )
+                          track('Login Button Clicked')
                         }}
                         sx={{
                           py: 1.5,
