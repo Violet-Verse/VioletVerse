@@ -40,10 +40,10 @@ export default async function pollLeads(req, res) {
                         name: fields.Name,
                         email: fields.Email,
                         destination: fields.Destination,
-                        travelDates: fields.TravelDates,
-                        partySize: fields.PartySize,
+                        travelDates: fields["Travel Dates"],
+                        partySize: fields["Party Size"],
                         budget: fields.Budget,
-                        specialRequests: fields.SpecialRequests,
+                        specialRequests: fields["Special Requests"],
                     }),
                 });
                 processed++;
