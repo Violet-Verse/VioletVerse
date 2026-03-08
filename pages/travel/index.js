@@ -216,7 +216,7 @@ const TravelPage = () => {
                         Get Your Free Trip Proposal
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#6b7280", mb: 4 }}>
-                        Fill out the form below and I'll personally send you a curated proposal with hotel options,
+                        Fill out the form below and I&apos;ll personally send you a curated proposal with hotel options,
                         a sample itinerary, and pricing — within minutes.
                     </Typography>
 
