@@ -2,6 +2,7 @@ const path = require("path");
 
 module.exports = {
     reactStrictMode: true,
+    staticPageGenerationTimeout: 120,
     images: {
         domains: [
             "i.imgur.com",

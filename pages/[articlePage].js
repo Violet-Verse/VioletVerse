@@ -34,17 +34,7 @@ import TipCreatorButton from "../components/article/TipCreatorButton";
 import connectDatabase from "../lib/mongoClient";
 
 export async function getStaticPaths() {
-    try {
-        const db = await connectDatabase();
-        const posts = await db.collection("posts")
-            .find({ hidden: false }, { projection: { slug: 1 } }).toArray();
-        return {
-            paths: posts.map((p) => ({ params: { articlePage: p.slug } })),
-            fallback: "blocking",
-        };
-    } catch {
-        return { paths: [], fallback: "blocking" };
-    }
+    return { paths: [], fallback: "blocking" };
 }
 
 export async function getStaticProps({ params }) {
