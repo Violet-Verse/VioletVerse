@@ -20,22 +20,35 @@ const ArticleGrid = dynamic(() => import("../components/article/ArticleGrid"));
 const PostsTable = dynamic(() => import("../components/article/PostsTable"));
 
 export async function getServerSideProps(context) {
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const data = await collection.find({ hidden: true }).toArray();
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection("posts");
+        const data = await collection.find({ hidden: true }).toArray();
 
-    const authors = await getUsersByRole("admin");
-    const contributors = await getUsersByRole("contributor");
+        const authors = await getUsersByRole("admin");
+        const contributors = await getUsersByRole("contributor");
 
-    return {
-        props: {
-            protected: true,
-            userTypes: ["admin", "contributor"],
-            posts: JSON.parse(JSON.stringify(data)),
-            authors: authors,
-            contributors: contributors,
-        },
-    };
+        return {
+            props: {
+                protected: true,
+                userTypes: ["admin", "contributor"],
+                posts: JSON.parse(JSON.stringify(data)),
+                authors: authors,
+                contributors: contributors,
+            },
+        };
+    } catch (err) {
+        console.error("Drafts page error:", err);
+        return {
+            props: {
+                protected: true,
+                userTypes: ["admin", "contributor"],
+                posts: [],
+                authors: [],
+                contributors: [],
+            },
+        };
+    }
 }
 
 function DraftsPanel({ posts, authors, contributors }) {

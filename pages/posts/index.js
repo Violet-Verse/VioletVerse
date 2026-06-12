@@ -3,21 +3,34 @@ import ArticleGrid from "../../components/article/ArticleGrid";
 import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 
-export async function getServerSideProps() {
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const data = await collection.find({ hidden: false }).toArray();
+export async function getStaticProps() {
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection("posts");
+        const data = await collection.find({ hidden: false }).toArray();
 
-    const authors = await getUsersByRole("admin");
-    const contributors = await getUsersByRole("contributor");
+        const authors = await getUsersByRole("admin");
+        const contributors = await getUsersByRole("contributor");
 
-    return {
-        props: {
-            posts: JSON.parse(JSON.stringify(data)),
-            authors: authors,
-            contributors: contributors,
-        },
-    };
+        return {
+            props: {
+                posts: JSON.parse(JSON.stringify(data)),
+                authors: authors,
+                contributors: contributors,
+            },
+            revalidate: 60,
+        };
+    } catch (err) {
+        console.error("Posts page data error:", err);
+        return {
+            props: {
+                posts: [],
+                authors: [],
+                contributors: [],
+            },
+            revalidate: 60,
+        };
+    }
 }
 
 const Posts = ({ posts, authors, contributors }) => {

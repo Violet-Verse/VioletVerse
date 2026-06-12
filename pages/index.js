@@ -8,20 +8,33 @@ import NewToWeb3 from '../components/homepage/NewToWeb3'
 import { getUsersByRole } from './api/database/getUserByEmail'
 import connectDatabase from '../lib/mongoClient'
 
-export async function getServerSideProps() {
-  const db = await connectDatabase()
-  const collection = db.collection('posts')
-  const data = await collection.find({ hidden: false }).toArray()
+export async function getStaticProps() {
+  try {
+    const db = await connectDatabase()
+    const collection = db.collection('posts')
+    const data = await collection.find({ hidden: false }).toArray()
 
-  const authors = await getUsersByRole('admin')
-  const contributors = await getUsersByRole('contributor')
+    const authors = await getUsersByRole('admin')
+    const contributors = await getUsersByRole('contributor')
 
-  return {
-    props: {
-      posts: JSON.parse(JSON.stringify(data)),
-      authors: authors,
-      contributors: contributors,
-    },
+    return {
+      props: {
+        posts: JSON.parse(JSON.stringify(data)),
+        authors: authors,
+        contributors: contributors,
+      },
+      revalidate: 60,
+    }
+  } catch (err) {
+    console.error("Homepage data error:", err)
+    return {
+      props: {
+        posts: [],
+        authors: [],
+        contributors: [],
+      },
+      revalidate: 60,
+    }
   }
 }
 

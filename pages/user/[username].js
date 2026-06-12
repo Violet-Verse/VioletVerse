@@ -2,19 +2,29 @@ import ProfileLayout from "../../components/user/ProfileLayout";
 import { getUserByUsername } from "../api/database/getUser";
 import Head from "next/head";
 
-export async function getServerSideProps(context) {
-    const username = context.params.username;
-    const data = await getUserByUsername(username);
+export async function getStaticPaths() {
+    return { paths: [], fallback: 'blocking' };
+}
 
-    if (!data) {
-        return { notFound: true, props: { user: {} } };
+export async function getStaticProps(context) {
+    try {
+        const username = context.params.username;
+        const data = await getUserByUsername(username);
+
+        if (!data) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                user: data,
+            },
+            revalidate: 300,
+        };
+    } catch (err) {
+        console.error("User profile error:", err);
+        return { notFound: true };
     }
-
-    return {
-        props: {
-            user: data,
-        },
-    };
 }
 
 const UserProfile = ({ user }) => {

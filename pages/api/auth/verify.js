@@ -4,10 +4,23 @@ import CookieService, { MAX_AGE } from "../../../lib/cookie";
 import { table } from "../utils/userTable";
 import fetch from "node-fetch";
 
-const privyClient = new PrivyClient({
-    appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID,
-    appSecret: process.env.PRIVY_APP_SECRET,
-});
+let _privyClient = null;
+
+function getPrivyClient() {
+    if (_privyClient) return _privyClient;
+
+    const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+    const appSecret = process.env.PRIVY_APP_SECRET;
+
+    if (!appId || !appSecret) {
+        throw new Error(
+            "Privy environment variables are not set (NEXT_PUBLIC_PRIVY_APP_ID, PRIVY_APP_SECRET)"
+        );
+    }
+
+    _privyClient = new PrivyClient({ appId, appSecret });
+    return _privyClient;
+}
 
 // Helper: find user by email in Airtable
 async function findUserByEmail(email) {
@@ -107,6 +120,7 @@ export default async function handler(req, res) {
 
     try {
         // 1. Verify the Privy access token
+        const privyClient = getPrivyClient();
         const verifiedClaims = await privyClient
             .utils()
             .auth()
