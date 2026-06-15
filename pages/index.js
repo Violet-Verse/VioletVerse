@@ -33,7 +33,7 @@ const pillars = [
   },
 ]
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const db = await connectDatabase()
     const data = await db.collection('posts').find({ hidden: false }).toArray()
@@ -42,10 +42,9 @@ export async function getStaticProps() {
     try { contributors = await getUsersByRole('contributor') } catch {}
     return {
       props: { posts: JSON.parse(JSON.stringify(data)), authors, contributors },
-      revalidate: 60,
     }
   } catch {
-    return { props: { posts: [], authors: [], contributors: [] }, revalidate: 60 }
+    return { props: { posts: [], authors: [], contributors: [] } }
   }
 }
 

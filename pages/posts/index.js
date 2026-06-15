@@ -3,7 +3,7 @@ import ArticleGrid from "../../components/article/ArticleGrid";
 import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     try {
         const db = await connectDatabase();
         const data = await db.collection("posts").find({ hidden: false }).toArray();
@@ -12,10 +12,9 @@ export async function getStaticProps() {
         try { contributors = await getUsersByRole("contributor"); } catch {}
         return {
             props: { posts: JSON.parse(JSON.stringify(data)), authors, contributors },
-            revalidate: 60,
         };
     } catch {
-        return { props: { posts: [], authors: [], contributors: [] }, revalidate: 60 };
+        return { props: { posts: [], authors: [], contributors: [] } };
     }
 }
 
