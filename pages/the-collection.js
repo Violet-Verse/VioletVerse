@@ -58,7 +58,7 @@ const archiveItems = [
 const ctas = [
   {
     label: 'Shop My Poshmark',
-    href: 'https://poshmark.com', // TODO: your Poshmark shop URL
+    href: 'https://poshmark.com/closet/digitalgirlie',
     variant: 'dark',
   },
   {
@@ -187,7 +187,7 @@ export default function TheCollection() {
           }}
         >
           What follows is not a review or a ranking. It is a record — of the places these pieces
-          have traveled, the moments they've witnessed, and the reasons they remain in my wardrobe
+          have traveled, the moments they&apos;ve witnessed, and the reasons they remain in my wardrobe
           years after purchase.
         </p>
         <p
@@ -431,8 +431,8 @@ export default function TheCollection() {
             fontStyle: 'italic',
           }}
         >
-          "Fashion isn't simply about acquiring new pieces. It's about building a wardrobe that travels
-          with you, gains meaning over time, and continues to feel relevant years after purchase."
+          &ldquo;Fashion isn&apos;t simply about acquiring new pieces. It&apos;s about building a wardrobe that travels
+          with you, gains meaning over time, and continues to feel relevant years after purchase.&rdquo;
         </p>
       </Box>
 
