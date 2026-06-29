@@ -31,6 +31,13 @@ const pillars = [
     cta: 'Plan Your Trip',
     href: '/travel',
   },
+  {
+    label: 'COLLECT',
+    name: 'The Jacquemus Archive',
+    desc: 'A personal archive documenting years of collecting, wearing, and traveling in Jacquemus — and where to find these pieces now.',
+    cta: 'Explore the Archive',
+    href: '/jacquemusarchives',
+  },
 ]
 
 export async function getServerSideProps() {
@@ -95,7 +102,7 @@ const Home = ({ posts, authors, contributors }) => {
           <Grid item>
             <Grid container spacing={3}>
               {pillars.map((pillar) => (
-                <Grid item xs={12} md={4} key={pillar.label}>
+                <Grid item xs={12} sm={6} md={3} key={pillar.label}>
                   <Box
                     sx={{
                       border: '1px solid rgba(169,146,125,0.2)',
