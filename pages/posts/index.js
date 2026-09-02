@@ -6,7 +6,7 @@ import { getUsersByRole } from "../api/database/getUserByEmail";
 export async function getServerSideProps() {
     try {
         const db = await connectDatabase();
-        const data = await db.collection("posts").find({ hidden: false }).toArray();
+        const data = await db.collection("posts").find({ hidden: { $ne: true } }).toArray();
         let authors = [], contributors = [];
         try { authors = await getUsersByRole("admin"); } catch {}
         try { contributors = await getUsersByRole("contributor"); } catch {}

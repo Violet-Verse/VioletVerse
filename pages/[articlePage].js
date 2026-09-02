@@ -43,7 +43,7 @@ export async function getStaticProps({ params }) {
         const db = await connectDatabase();
         const collection = db.collection("posts");
         const [allPosts, data] = await Promise.all([
-            collection.find({ hidden: false }).toArray(),
+            collection.find({ hidden: { $ne: true } }).toArray(),
             collection.find({ slug: id }).toArray(),
         ]);
 
