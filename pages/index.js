@@ -19,9 +19,9 @@ const pillars = [
   },
   {
     label: 'BUILD',
-    name: 'Violet Verse Experts',
-    desc: 'A 6-week expert data pilot for applied AI teams. We validate human data and RL strategies before you scale — so you invest in what actually works.',
-    cta: 'Learn More',
+    name: 'Verso Network',
+    desc: 'A matchmaking service for AI trainers and researchers. Ethical data, hand-picked experts, and proprietary methodology — because good data requires good judgment.',
+    cta: 'Join the Network',
     href: '/experts',
   },
   {
@@ -31,22 +31,27 @@ const pillars = [
     cta: 'Plan Your Trip',
     href: '/travel',
   },
+  {
+    label: 'COLLECT',
+    name: 'The Jacquemus Archive',
+    desc: 'A personal archive documenting years of collecting, wearing, and traveling in Jacquemus — and where to find these pieces now.',
+    cta: 'Explore the Archive',
+    href: '/jacquemusarchives',
+  },
 ]
 
 export async function getServerSideProps() {
-  const db = await connectDatabase()
-  const collection = db.collection('posts')
-  const data = await collection.find({ hidden: false }).toArray()
-
-  const authors = await getUsersByRole('admin')
-  const contributors = await getUsersByRole('contributor')
-
-  return {
-    props: {
-      posts: JSON.parse(JSON.stringify(data)),
-      authors: authors,
-      contributors: contributors,
-    },
+  try {
+    const db = await connectDatabase()
+    const data = await db.collection('posts').find({ hidden: { $ne: true } }).toArray()
+    let authors = [], contributors = []
+    try { authors = await getUsersByRole('admin') } catch {}
+    try { contributors = await getUsersByRole('contributor') } catch {}
+    return {
+      props: { posts: JSON.parse(JSON.stringify(data)), authors, contributors },
+    }
+  } catch {
+    return { props: { posts: [], authors: [], contributors: [] } }
   }
 }
 
@@ -97,7 +102,7 @@ const Home = ({ posts, authors, contributors }) => {
           <Grid item>
             <Grid container spacing={3}>
               {pillars.map((pillar) => (
-                <Grid item xs={12} md={4} key={pillar.label}>
+                <Grid item xs={12} sm={6} md={3} key={pillar.label}>
                   <Box
                     sx={{
                       border: '1px solid rgba(169,146,125,0.2)',
