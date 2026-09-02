@@ -19,9 +19,9 @@ const pillars = [
   },
   {
     label: 'BUILD',
-    name: 'Violet Verse Experts',
-    desc: 'A 6-week expert data pilot for applied AI teams. We validate human data and RL strategies before you scale — so you invest in what actually works.',
-    cta: 'Learn More',
+    name: 'Verso Network',
+    desc: 'A matchmaking service for AI trainers and researchers. Ethical data, hand-picked experts, and proprietary methodology — because good data requires good judgment.',
+    cta: 'Join the Network',
     href: '/experts',
   },
   {
