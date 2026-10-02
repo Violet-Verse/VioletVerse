@@ -101,12 +101,9 @@ Access special features or collaborations over time
 
 📷 Lens: @violetverse.lens
 
-📨 Email: gn@violetverse.xyz
+📨 Email: gm@ioletverse.io
 
-🗣 Warpcast: /violetverse
+🗣 X: /violetverseio
 
-📄 License
 
-This project is open source and available under the MIT License.
-
-“The future belongs to those who create it — not just code it.”
+This project is available to License. 
