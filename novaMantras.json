@@ -1,30 +1,50 @@
 {
+  "January": {
+    "mantra": "I build for the long arc, not the quick applause.",
+    "note": "Capricorn season says lay the foundation. Aquarius season says make it revolutionary. You're doing both."
+  },
+  "February": {
+    "mantra": "I dream beyond what I've been told is possible.",
+    "note": "Pluto in Aquarius is rewriting the collective dream. Your imagination is prophetic right now."
+  },
+  "March": {
+    "mantra": "I ignite what was waiting in the dark all winter.",
+    "note": "Aries season is your starting pistol. Saturn and Neptune in Aries invite you to build something both courageous and beautiful."
+  },
+  "April": {
+    "mantra": "I move first and trust the universe to catch up.",
+    "note": "This is not recklessness — this is Aries faith. The path appears as you walk it."
+  },
+  "May": {
+    "mantra": "I slow down enough to feel what I'm building toward.",
+    "note": "Pleasure is information. If it doesn't feel good in your body, it might not be right for your soul."
+  },
   "June": {
-    "mantra": "I mint joy in fleeting moments.",
-    "note": "Life is for limited editions — flirt, flit, and fork your focus."
+    "mantra": "I collect moments like they're going out of style.",
+    "note": "Gemini season rewards the curious. Say yes to the detour — the scenery is the point."
   },
   "July": {
-    "mantra": "I secure my energy like it’s a cold wallet.",
-    "note": "Protect your vibe. If it doesn’t feel safe, it’s not worth staking."
+    "mantra": "I protect my peace like it's the most sacred thing I own.",
+    "note": "Home is a feeling, not a floor plan. Build yours from the inside out."
   },
   "August": {
-    "mantra": "I shine unapologetically on-chain and off.",
-    "note": "You are the mainnet. Let them watch you burn bright."
+    "mantra": "I shine without apology or explanation.",
+    "note": "You are the main character. Stop dimming yourself for rooms that can't handle your wattage."
   },
   "September": {
-    "mantra": "I debug my spirit with sacred rituals.",
-    "note": "Clean your code, your closet, and your calendar. Optimize for peace."
+    "mantra": "I tend to myself with the same devotion I give to everything else.",
+    "note": "Your routines are your religion. Make them worth practicing."
   },
   "October": {
-    "mantra": "I rebalance my inner DAO with grace.",
-    "note": "Harmony isn’t passive — it’s precision. You are the protocol."
+    "mantra": "I choose harmony without losing myself in it.",
+    "note": "True balance isn't splitting yourself in two — it's knowing what you actually value."
   },
   "November": {
-    "mantra": "I burn what binds. I rise tokenized.",
-    "note": "This is not a breakdown — it’s a smart contract upgrade."
+    "mantra": "I release what I've outgrown and rise unrecognizable.",
+    "note": "Scorpio season is not for the faint of heart. What burns away is making room for you."
   },
   "December": {
-    "mantra": "I seed cosmic projects with memeable faith.",
-    "note": "Vision is volatile. Keep shipping magic."
+    "mantra": "I expand toward what I cannot yet see and trust the horizon.",
+    "note": "Vision is wildest before it's possible. Keep going — you're closer than the map shows."
   }
 }

@@ -4,20 +4,18 @@ import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 
 export async function getServerSideProps() {
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const data = await collection.find({ hidden: false }).toArray();
-
-    const authors = await getUsersByRole("admin");
-    const contributors = await getUsersByRole("contributor");
-
-    return {
-        props: {
-            posts: JSON.parse(JSON.stringify(data)),
-            authors: authors,
-            contributors: contributors,
-        },
-    };
+    try {
+        const db = await connectDatabase();
+        const data = await db.collection("posts").find({ hidden: { $ne: true } }).toArray();
+        let authors = [], contributors = [];
+        try { authors = await getUsersByRole("admin"); } catch {}
+        try { contributors = await getUsersByRole("contributor"); } catch {}
+        return {
+            props: { posts: JSON.parse(JSON.stringify(data)), authors, contributors },
+        };
+    } catch {
+        return { props: { posts: [], authors: [], contributors: [] } };
+    }
 }
 
 const Posts = ({ posts, authors, contributors }) => {

@@ -176,7 +176,7 @@ const NewNav = () => {
   useEffect(() => {
     const ctaClosed = () => {
       if (typeof window !== 'undefined') {
-        return localStorage.getItem('homepageCTA')
+        return sessionStorage.getItem('ctaDismissed')
       }
     }
     const shouldShowCTA = loaded && !ctaClosed() && !user
@@ -192,7 +192,7 @@ const NewNav = () => {
 
   const setFirstVisit = () => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('homepageCTA', true)
+      sessionStorage.setItem('ctaDismissed', true)
       setSignupCTA(false)
     }
   }

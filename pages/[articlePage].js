@@ -33,29 +33,39 @@ import Tipping from "../components/article/Tipping";
 import TipCreatorButton from "../components/article/TipCreatorButton";
 import connectDatabase from "../lib/mongoClient";
 
-export async function getServerSideProps(context) {
-    const id = context.params.articlePage;
+export async function getStaticPaths() {
+    return { paths: [], fallback: "blocking" };
+}
 
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const allPosts = await collection.find({ hidden: false }).toArray();
-    const data = await collection.find({ slug: id }).toArray();
-    const authorData = await getAuthorForPost(id);
-    const contributorData = await getContributorForPost(id);
+export async function getStaticProps({ params }) {
+    const id = params.articlePage;
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection("posts");
+        const [allPosts, data] = await Promise.all([
+            collection.find({ hidden: { $ne: true } }).toArray(),
+            collection.find({ slug: id }).toArray(),
+        ]);
 
-    if (!data || data.length === 0) {
-        return { notFound: true, props: { posts: {} } };
+        if (!data || data.length === 0) return { notFound: true, revalidate: 60 };
+
+        let authorData = null, contributorData = null;
+        try { authorData = await getAuthorForPost(id); } catch {}
+        try { contributorData = await getContributorForPost(id); } catch {}
+
+        return {
+            props: {
+                posts: JSON.parse(JSON.stringify(data[0])),
+                allPosts: JSON.parse(JSON.stringify(allPosts)),
+                authorData,
+                contributorData: contributorData || null,
+                tokenGatePrice: data[0]?.tokenPrice || false,
+            },
+            revalidate: 300,
+        };
+    } catch {
+        return { notFound: true, revalidate: 60 };
     }
-
-    return {
-        props: {
-            posts: JSON.parse(JSON.stringify(data[0])),
-            allPosts: JSON.parse(JSON.stringify(allPosts)),
-            authorData: authorData,
-            contributorData: contributorData || null,
-            tokenGatePrice: data[0]?.tokenPrice || false,
-        },
-    };
 }
 
 const fetcher = (url) =>

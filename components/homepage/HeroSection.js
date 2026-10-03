@@ -33,7 +33,7 @@ const HeroSection = () => {
       >
         <ReactPlayer
           className={styles.video}
-          url="https://www.youtube.com/watch?v=N-ZMbCeswoM&t=4s"
+          url="https://www.youtube.com/watch?v=bDa4LJvnPPo"
           config={{ youtube: { playerVars: { showinfo: 1 } } }}
           width="100%"
           height="100%"
