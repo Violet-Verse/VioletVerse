@@ -32,7 +32,7 @@ Router.events.on("routeChangeComplete", (url) => {
 });
 
 const privyConfig = {
-    loginMethods: ["email"],
+    loginMethods: ["email", "wallet"],
     appearance: {
         theme: "light",
         accentColor: "#693E9A",
