@@ -23,7 +23,6 @@ import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import { useUser } from '../../hooks/useAuth'
 import UserAvatar from '../user/UserAvatar'
-import { nFormatter, useFlowContext } from '../Context/flowContext'
 import SignUpCTA from '../Modal/SignUpCTA.js'
 import { useRouter } from 'next/router'
 import MobileMenu from './MobileMenu'
@@ -93,7 +92,7 @@ const NewNav = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  const vvTokens = nFormatter(useFlowContext(), 2)
+  const vvTokens = null
 
   const dashboardPermission = user?.role === 'admin' || user?.role === 'contributor'
 
