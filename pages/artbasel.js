@@ -422,6 +422,7 @@ export default function ArtBasel() {
 
   const [buying, setBuying] = useState(false)
   const [processing, setProcessing] = useState(false)
+  const [verifying, setVerifying] = useState(false)
   const [authTimedOut, setAuthTimedOut] = useState(false)
 
   useEffect(() => {
@@ -462,6 +463,19 @@ export default function ArtBasel() {
     return () => clearInterval(interval)
   }, [session_id, purchased, router])
 
+  // After login, check Stripe directly for purchases made via the Payment Link
+  useEffect(() => {
+    if (!loaded || !user || hasBought(user)) return
+    setVerifying(true)
+    fetch('/api/artbasel/verify-stripe-purchase')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.purchased) mutate('/api/database/getUser')
+      })
+      .catch(() => {})
+      .finally(() => setVerifying(false))
+  }, [loaded, user]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleBuy = useCallback(async () => {
     setBuying(true)
     try {
@@ -491,11 +505,11 @@ export default function ArtBasel() {
         <Box sx={{ backgroundColor: bg, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CircularProgress sx={{ color: gold }} />
         </Box>
-      ) : processing ? (
+      ) : (processing || verifying) ? (
         <Box sx={{ backgroundColor: bg, minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
           <CircularProgress sx={{ color: gold }} />
           <p style={{ color: 'rgba(242,244,243,0.7)', fontFamily: 'stratos-lights', fontSize: '17px' }}>
-            Unlocking your guide…
+            {verifying ? 'Verifying your purchase…' : 'Unlocking your guide…'}
           </p>
         </Box>
       ) : purchased ? (
