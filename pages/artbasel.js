@@ -89,11 +89,9 @@ function BuyPage({ notLoggedIn, onLogin }) {
               Buy on Stripe — $9.99
             </Button>
           </a>
-          {notLoggedIn && (
-            <Button fullWidth disableElevation onClick={() => { setUnlockOpen(false); onLogin() }} sx={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', fontWeight: 400, py: 1.25, mt: 1, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(169,146,125,0.08)' } }}>
-              Already purchased? Sign in →
-            </Button>
-          )}
+          <Button fullWidth disableElevation onClick={() => { setUnlockOpen(false); onLogin() }} sx={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', fontWeight: 400, py: 1.25, mt: 1, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(169,146,125,0.08)' } }}>
+            Already purchased? Sign in →
+          </Button>
         </DialogContent>
       </Dialog>
 
