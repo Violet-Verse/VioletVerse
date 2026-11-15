@@ -27,6 +27,8 @@ const PARTIES = [
   { date: 'Tue–Fri Dec 1–4, 10pm–midnight', what: 'Capital One Venture X Sound Sessions: intimate sets from emerging and established artists', where: 'Pauline Bar, The Shelborne By Proper', access: 'Hotel guests', url: '#' },
   { date: 'Thu Dec 3, 11:30pm–2:30am', what: 'Capital One x BÉIS after-hours: theatrical performances, Shay Mitchell, live music and the Midnight Blue luggage reveal', where: 'The Shelborne By Proper', access: 'Capital One cardholders; tickets on Capital One Entertainment', url: '#' },
   { date: 'Fri Dec 4, 8:30pm', what: 'Nylon House presented by e.l.f. — Ben Sterling, Blond:ish, Elvis Guetta + Surprise Performer', where: 'Miami Beach', access: 'By invitation; RSVP required', url: 'https://member.nylon.com/events/53/nylon-house-miami-2026' },
+  { date: 'Wed Dec 3, 7pm–2am', what: "Bastid's BBQ Miami — Good Music, Good Food, Good People", where: "Dante's HiFi Courtyard, 519 NW 26th St", access: 'RSVP required', url: 'https://bastidsbbq.com' },
+  { date: 'Sat Dec 5', what: 'Saint & Citizen presents Ms. Lauryn Hill & Wyclef Jean — Immersive Exhibition & Performance', where: 'Faena Forum, Miami Beach', access: 'Ticketed', url: 'https://luma.com/2yv42alm' },
 ]
 
 const ART_HAPPENINGS = [
@@ -195,7 +197,7 @@ function PartiesTable() {
               <td style={tdStyle}>{r.access}</td>
               <td style={{ ...tdStyle, textAlign: 'right' }}>
                 {r.url && r.url !== '#' ? (
-                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap' }}>RSVP →</a>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.4)', borderRadius: '100px', padding: '4px 12px', whiteSpace: 'nowrap', display: 'inline-block' }}>RSVP here →</a>
                 ) : '—'}
               </td>
             </tr>
@@ -236,7 +238,7 @@ function ArtHappeningsTable() {
               <td style={tdStyle}>{r.entry}</td>
               <td style={{ ...tdStyle, textAlign: 'right' }}>
                 {r.url && r.url !== '#' ? (
-                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap' }}>RSVP →</a>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.4)', borderRadius: '100px', padding: '4px 12px', whiteSpace: 'nowrap', display: 'inline-block' }}>RSVP here →</a>
                 ) : '—'}
               </td>
             </tr>
@@ -388,6 +390,8 @@ const FLYERS = [
   { name: 'Anna Nicole / Leonard Baby', date: 'Wed Dec 2, 6–10PM', where: 'Playboy Delano, 1685 Collins Ave', src: '/flyers/anna-nicole.jpg' },
   { name: 'Modern Luxury Ocean Drive — Art of Self Care', date: 'Tue Dec 1, 11AM–2PM', where: 'Mondrian South Beach', src: '/flyers/ocean-drive.webp' },
   { name: 'Nylon House presented by e.l.f.', date: 'Fri Dec 4, 8:30PM', where: 'Miami Beach', src: '/flyers/nylon-house.jpg' },
+  { name: "Bastid's BBQ Miami", date: 'Wed Dec 3, 7PM–2AM', where: "Dante's HiFi Courtyard, 519 NW 26th St", src: '/flyers/bastids-bbq.jpg' },
+  { name: 'Ms. Lauryn Hill & Wyclef Jean — Saint & Citizen', date: 'Sat Dec 5', where: 'Faena Forum, Miami Beach', src: '/flyers/lauryn-hill-wyclef.jpg' },
 ]
 
 function FlyersGallery() {

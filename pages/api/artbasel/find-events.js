@@ -18,6 +18,8 @@ const EVENT_DATA = {
     { date: 'Tue–Fri Dec 1–4, 10pm–midnight', what: 'Capital One Venture X Sound Sessions: intimate sets from emerging and established artists', where: 'Pauline Bar, The Shelborne By Proper', access: 'Hotel guests' },
     { date: 'Thu Dec 3, 11:30pm–2:30am', what: 'Capital One x BÉIS after-hours: theatrical performances, Shay Mitchell, live music and the Midnight Blue luggage reveal', where: 'The Shelborne By Proper', access: 'Capital One cardholders; tickets on Capital One Entertainment' },
     { date: 'Fri Dec 4, 8:30pm', what: 'Nylon House presented by e.l.f. — Ben Sterling, Blond:ish, Elvis Guetta + Surprise Performer', where: 'Miami Beach', access: 'By invitation; RSVP required', url: 'https://member.nylon.com/events/53/nylon-house-miami-2026' },
+    { date: 'Wed Dec 3, 7pm–2am', what: "Bastid's BBQ Miami — Good Music, Good Food, Good People", where: "Dante's HiFi Courtyard, 519 NW 26th St", access: 'RSVP required', url: 'https://bastidsbbq.com' },
+    { date: 'Sat Dec 5', what: 'Saint & Citizen presents Ms. Lauryn Hill & Wyclef Jean — Immersive Exhibition & Performance', where: 'Faena Forum, Miami Beach', access: 'Ticketed', url: 'https://luma.com/2yv42alm' },
   ],
   artHappenings: [
     { dates: 'Opens Nov 19', what: 'Sheroanawe Hakihiiwe, ICA Miami x Fondation Cartier: first U.S. museum solo, 100+ works', where: 'ICA Miami, 61 NE 41st St', entry: 'Check ICA admission' },
