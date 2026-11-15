@@ -29,17 +29,24 @@ export default async function handler(req, res) {
     return res.status(200).json({ purchased: true, justGranted: false })
   }
 
-  try {
-    const sessions = await stripe.checkout.sessions.list({
-      customer_email: email,
-      limit: 100,
-    })
+  const isArtBaselPurchase = (s) =>
+    s.payment_status === 'paid' &&
+    (s.metadata?.productId === PRODUCT_ID || s.amount_total === 999)
 
-    const paid = sessions.data.find(
-      (s) =>
-        s.payment_status === 'paid' &&
-        (s.metadata?.productId === PRODUCT_ID || s.amount_total === 999)
-    )
+  try {
+    // Search 1: sessions with customer_email directly (guest checkout)
+    const byEmail = await stripe.checkout.sessions.list({ customer_email: email, limit: 100 })
+    let paid = byEmail.data.find(isArtBaselPurchase)
+
+    // Search 2: sessions via Stripe Customer object (Payment Link creates a customer)
+    if (!paid) {
+      const customers = await stripe.customers.list({ email, limit: 5 })
+      for (const customer of customers.data) {
+        const byCust = await stripe.checkout.sessions.list({ customer: customer.id, limit: 100 })
+        const match = byCust.data.find(isArtBaselPurchase)
+        if (match) { paid = match; break }
+      }
+    }
 
     if (paid) {
       await table.update([
