@@ -10,7 +10,7 @@ const bg = '#0a0908'
 const wine = '#49111c'
 const cream = '#f2f4f3'
 const gold = '#a9927d'
-const px = { xs: '6%', sm: '8%', md: '12%', lg: '16%' }
+const px = { xs: '4%', sm: '5%', md: '6%', lg: '8%' }
 
 const PRODUCT_ID = 'artbasel-2026'
 
@@ -83,7 +83,7 @@ function BuyPage({ onBuy, buying, notLoggedIn, onLogin }) {
         )}
       </Box>
 
-      <Box sx={{ px, py: { xs: 8, md: 12 }, maxWidth: '900px', mx: 'auto' }}>
+      <Box sx={{ px, py: { xs: 8, md: 12 } }}>
         <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '32px', textAlign: 'center' }}>
           What&apos;s Inside
         </p>
