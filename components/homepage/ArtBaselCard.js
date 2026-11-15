@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Box, Button } from '@mui/material'
 
 const ArtBaselCard = () => {
@@ -20,7 +21,7 @@ const ArtBaselCard = () => {
           marginBottom: '16px',
         }}
       >
-        Now Open
+        Art Basel Miami 2026 · Dec 1–6
       </p>
       <h2
         style={{
@@ -33,7 +34,7 @@ const ArtBaselCard = () => {
           marginBottom: '16px',
         }}
       >
-        Join Verso Network
+        The Ultimate Guide to Art Basel Miami 2026
       </h2>
       <p
         style={{
@@ -41,35 +42,33 @@ const ArtBaselCard = () => {
           fontFamily: 'stratos-lights',
           fontSize: 'clamp(15px, 1.8vw, 18px)',
           lineHeight: 1.65,
-          maxWidth: '500px',
+          maxWidth: '520px',
           margin: '0 auto 36px',
         }}
       >
-        A matchmaking service for AI trainers and researchers. Ethical data, fair pay, and work that actually matters.
+        Every party, gallery show, and pop-up — curated for culture, fashion, and tech. Includes an AI event finder.
       </p>
-      <a
-        href="https://experts-network.vercel.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button
-          disableElevation
-          sx={{
-            backgroundColor: '#f2f4f3',
-            color: '#0a0908',
-            fontFamily: 'stratos-lights',
-            fontSize: '15px',
-            fontWeight: 400,
-            py: 1.75,
-            px: 4,
-            borderRadius: 100,
-            textTransform: 'none',
-            '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' },
-          }}
-        >
-          Join the Network
-        </Button>
-      </a>
+      <Link href="/artbasel" legacyBehavior>
+        <a>
+          <Button
+            disableElevation
+            sx={{
+              backgroundColor: '#f2f4f3',
+              color: '#0a0908',
+              fontFamily: 'stratos-lights',
+              fontSize: '15px',
+              fontWeight: 400,
+              py: 1.75,
+              px: 4,
+              borderRadius: 100,
+              textTransform: 'none',
+              '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' },
+            }}
+          >
+            Get the Guide — $9.99
+          </Button>
+        </a>
+      </Link>
     </Box>
   )
 }

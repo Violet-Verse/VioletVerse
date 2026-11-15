@@ -420,9 +420,17 @@ export default function ArtBasel() {
 
   const [buying, setBuying] = useState(false)
   const [processing, setProcessing] = useState(false)
+  const [authTimedOut, setAuthTimedOut] = useState(false)
 
-  const purchased = loaded && user && hasBought(user)
-  const notLoggedIn = loaded && !user
+  useEffect(() => {
+    if (loaded) return
+    const t = setTimeout(() => setAuthTimedOut(true), 4000)
+    return () => clearTimeout(t)
+  }, [loaded])
+
+  const showPage = loaded || authTimedOut
+  const purchased = showPage && user && hasBought(user)
+  const notLoggedIn = showPage && !user
 
   useEffect(() => {
     if (!session_id) return
@@ -477,7 +485,7 @@ export default function ArtBasel() {
         <meta property="og:type" content="website" />
       </Head>
 
-      {!loaded ? (
+      {!showPage ? (
         <Box sx={{ backgroundColor: bg, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CircularProgress sx={{ color: gold }} />
         </Box>
