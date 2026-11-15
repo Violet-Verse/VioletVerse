@@ -122,19 +122,18 @@ function BuyPage({ notLoggedIn, onLogin }) {
         <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '32px', textAlign: 'center' }}>
           What&apos;s Inside
         </p>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           {[
-            { title: 'Parties & Performances', desc: 'Clubs, shows, and after-hours — from a free beach performance to a Shay Mitchell reveal.' },
-            { title: 'Art Happenings', desc: 'Gallery openings, satellite fairs, and the main Art Basel fair (Dec 4–6). Basquiat, SCOPE, LVMH The Studio, and more.' },
-            { title: 'Eat + Take Photos', desc: 'CJ Hendry\'s pill pit, the MELT Lounger, The Joyce steakhouse with Picasso on the walls.' },
-            { title: 'AI Event Finder', desc: 'Search Eventbrite, Luma, and more by vibe or category — buyer-exclusive.' },
-            { title: 'Design District Walk', desc: 'One afternoon itinerary: Basquiat, ICA, LVMH The Studio, and the MDD commission.' },
-            { title: 'Insider Tips', desc: 'What\'s free, what\'s ticketed, what requires a hotel stay — so you spend your time right.' },
-          ].map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item.title}>
-              <Box sx={{ border: `1px solid rgba(169,146,125,0.2)`, borderRadius: '16px', p: 3, height: '100%', '&:hover': { borderColor: 'rgba(169,146,125,0.45)' } }}>
-                <h3 style={{ color: gold, fontFamily: 'Test Calibre', fontSize: '15px', letterSpacing: '0.04em', marginBottom: '10px' }}>{item.title}</h3>
-                <p style={{ color: 'rgba(242,244,243,0.7)', fontFamily: 'stratos-lights', fontSize: '15px', lineHeight: 1.65, margin: 0 }}>{item.desc}</p>
+            'Parties & Performances',
+            'Art Happenings',
+            'Eat + Take Photos',
+            'AI Event Finder',
+            'Design District Walk',
+            'Insider Tips',
+          ].map((title) => (
+            <Grid item xs={12} sm={6} md={4} key={title}>
+              <Box sx={{ border: `1px solid rgba(169,146,125,0.2)`, borderRadius: '14px', p: 2.5, '&:hover': { borderColor: 'rgba(169,146,125,0.45)' } }}>
+                <h3 style={{ color: gold, fontFamily: 'Test Calibre', fontSize: '15px', letterSpacing: '0.04em', margin: 0 }}>{title}</h3>
               </Box>
             </Grid>
           ))}
@@ -142,7 +141,7 @@ function BuyPage({ notLoggedIn, onLogin }) {
       </Box>
 
       <Box sx={{ textAlign: 'center', px, pb: 4 }}>
-        <Button onClick={() => setUnlockOpen(true)} disableElevation sx={{ backgroundColor: wine, color: cream, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: '#5a1520' } }}>
+        <Button onClick={() => setUnlockOpen(true)} disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
           Unlock This Guide — $9.99
         </Button>
         {notLoggedIn && (

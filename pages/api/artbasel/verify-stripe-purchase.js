@@ -1,9 +1,11 @@
-import Stripe from 'stripe'
 import { getLoginSession } from '../../../lib/cookie-auth'
 import { table } from '../utils/userTable'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 const PRODUCT_ID = 'artbasel-2026'
+
+// Temporary: grant known purchasers while Zapier automation is set up
+// Remove entries here once Zapier → Airtable is live for each email
+const BYPASS_EMAILS = ['melissa@melwrites.com']
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end()
@@ -13,47 +15,26 @@ export default async function handler(req, res) {
 
   const email = session.email.trim().toLowerCase()
 
-  const records = await table
-    .select({ filterByFormula: `{email} = "${email}"` })
-    .firstPage()
-
-  if (!records[0]) return res.status(404).json({ error: 'User not found' })
-
-  const record = records[0]
-  const existing = (record.fields.purchasedContent || '')
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean)
-
-  if (existing.includes(PRODUCT_ID)) {
-    return res.status(200).json({ purchased: true, justGranted: false })
-  }
-
-  const isArtBaselPurchase = (s) =>
-    s.payment_status === 'paid' &&
-    (s.metadata?.productId === PRODUCT_ID || s.amount_total >= 900)
-
   try {
-    // Search 1: sessions with customer_email directly (guest checkout)
-    const byEmail = await stripe.checkout.sessions.list({ customer_email: email, limit: 100 })
-    let paid = byEmail.data.find(isArtBaselPurchase)
+    const records = await table
+      .select({ filterByFormula: `{email} = "${email}"` })
+      .firstPage()
 
-    // Search 2: sessions via Stripe Customer object (Payment Link creates a customer)
-    if (!paid) {
-      const customers = await stripe.customers.list({ email, limit: 5 })
-      for (const customer of customers.data) {
-        const byCust = await stripe.checkout.sessions.list({ customer: customer.id, limit: 100 })
-        const match = byCust.data.find(isArtBaselPurchase)
-        if (match) { paid = match; break }
-      }
+    if (!records[0]) return res.status(404).json({ error: 'User not found' })
+
+    const record = records[0]
+    const existing = (record.fields.purchasedContent || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+
+    if (existing.includes(PRODUCT_ID)) {
+      return res.status(200).json({ purchased: true, justGranted: false })
     }
 
-    if (paid) {
+    if (BYPASS_EMAILS.includes(email)) {
       await table.update([
-        {
-          id: record.id,
-          fields: { purchasedContent: [...existing, PRODUCT_ID].join(',') },
-        },
+        { id: record.id, fields: { purchasedContent: [...existing, PRODUCT_ID].join(',') } },
       ])
       return res.status(200).json({ purchased: true, justGranted: true })
     }
