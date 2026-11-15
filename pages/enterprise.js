@@ -9,7 +9,7 @@ import GithubButton from "../components/enterprise/GithubButton";
 const Enterprise = () => {
     const siteTitle = `Enterprise Plan | Violet Verse`;
     const metaTitle = `Enterprise Plan`;
-    const siteDescription = `The modern publishing tool for the fashion media community`;
+    const siteDescription = `The modern content infrastructure for media communities`;
     const siteImage = "https://i.imgur.com/LFpaItV.png";
     return (
         <Box mb={-7} className="enterprise-test" style={{ backgroundColor: "black" }}>
@@ -37,7 +37,7 @@ const Enterprise = () => {
                         lg: "10%",
                         xl: "15%",
                     },
-                    backgroundColor: "#43226D",
+                    backgroundColor: "#49111c",
                     py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
@@ -50,14 +50,14 @@ const Enterprise = () => {
                 >
                     <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3} mt={{xs: 0}}>
                         <h1 className={styles.header}>
-                            Introducing the modern publishing tool for the fashion media community.
+                            The modern content infrastructure for media communities.
                         </h1>
                     </Grid>
                     <Grid item px={{ xl: 36, lg: 20, md: 0 }} mb={3}>
                         <p className="color">
-                            Violet Verse excels at efficiency, simplifying content creator and member onboarding to under 5 minutes.
-                            In fashion&apos;s rapid world, time is precious.
-                            We facilitate connections and discoveries, especially during fashion week.
+                            Violet Verse streamlines content creator and member onboarding to under 5 minutes.
+                            In fast-moving media, time is currency.
+                            We help communities grow, connect, and monetize — at any scale.
                         </p>
                     </Grid>
                     <Grid item>
@@ -93,14 +93,14 @@ const Enterprise = () => {
                         <Grid container align="left" spacing={3}>
                             <Grid item px={{ xl: 6, lg: 0 }}>
                                 <h1 className={styles.header} style={{ color: "white" }}>
-                                    Your gateway to the heart of the fashion media community.
+                                    Your platform for building and growing media communities.
                                 </h1>
                             </Grid>
                             <Grid item px={{ xl: 38, lg: 0 }}>
                                 <p className="color">
-                                    Violet Verse excels at efficiency, simplifying content creator and member onboarding to under 5 minutes.
-                                    In fashion&apos;s rapid world, time is precious.
-                                    We facilitate connections and discoveries, especially during fashion week.
+                                    Violet Verse streamlines content creator and member onboarding to under 5 minutes.
+                                    In fast-moving media, time is currency.
+                                    We help communities grow, connect, and monetize — at any scale.
                                 </p>
                             </Grid>
                             <Grid item>
@@ -130,7 +130,7 @@ const Enterprise = () => {
                     <Grid item>
                         <Grid item px={{ xl: 6, lg: 0}}>
                             <h1 className={styles.header}>
-                                Your gateway to the heart of the fashion media community.
+                                Your platform for building and growing media communities.
                             </h1>
                         </Grid>
                         <Grid item my={5}>
@@ -157,7 +157,7 @@ const Enterprise = () => {
             <Box
                 sx={{
                     width: "100%",
-                    backgroundColor: "#43226D",
+                    backgroundColor: "#49111c",
                     py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
@@ -167,7 +167,7 @@ const Enterprise = () => {
                 sx={{
                     // borderTop: 70,
                     // borderBottom: 70,
-                    borderColor: "#F3F0F8",
+                    borderColor: "rgba(169,146,125,0.15)",
                     backgroundColor: "black",
                     textAlign: {
                         xs: "center",
@@ -194,16 +194,15 @@ const Enterprise = () => {
                         <Grid container align="left" spacing={3}>
                             <Grid item px={{ xl: 2, lg: 0 }}>
                                 <h1 className={styles.header}>
-                                    Read and collect Article NFTs in a digital
-                                    wallet library.
+                                    Publish, gate, and monetize content with a
+                                    flexible member portal.
                                 </h1>
                             </Grid>
                             <Grid item px={{ xl: 27, lg: 0 }}>
                                 <p className="color">
-                                    At the core of our software lies a dynamic member portal and integrated payment system,
-                                    allowing you to effortlessly segregate your content between
-                                    public and private domains.
-                                    This versatility empowers you to curate your fashion narrative with precision and finesse.
+                                    At the core of our infrastructure is a dynamic member portal and integrated payment system,
+                                    letting you seamlessly split content between public and private access —
+                                    giving your community exactly what they need.
                                 </p>
                             </Grid>
                             <Grid item>
@@ -268,7 +267,7 @@ const Enterprise = () => {
                         lg: "10%",
                         xl: "15%",
                     },
-                    backgroundColor: "#43226D",
+                    backgroundColor: "#49111c",
                     py: { xs: 4, sm: 6, md: 8 },
                 }}
             >
@@ -282,13 +281,13 @@ const Enterprise = () => {
                 >
                     <Grid item px={{ xl: 22, lg: 4, md: 0 }} mb={3}>
                         <h1 className={styles.header}>
-                            Trusted to build communities with the latest technological styles.
+                            Trusted to power media communities with modern technology.
                         </h1>
                     </Grid>
                     <Grid item px={{ xl: 36, lg: 20, md: 0 }} mb={3}>
                         <p className="color">
-                            All applications are created with the latest distribution methods, discoverability,
-                            and subscription membership services with easy payment management.
+                            Our applications are built with best-in-class distribution, discoverability,
+                            AI-assisted workflows, and subscription membership services with easy payment management.
                         </p>
                     </Grid>
                     <Grid item mb={3}>

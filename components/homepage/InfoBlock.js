@@ -84,7 +84,7 @@ const InfoBlock = (props) => {
                             sx={{
                                 height: "200px",
                                 maxWidth: { sm: "80%", md: "304px" },
-                                background: "#DFDEEF",
+                                background: "#f2f4f3",
                                 borderRadius: "24px",
                             }}
                         >

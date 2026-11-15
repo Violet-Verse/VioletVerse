@@ -20,7 +20,7 @@ const LayersOfTheVerse = ({ posts, authors, contributors }) => {
                   lineHeight: '1.2',
                 }}
               >
-                Layers of the Verse
+                Pages of the Verse
               </h2>
               <Image src="/line1.svg" alt="line" height={1} width={100} />
             </Box>
@@ -36,7 +36,7 @@ const LayersOfTheVerse = ({ posts, authors, contributors }) => {
                   lineHeight: '1.2',
                 }}
               >
-                Layers of the Verse
+                Pages of the Verse
               </h2>
               <Image src="/line1.svg" alt="line" height={1} width={40} />
             </Box>
@@ -45,7 +45,7 @@ const LayersOfTheVerse = ({ posts, authors, contributors }) => {
       </Grid>
       <ArticleGrid
         disableTitle={true}
-        title="Layers of the Verse"
+        title="Pages of the Verse"
         posts={posts}
         maximum={3}
         seeAll={true}

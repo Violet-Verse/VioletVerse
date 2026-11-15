@@ -370,7 +370,7 @@ const ArticleGrid = (props) => {
                                 >
                                     <Box
                                         sx={{
-                                            backgroundColor: "#F9F4FE",
+                                            backgroundColor: "#f2f4f3",
                                             borderRadius: "24px",
                                             padding: "8px",
                                             display: "flex",
@@ -383,7 +383,7 @@ const ArticleGrid = (props) => {
                                             "&:hover": {
                                                 transform: { xs: "translateY(-2px)", sm: "translateY(-4px)" },
                                                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                                                border: "1px solid #A78BFA",
+                                                border: "1px solid #a9927d",
                                                 "& .image-zoom": {
                                                     transform: "scale(1.05)",
                                                 },
@@ -470,7 +470,7 @@ const ArticleGrid = (props) => {
                                             style={{
                                                 marginTop: "0",
                                                 marginBottom: "0",
-                                                color: "#43226D",
+                                                color: "#49111c",
                                             }}
                                         >
                                             in {post.category}
@@ -528,7 +528,7 @@ const ArticleGrid = (props) => {
                             fontSize: "28px",
                             lineHeight: "130%",
                             letterSpacing: "-0.01em",
-                            color: "#0A0510",
+                            color: "#0a0908",
                             textAlign: "center",
                         }}
                     >

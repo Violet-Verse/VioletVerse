@@ -3,6 +3,8 @@ import Logout from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import { useSWRConfig } from 'swr'
+import EmailLoginModal from '../Modal/EmailLoginModal'
 import {
   Box,
   Button,
@@ -21,31 +23,48 @@ import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import { useUser } from '../../hooks/useAuth'
 import UserAvatar from '../user/UserAvatar'
+import { nFormatter, useFlowContext } from '../Context/flowContext'
 import SignUpCTA from '../Modal/SignUpCTA.js'
 import { useRouter } from 'next/router'
 import MobileMenu from './MobileMenu'
 import classes from './Navbar.module.css'
 
+// Safe analytics helper — prevents crashes if analytics script hasn't loaded
+function track(event, props) {
+  try {
+    if (typeof global !== 'undefined' && global.analytics) {
+      global.analytics.track(event, props)
+    }
+  } catch (_) {}
+}
+
 const NewNav = () => {
   const router = useRouter()
-  const { user, loaded, logout } = useUser()
-  const isEnterprise = router.asPath.includes('enterprise')
+  const { user, loaded } = useUser()
+  const [emailModalOpen, setEmailModalOpen] = useState(false)
+  const isEnterprise = router.asPath.includes('enterprise') || router.asPath.includes('experts')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
+  const { mutate } = useSWRConfig()
 
   // Identify User for Analytics
   useEffect(() => {
-    if (user && typeof global.analytics !== 'undefined') {
-      global.analytics.identify(user?.userId, {
-        username: user?.name,
-        email: user?.email,
-      })
+    if (user) {
+      try {
+        if (typeof global !== 'undefined' && global.analytics) {
+          global.analytics.identify(user?.userId, {
+            username: user?.name,
+            email: user?.email,
+          })
+        }
+      } catch (_) {}
     }
   }, [loaded, user])
 
   useEffect(() => {
     setIsHydrated(true)
   }, [])
+
 
   // Custom scroll-based header visibility (replacement for useHeadroom)
   const [pinned, setPinned] = useState(true)
@@ -74,7 +93,9 @@ const NewNav = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  const dashboardPermission = Boolean(user)
+  const vvTokens = nFormatter(useFlowContext(), 2)
+
+  const dashboardPermission = user?.role === 'admin' || user?.role === 'contributor'
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -84,29 +105,22 @@ const NewNav = () => {
   }
 
   const handleCloseUserMenu = () => {
-    if (typeof global.analytics !== 'undefined') {
-      global.analytics.track('Profile Menu Hidden')
-    }
+    track('Profile Menu Hidden')
     setAnchorElUser(null)
   }
 
-  // Navigate to /connect for wallet connection
-  const login = () => {
-    Router.push('/connect')
-  }
+  const login = () => setEmailModalOpen(true)
 
   useEffect(() => {
     const ctaClosed = () => {
       if (typeof window !== 'undefined') {
-        return localStorage.getItem('homepageCTA')
+        return sessionStorage.getItem('ctaDismissed')
       }
     }
     const shouldShowCTA = loaded && !ctaClosed() && !user
     if (shouldShowCTA) {
       setSignupCTA(true)
-      if (typeof global.analytics !== 'undefined') {
-        global.analytics.track('Signup CTA Displayed')
-      }
+      track('Signup CTA Displayed')
     } else {
       setSignupCTA(false)
     }
@@ -116,25 +130,26 @@ const NewNav = () => {
 
   const setFirstVisit = () => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('homepageCTA', true)
+      sessionStorage.setItem('ctaDismissed', true)
       setSignupCTA(false)
     }
   }
 
   return (
     <>
+      <EmailLoginModal
+        open={emailModalOpen}
+        onClose={() => setEmailModalOpen(false)}
+        onSuccess={() => { mutate('/api/database/getUser'); setEmailModalOpen(false) }}
+      />
       <SignUpCTA
         open={signupCTA}
         handleClose={() => {
-          if (typeof global.analytics !== 'undefined') {
-            global.analytics.track('Signup CTA Hidden')
-          }
+          track('Signup CTA Hidden')
           setFirstVisit()
         }}
         handleSignup={() => {
-          if (typeof global.analytics !== 'undefined') {
-            global.analytics.track('Signup CTA Clicked')
-          }
+          track('Signup CTA Clicked')
           login()
           setFirstVisit()
         }}
@@ -198,7 +213,7 @@ const NewNav = () => {
                           textDecoration: 'none',
                         }}
                       >
-                        Explore
+                        Journal
                       </Button>
                     </a>
                   </Link>
@@ -218,6 +233,44 @@ const NewNav = () => {
                         }}
                       >
                         Enterprise Plan
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href="/experts" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Experts
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href="/travel" legacyBehavior>
+                    <a>
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: `${navBarItemColor}`,
+                          display: 'block',
+                          mr: '15px',
+                          fontFamily: 'Ogg',
+                          fontSize: '18px',
+                          lineHeight: '130%',
+                          letterSpacing: '-0.005em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        Travel
                       </Button>
                     </a>
                   </Link>
@@ -249,7 +302,42 @@ const NewNav = () => {
                 </a>
               </Link>
 
-                {/* Profile Menu || Logged In*/}
+                {/* Book a Call CTA | All users, desktop only */}
+                <Box
+                  sx={{
+                    display: {
+                      xs: 'none',
+                      md: 'none',
+                      lg: 'none',
+                      xl: 'flex',
+                    },
+                    '@media (min-width: 1220px)': {
+                      display: 'flex',
+                    },
+                    mr: 1,
+                  }}
+                >
+                  <a
+                    href="https://calendly.com/violetverse"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      disableElevation
+                      variant="contained"
+                      sx={{
+                        py: 1.5,
+                        px: 2.5,
+                        fontWeight: '400',
+                        fontSize: '16px',
+                      }}
+                    >
+                      Book a Call
+                    </Button>
+                  </a>
+                </Box>
+
+                {/* Connect Wallet + VV Tokens || Logged In*/}
 
                 {user && (
                   <Box
@@ -259,6 +347,41 @@ const NewNav = () => {
                       justifyContent: 'end',
                     }}
                   >
+                    {/* VV Tokens | Large or larger */}
+
+                    <Box
+                      sx={{
+                        display: {
+                          xs: 'none',
+                          lg: 'flex',
+                        },
+                        mr: { xs: 0, lg: 6 },
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        disableElevation={true}
+                        onClick={() => Router.push('/tokens')}
+                        sx={{
+                          fontWeight: '400',
+                          fontSize: '16px',
+                          py: 1.5,
+                          px: 2.5,
+                        }}
+                      >
+                        <Image
+                          alt="edit"
+                          src="/star.svg"
+                          height={16}
+                          width={16}
+                        />
+                        &nbsp;&nbsp;
+                        {vvTokens
+                          ? `${vvTokens} $VV Tokens`
+                          : `Setup VV Wallet`}
+                      </Button>
+                    </Box>
+
                     {/* Profile Avatar Menu | All Breakpoints */}
 
                     <Box
@@ -269,9 +392,7 @@ const NewNav = () => {
                       <Tooltip title="Account settings">
                         <IconButton
                           onClick={(event) => {
-                            if (typeof global.analytics !== 'undefined') {
-                              global.analytics.track('Profile Menu Displayed')
-                            }
+                            track('Profile Menu Displayed')
                             handleOpenUserMenu(event)
                           }}
                           size="small"
@@ -338,12 +459,9 @@ const NewNav = () => {
                         <MenuItem
                           onClick={() => {
                             Router.push('/profile')
-                            if (typeof global.analytics !== 'undefined') {
-                              global.analytics.track(
-                                'Profile Menu Item Clicked',
-                                { page: 'Profile Page' }
-                              )
-                            }
+                            track('Profile Menu Item Clicked', {
+                              page: 'Profile Page',
+                            })
                             setAnchorElUser(null)
                           }}
                         >
@@ -362,12 +480,9 @@ const NewNav = () => {
                           <MenuItem
                             onClick={() => {
                               Router.push('/dashboard')
-                              if (typeof global.analytics !== 'undefined') {
-                                global.analytics.track(
-                                  'Profile Menu Item Clicked',
-                                  { page: 'Dashboard Page' }
-                                )
-                              }
+                              track('Profile Menu Item Clicked', {
+                                page: 'Dashboard Page',
+                              })
                               setAnchorElUser(null)
                             }}
                           >
@@ -379,13 +494,24 @@ const NewNav = () => {
                         )}
                         <MenuItem
                           onClick={() => {
+                            Router.push('/tokens')
+                            track('Profile Menu Item Clicked', {
+                              page: 'My Wallet Page',
+                            })
+                            setAnchorElUser(null)
+                          }}
+                        >
+                          <ListItemIcon>
+                            <AccountBalanceWalletIcon fontSize="small" />
+                          </ListItemIcon>
+                          My Wallet
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
                             Router.push('/profile/edit')
-                            if (typeof global.analytics !== 'undefined') {
-                              global.analytics.track(
-                                'Profile Menu Item Clicked',
-                                { page: 'Edit Profile Page' }
-                              )
-                            }
+                            track('Profile Menu Item Clicked', {
+                              page: 'Edit Profile Page',
+                            })
                             setAnchorElUser(null)
                           }}
                         >
@@ -396,10 +522,8 @@ const NewNav = () => {
                         </MenuItem>
                         <MenuItem
                           onClick={() => {
-                            if (typeof global.analytics !== 'undefined') {
-                              global.analytics.track('Logout Button Clicked')
-                            }
-                            logout()
+                            track('Logout Button Clicked')
+                            Router.push('/api/auth/logout')
                             setAnchorElUser(null)
                           }}
                         >
@@ -413,7 +537,7 @@ const NewNav = () => {
                   </Box>
                 )}
 
-                {/* Connect Wallet || Logged Out */}
+                {/* Sign In || Logged Out */}
 
                 {!user && (
                   <Box
@@ -423,8 +547,8 @@ const NewNav = () => {
                       justifyContent: 'end',
                     }}
                   >
-                    {/* Connect Wallet | Desktop only (1220px and above) */}
-                    {/* Mobile/Tablet users access Connect Wallet through MobileMenu dropdown */}
+                    {/* Sign In | Desktop only (1220px and above) */}
+                    {/* Mobile/Tablet users access Sign In through MobileMenu dropdown */}
                     <Box
                       sx={{
                         display: {
@@ -443,9 +567,7 @@ const NewNav = () => {
                         variant="contained"
                         onClick={() => {
                           login()
-                          if (typeof global.analytics !== 'undefined') {
-                            global.analytics.track('Login Button Clicked')
-                          }
+                          track('Login Button Clicked')
                         }}
                         sx={{
                           py: 1.5,
@@ -454,7 +576,7 @@ const NewNav = () => {
                           fontSize: '16px',
                         }}
                       >
-                        Connect Wallet
+                        Sign In
                       </Button>
                     </Box>
                   </Box>

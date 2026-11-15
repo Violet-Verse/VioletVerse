@@ -15,7 +15,7 @@
   left: 0;
   width: 120px;
   height: 3px;
-  background: linear-gradient(90deg, rgba(139, 92, 246, 0.85), rgba(139, 92, 246, 0.3));
+  background: linear-gradient(90deg, rgba(169, 146, 125, 0.85), rgba(169, 146, 125, 0.3));
   border-radius: 2px;
   transition: width 0.3s ease;
 }

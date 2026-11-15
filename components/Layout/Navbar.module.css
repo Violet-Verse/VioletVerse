@@ -71,7 +71,7 @@
   backdrop-filter: blur(10px);
   margin: 0.75rem 0.5rem 0;
   box-shadow: var(--mantine-shadow-md, 0 2px 8px rgba(0, 0, 0, 0.15));
-  border: 1px solid rgba(222, 219, 247, 0.3);
+  border: 1px solid rgba(90, 80, 63, 0.2);
   border-radius: 24px;
   padding: 0 1rem;
   width: 96vw;
@@ -93,14 +93,14 @@
   }
 }
 
-/* Support for enterprise (black) theme */
+/* Support for enterprise/experts (dark) theme */
 .floating.enterprise {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(10, 9, 8, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(139, 92, 246, 0.2) inset,
-    0 2px 8px rgba(139, 92, 246, 0.1);
+    0 0 0 1px rgba(73, 17, 28, 0.3) inset,
+    0 2px 8px rgba(73, 17, 28, 0.15);
   position: relative;
 }
 
@@ -114,17 +114,17 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(139, 92, 246, 0.4) 20%,
-    rgba(139, 92, 246, 0.6) 50%,
-    rgba(139, 92, 246, 0.4) 80%,
+    rgba(73, 17, 28, 0.5) 20%,
+    rgba(169, 146, 125, 0.6) 50%,
+    rgba(73, 17, 28, 0.5) 80%,
     transparent 100%
   );
   border-radius: 24px 24px 0 0;
 }
 
-/* Light purple background for regular theme */
+/* White Smoke background for regular theme */
 .floating:not(.enterprise) {
-  background-color: #ece6f9;
+  background-color: #f2f4f3;
 }
 
 .logo {

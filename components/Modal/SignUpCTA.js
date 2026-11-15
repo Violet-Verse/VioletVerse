@@ -39,10 +39,9 @@ const SignUpCTA = (props) => {
                 </DialogTitle>
 
                 <DialogContent>
-                    <h2>Connect to the Verse</h2>
+                    <h2>Stay in the Verse</h2>
                     <p>
-                        Earn $VV by reading and contributing content. Spend $VV
-                        by tipping your fav creators and purchasing VV merch.
+                        Get the latest stories, cultural commentary, and insights from Violet Verse straight to your inbox. Sign up — it only takes a second.
                     </p>
 
                     {/* 🌙 Nova — Mood-Based Horoscope */}
