@@ -4,7 +4,7 @@ import { table } from '../utils/userTable'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-const PRODUCT_ID = 'artbasel-2025'
+const PRODUCT_ID = 'artbasel-2026'
 
 async function hasPurchased(session) {
   const records = await table
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
   const systemPrompt = `You are an Art Basel Miami 2025 event finder. The user has purchased the Art Basel guide and wants to find specific events.
 
-Search Eventbrite, Luma, Partiful, and other event platforms for Art Basel Miami 2025 events that match the user's query. Art Basel Miami Beach 2025 runs December 4–7, 2025.
+Search Eventbrite, Luma, Partiful, and other event platforms for Art Basel Miami 2026 events that match the user's query. Art Basel Miami Beach 2026 runs December 1–6, 2026.
 
 Return your findings as a JSON array (no other text, just the JSON). Each event object must have:
 - name: string

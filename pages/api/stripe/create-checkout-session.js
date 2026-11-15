@@ -30,16 +30,16 @@ export default async function handler(req, res) {
           currency: 'usd',
           unit_amount: 999, // $9.99
           product_data: {
-            name: 'Art Basel 2025 Ultimate Guide',
+            name: 'Art Basel 2026 Ultimate Guide',
             description:
-              'The complete guide to Art Basel Miami 2025 — events, parties, galleries, fashion and tech. Includes the AI event finder.',
+              'The complete guide to Art Basel Miami Beach 2026 — events, parties, galleries, fashion and tech. Includes the AI event finder.',
           },
         },
         quantity: 1,
       },
     ],
     metadata: {
-      productId: 'artbasel-2025',
+      productId: 'artbasel-2026',
       userId: session.issuer,
       userEmail: userEmail || '',
     },

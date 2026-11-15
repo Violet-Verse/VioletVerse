@@ -3,6 +3,8 @@ import { table } from '../utils/userTable'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
+const PRODUCT_ID = 'artbasel-2026'
+
 // Collect raw body for Stripe signature verification
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
