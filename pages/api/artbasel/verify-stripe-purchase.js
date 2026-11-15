@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
   const isArtBaselPurchase = (s) =>
     s.payment_status === 'paid' &&
-    (s.metadata?.productId === PRODUCT_ID || s.amount_total === 999)
+    (s.metadata?.productId === PRODUCT_ID || s.amount_total >= 900)
 
   try {
     // Search 1: sessions with customer_email directly (guest checkout)

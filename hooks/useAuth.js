@@ -1,56 +1,38 @@
-import { useAccount, useDisconnect } from 'wagmi';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import useSWR from 'swr'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+const fetcher = (url) => fetch(url).then((r) => r.json())
 
 export function useUser({ redirectTo, redirectIfFound } = {}) {
-  const router = useRouter();
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+  const router = useRouter()
+  const { data, error } = useSWR('/api/database/getUser', fetcher)
 
-  // Build user object from wallet connection
-  const user = isConnected && address ? {
-    wallet: address,
-    userId: address,
-    // Default role to allow dashboard access for any connected wallet
-    role: 'admin',
-  } : null;
-
-  const loaded = true;
-  const hasUser = Boolean(user);
+  const user = data?.user || null
+  const loaded = data !== undefined || error !== undefined
+  const hasUser = Boolean(user)
 
   useEffect(() => {
-    if (!redirectTo) return;
-
+    if (!redirectTo || !loaded) return
     if (
-      // If redirectTo is set, redirect if the user was not found.
       (redirectTo && !redirectIfFound && !hasUser) ||
-      // If redirectIfFound is also set, redirect if the user was found
       (redirectIfFound && hasUser)
     ) {
-      router.push(redirectTo);
+      router.push(redirectTo)
     }
-  }, [redirectTo, redirectIfFound, hasUser, router]);
+  }, [redirectTo, redirectIfFound, hasUser, loaded, router])
 
   return {
-    user: user,
-    loaded: loaded,
-    authenticated: isConnected,
-    login: () => {
-      // RainbowKit handles login via its own UI
-      router.push('/connect');
-    },
+    user,
+    loaded,
+    authenticated: hasUser,
+    login: () => {},
     logout: () => {
-      disconnect();
-      router.push('/connect');
+      router.push('/api/auth/logout')
     },
-  };
+  }
 }
 
 export function usePosts() {
-  // TODO: Replace with real API call when backend is ready
-  return {
-    posts: [],
-    isLoading: false,
-    isError: false,
-  };
+  return { posts: [], isLoading: false, isError: false }
 }
