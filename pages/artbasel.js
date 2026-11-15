@@ -22,23 +22,26 @@ function hasBought(user) {
 
 // ── Guide data ───────────────────────────────────────────────────────────────
 const PARTIES = [
-  { date: 'Tue Dec 1, 4:30–6pm', what: 'The Ocean Odyssey by Subodh Kerkar with REEFLINE: beach performance with Miami City Ballet dancers and 50+ community performers', where: 'Andaz beachfront, 4041 Collins Ave', access: 'Free, public' },
-  { date: 'Tue–Fri Dec 1–4, 10pm–midnight', what: 'Capital One Venture X Sound Sessions: intimate sets from emerging and established artists', where: 'Pauline Bar, The Shelborne By Proper', access: 'Hotel guests' },
-  { date: 'Thu Dec 3, 11:30pm–2:30am', what: 'Capital One x BÉIS after-hours: theatrical performances, Shay Mitchell, live music and the Midnight Blue luggage reveal', where: 'The Shelborne By Proper', access: 'Capital One cardholders; tickets on Capital One Entertainment' },
+  { date: 'Tue Dec 1, 4:30–6pm', what: 'The Ocean Odyssey by Subodh Kerkar with REEFLINE: beach performance with Miami City Ballet dancers and 50+ community performers', where: 'Andaz beachfront, 4041 Collins Ave', access: 'Free, public', url: '#' },
+  { date: 'Wed Dec 2, 6–10pm', what: 'Anna Nicole / Leonard Baby', where: 'Playboy Delano — Bungalow 8 & Bellini Bar, 1685 Collins Ave', access: 'Open', url: '#' },
+  { date: 'Tue–Fri Dec 1–4, 10pm–midnight', what: 'Capital One Venture X Sound Sessions: intimate sets from emerging and established artists', where: 'Pauline Bar, The Shelborne By Proper', access: 'Hotel guests', url: '#' },
+  { date: 'Thu Dec 3, 11:30pm–2:30am', what: 'Capital One x BÉIS after-hours: theatrical performances, Shay Mitchell, live music and the Midnight Blue luggage reveal', where: 'The Shelborne By Proper', access: 'Capital One cardholders; tickets on Capital One Entertainment', url: '#' },
+  { date: 'Fri Dec 4, 8:30pm', what: 'Nylon House presented by e.l.f. — Ben Sterling, Blond:ish, Elvis Guetta + Surprise Performer', where: 'Miami Beach', access: 'By invitation; RSVP required', url: 'https://member.nylon.com/events/53/nylon-house-miami-2026' },
 ]
 
 const ART_HAPPENINGS = [
-  { dates: 'Opens Nov 19', what: 'Sheroanawe Hakihiiwe, ICA Miami x Fondation Cartier: first U.S. museum solo, 100+ works', where: 'ICA Miami, 61 NE 41st St', entry: 'Check ICA admission' },
-  { dates: 'Nov 29 – Feb 15', what: 'Basquiat: Hidden World: three never-before-seen paintings with hidden layers revealed under UV light', where: 'ICA Miami Expansion Space, 23 NE 41st St', entry: 'Check' },
-  { dates: 'Nov 30 – Dec 6', what: 'Yanira Collado, Converging Timelines (No Vacancy)', where: 'Lobby Gallery, The Shelborne By Proper', entry: 'Free' },
-  { dates: 'Dec 1–6', what: 'SCOPE Miami Beach', where: 'SCOPE Art Deco Center, 1001 Ocean Dr', entry: 'Ticketed; 2026 hours and prices TBA' },
-  { dates: 'Dec 1–6', what: 'Andrés Reisinger, Do You Dream In Color?: draped install and digital works', where: 'Andaz Miami Beach, 4041 Collins Ave', entry: 'Free, public' },
-  { dates: 'Dec 1–3', what: 'Hårklinikken pop-up: one-on-one hair and scalp consults with a custom Hair Gain Extract', where: 'Rodrigo Ivory Salon, 1749 NE Miami Ct', entry: 'Private consultation; book ahead' },
-  { dates: 'Dec 2–5, 12–7pm', what: 'The Open Invitational: nonprofit fair for progressive art studios', where: '3930 NE 2nd Ave, 2nd fl', entry: 'Check' },
-  { dates: 'Dec 2–6, 11am–4pm', what: 'LVMH The Studio Miami: 9-artist gallery, craft demos, panels, free legal and finance clinics for artists and founders', where: 'Palm Court Event Space, 140 NE 39th St, 3rd fl', entry: 'Public' },
-  { dates: 'Dec 4–6 (VIP Dec 2–3)', what: 'Art Basel Miami Beach, incl. the Zero 10 digital-art sector: The Forest Remembers: Winds of Yawanawa with Refik Anadol, booth Z6', where: 'Miami Beach Convention Center', entry: 'Ticketed' },
-  { dates: 'From Art Week, into 2027', what: 'MDD Design Commission by Objects of Common Interest: totems that react to touch, release vapor and make sound', where: 'Throughout the Miami Design District', entry: 'Free' },
-  { dates: 'Wed–Fri, 12–4pm', what: 'Craig Robins Collection rehang: Baldessari, Dumas, Charles Ray', where: 'Dacra HQ, 3841 NE 2nd Ave', entry: 'Free, by appointment (collection@dacra.com)' },
+  { dates: 'Opens Nov 19', what: 'Sheroanawe Hakihiiwe, ICA Miami x Fondation Cartier: first U.S. museum solo, 100+ works', where: 'ICA Miami, 61 NE 41st St', entry: 'Check ICA admission', url: '#' },
+  { dates: 'Nov 29 – Feb 15', what: 'Basquiat: Hidden World: three never-before-seen paintings with hidden layers revealed under UV light', where: 'ICA Miami Expansion Space, 23 NE 41st St', entry: 'Check', url: '#' },
+  { dates: 'Nov 30 – Dec 6', what: 'Yanira Collado, Converging Timelines (No Vacancy)', where: 'Lobby Gallery, The Shelborne By Proper', entry: 'Free', url: '#' },
+  { dates: 'Tue Dec 1, 11am–2pm', what: 'Modern Luxury Ocean Drive — Art of Self Care: Pilates Bootycamp (Starr Hawkins), The Core by Vita, Posh Life Pilates; presented by Farmasi', where: 'Mondrian South Beach, 1100 West Ave', entry: 'RSVP required', url: 'https://therumor.com/p/819645?og=v3' },
+  { dates: 'Dec 1–6', what: 'SCOPE Miami Beach', where: 'SCOPE Art Deco Center, 1001 Ocean Dr', entry: 'Ticketed; 2026 hours and prices TBA', url: '#' },
+  { dates: 'Dec 1–6', what: 'Andrés Reisinger, Do You Dream In Color?: draped install and digital works', where: 'Andaz Miami Beach, 4041 Collins Ave', entry: 'Free, public', url: '#' },
+  { dates: 'Dec 1–3', what: 'Hårklinikken pop-up: one-on-one hair and scalp consults with a custom Hair Gain Extract', where: 'Rodrigo Ivory Salon, 1749 NE Miami Ct', entry: 'Private consultation; book ahead', url: '#' },
+  { dates: 'Dec 2–5, 12–7pm', what: 'The Open Invitational: nonprofit fair for progressive art studios', where: '3930 NE 2nd Ave, 2nd fl', entry: 'Check', url: '#' },
+  { dates: 'Dec 2–6, 11am–4pm', what: 'LVMH The Studio Miami: 9-artist gallery, craft demos, panels, free legal and finance clinics for artists and founders', where: 'Palm Court Event Space, 140 NE 39th St, 3rd fl', entry: 'Public', url: '#' },
+  { dates: 'Dec 4–6 (VIP Dec 2–3)', what: 'Art Basel Miami Beach, incl. the Zero 10 digital-art sector: The Forest Remembers: Winds of Yawanawa with Refik Anadol, booth Z6', where: 'Miami Beach Convention Center', entry: 'Ticketed', url: '#' },
+  { dates: 'From Art Week, into 2027', what: 'MDD Design Commission by Objects of Common Interest: totems that react to touch, release vapor and make sound', where: 'Throughout the Miami Design District', entry: 'Free', url: '#' },
+  { dates: 'Wed–Fri, 12–4pm', what: 'Craig Robins Collection rehang: Baldessari, Dumas, Charles Ray', where: 'Dacra HQ, 3841 NE 2nd Ave', entry: 'Free, by appointment (collection@dacra.com)', url: '#' },
 ]
 
 const EAT_PHOTOS = [
@@ -128,7 +131,7 @@ function BuyPage({ notLoggedIn, onLogin }) {
             'Art Happenings',
             'Eat + Take Photos',
             'AI Event Finder',
-            'Design District Walk',
+            'Party Flyers to Save',
             'Insider Tips',
           ].map((title) => (
             <Grid item xs={12} sm={6} md={4} key={title}>
@@ -168,10 +171,11 @@ function PartiesTable() {
     <Box sx={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
         <colgroup>
+          <col style={{ width: '18%' }} />
+          <col style={{ width: '38%' }} />
           <col style={{ width: '22%' }} />
-          <col style={{ width: '46%' }} />
-          <col style={{ width: '20%' }} />
           <col style={{ width: '12%' }} />
+          <col style={{ width: '10%' }} />
         </colgroup>
         <thead>
           <tr>
@@ -179,6 +183,7 @@ function PartiesTable() {
             <th style={thStyle}>What</th>
             <th style={thStyle}>Where</th>
             <th style={thStyle}>Who can go</th>
+            <th style={{ ...thStyle, textAlign: 'right' }}>RSVP</th>
           </tr>
         </thead>
         <tbody>
@@ -188,6 +193,11 @@ function PartiesTable() {
               <td style={tdStyle}>{r.what}</td>
               <td style={tdStyle}>{r.where}</td>
               <td style={tdStyle}>{r.access}</td>
+              <td style={{ ...tdStyle, textAlign: 'right' }}>
+                {r.url && r.url !== '#' ? (
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap' }}>RSVP →</a>
+                ) : '—'}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -202,10 +212,11 @@ function ArtHappeningsTable() {
     <Box sx={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
         <colgroup>
-          <col style={{ width: '18%' }} />
-          <col style={{ width: '46%' }} />
+          <col style={{ width: '16%' }} />
+          <col style={{ width: '40%' }} />
           <col style={{ width: '22%' }} />
-          <col style={{ width: '14%' }} />
+          <col style={{ width: '12%' }} />
+          <col style={{ width: '10%' }} />
         </colgroup>
         <thead>
           <tr>
@@ -213,6 +224,7 @@ function ArtHappeningsTable() {
             <th style={thStyle}>What</th>
             <th style={thStyle}>Where</th>
             <th style={thStyle}>Entry</th>
+            <th style={{ ...thStyle, textAlign: 'right' }}>RSVP</th>
           </tr>
         </thead>
         <tbody>
@@ -222,6 +234,11 @@ function ArtHappeningsTable() {
               <td style={tdStyle}>{r.what}</td>
               <td style={tdStyle}>{r.where}</td>
               <td style={tdStyle}>{r.entry}</td>
+              <td style={{ ...tdStyle, textAlign: 'right' }}>
+                {r.url && r.url !== '#' ? (
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap' }}>RSVP →</a>
+                ) : '—'}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -366,11 +383,44 @@ function EventFinder() {
   )
 }
 
+// ── Flyers gallery ───────────────────────────────────────────────────────────
+const FLYERS = [
+  { name: 'Anna Nicole / Leonard Baby', date: 'Wed Dec 2, 6–10PM', where: 'Playboy Delano, 1685 Collins Ave', src: '/flyers/anna-nicole.jpg' },
+  { name: 'Modern Luxury Ocean Drive — Art of Self Care', date: 'Tue Dec 1, 11AM–2PM', where: 'Mondrian South Beach', src: '/flyers/ocean-drive.webp' },
+  { name: 'Nylon House presented by e.l.f.', date: 'Fri Dec 4, 8:30PM', where: 'Miami Beach', src: '/flyers/nylon-house.jpg' },
+]
+
+function FlyersGallery() {
+  return (
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+      <Grid container spacing={3}>
+        {FLYERS.map((flyer, i) => (
+          <Grid item xs={12} sm={6} md={4} key={i}>
+            <Box sx={{ border: '1px solid rgba(169,146,125,0.2)', borderRadius: '14px', overflow: 'hidden' }}>
+              <img src={flyer.src} alt={flyer.name} style={{ width: '100%', display: 'block' }} />
+              <Box sx={{ p: 2.5 }}>
+                <p style={{ color: cream, fontFamily: 'stratos-lights', fontSize: '14px', fontWeight: 600, lineHeight: 1.3, margin: '0 0 4px' }}>{flyer.name}</p>
+                <p style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', margin: '0 0 2px' }}>{flyer.date}</p>
+                <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '13px', margin: '0 0 16px' }}>{flyer.where}</p>
+                <a href={flyer.src} download style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.3)', borderRadius: '100px', padding: '7px 18px', whiteSpace: 'nowrap' }}>
+                  Save flyer ↓
+                </a>
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+      <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '13px', fontStyle: 'italic', marginTop: '20px' }}>More flyers will be added as events are announced.</p>
+    </Box>
+  )
+}
+
 // ── Post-purchase: guide + event finder ─────────────────────────────────────
 const TABS = [
   { id: 'parties', label: 'Parties', pdf: '/guides/art-basel-2026-parties.pdf', desc: 'Clubs, performances, and after-hours', Component: PartiesTable },
   { id: 'art', label: 'Art Happenings', pdf: '/guides/art-basel-2026-art-happenings.pdf', desc: 'Exhibitions, fairs, and the main show', Component: ArtHappeningsTable },
   { id: 'eat', label: 'Eat + Photos', pdf: '/guides/art-basel-2026-eat-photos.pdf', desc: 'Where to eat and what to photograph', Component: EatPhotosTable },
+  { id: 'flyers', label: 'Flyers', pdf: null, desc: 'Party flyers to save and share', Component: FlyersGallery },
 ]
 
 function GuidePage() {
@@ -427,13 +477,15 @@ function GuidePage() {
             <h2 style={{ color: cream, fontFamily: 'Ogg', fontSize: 'clamp(22px, 2.5vw, 32px)', fontWeight: 400, margin: 0 }}>{tab.label}</h2>
             <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '14px', margin: '4px 0 0' }}>{tab.desc}</p>
           </div>
-          <a
-            href={tab.pdf}
-            download
-            style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.3)', borderRadius: '100px', padding: '8px 20px', whiteSpace: 'nowrap' }}
-          >
-            Download PDF ↓
-          </a>
+          {tab.pdf && (
+            <a
+              href={tab.pdf}
+              download
+              style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.3)', borderRadius: '100px', padding: '8px 20px', whiteSpace: 'nowrap' }}
+            >
+              Download PDF ↓
+            </a>
+          )}
         </Box>
 
         {/* Table */}

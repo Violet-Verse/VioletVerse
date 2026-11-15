@@ -14,11 +14,14 @@ function getArtBaselTable() {
 const EVENT_DATA = {
   parties: [
     { date: 'Tue Dec 1, 4:30–6pm', what: 'The Ocean Odyssey by Subodh Kerkar with REEFLINE: beach performance with Miami City Ballet dancers and 50+ community performers', where: 'Andaz beachfront, 4041 Collins Ave', access: 'Free, public' },
+    { date: 'Wed Dec 2, 6–10pm', what: 'Anna Nicole / Leonard Baby', where: 'Playboy Delano — Bungalow 8 & Bellini Bar, 1685 Collins Ave', access: 'Open' },
     { date: 'Tue–Fri Dec 1–4, 10pm–midnight', what: 'Capital One Venture X Sound Sessions: intimate sets from emerging and established artists', where: 'Pauline Bar, The Shelborne By Proper', access: 'Hotel guests' },
     { date: 'Thu Dec 3, 11:30pm–2:30am', what: 'Capital One x BÉIS after-hours: theatrical performances, Shay Mitchell, live music and the Midnight Blue luggage reveal', where: 'The Shelborne By Proper', access: 'Capital One cardholders; tickets on Capital One Entertainment' },
+    { date: 'Fri Dec 4, 8:30pm', what: 'Nylon House presented by e.l.f. — Ben Sterling, Blond:ish, Elvis Guetta + Surprise Performer', where: 'Miami Beach', access: 'By invitation; RSVP required', url: 'https://member.nylon.com/events/53/nylon-house-miami-2026' },
   ],
   artHappenings: [
     { dates: 'Opens Nov 19', what: 'Sheroanawe Hakihiiwe, ICA Miami x Fondation Cartier: first U.S. museum solo, 100+ works', where: 'ICA Miami, 61 NE 41st St', entry: 'Check ICA admission' },
+    { dates: 'Tue Dec 1, 11am–2pm', what: 'Modern Luxury Ocean Drive — Art of Self Care: Pilates Bootycamp (Starr Hawkins), The Core by Vita, Posh Life Pilates; presented by Farmasi', where: 'Mondrian South Beach, 1100 West Ave', entry: 'RSVP required', url: 'https://therumor.com/p/819645?og=v3' },
     { dates: 'Nov 29 – Feb 15', what: 'Basquiat: Hidden World: three never-before-seen paintings with hidden layers revealed under UV light', where: 'ICA Miami Expansion Space, 23 NE 41st St', entry: 'Check' },
     { dates: 'Nov 30 – Dec 6', what: 'Yanira Collado, Converging Timelines (No Vacancy)', where: 'Lobby Gallery, The Shelborne By Proper', entry: 'Free' },
     { dates: 'Dec 1–6', what: 'SCOPE Miami Beach', where: 'SCOPE Art Deco Center, 1001 Ocean Dr', entry: 'Ticketed; 2026 hours and prices TBA' },
