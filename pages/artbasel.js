@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Box, Button, Grid, CircularProgress, TextField } from '@mui/material'
@@ -53,8 +53,10 @@ const EAT_PHOTOS = [
   { for: 'Eat (new)', spot: 'Wilder Miami', where: 'Miami', dates: 'Coming soon', hook: 'Neighborhood market backed by Major Food Group' },
 ]
 
+const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/6oUcN63vwdll6XRgYjg360g'
+
 // ── Pre-purchase hero ────────────────────────────────────────────────────────
-function BuyPage({ onBuy, buying, notLoggedIn, onLogin }) {
+function BuyPage({ notLoggedIn, onLogin }) {
   return (
     <Box sx={{ backgroundColor: bg, minHeight: '100vh', pb: 14 }}>
       <Box sx={{ backgroundColor: wine, px, py: { xs: 10, md: 16 }, textAlign: 'center' }}>
@@ -67,19 +69,19 @@ function BuyPage({ onBuy, buying, notLoggedIn, onLogin }) {
         <p style={{ color: 'rgba(242,244,243,0.75)', fontFamily: 'stratos-lights', fontSize: 'clamp(16px, 1.8vw, 20px)', lineHeight: 1.65, maxWidth: '560px', margin: '0 auto 40px' }}>
           Every event, gallery show, party, and pop-up — curated for culture, fashion, and tech. Plus an AI event finder to surface what matters to you.
         </p>
-        {notLoggedIn ? (
-          <Box>
-            <p style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '15px', marginBottom: '16px' }}>
-              Sign in to purchase
-            </p>
-            <Button onClick={onLogin} disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
-              Sign In
-            </Button>
-          </Box>
-        ) : (
-          <Button onClick={onBuy} disabled={buying} disableElevation startIcon={buying ? <CircularProgress size={18} sx={{ color: bg }} /> : null} sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' }, '&:disabled': { backgroundColor: 'rgba(242,244,243,0.5)', color: 'rgba(10,9,8,0.5)' } }}>
-            {buying ? 'Redirecting…' : 'Get the Guide — $9.99'}
+        <a href={STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+          <Button disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
+            Get the Guide — $9.99
           </Button>
+        </a>
+        {notLoggedIn && (
+          <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '14px', marginTop: '20px' }}>
+            Already purchased?{' '}
+            <span onClick={onLogin} style={{ color: gold, cursor: 'pointer', textDecoration: 'underline' }}>
+              Sign in with the email you used at checkout
+            </span>
+            {' '}to access your guide.
+          </p>
         )}
       </Box>
 
@@ -106,15 +108,20 @@ function BuyPage({ onBuy, buying, notLoggedIn, onLogin }) {
         </Grid>
       </Box>
 
-      <Box sx={{ textAlign: 'center', px }}>
-        {notLoggedIn ? (
-          <Button onClick={onLogin} disableElevation sx={{ backgroundColor: wine, color: cream, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: '#5a1520' } }}>
-            Sign In to Purchase
+      <Box sx={{ textAlign: 'center', px, pb: 4 }}>
+        <a href={STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+          <Button disableElevation sx={{ backgroundColor: wine, color: cream, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: '#5a1520' } }}>
+            Get the Guide — $9.99
           </Button>
-        ) : (
-          <Button onClick={onBuy} disabled={buying} disableElevation sx={{ backgroundColor: wine, color: cream, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: '#5a1520' }, '&:disabled': { opacity: 0.5 } }}>
-            {buying ? 'Redirecting…' : 'Get the Guide — $9.99'}
-          </Button>
+        </a>
+        {notLoggedIn && (
+          <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '14px', marginTop: '16px' }}>
+            Already purchased?{' '}
+            <span onClick={onLogin} style={{ color: gold, cursor: 'pointer', textDecoration: 'underline' }}>
+              Sign in with the email you used at checkout
+            </span>
+            {' '}to access your guide.
+          </p>
         )}
       </Box>
     </Box>
@@ -420,7 +427,6 @@ export default function ArtBasel() {
   const [emailModalOpen, setEmailModalOpen] = useState(false)
   const { session_id } = router.query
 
-  const [buying, setBuying] = useState(false)
   const [processing, setProcessing] = useState(false)
   const [verifying, setVerifying] = useState(false)
   const [authTimedOut, setAuthTimedOut] = useState(false)
@@ -476,21 +482,6 @@ export default function ArtBasel() {
       .finally(() => setVerifying(false))
   }, [loaded, user]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleBuy = useCallback(async () => {
-    setBuying(true)
-    try {
-      const res = await fetch('/api/stripe/create-checkout-session', { method: 'POST' })
-      const data = await res.json()
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        setBuying(false)
-      }
-    } catch {
-      setBuying(false)
-    }
-  }, [])
-
   return (
     <>
       <Head>
@@ -515,7 +506,7 @@ export default function ArtBasel() {
       ) : purchased ? (
         <GuidePage />
       ) : (
-        <BuyPage onBuy={handleBuy} buying={buying} notLoggedIn={notLoggedIn} onLogin={() => setEmailModalOpen(true)} />
+        <BuyPage notLoggedIn={notLoggedIn} onLogin={() => setEmailModalOpen(true)} />
       )}
       <EmailLoginModal
         open={emailModalOpen}
