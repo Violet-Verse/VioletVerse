@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-const EmailLoginModal = ({ open, onClose, onSuccess }) => {
+const EmailLoginModal = ({ open, onClose, onSuccess, subtitle }) => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -64,9 +64,15 @@ const EmailLoginModal = ({ open, onClose, onSuccess }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <p style={{ color: '#555', fontSize: '15px', marginBottom: '20px', lineHeight: 1.5 }}>
-          Enter your email to sign in or create an account.
-        </p>
+        {subtitle ? (
+          <p style={{ color: '#555', fontSize: '15px', marginBottom: '20px', lineHeight: 1.5 }}>
+            {subtitle}
+          </p>
+        ) : (
+          <p style={{ color: '#555', fontSize: '15px', marginBottom: '20px', lineHeight: 1.5 }}>
+            Enter your email to sign in or create an account.
+          </p>
+        )}
         <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <TextField
             type="email"

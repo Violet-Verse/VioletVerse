@@ -521,6 +521,7 @@ export default function ArtBasel() {
         open={emailModalOpen}
         onClose={() => setEmailModalOpen(false)}
         onSuccess={() => { mutate('/api/database/getUser'); setEmailModalOpen(false) }}
+        subtitle="To access the guide and AI event finder, sign in with the email address you used to purchase."
       />
     </>
   )
