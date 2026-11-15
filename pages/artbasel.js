@@ -3,7 +3,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Box, Button, Grid, CircularProgress, TextField } from '@mui/material'
 import { useUser } from '../hooks/useAuth'
-import { usePrivy } from '@privy-io/react-auth'
+import { useSWRConfig } from 'swr'
+import EmailLoginModal from '../components/Modal/EmailLoginModal'
 
 const bg = '#0a0908'
 const wine = '#49111c'
@@ -414,8 +415,9 @@ function GuidePage() {
 // ── Main page ────────────────────────────────────────────────────────────────
 export default function ArtBasel() {
   const { user, loaded } = useUser()
-  const { login } = usePrivy()
+  const { mutate } = useSWRConfig()
   const router = useRouter()
+  const [emailModalOpen, setEmailModalOpen] = useState(false)
   const { session_id } = router.query
 
   const [buying, setBuying] = useState(false)
@@ -499,8 +501,13 @@ export default function ArtBasel() {
       ) : purchased ? (
         <GuidePage />
       ) : (
-        <BuyPage onBuy={handleBuy} buying={buying} notLoggedIn={notLoggedIn} onLogin={login} />
+        <BuyPage onBuy={handleBuy} buying={buying} notLoggedIn={notLoggedIn} onLogin={() => setEmailModalOpen(true)} />
       )}
+      <EmailLoginModal
+        open={emailModalOpen}
+        onClose={() => setEmailModalOpen(false)}
+        onSuccess={() => { mutate('/api/database/getUser'); setEmailModalOpen(false) }}
+      />
     </>
   )
 }

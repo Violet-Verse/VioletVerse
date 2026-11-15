@@ -3,8 +3,8 @@ import Logout from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
-import { usePrivy } from '@privy-io/react-auth'
 import { useSWRConfig } from 'swr'
+import EmailLoginModal from '../Modal/EmailLoginModal'
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ import { Overlay } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useUser } from '../../hooks/useAuth'
 import UserAvatar from '../user/UserAvatar'
 import { nFormatter, useFlowContext } from '../Context/flowContext'
@@ -41,18 +41,10 @@ function track(event, props) {
 const NewNav = () => {
   const router = useRouter()
   const { user, loaded } = useUser()
-  const {
-    login: privyLogin,
-    logout: privyLogout,
-    authenticated,
-    ready,
-    getAccessToken,
-  } = usePrivy()
+  const [emailModalOpen, setEmailModalOpen] = useState(false)
   const isEnterprise = router.asPath.includes('enterprise') || router.asPath.includes('experts')
   const navBarItemColor = isEnterprise ? 'white' : 'black'
   const [isHydrated, setIsHydrated] = useState(false)
-  const verifyingRef = useRef(false)
-
   const { mutate } = useSWRConfig()
 
   // Identify User for Analytics
@@ -73,57 +65,6 @@ const NewNav = () => {
     setIsHydrated(true)
   }, [])
 
-  // After Privy authentication, verify with our server and create session
-  useEffect(() => {
-    const verifyPrivyUser = async () => {
-      if (!ready || !authenticated || user || verifyingRef.current) return
-
-      verifyingRef.current = true
-
-      try {
-        const accessToken = await getAccessToken()
-
-        const response = await fetch('/api/auth/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ accessToken }),
-        })
-
-        const result = await response.json()
-
-        if (response.ok) {
-          // Refresh user data first (critical path)
-          mutate('/api/database/getUser')
-          // Analytics is non-critical — don't let it block auth flow
-          track(
-            result.registration
-              ? 'User Registration Success'
-              : 'User Login Success ',
-            {
-              ...(result.registration && {
-                userId: result.userData.userId,
-              }),
-              ...(result.registration && {
-                email: result.userData.email,
-              }),
-              ...(result.registration && {
-                role: result.userData.role,
-              }),
-            },
-          )
-        } else {
-          await privyLogout()
-        }
-      } catch (err) {
-        console.error('Verify error:', err)
-        await privyLogout()
-      } finally {
-        verifyingRef.current = false
-      }
-    }
-
-    verifyPrivyUser()
-  }, [authenticated, user, ready, getAccessToken, mutate, privyLogout])
 
   // Custom scroll-based header visibility (replacement for useHeadroom)
   const [pinned, setPinned] = useState(true)
@@ -168,10 +109,7 @@ const NewNav = () => {
     setAnchorElUser(null)
   }
 
-  const login = () => {
-    if (!ready) return
-    privyLogin()
-  }
+  const login = () => setEmailModalOpen(true)
 
   useEffect(() => {
     const ctaClosed = () => {
@@ -199,6 +137,11 @@ const NewNav = () => {
 
   return (
     <>
+      <EmailLoginModal
+        open={emailModalOpen}
+        onClose={() => setEmailModalOpen(false)}
+        onSuccess={() => { mutate('/api/database/getUser'); setEmailModalOpen(false) }}
+      />
       <SignUpCTA
         open={signupCTA}
         handleClose={() => {
@@ -578,8 +521,7 @@ const NewNav = () => {
                           Settings
                         </MenuItem>
                         <MenuItem
-                          onClick={async () => {
-                            await privyLogout()
+                          onClick={() => {
                             track('Logout Button Clicked')
                             Router.push('/api/auth/logout')
                             setAnchorElUser(null)

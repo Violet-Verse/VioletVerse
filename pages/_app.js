@@ -4,8 +4,6 @@ import Layout from "../components/Layout/AppLayout";
 import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
-import { PrivyProvider } from "@privy-io/react-auth";
-
 import "../styles/fonts.css";
 import "../styles/globals.css";
 
@@ -31,22 +29,6 @@ Router.events.on("routeChangeComplete", (url) => {
     }
 });
 
-const privyConfig = {
-    loginMethods: ["email"],
-    appearance: {
-        theme: "light",
-        accentColor: "#693E9A",
-    },
-};
-
-const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
-
-if (!PRIVY_APP_ID) {
-    console.warn(
-        "WARNING: NEXT_PUBLIC_PRIVY_APP_ID is not set. Authentication will not work. " +
-            "Set this environment variable in Vercel and redeploy."
-    );
-}
 
 function AppContent({ Component, pageProps }) {
     const { user, loaded } = useUser();
@@ -122,14 +104,7 @@ function AppContent({ Component, pageProps }) {
 }
 
 function MyApp(props) {
-    return (
-        <PrivyProvider
-            appId={PRIVY_APP_ID || "missing-privy-app-id"}
-            config={privyConfig}
-        >
-            <AppContent {...props} />
-        </PrivyProvider>
-    );
+    return <AppContent {...props} />;
 }
 
 export default MyApp;
