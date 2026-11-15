@@ -1,7 +1,15 @@
+import Airtable from 'airtable'
 import { getLoginSession } from '../../../lib/cookie-auth'
-import { table } from '../utils/userTable'
 
 const PRODUCT_ID = 'artbasel-2026'
+
+function getArtBaselTable() {
+  const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_ARTBASEL_TABLE_ID } = process.env
+  if (!AIRTABLE_API_KEY || !AIRTABLE_BASE_ID || !AIRTABLE_ARTBASEL_TABLE_ID) return null
+  return new Airtable({ apiKey: AIRTABLE_API_KEY })
+    .base(AIRTABLE_BASE_ID)
+    .table(AIRTABLE_ARTBASEL_TABLE_ID)
+}
 
 const EVENT_DATA = {
   parties: [
@@ -37,11 +45,14 @@ const EVENT_DATA = {
 }
 
 async function hasPurchased(session) {
-  const records = await table
-    .select({ filterByFormula: `{userId} = "${session.issuer}"` })
+  const artBaselTable = getArtBaselTable()
+  if (!artBaselTable) return false
+  const email = session.email?.trim().toLowerCase()
+  if (!email) return false
+  const records = await artBaselTable
+    .select({ filterByFormula: `{email} = "${email}"`, maxRecords: 1 })
     .firstPage()
-  const purchased = records[0]?.fields?.purchasedContent || ''
-  return purchased.split(',').map((s) => s.trim()).includes(PRODUCT_ID)
+  return records.length > 0
 }
 
 export default async function handler(req, res) {
