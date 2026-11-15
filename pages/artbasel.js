@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { Box, Button, Grid, CircularProgress, TextField } from '@mui/material'
+import { Box, Button, Grid, CircularProgress, TextField, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import { useUser } from '../hooks/useAuth'
 import { useSWRConfig } from 'swr'
 import EmailLoginModal from '../components/Modal/EmailLoginModal'
@@ -57,8 +58,45 @@ const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/6oUcN63vwdll6XRgYjg360g'
 
 // ── Pre-purchase hero ────────────────────────────────────────────────────────
 function BuyPage({ notLoggedIn, onLogin }) {
+  const [unlockOpen, setUnlockOpen] = useState(false)
+
   return (
     <Box sx={{ backgroundColor: bg, minHeight: '100vh', pb: 14 }}>
+      {/* Unlock modal */}
+      <Dialog open={unlockOpen} onClose={() => setUnlockOpen(false)} maxWidth="xs" fullWidth PaperProps={{ sx: { backgroundColor: '#1a1210', border: `1px solid rgba(169,146,125,0.2)`, borderRadius: '20px' } }}>
+        <DialogTitle sx={{ color: cream, fontFamily: 'Ogg', fontWeight: 400, fontSize: '22px', pb: 0, pr: 6 }}>
+          Unlock This Guide
+          <IconButton onClick={() => setUnlockOpen(false)} sx={{ position: 'absolute', right: 12, top: 12, color: 'rgba(242,244,243,0.4)' }}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ pt: 2 }}>
+          <p style={{ color: 'rgba(242,244,243,0.7)', fontFamily: 'stratos-lights', fontSize: '15px', lineHeight: 1.6, marginBottom: '24px' }}>
+            To access the full Art Basel 2026 guide and AI event finder:
+          </p>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 3 }}>
+            {['Buy the guide on Stripe ($9.99)', 'Return here and sign in with your purchase email'].map((step, i) => (
+              <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                <Box sx={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: wine, border: `1px solid ${gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, mt: '2px' }}>
+                  <span style={{ color: gold, fontFamily: 'Test Calibre', fontSize: '12px' }}>{i + 1}</span>
+                </Box>
+                <p style={{ color: 'rgba(242,244,243,0.8)', fontFamily: 'stratos-lights', fontSize: '15px', lineHeight: 1.5, margin: 0 }}>{step}</p>
+              </Box>
+            ))}
+          </Box>
+          <a href={STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+            <Button fullWidth disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '15px', fontWeight: 400, py: 1.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
+              Buy on Stripe — $9.99
+            </Button>
+          </a>
+          {notLoggedIn && (
+            <Button fullWidth disableElevation onClick={() => { setUnlockOpen(false); onLogin() }} sx={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', fontWeight: 400, py: 1.25, mt: 1, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(169,146,125,0.08)' } }}>
+              Already purchased? Sign in →
+            </Button>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <Box sx={{ backgroundColor: wine, px, py: { xs: 10, md: 16 }, textAlign: 'center' }}>
         <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '16px' }}>
           Art Basel Miami Beach 2026 · Dec 1–6
@@ -69,18 +107,15 @@ function BuyPage({ notLoggedIn, onLogin }) {
         <p style={{ color: 'rgba(242,244,243,0.75)', fontFamily: 'stratos-lights', fontSize: 'clamp(16px, 1.8vw, 20px)', lineHeight: 1.65, maxWidth: '560px', margin: '0 auto 40px' }}>
           Every event, gallery show, party, and pop-up — curated for culture, fashion, and tech. Plus an AI event finder to surface what matters to you.
         </p>
-        <a href={STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-          <Button disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
-            Get the Guide — $9.99
-          </Button>
-        </a>
+        <Button onClick={() => setUnlockOpen(true)} disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
+          Unlock This Guide — $9.99
+        </Button>
         {notLoggedIn && (
           <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '14px', marginTop: '20px' }}>
             Already purchased?{' '}
             <span onClick={onLogin} style={{ color: gold, cursor: 'pointer', textDecoration: 'underline' }}>
               Sign in with the email you used at checkout
             </span>
-            {' '}to access your guide.
           </p>
         )}
       </Box>
@@ -109,18 +144,15 @@ function BuyPage({ notLoggedIn, onLogin }) {
       </Box>
 
       <Box sx={{ textAlign: 'center', px, pb: 4 }}>
-        <a href={STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-          <Button disableElevation sx={{ backgroundColor: wine, color: cream, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: '#5a1520' } }}>
-            Get the Guide — $9.99
-          </Button>
-        </a>
+        <Button onClick={() => setUnlockOpen(true)} disableElevation sx={{ backgroundColor: wine, color: cream, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: '#5a1520' } }}>
+          Unlock This Guide — $9.99
+        </Button>
         {notLoggedIn && (
           <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '14px', marginTop: '16px' }}>
             Already purchased?{' '}
             <span onClick={onLogin} style={{ color: gold, cursor: 'pointer', textDecoration: 'underline' }}>
               Sign in with the email you used at checkout
             </span>
-            {' '}to access your guide.
           </p>
         )}
       </Box>
