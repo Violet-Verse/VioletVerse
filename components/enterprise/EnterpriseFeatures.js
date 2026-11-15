@@ -18,10 +18,10 @@ const featuresData = [
         <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
       </svg>
     ),
-    title: 'Content Management Tools',
+    title: 'Tailored Content Creation',
     features: [
       'Elevate your content creation with SEO optimization and tailor-made tools that empower your creativity.',
-      "Flexible content access: seamlessly control what's public and what's behind a paywall.",
+      "Paid and Free Content Discoverability System: Seamlessly switch between private and public access, giving you control over your content's visibility.",
     ],
   },
   {
@@ -40,7 +40,7 @@ const featuresData = [
         <path d="m20 22-5-5" />
       </svg>
     ),
-    title: 'Community Building',
+    title: 'Engage and Expand Your Audience',
     features: [
       'Audience Community Hub: With just three clicks, your audience can register and immerse themselves in your community.',
       'Authenticated Membership Login: Ensure the authenticity of every individual engaging with your platform.',
@@ -62,7 +62,7 @@ const featuresData = [
         <circle cx="12" cy="12" r="3" />
       </svg>
     ),
-    title: 'Monetization & Payments',
+    title: 'Streamlined Monetization',
     features: [
       'Seamless Payment Integration: Effortlessly monetize your content and services through a secure and convenient payment gateway.',
     ],
@@ -82,7 +82,7 @@ const featuresData = [
         <path d="m21 21-4.3-4.3" />
       </svg>
     ),
-    title: 'Audience Communication',
+    title: 'Effortless Communication',
     features: [
       'Text Messaging and Email Integration: Stay connected with your audience through text messages and emails, fostering engagement and communication.',
     ],
@@ -102,9 +102,9 @@ const featuresData = [
         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
       </svg>
     ),
-    title: 'AI Automation Workflows',
+    title: 'Secure Content Distribution',
     features: [
-      'Automate content workflows, member onboarding, and distribution with AI-powered tools built for media operations.',
+      'Tokenization Digital Asset Distribution: Protect your digital assets with state-of-the-art tokenization, ensuring secure and traceable distribution.',
     ],
   },
   {
@@ -135,11 +135,13 @@ const EnterpriseFeatures = () => {
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Built for Modern Media Communities</h2>
+          <h2 className={styles.title}>Discover Our Unique Features</h2>
           <p className={styles.description}>
-            We&apos;ve built a suite of tools for media brands and content communities —
-            focused on global reach, workflow efficiency, and sustainable monetization.
-            Everything you need to publish, grow, and get paid.
+            At Violet Verse, we&apos;ve meticulously crafted a suite of features that
+            cater specifically to the intricate demands of the government, media, and entertainment
+            communities. Our platform is a symphony of global diversity, heightened
+            productivity, and streamlined workflows, all tailored to meet your unique
+            needs.
           </p>
         </div>
         <div className={styles.cardsGrid}>

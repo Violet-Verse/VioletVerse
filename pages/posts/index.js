@@ -4,18 +4,35 @@ import connectDatabase from "../../lib/mongoClient";
 import { getUsersByRole } from "../api/database/getUserByEmail";
 
 export async function getServerSideProps() {
+    let posts = [];
+    let authors = [];
+    let contributors = [];
+
     try {
         const db = await connectDatabase();
-        const data = await db.collection("posts").find({ hidden: { $ne: true } }).toArray();
-        let authors = [], contributors = [];
-        try { authors = await getUsersByRole("admin"); } catch {}
-        try { contributors = await getUsersByRole("contributor"); } catch {}
-        return {
-            props: { posts: JSON.parse(JSON.stringify(data)), authors, contributors },
-        };
-    } catch {
-        return { props: { posts: [], authors: [], contributors: [] } };
+        if (db) {
+            const collection = db.collection("posts");
+            const data = await collection.find({ hidden: false }).toArray();
+            posts = JSON.parse(JSON.stringify(data));
+        }
+    } catch (error) {
+        console.error("Error fetching posts:", error.message);
     }
+
+    try {
+        authors = await getUsersByRole("admin");
+        contributors = await getUsersByRole("contributor");
+    } catch (error) {
+        console.error("Error fetching users:", error.message);
+    }
+
+    return {
+        props: {
+            posts,
+            authors,
+            contributors,
+        },
+    };
 }
 
 const Posts = ({ posts, authors, contributors }) => {
@@ -32,7 +49,7 @@ const Posts = ({ posts, authors, contributors }) => {
             }}
         >
             <ArticleGrid
-                title="Pages of the Verse"
+                title="Layers of the Verse"
                 posts={posts}
                 authors={authors}
                 contributors={contributors}

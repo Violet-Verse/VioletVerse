@@ -3,8 +3,12 @@ import { useState } from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 
-const TipCreatorButton = ({ onClick, authorName, disabled = false }) => {
+const TipCreatorButton = ({ authorName, disabled = false }) => {
   const [isHovered, setIsHovered] = useState(false)
+
+  const handleClick = () => {
+    window.open('https://buy.stripe.com/28E9AUd666WXeqj0Zlg360c', '_blank')
+  }
 
   return (
     <Box
@@ -22,7 +26,7 @@ const TipCreatorButton = ({ onClick, authorName, disabled = false }) => {
       }}
     >
       <Button
-        onClick={onClick}
+        onClick={handleClick}
         disabled={disabled}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -124,4 +128,3 @@ const TipCreatorButton = ({ onClick, authorName, disabled = false }) => {
 }
 
 export default TipCreatorButton
-

@@ -20,20 +20,35 @@ const ArticleGrid = dynamic(() => import("../components/article/ArticleGrid"));
 const PostsTable = dynamic(() => import("../components/article/PostsTable"));
 
 export async function getServerSideProps(context) {
-    const db = await connectDatabase();
-    const collection = db.collection("posts");
-    const data = await collection.find({ hidden: true }).toArray();
+    let posts = [];
+    let authors = [];
+    let contributors = [];
 
-    const authors = await getUsersByRole("admin");
-    const contributors = await getUsersByRole("contributor");
+    try {
+        const db = await connectDatabase();
+        if (db) {
+            const collection = db.collection("posts");
+            const data = await collection.find({ hidden: true }).toArray();
+            posts = JSON.parse(JSON.stringify(data));
+        }
+    } catch (error) {
+        console.error("Error fetching drafts:", error.message);
+    }
+
+    try {
+        authors = await getUsersByRole("admin");
+        contributors = await getUsersByRole("contributor");
+    } catch (error) {
+        console.error("Error fetching users for drafts:", error.message);
+    }
 
     return {
         props: {
             protected: true,
             userTypes: ["admin", "contributor"],
-            posts: JSON.parse(JSON.stringify(data)),
-            authors: authors,
-            contributors: contributors,
+            posts,
+            authors,
+            contributors,
         },
     };
 }

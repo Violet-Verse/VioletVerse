@@ -59,7 +59,7 @@ const Profile = () => {
     };
 
     var accountLastUpdated = dateFormatter(user?.lastUpdated, true);
-    var accountCreated = dateFormatter(user.created, true);
+    var accountCreated = dateFormatter(user?.created, true);
 
     return (
         <>
@@ -93,11 +93,7 @@ const Profile = () => {
                                     placeholder="Satoshi Nakamoto "
                                     fullWidth
                                     autoFocus
-                                    defaultValue={
-                                        user?.name === user?.flowAddress
-                                            ? ""
-                                            : user?.name || ""
-                                    }
+                                    defaultValue={user?.name || ""}
                                     error={!!errors?.name}
                                     helperText={
                                         errors?.name
