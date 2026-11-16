@@ -4,8 +4,10 @@ import {
     Box,
     Tooltip,
     Stack,
+    CircularProgress,
     Typography,
 } from "@mui/material";
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
@@ -26,24 +28,25 @@ import {
 } from "./api/database/getUserForPost";
 import connectDatabase from "../lib/mongoClient";
 
-export async function getServerSideProps(context) {
-    const id = context.params.articlePage;
+export async function getStaticPaths() {
+    return { paths: [], fallback: "blocking" };
+}
 
+export async function getStaticProps({ params }) {
+    const id = params.articlePage;
     try {
         const db = await connectDatabase();
-        if (!db) {
-            return { notFound: true };
-        }
-
         const collection = db.collection("posts");
-        const allPosts = await collection.find({ hidden: false }).toArray();
-        const data = await collection.find({ slug: id }).toArray();
-        const authorData = await getAuthorForPost(id);
-        const contributorData = await getContributorForPost(id);
+        const [allPosts, data] = await Promise.all([
+            collection.find({ hidden: { $ne: true } }).toArray(),
+            collection.find({ slug: id }).toArray(),
+        ]);
 
-        if (!data || data.length === 0) {
-            return { notFound: true };
-        }
+        if (!data || data.length === 0) return { notFound: true, revalidate: 60 };
+
+        let authorData = null, contributorData = null;
+        try { authorData = await getAuthorForPost(id); } catch {}
+        try { contributorData = await getContributorForPost(id); } catch {}
 
         return {
             props: {
@@ -51,11 +54,12 @@ export async function getServerSideProps(context) {
                 allPosts: JSON.parse(JSON.stringify(allPosts)),
                 authorData: authorData ? JSON.parse(JSON.stringify(authorData)) : null,
                 contributorData: contributorData ? JSON.parse(JSON.stringify(contributorData)) : null,
+                tokenGatePrice: data[0]?.tokenPrice || false,
             },
+            revalidate: 300,
         };
-    } catch (error) {
-        console.error("Error in articlePage SSR:", error.message);
-        return { notFound: true };
+    } catch {
+        return { notFound: true, revalidate: 60 };
     }
 }
 
@@ -70,6 +74,7 @@ const Article = ({
     posts,
     allPosts,
     authorData,
+    tokenGatePrice,
     contributorData,
 }) => {
     const { data: users, mutate } = useSWR(`/api/database/getUser`, fetcher);
