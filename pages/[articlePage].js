@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
     try {
         const db = await connectDatabase();
         if (!db) {
-            return { notFound: true, props: { posts: {} } };
+            return { notFound: true };
         }
 
         const collection = db.collection("posts");
@@ -42,20 +42,20 @@ export async function getServerSideProps(context) {
         const contributorData = await getContributorForPost(id);
 
         if (!data || data.length === 0) {
-            return { notFound: true, props: { posts: {} } };
+            return { notFound: true };
         }
 
         return {
             props: {
                 posts: JSON.parse(JSON.stringify(data[0])),
                 allPosts: JSON.parse(JSON.stringify(allPosts)),
-                authorData: authorData,
-                contributorData: contributorData || null,
+                authorData: authorData ? JSON.parse(JSON.stringify(authorData)) : null,
+                contributorData: contributorData ? JSON.parse(JSON.stringify(contributorData)) : null,
             },
         };
     } catch (error) {
         console.error("Error in articlePage SSR:", error.message);
-        return { notFound: true, props: { posts: {} } };
+        return { notFound: true };
     }
 }
 
