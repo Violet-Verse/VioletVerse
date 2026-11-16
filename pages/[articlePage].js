@@ -28,21 +28,18 @@ import {
 } from "./api/database/getUserForPost";
 import connectDatabase from "../lib/mongoClient";
 
-export async function getStaticPaths() {
-    return { paths: [], fallback: "blocking" };
-}
-
-export async function getStaticProps({ params }) {
-    const id = params.articlePage;
+export async function getServerSideProps(context) {
+    const id = context.params.articlePage;
     try {
         const db = await connectDatabase();
+        if (!db) return { notFound: true };
         const collection = db.collection("posts");
         const [allPosts, data] = await Promise.all([
             collection.find({ hidden: { $ne: true } }).toArray(),
             collection.find({ slug: id }).toArray(),
         ]);
 
-        if (!data || data.length === 0) return { notFound: true, revalidate: 60 };
+        if (!data || data.length === 0) return { notFound: true };
 
         let authorData = null, contributorData = null;
         try { authorData = await getAuthorForPost(id); } catch {}
@@ -56,10 +53,9 @@ export async function getStaticProps({ params }) {
                 contributorData: contributorData ? JSON.parse(JSON.stringify(contributorData)) : null,
                 tokenGatePrice: data[0]?.tokenPrice || false,
             },
-            revalidate: 300,
         };
     } catch {
-        return { notFound: true, revalidate: 60 };
+        return { notFound: true };
     }
 }
 
