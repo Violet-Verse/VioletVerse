@@ -469,7 +469,7 @@ const Article = ({
                     direction="column"
                     spacing={3}
                 >
-                    {!posts.video && (
+                    {!posts.video && posts.banner && (
                         <Grid item sx={{ my: { xs: 3, sm: 4, md: 6 }, width: "100%" }}>
                             <Box
                                 sx={{
