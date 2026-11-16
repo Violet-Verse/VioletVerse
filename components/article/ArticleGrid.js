@@ -393,50 +393,52 @@ const ArticleGrid = (props) => {
                                             },
                                         }}
                                     >
-                                        <Box
-                                            className={styles.container}
-                                            sx={{
-                                                borderRadius: "16px",
-                                                overflow: "hidden",
-                                                marginBottom: "12px",
-                                            }}
-                                        >
-                                            <Image
-                                                src={
-                                                    youtubeParser(post.video) &&
-                                                    !post.banner
-                                                        ? youtubeParser(
-                                                              post.video
-                                                          )
-                                                        : post.banner
-                                                }
-                                                alt="Placeholder Image"
-                                                style={{
+                                        {(post.banner || youtubeParser(post.video)) && (
+                                            <Box
+                                                className={styles.container}
+                                                sx={{
                                                     borderRadius: "16px",
-                                                    transition: "transform 0.3s ease",
+                                                    overflow: "hidden",
+                                                    marginBottom: "12px",
                                                 }}
-                                                width={450}
-                                                height={300}
-                                                objectFit="cover"
-                                                className={`${styles.image} image-zoom`}
-                                                placeholder="blur"
-                                                blurDataURL={
-                                                    youtubeParser(post.video) &&
-                                                    !post.banner
-                                                        ? youtubeParser(
-                                                              post.video
-                                                          )
-                                                        : post.banner
-                                                }
-                                            />
-                                            <Box className={styles.overlay}>
-                                                <h4 className={styles.text}>
-                                                    {post.video
-                                                        ? "Watch Video"
-                                                        : "Read More"}
-                                                </h4>
+                                            >
+                                                <Image
+                                                    src={
+                                                        youtubeParser(post.video) &&
+                                                        !post.banner
+                                                            ? youtubeParser(
+                                                                  post.video
+                                                              )
+                                                            : post.banner
+                                                    }
+                                                    alt="Placeholder Image"
+                                                    style={{
+                                                        borderRadius: "16px",
+                                                        transition: "transform 0.3s ease",
+                                                    }}
+                                                    width={450}
+                                                    height={300}
+                                                    objectFit="cover"
+                                                    className={`${styles.image} image-zoom`}
+                                                    placeholder="blur"
+                                                    blurDataURL={
+                                                        youtubeParser(post.video) &&
+                                                        !post.banner
+                                                            ? youtubeParser(
+                                                                  post.video
+                                                              )
+                                                            : post.banner
+                                                    }
+                                                />
+                                                <Box className={styles.overlay}>
+                                                    <h4 className={styles.text}>
+                                                        {post.video
+                                                            ? "Watch Video"
+                                                            : "Read More"}
+                                                    </h4>
+                                                </Box>
                                             </Box>
-                                        </Box>
+                                        )}
 
                                         {authors && (
                                             <h6 style={{ marginTop: "0", marginBottom: "8px" }}>
