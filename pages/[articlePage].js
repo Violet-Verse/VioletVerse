@@ -306,8 +306,8 @@ const Article = ({
                                                 }}
                                             >
                                                 BY{" "}
-                                                {contributor?.name.toUpperCase() ||
-                                                    author?.name.toUpperCase()}
+                                                {contributor?.name?.toUpperCase() ||
+                                                    author?.name?.toUpperCase()}
                                             </p>
                                         </a>
                                     </Link>
@@ -355,7 +355,7 @@ const Article = ({
                                     fontSize: "16px",
                                 }}
                             >
-                                {postDate.toUpperCase()}
+                                {postDate?.toUpperCase()}
                             </p>
                         </Grid>
                         {editPermission && (

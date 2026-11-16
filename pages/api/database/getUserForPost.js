@@ -16,7 +16,7 @@ export async function getAuthorForPost(id) {
 
         const userId = posts[0].createdBy;
 
-        if (!table) return { user: null };
+        if (!table) return null;
 
         const authorData = await table
             .select({
@@ -24,7 +24,7 @@ export async function getAuthorForPost(id) {
             })
             .firstPage();
 
-        return { user: authorData[0]?.fields };
+        return authorData[0]?.fields ? { user: authorData[0].fields } : null;
     } catch (error) {
         console.error("Error getting author for post:", error.message);
         return null;
@@ -45,7 +45,7 @@ export async function getContributorForPost(id) {
 
         const email = posts[0].contributor;
 
-        if (!table) return { user: null };
+        if (!table) return null;
 
         const contributorData = await table
             .select({
@@ -53,7 +53,7 @@ export async function getContributorForPost(id) {
             })
             .firstPage();
 
-        return { user: contributorData[0]?.fields || null };
+        return contributorData[0]?.fields ? { user: contributorData[0].fields } : null;
     } catch (error) {
         console.error("Error getting contributor for post:", error.message);
         return null;
