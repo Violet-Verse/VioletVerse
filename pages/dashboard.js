@@ -1,9 +1,8 @@
 import { Button, Grid, Box, Chip } from "@mui/material";
-import { useAccount, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useUser } from "../hooks/useAuth";
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
     return {
         props: {
             protected: true,
@@ -12,14 +11,10 @@ export async function getStaticProps(context) {
 }
 
 const Dashboard = () => {
-    const { address, isConnected } = useAccount();
-    const { disconnect } = useDisconnect();
     const router = useRouter();
+    const { user, loaded } = useUser();
 
-    const handleDisconnect = () => {
-        disconnect();
-        router.push("/connect");
-    };
+    if (!loaded) return null;
 
     return (
         <Box
@@ -48,11 +43,9 @@ const Dashboard = () => {
                 <Grid item>
                     <p style={{ textAlign: "center", maxWidth: "500px" }}>
                         Welcome to the Violet Verse Creator Dashboard.
-                        You are connected to the Polygon network.
                     </p>
                 </Grid>
 
-                {/* Wallet Info */}
                 <Grid item>
                     <Box
                         sx={{
@@ -64,7 +57,7 @@ const Dashboard = () => {
                         }}
                     >
                         <p style={{ fontWeight: "600", marginBottom: "8px" }}>
-                            Connected Wallet
+                            Signed in as
                         </p>
                         <code
                             style={{
@@ -76,13 +69,11 @@ const Dashboard = () => {
                                 marginBottom: "12px",
                             }}
                         >
-                            {address
-                                ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                                : ""}
+                            {user?.email}
                         </code>
                         <br />
                         <Chip
-                            label="Polygon"
+                            label={user?.role || "user"}
                             size="small"
                             sx={{
                                 backgroundColor: "#7B3FE4",
@@ -93,24 +84,14 @@ const Dashboard = () => {
                     </Box>
                 </Grid>
 
-                {/* RainbowKit button for chain switching etc */}
-                <Grid item>
-                    <ConnectButton
-                        showBalance={true}
-                        chainStatus="full"
-                        accountStatus="address"
-                    />
-                </Grid>
-
-                {/* Disconnect */}
                 <Grid item>
                     <Button
                         variant="outlined"
                         color="secondary"
-                        onClick={handleDisconnect}
+                        onClick={() => router.push("/api/auth/logout")}
                         sx={{ px: 4, py: 1 }}
                     >
-                        Disconnect Wallet
+                        Sign Out
                     </Button>
                 </Grid>
             </Grid>

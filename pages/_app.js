@@ -43,7 +43,8 @@ function AppContent({ Component, pageProps }) {
     const router = useRouter();
 
     const vrSite = pageProps.vrSite;
-    const loadingUser = pageProps.protected && !user;
+    const awaitingLoad = pageProps.protected && !loaded;
+    const loadingUser = pageProps.protected && loaded && !user;
     const noAccess =
         pageProps.protected &&
         user &&
@@ -59,14 +60,31 @@ function AppContent({ Component, pageProps }) {
                     setSeconds(seconds - 1);
                 }, 1000);
             } else {
-                router.push("/connect");
+                router.push("/");
             }
         } else if (seconds !== 3) {
             setSeconds(3);
         }
     }, [loadingUser, noAccess, seconds, router]);
 
-    // User state loading
+    // SWR still fetching — show spinner without starting countdown
+    if (awaitingLoad) {
+        return (
+            <Layout>
+                <Grid
+                    container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <ClipLoader color="#693E9A" />
+                </Grid>
+            </Layout>
+        );
+    }
+
+    // User state loading (confirmed not logged in — countdown to redirect)
     if (loadingUser) {
         return (
             <Layout>

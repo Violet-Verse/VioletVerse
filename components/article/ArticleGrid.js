@@ -455,17 +455,9 @@ const ArticleGrid = (props) => {
                                                     style={{
                                                         color: "purple",
                                                     }}
-                                                >{`[Draft] ${post.title}`}</span>
+                                                >{`[Draft] ${post.title ?? ''}`}</span>
                                             ) : (
-                                                `${
-                                                    post.title.substring(
-                                                        0,
-                                                        72
-                                                    ) +
-                                                    (post.title.length > 72
-                                                        ? "..."
-                                                        : "")
-                                                }`
+                                                `${(post.title ?? '').substring(0, 72)}${(post.title?.length ?? 0) > 72 ? '...' : ''}`
                                             )}
                                         </h3>
                                         <h6
