@@ -1,0 +1,609 @@
+import { useState, useEffect } from 'react'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { Box, Button, Grid, CircularProgress, TextField, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import useSWR, { useSWRConfig } from 'swr'
+import EmailLoginModal from '../components/Modal/EmailLoginModal'
+
+const bg = '#0a0908'
+const wine = '#49111c'
+const cream = '#f2f4f3'
+const gold = '#a9927d'
+const px = { xs: '4%', sm: '5%', md: '6%', lg: '8%' }
+
+const PRODUCT_ID = 'artbasel-2026'
+
+function hasBought(user) {
+  if (!user?.purchasedContent) return false
+  return user.purchasedContent.split(',').map((s) => s.trim()).includes(PRODUCT_ID)
+}
+
+// ── Guide data ───────────────────────────────────────────────────────────────
+const PARTIES = [
+  { date: 'Tue Dec 1, 4:30–6pm', what: 'The Ocean Odyssey by Subodh Kerkar with REEFLINE: beach performance with Miami City Ballet dancers and 50+ community performers', where: 'Andaz beachfront, 4041 Collins Ave', access: 'Free, public', url: '#' },
+  { date: 'Wed Dec 2, 6–10pm', what: 'Anna Nicole / Leonard Baby', where: 'Playboy Delano — Bungalow 8 & Bellini Bar, 1685 Collins Ave', access: 'Open', url: '#' },
+  { date: 'Tue–Fri Dec 1–4, 10pm–midnight', what: 'Capital One Venture X Sound Sessions: intimate sets from emerging and established artists', where: 'Pauline Bar, The Shelborne By Proper', access: 'Hotel guests', url: '#' },
+  { date: 'Thu Dec 3, 11:30pm–2:30am', what: 'Capital One x BÉIS after-hours: theatrical performances, Shay Mitchell, live music and the Midnight Blue luggage reveal', where: 'The Shelborne By Proper', access: 'Capital One cardholders; tickets on Capital One Entertainment', url: '#' },
+  { date: 'Fri Dec 4, 8:30pm', what: 'Nylon House presented by e.l.f. — Ben Sterling, Blond:ish, Elvis Guetta + Surprise Performer', where: 'Miami Beach', access: 'By invitation; RSVP required', url: 'https://member.nylon.com/events/53/nylon-house-miami-2026' },
+  { date: 'Wed Dec 3, 7pm–2am', what: "Bastid's BBQ Miami — Good Music, Good Food, Good People", where: "Dante's HiFi Courtyard, 519 NW 26th St", access: 'RSVP required', url: 'https://bastidsbbq.com' },
+  { date: 'Sat Dec 5', what: 'Saint & Citizen presents Ms. Lauryn Hill & Wyclef Jean — Immersive Exhibition & Performance', where: 'Faena Forum, Miami Beach', access: 'Ticketed', url: 'https://luma.com/2yv42alm' },
+]
+
+const ART_HAPPENINGS = [
+  { dates: 'Opens Nov 19', what: 'Sheroanawe Hakihiiwe, ICA Miami x Fondation Cartier: first U.S. museum solo, 100+ works', where: 'ICA Miami, 61 NE 41st St', entry: 'Check ICA admission', url: '#' },
+  { dates: 'Nov 29 – Feb 15', what: 'Basquiat: Hidden World: three never-before-seen paintings with hidden layers revealed under UV light', where: 'ICA Miami Expansion Space, 23 NE 41st St', entry: 'Check', url: '#' },
+  { dates: 'Nov 30 – Dec 6', what: 'Yanira Collado, Converging Timelines (No Vacancy)', where: 'Lobby Gallery, The Shelborne By Proper', entry: 'Free', url: '#' },
+  { dates: 'Tue Dec 1, 11am–2pm', what: 'Modern Luxury Ocean Drive — Art of Self Care: Pilates Bootycamp (Starr Hawkins), The Core by Vita, Posh Life Pilates; presented by Farmasi', where: 'Mondrian South Beach, 1100 West Ave', entry: 'RSVP required', url: 'https://therumor.com/p/819645?og=v3' },
+  { dates: 'Dec 1–6', what: 'SCOPE Miami Beach', where: 'SCOPE Art Deco Center, 1001 Ocean Dr', entry: 'Ticketed; 2026 hours and prices TBA', url: '#' },
+  { dates: 'Dec 1–6', what: 'Andrés Reisinger, Do You Dream In Color?: draped install and digital works', where: 'Andaz Miami Beach, 4041 Collins Ave', entry: 'Free, public', url: '#' },
+  { dates: 'Dec 1–3', what: 'Hårklinikken pop-up: one-on-one hair and scalp consults with a custom Hair Gain Extract', where: 'Rodrigo Ivory Salon, 1749 NE Miami Ct', entry: 'Private consultation; book ahead', url: '#' },
+  { dates: 'Dec 2–5, 12–7pm', what: 'The Open Invitational: nonprofit fair for progressive art studios', where: '3930 NE 2nd Ave, 2nd fl', entry: 'Check', url: '#' },
+  { dates: 'Dec 2–6, 11am–4pm', what: 'LVMH The Studio Miami: 9-artist gallery, craft demos, panels, free legal and finance clinics for artists and founders', where: 'Palm Court Event Space, 140 NE 39th St, 3rd fl', entry: 'Public', url: '#' },
+  { dates: 'Dec 4–6 (VIP Dec 2–3)', what: 'Art Basel Miami Beach, incl. the Zero 10 digital-art sector: The Forest Remembers: Winds of Yawanawa with Refik Anadol, booth Z6', where: 'Miami Beach Convention Center', entry: 'Ticketed', url: '#' },
+  { dates: 'From Art Week, into 2027', what: 'MDD Design Commission by Objects of Common Interest: totems that react to touch, release vapor and make sound', where: 'Throughout the Miami Design District', entry: 'Free', url: '#' },
+  { dates: 'Wed–Fri, 12–4pm', what: 'Craig Robins Collection rehang: Baldessari, Dumas, Charles Ray', where: 'Dacra HQ, 3841 NE 2nd Ave', entry: 'Free, by appointment (collection@dacra.com)', url: '#' },
+]
+
+const EAT_PHOTOS = [
+  { for: 'Photo', spot: 'PASTEL Miami, CJ Hendry + Salon 94 Design', where: '3925 N Miami Ave', dates: 'Nov 30 – Dec 20, 10am–6pm', hook: 'Pool-sized pit of giant pills; scoop your own, $1 per pill' },
+  { for: 'Photo', spot: 'Shelly Floyd, MELT Lounger', where: 'The Standard Spa, 40 Island Ave', dates: 'Nov 24 – Dec 8', hook: 'Melting pink figure on a poolside lounger; the empty one is for you' },
+  { for: 'Photo', spot: 'Andrés Reisinger draped install', where: 'Andaz porte cochère, 4041 Collins Ave', dates: 'Dec 1–6', hook: 'All-pink drape over the entrance, free from the street' },
+  { for: 'Photo', spot: 'JJ Hammond, Look Around Once and a While', where: 'Bal Harbour, 102nd St Beach Access Path', dates: 'Nov 29 – Dec 27', hook: 'Seven-foot sculptures and glow-in-the-dark stars; go at dusk' },
+  { for: 'Photo', spot: 'MDD Design Commission (OOCI)', where: 'Throughout the Design District', dates: 'From Art Week', hook: 'Totems that steam and hum; good for video' },
+  { for: 'Eat + photo', spot: 'Grotto Baths', where: '325 NW 28th St, Wynwood', dates: 'Art Week preview', hook: 'BLOCK PARTY nonalcoholic drink and a Florida conch tartine, beside Emmett Moore\'s breeze-block wall' },
+  { for: 'Eat', spot: 'The Joyce', where: '448 Espanola Way, Miami Beach', dates: 'Hang on view from end of Nov', hook: '45-seat steakhouse with Picasso, de Kooning, Basquiat, Condo and KAWS on the walls' },
+  { for: 'Eat (splurge)', spot: 'Le Dîner des Grands Crus at The Joyce', where: '448 Espanola Way', dates: 'Tue Dec 1', hook: '12 seats at $12,000 each, about $150,000 of rare wine incl. 1964 Pétrus' },
+  { for: 'Eat (new)', spot: 'Pizza Studio Tamaki', where: 'North Beach', dates: 'Opens December', hook: 'Tokyo-Neapolitan pizza from Spicy Hospitality Group' },
+  { for: 'Eat (new)', spot: 'Wilder Miami', where: 'Miami', dates: 'Coming soon', hook: 'Neighborhood market backed by Major Food Group' },
+]
+
+const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/6oUcN63vwdll6XRgYjg360g'
+
+// ── Pre-purchase hero ────────────────────────────────────────────────────────
+function BuyPage({ notLoggedIn, onLogin }) {
+  const [unlockOpen, setUnlockOpen] = useState(false)
+
+  return (
+    <Box sx={{ backgroundColor: bg, minHeight: '100vh', pb: 14 }}>
+      {/* Unlock modal */}
+      <Dialog open={unlockOpen} onClose={() => setUnlockOpen(false)} maxWidth="xs" fullWidth PaperProps={{ sx: { backgroundColor: '#1a1210', border: `1px solid rgba(169,146,125,0.2)`, borderRadius: '20px' } }}>
+        <DialogTitle sx={{ color: cream, fontFamily: 'Ogg', fontWeight: 400, fontSize: '22px', pb: 0, pr: 6 }}>
+          Unlock This Guide
+          <IconButton onClick={() => setUnlockOpen(false)} sx={{ position: 'absolute', right: 12, top: 12, color: 'rgba(242,244,243,0.4)' }}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ pt: 2 }}>
+          <p style={{ color: 'rgba(242,244,243,0.7)', fontFamily: 'stratos-lights', fontSize: '15px', lineHeight: 1.6, marginBottom: '24px' }}>
+            To access the full Art Basel 2026 guide and AI event finder:
+          </p>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 3 }}>
+            {['Buy the guide on Stripe ($9.99)', 'Return here and sign in with your purchase email'].map((step, i) => (
+              <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                <Box sx={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: wine, border: `1px solid ${gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, mt: '2px' }}>
+                  <span style={{ color: gold, fontFamily: 'Test Calibre', fontSize: '12px' }}>{i + 1}</span>
+                </Box>
+                <p style={{ color: 'rgba(242,244,243,0.8)', fontFamily: 'stratos-lights', fontSize: '15px', lineHeight: 1.5, margin: 0 }}>{step}</p>
+              </Box>
+            ))}
+          </Box>
+          <a href={STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+            <Button fullWidth disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '15px', fontWeight: 400, py: 1.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
+              Buy on Stripe — $9.99
+            </Button>
+          </a>
+          <Button fullWidth disableElevation onClick={() => { setUnlockOpen(false); onLogin() }} sx={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', fontWeight: 400, py: 1.25, mt: 1, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(169,146,125,0.08)' } }}>
+            Already purchased? Sign in →
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      <Box sx={{ backgroundColor: wine, px, py: { xs: 10, md: 16 }, textAlign: 'center' }}>
+        <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '16px' }}>
+          Art Basel Miami Beach 2026 · Dec 1–6
+        </p>
+        <h1 style={{ color: cream, fontFamily: 'Ogg', fontSize: 'clamp(40px, 6vw, 80px)', fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.05, marginBottom: '24px' }}>
+          The Ultimate Guide
+        </h1>
+        <p style={{ color: 'rgba(242,244,243,0.75)', fontFamily: 'stratos-lights', fontSize: 'clamp(16px, 1.8vw, 20px)', lineHeight: 1.65, maxWidth: '560px', margin: '0 auto 40px' }}>
+          Every event, gallery show, party, and pop-up — curated for culture, fashion, and tech. Plus an AI event finder to surface what matters to you.
+        </p>
+        <Button onClick={() => setUnlockOpen(true)} disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
+          Unlock This Guide — $9.99
+        </Button>
+        {notLoggedIn && (
+          <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '14px', marginTop: '20px' }}>
+            Already purchased?{' '}
+            <span onClick={onLogin} style={{ color: gold, cursor: 'pointer', textDecoration: 'underline' }}>
+              Sign in with the email you used at checkout
+            </span>
+          </p>
+        )}
+      </Box>
+
+      <Box sx={{ px, py: { xs: 8, md: 12 } }}>
+        <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '32px', textAlign: 'center' }}>
+          What&apos;s Inside
+        </p>
+        <Grid container spacing={2}>
+          {[
+            'Parties & Performances',
+            'Art Happenings',
+            'Eat + Take Photos',
+            'AI Event Finder',
+            'Party Flyers to Save',
+            'Insider Tips',
+          ].map((title) => (
+            <Grid item xs={12} sm={6} md={4} key={title}>
+              <Box sx={{ border: `1px solid rgba(169,146,125,0.2)`, borderRadius: '14px', p: 2.5, '&:hover': { borderColor: 'rgba(169,146,125,0.45)' } }}>
+                <h3 style={{ color: gold, fontFamily: 'Test Calibre', fontSize: '15px', letterSpacing: '0.04em', margin: 0 }}>{title}</h3>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      <Box sx={{ textAlign: 'center', px, pb: 4 }}>
+        <Button onClick={() => setUnlockOpen(true)} disableElevation sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '16px', fontWeight: 400, py: 1.75, px: 4.5, borderRadius: 100, textTransform: 'none', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' } }}>
+          Unlock This Guide — $9.99
+        </Button>
+        {notLoggedIn && (
+          <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '14px', marginTop: '16px' }}>
+            Already purchased?{' '}
+            <span onClick={onLogin} style={{ color: gold, cursor: 'pointer', textDecoration: 'underline' }}>
+              Sign in with the email you used at checkout
+            </span>
+          </p>
+        )}
+      </Box>
+    </Box>
+  )
+}
+
+// ── Guide tables ─────────────────────────────────────────────────────────────
+const thTd = { fontFamily: 'stratos-lights', fontSize: '14px', padding: '10px 14px', lineHeight: 1.45, verticalAlign: 'top', borderBottom: `1px solid rgba(169,146,125,0.1)` }
+const thStyle = { ...thTd, color: gold, fontWeight: 600, backgroundColor: wine, fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase' }
+const tdStyle = { ...thTd, color: 'rgba(242,244,243,0.82)' }
+const trEven = { backgroundColor: 'rgba(73,17,28,0.18)' }
+
+function PartiesTable() {
+  return (
+    <Box sx={{ overflowX: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+        <colgroup>
+          <col style={{ width: '18%' }} />
+          <col style={{ width: '38%' }} />
+          <col style={{ width: '22%' }} />
+          <col style={{ width: '12%' }} />
+          <col style={{ width: '10%' }} />
+        </colgroup>
+        <thead>
+          <tr>
+            <th style={thStyle}>Date &amp; time</th>
+            <th style={thStyle}>What</th>
+            <th style={thStyle}>Where</th>
+            <th style={thStyle}>Who can go</th>
+            <th style={{ ...thStyle, textAlign: 'right' }}>RSVP</th>
+          </tr>
+        </thead>
+        <tbody>
+          {PARTIES.map((r, i) => (
+            <tr key={i} style={i % 2 === 1 ? trEven : {}}>
+              <td style={tdStyle}>{r.date}</td>
+              <td style={tdStyle}>{r.what}</td>
+              <td style={tdStyle}>{r.where}</td>
+              <td style={tdStyle}>{r.access}</td>
+              <td style={{ ...tdStyle, textAlign: 'right' }}>
+                {r.url && r.url !== '#' ? (
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.4)', borderRadius: '100px', padding: '4px 12px', whiteSpace: 'nowrap', display: 'inline-block' }}>RSVP here →</a>
+                ) : '—'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '13px', fontStyle: 'italic', marginTop: '14px' }}>More parties will be added as invitations are announced.</p>
+    </Box>
+  )
+}
+
+function ArtHappeningsTable() {
+  return (
+    <Box sx={{ overflowX: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+        <colgroup>
+          <col style={{ width: '16%' }} />
+          <col style={{ width: '40%' }} />
+          <col style={{ width: '22%' }} />
+          <col style={{ width: '12%' }} />
+          <col style={{ width: '10%' }} />
+        </colgroup>
+        <thead>
+          <tr>
+            <th style={thStyle}>Dates</th>
+            <th style={thStyle}>What</th>
+            <th style={thStyle}>Where</th>
+            <th style={thStyle}>Entry</th>
+            <th style={{ ...thStyle, textAlign: 'right' }}>RSVP</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ART_HAPPENINGS.map((r, i) => (
+            <tr key={i} style={i % 2 === 1 ? trEven : {}}>
+              <td style={tdStyle}>{r.dates}</td>
+              <td style={tdStyle}>{r.what}</td>
+              <td style={tdStyle}>{r.where}</td>
+              <td style={tdStyle}>{r.entry}</td>
+              <td style={{ ...tdStyle, textAlign: 'right' }}>
+                {r.url && r.url !== '#' ? (
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.4)', borderRadius: '100px', padding: '4px 12px', whiteSpace: 'nowrap', display: 'inline-block' }}>RSVP here →</a>
+                ) : '—'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '13px', fontStyle: 'italic', marginTop: '14px' }}>Dates and entry details as announced; confirm before you go.</p>
+    </Box>
+  )
+}
+
+function EatPhotosTable() {
+  return (
+    <Box sx={{ overflowX: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+        <colgroup>
+          <col style={{ width: '12%' }} />
+          <col style={{ width: '22%' }} />
+          <col style={{ width: '22%' }} />
+          <col style={{ width: '16%' }} />
+          <col style={{ width: '28%' }} />
+        </colgroup>
+        <thead>
+          <tr>
+            <th style={thStyle}>For</th>
+            <th style={thStyle}>Spot</th>
+            <th style={thStyle}>Where</th>
+            <th style={thStyle}>Dates</th>
+            <th style={thStyle}>The hook</th>
+          </tr>
+        </thead>
+        <tbody>
+          {EAT_PHOTOS.map((r, i) => (
+            <tr key={i} style={i % 2 === 1 ? trEven : {}}>
+              <td style={tdStyle}>{r.for}</td>
+              <td style={{ ...tdStyle, fontWeight: 600 }}>{r.spot}</td>
+              <td style={tdStyle}>{r.where}</td>
+              <td style={tdStyle}>{r.dates}</td>
+              <td style={tdStyle}>{r.hook}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '13px', fontStyle: 'italic', marginTop: '14px' }}>Opening dates for Pizza Studio Tamaki and Wilder to be confirmed.</p>
+    </Box>
+  )
+}
+
+// ── Event finder (buyer-only) ────────────────────────────────────────────────
+function EventFinder() {
+  const [query, setQuery] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [events, setEvents] = useState([])
+  const [error, setError] = useState('')
+
+  const search = async () => {
+    if (!query.trim()) return
+    setLoading(true)
+    setEvents([])
+    setError('')
+    try {
+      const res = await fetch('/api/artbasel/find-events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Search failed')
+      setEvents(data.events || [])
+      if (data.events?.length === 0) setError('No events found — try a different search.')
+    } catch (err) {
+      setError(err.message || 'Something went wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Box sx={{ backgroundColor: wine, px, py: { xs: 8, md: 10 }, mt: { xs: 8, md: 10 }, borderRadius: { md: '20px' }, mx: { md: '5%' } }}>
+      <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '12px' }}>
+        AI Event Finder — Buyer Exclusive
+      </p>
+      <h2 style={{ color: cream, fontFamily: 'Ogg', fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 400, lineHeight: 1.2, marginBottom: '24px' }}>
+        Find your Art Basel moment.
+      </h2>
+      <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' }, mb: 4 }}>
+        <TextField
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && search()}
+          placeholder="e.g. tech parties, free gallery openings, fashion pop-ups…"
+          fullWidth
+          variant="outlined"
+          size="small"
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              color: cream,
+              fontFamily: 'stratos-lights',
+              backgroundColor: 'rgba(10,9,8,0.4)',
+              borderRadius: '100px',
+              '& fieldset': { borderColor: 'rgba(169,146,125,0.3)' },
+              '&:hover fieldset': { borderColor: 'rgba(169,146,125,0.6)' },
+              '&.Mui-focused fieldset': { borderColor: gold },
+            },
+            '& .MuiInputBase-input::placeholder': { color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights' },
+          }}
+        />
+        <Button
+          onClick={search}
+          disabled={loading || !query.trim()}
+          disableElevation
+          sx={{ backgroundColor: cream, color: bg, fontFamily: 'stratos-lights', fontSize: '15px', fontWeight: 400, py: 1.5, px: 4, borderRadius: 100, textTransform: 'none', whiteSpace: 'nowrap', '&:hover': { backgroundColor: 'rgba(242,244,243,0.88)' }, '&:disabled': { opacity: 0.5 } }}
+        >
+          {loading ? <CircularProgress size={18} sx={{ color: bg }} /> : 'Search Events'}
+        </Button>
+      </Box>
+
+      {error && <p style={{ color: 'rgba(242,244,243,0.6)', fontFamily: 'stratos-lights', fontSize: '15px' }}>{error}</p>}
+
+      {events.length > 0 && (
+        <Grid container spacing={2}>
+          {events.map((ev, i) => (
+            <Grid item xs={12} sm={6} md={4} key={i}>
+              <Box sx={{ backgroundColor: 'rgba(10,9,8,0.4)', border: '1px solid rgba(169,146,125,0.2)', borderRadius: '12px', p: 3, height: '100%', display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
+                  <span style={{ color: gold, fontSize: '11px', fontFamily: 'Test Calibre', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{ev.platform}</span>
+                  <span style={{ color: 'rgba(242,244,243,0.5)', fontSize: '11px', fontFamily: 'stratos-lights' }}>{ev.price}</span>
+                </Box>
+                <h3 style={{ color: cream, fontFamily: 'stratos-lights', fontSize: '15px', lineHeight: 1.3, margin: 0 }}>{ev.name}</h3>
+                <p style={{ color: gold, fontSize: '13px', fontFamily: 'stratos-lights', margin: 0 }}>{ev.date}{ev.time ? ` · ${ev.time}` : ''}</p>
+                <p style={{ color: 'rgba(242,244,243,0.55)', fontSize: '13px', fontFamily: 'stratos-lights', margin: 0 }}>{ev.location}</p>
+                {ev.description && <p style={{ color: 'rgba(242,244,243,0.65)', fontSize: '14px', fontFamily: 'stratos-lights', lineHeight: 1.5, margin: 0, flex: 1 }}>{ev.description}</p>}
+                {ev.url && ev.url !== '#' && (
+                  <a href={ev.url} target="_blank" rel="noopener noreferrer" style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', textDecoration: 'none', borderBottom: '1px solid rgba(169,146,125,0.3)', paddingBottom: '1px', alignSelf: 'flex-start', marginTop: 'auto' }}>
+                    Get tickets →
+                  </a>
+                )}
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      )}
+    </Box>
+  )
+}
+
+// ── Flyers gallery ───────────────────────────────────────────────────────────
+const FLYERS = [
+  { name: 'Anna Nicole / Leonard Baby', date: 'Wed Dec 2, 6–10PM', where: 'Playboy Delano, 1685 Collins Ave', src: '/flyers/anna-nicole.jpg' },
+  { name: 'Modern Luxury Ocean Drive — Art of Self Care', date: 'Tue Dec 1, 11AM–2PM', where: 'Mondrian South Beach', src: '/flyers/ocean-drive.webp' },
+  { name: 'Nylon House presented by e.l.f.', date: 'Fri Dec 4, 8:30PM', where: 'Miami Beach', src: '/flyers/nylon-house.jpg' },
+  { name: "Bastid's BBQ Miami", date: 'Wed Dec 3, 7PM–2AM', where: "Dante's HiFi Courtyard, 519 NW 26th St", src: '/flyers/bastids-bbq.jpg' },
+  { name: 'Ms. Lauryn Hill & Wyclef Jean — Saint & Citizen', date: 'Sat Dec 5', where: 'Faena Forum, Miami Beach', src: '/flyers/lauryn-hill-wyclef.jpg' },
+]
+
+function FlyersGallery() {
+  return (
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+      <Grid container spacing={3}>
+        {FLYERS.map((flyer, i) => (
+          <Grid item xs={12} sm={6} md={4} key={i}>
+            <Box sx={{ border: '1px solid rgba(169,146,125,0.2)', borderRadius: '14px', overflow: 'hidden' }}>
+              <img src={flyer.src} alt={flyer.name} style={{ width: '100%', display: 'block' }} />
+              <Box sx={{ p: 2.5 }}>
+                <p style={{ color: cream, fontFamily: 'stratos-lights', fontSize: '14px', fontWeight: 600, lineHeight: 1.3, margin: '0 0 4px' }}>{flyer.name}</p>
+                <p style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', margin: '0 0 2px' }}>{flyer.date}</p>
+                <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '13px', margin: '0 0 16px' }}>{flyer.where}</p>
+                <a href={flyer.src} download style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.3)', borderRadius: '100px', padding: '7px 18px', whiteSpace: 'nowrap' }}>
+                  Save flyer ↓
+                </a>
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+      <p style={{ color: 'rgba(242,244,243,0.4)', fontFamily: 'stratos-lights', fontSize: '13px', fontStyle: 'italic', marginTop: '20px' }}>More flyers will be added as events are announced.</p>
+    </Box>
+  )
+}
+
+// ── Post-purchase: guide + event finder ─────────────────────────────────────
+const TABS = [
+  { id: 'parties', label: 'Parties', pdf: '/guides/art-basel-2026-parties.pdf', desc: 'Clubs, performances, and after-hours', Component: PartiesTable },
+  { id: 'art', label: 'Art Happenings', pdf: '/guides/art-basel-2026-art-happenings.pdf', desc: 'Exhibitions, fairs, and the main show', Component: ArtHappeningsTable },
+  { id: 'eat', label: 'Eat + Photos', pdf: '/guides/art-basel-2026-eat-photos.pdf', desc: 'Where to eat and what to photograph', Component: EatPhotosTable },
+  { id: 'flyers', label: 'Flyers', pdf: null, desc: 'Party flyers to save and share', Component: FlyersGallery },
+]
+
+function GuidePage() {
+  const [activeTab, setActiveTab] = useState('parties')
+  const tab = TABS.find((t) => t.id === activeTab)
+
+  return (
+    <Box sx={{ backgroundColor: bg, minHeight: '100vh', pb: 14 }}>
+      <Box sx={{ backgroundColor: wine, px, py: { xs: 6, md: 8 }, textAlign: 'center' }}>
+        <p style={{ color: gold, fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '12px' }}>
+          Art Basel Miami Beach 2026 · Dec 1–6
+        </p>
+        <h1 style={{ color: cream, fontFamily: 'Ogg', fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: 400, lineHeight: 1.1, marginBottom: '8px' }}>
+          The Ultimate Guide
+        </h1>
+        <p style={{ color: 'rgba(242,244,243,0.6)', fontFamily: 'stratos-lights', fontSize: '14px' }}>
+          Your purchase gives you permanent access to all three guide sections and the AI event finder below.
+        </p>
+      </Box>
+
+      {/* Tab navigation */}
+      <Box sx={{ px, pt: { xs: 5, md: 7 } }}>
+        <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, mb: 4, flexWrap: 'wrap' }}>
+          {TABS.map((t) => (
+            <Button
+              key={t.id}
+              onClick={() => setActiveTab(t.id)}
+              disableElevation
+              sx={{
+                fontFamily: 'stratos-lights',
+                fontSize: { xs: '14px', sm: '15px' },
+                fontWeight: 400,
+                py: 1.25,
+                px: { xs: 2.5, sm: 3.5 },
+                borderRadius: 100,
+                textTransform: 'none',
+                backgroundColor: activeTab === t.id ? cream : 'transparent',
+                color: activeTab === t.id ? bg : 'rgba(242,244,243,0.55)',
+                border: `1px solid ${activeTab === t.id ? cream : 'rgba(169,146,125,0.25)'}`,
+                '&:hover': { backgroundColor: activeTab === t.id ? cream : 'rgba(169,146,125,0.08)', color: activeTab === t.id ? bg : cream },
+              }}
+            >
+              {t.label}
+            </Button>
+          ))}
+        </Box>
+
+        {/* Section header + download */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
+          <div>
+            <p style={{ color: gold, fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: 'Test Calibre', marginBottom: '4px' }}>
+              Art Basel Miami 2026
+            </p>
+            <h2 style={{ color: cream, fontFamily: 'Ogg', fontSize: 'clamp(22px, 2.5vw, 32px)', fontWeight: 400, margin: 0 }}>{tab.label}</h2>
+            <p style={{ color: 'rgba(242,244,243,0.5)', fontFamily: 'stratos-lights', fontSize: '14px', margin: '4px 0 0' }}>{tab.desc}</p>
+          </div>
+          {tab.pdf && (
+            <a
+              href={tab.pdf}
+              download
+              style={{ color: gold, fontFamily: 'stratos-lights', fontSize: '14px', textDecoration: 'none', border: '1px solid rgba(169,146,125,0.3)', borderRadius: '100px', padding: '8px 20px', whiteSpace: 'nowrap' }}
+            >
+              Download PDF ↓
+            </a>
+          )}
+        </Box>
+
+        {/* Table */}
+        <Box sx={{ border: '1px solid rgba(169,146,125,0.15)', borderRadius: '12px', overflow: 'hidden' }}>
+          <tab.Component />
+        </Box>
+      </Box>
+
+      {/* AI Event Finder */}
+      <EventFinder />
+    </Box>
+  )
+}
+
+// ── Main page ────────────────────────────────────────────────────────────────
+export default function ArtBasel() {
+  const { data: authData, error: authError } = useSWR('/api/database/getUser', (url) => fetch(url).then(r => r.json()))
+  const user = authData?.user || null
+  const loaded = authData !== undefined || authError !== undefined
+  const { mutate } = useSWRConfig()
+  const router = useRouter()
+  const [emailModalOpen, setEmailModalOpen] = useState(false)
+  const { session_id } = router.query
+
+  const [processing, setProcessing] = useState(false)
+  const [verifying, setVerifying] = useState(false)
+  const [authTimedOut, setAuthTimedOut] = useState(false)
+
+  useEffect(() => {
+    if (loaded) return
+    const t = setTimeout(() => setAuthTimedOut(true), 4000)
+    return () => clearTimeout(t)
+  }, [loaded])
+
+  const showPage = loaded || authTimedOut
+  const purchased = showPage && user && hasBought(user)
+  const notLoggedIn = showPage && !user
+
+  useEffect(() => {
+    if (!session_id) return
+    if (purchased) return
+    setProcessing(true)
+    let attempts = 0
+    const interval = setInterval(async () => {
+      attempts++
+      try {
+        const res = await fetch('/api/database/getUser')
+        const data = await res.json()
+        const updated = data?.user?.purchasedContent
+          ?.split(',')
+          .map((s) => s.trim())
+          .includes(PRODUCT_ID)
+        if (updated) {
+          clearInterval(interval)
+          setProcessing(false)
+          router.replace('/artbasel', undefined, { shallow: true })
+        }
+      } catch {}
+      if (attempts >= 10) {
+        clearInterval(interval)
+        setProcessing(false)
+      }
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [session_id, purchased, router])
+
+  // After login, check Stripe directly for purchases made via the Payment Link
+  useEffect(() => {
+    if (!loaded || !user || hasBought(user)) return
+    setVerifying(true)
+    fetch('/api/artbasel/verify-stripe-purchase')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.purchased) mutate('/api/database/getUser')
+      })
+      .catch(() => {})
+      .finally(() => setVerifying(false))
+  }, [loaded, user]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <>
+      <Head>
+        <title>Art Basel 2026 Ultimate Guide | Violet Verse</title>
+        <meta name="description" content="The complete guide to Art Basel Miami Beach 2026 — events, parties, galleries, fashion and tech. With AI-powered event finder." />
+        <meta property="og:title" content="Art Basel 2026 Ultimate Guide | Violet Verse" />
+        <meta property="og:description" content="Every event, party, and gallery show — curated for culture, fashion, and tech." />
+        <meta property="og:type" content="website" />
+      </Head>
+
+      {!showPage ? (
+        <Box sx={{ backgroundColor: bg, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CircularProgress sx={{ color: gold }} />
+        </Box>
+      ) : (processing || verifying) ? (
+        <Box sx={{ backgroundColor: bg, minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+          <CircularProgress sx={{ color: gold }} />
+          <p style={{ color: 'rgba(242,244,243,0.7)', fontFamily: 'stratos-lights', fontSize: '17px' }}>
+            {verifying ? 'Verifying your purchase…' : 'Unlocking your guide…'}
+          </p>
+        </Box>
+      ) : purchased ? (
+        <GuidePage />
+      ) : (
+        <BuyPage notLoggedIn={notLoggedIn} onLogin={() => setEmailModalOpen(true)} />
+      )}
+      <EmailLoginModal
+        open={emailModalOpen}
+        onClose={() => setEmailModalOpen(false)}
+        onSuccess={() => { mutate('/api/database/getUser'); setEmailModalOpen(false) }}
+        subtitle="To access the guide and AI event finder, sign in with the email address you used to purchase."
+      />
+    </>
+  )
+}
+
+export async function getStaticProps() {
+  return { props: { vrSite: true } }
+}
