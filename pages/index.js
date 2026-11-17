@@ -43,6 +43,7 @@ const pillars = [
 export async function getServerSideProps() {
   try {
     const db = await connectDatabase()
+    if (!db) return { props: { posts: [], authors: [], contributors: [] } }
     const data = await db.collection('posts').find({ hidden: { $ne: true } }).toArray()
     let authors = [], contributors = []
     try { authors = await getUsersByRole('admin') } catch {}
