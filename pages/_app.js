@@ -5,12 +5,20 @@ import { useUser } from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
 
+import "@rainbow-me/rainbowkit/styles.css";
+import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { WagmiProvider } from "wagmi";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { config } from "../lib/wagmi";
+
 import "../styles/fonts.css";
 import "../styles/globals.css";
 
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Router from "next/router";
+
+const queryClient = new QueryClient();
 
 NProgress.configure({
     minimum: 0.3,
