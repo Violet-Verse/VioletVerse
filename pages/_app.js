@@ -122,23 +122,7 @@ function AppContent({ Component, pageProps }) {
 }
 
 function MyApp({ Component, pageProps }) {
-    return (
-        <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-                <RainbowKitProvider
-                    theme={darkTheme({
-                        accentColor: "#693E9A",
-                        accentColorForeground: "white",
-                        borderRadius: "medium",
-                        fontStack: "system",
-                        overlayBlur: "small",
-                    })}
-                >
-                    <AppContent Component={Component} pageProps={pageProps} />
-                </RainbowKitProvider>
-            </QueryClientProvider>
-        </WagmiProvider>
-    );
+    return <AppContent Component={Component} pageProps={pageProps} />;
 }
 
 export default MyApp;
