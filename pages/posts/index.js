@@ -12,7 +12,7 @@ export async function getServerSideProps() {
         const db = await connectDatabase();
         if (db) {
             const collection = db.collection("posts");
-            const data = await collection.find({ hidden: false }).toArray();
+            const data = await collection.find({ hidden: { $ne: true } }).toArray();
             posts = JSON.parse(JSON.stringify(data));
         }
     } catch (error) {
