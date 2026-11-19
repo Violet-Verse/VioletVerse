@@ -176,16 +176,33 @@ const PostEditorPage = (props) => {
                 }),
             }
         )
-            .then((response) => response.json())
+            .then(async (response) => {
+                const text = await response.text();
+                let json = null;
+                try {
+                    json = JSON.parse(text);
+                } catch (e) {}
+                if (!response.ok) {
+                    throw new Error(
+                        json?.error ||
+                            `Publishing failed (error ${response.status}). Please try again.`
+                    );
+                }
+                return json;
+            })
             .then((newData) => {
                 setLoading(false);
-                mutate("/api/database/getUserPosts", [...data, newData]);
+                mutate("/api/database/getUserPosts", [
+                    ...(Array.isArray(data) ? data : []),
+                    newData,
+                ]);
                 Router.push(editorMode ? `/${posts.slug}` : `/${newData.slug}`);
             })
             .catch((err) => {
                 setLoading(false);
-                setErrorMessage(err);
+                setErrorMessage(err?.message || String(err));
                 console.log(err);
+                window.alert(err?.message || "Publishing failed. Please try again.");
             });
     };
 

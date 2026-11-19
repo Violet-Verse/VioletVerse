@@ -72,11 +72,19 @@ export default async function createPost(req, res) {
 
     try {
         const db = await connectDatabase();
+        if (!db) {
+            return res
+                .status(503)
+                .json({ error: "Database unavailable. Please try again shortly." });
+        }
         const collection = db.collection("posts");
         const post = await collection.insertOne(postData);
         console.log(post);
         return res.status(200).json(postData || null);
     } catch (err) {
-        console.log(err);
+        console.error("createPost failed:", err);
+        return res
+            .status(500)
+            .json({ error: "Could not save post. Please try again." });
     }
 }

@@ -3,13 +3,22 @@ import connectDatabase from "../../../lib/mongoClient";
 
 export default async function getUserPosts(req, res) {
     const session = await getLoginSession(req);
+    if (!session?.issuer) return res.status(200).json([]);
 
-    const db = await connectDatabase();
+    try {
+        const db = await connectDatabase();
+        if (!db) {
+            return res.status(503).json({ error: "Database unavailable" });
+        }
 
-    const collection = db.collection("posts");
-    const posts = await collection
-        .find({ createdBy: `${session?.issuer}` })
-        .toArray();
+        const posts = await db
+            .collection("posts")
+            .find({ createdBy: `${session.issuer}` })
+            .toArray();
 
-    res.status(200).json(posts || null);
+        return res.status(200).json(posts || []);
+    } catch (err) {
+        console.error("getUserPosts failed:", err);
+        return res.status(500).json({ error: "Could not load posts" });
+    }
 }
