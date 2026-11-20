@@ -4,6 +4,10 @@ const nextConfig = {
       swcMinify: true,
       transpilePackages: [
             '@rainbow-me/rainbowkit',
+            'wagmi',
+            'viem',
+            '@wagmi/core',
+            '@wagmi/connectors',
       ],
       images: {
               domains: [

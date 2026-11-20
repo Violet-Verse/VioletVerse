@@ -17,7 +17,11 @@ export async function getServerSideProps() {
     const db = await connectDatabase()
     if (db) {
       const collection = db.collection('posts')
-      const data = await collection.find({ hidden: { $ne: true } }).toArray()
+      const data = await collection
+        .find({ hidden: { $ne: true } }, { projection: { content: 0, body: 0 } })
+        .sort({ created: -1 })
+        .limit(50)
+        .toArray()
       posts = JSON.parse(JSON.stringify(data))
     }
   } catch (error) {
