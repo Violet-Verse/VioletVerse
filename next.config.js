@@ -35,16 +35,24 @@ const nextConfig = {
                   },
         });
 
-        // Ignore optional React Native dependencies from MetaMask SDK
         config.resolve.fallback = {
           ...config.resolve.fallback,
         };
 
-        if (!isServer) {
-          config.resolve.alias = {
-            ...config.resolve.alias,
-            '@react-native-async-storage/async-storage': false,
-          };
+        config.resolve.alias = {
+          ...config.resolve.alias,
+        };
+
+        if (isServer) {
+          // isomorphic-dompurify pulls in jsdom → html-encoding-sniffer →
+          // @exodus/bytes which is ESM-only and breaks require() in serverless.
+          // Replace with a pass-through shim on the server; DOMPurify still
+          // runs in the browser via the real isomorphic-dompurify.
+          const path = require('path');
+          config.resolve.alias['isomorphic-dompurify'] =
+            path.join(__dirname, 'lib/server-dompurify-noop.js');
+        } else {
+          config.resolve.alias['@react-native-async-storage/async-storage'] = false;
         }
 
         return config;
