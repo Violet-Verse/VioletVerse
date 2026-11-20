@@ -23,6 +23,7 @@ import { useUser } from "../../hooks/useAuth";
 import React, { useState, useEffect, useCallback } from "react";
 import DeleteConfirmation from "../Modal/ConfirmDelete";
 import dateFormatter from "../../lib/dateFormatter";
+import PressReleasePanel from "./PressReleasePanel";
 
 const postFetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -67,6 +68,7 @@ const PostEditorPage = (props) => {
         register,
         handleSubmit,
         control,
+        setValue,
         formState: { errors },
     } = useForm({
         defaultValues: { body: initialValue },
@@ -75,6 +77,29 @@ const PostEditorPage = (props) => {
     const [bannerType, setBannerType] = useState(
         posts?.video ? "video" : "image"
     );
+    // Banner chosen in the press-release panel (already uploaded).
+    const [aiBanner, setAiBanner] = useState(null);
+
+    // Fill the form with Claude's draft from the press-release panel.
+    const applyDraft = (d) => {
+        const opts = { shouldDirty: true, shouldValidate: true };
+        if (d.title) setValue("title", d.title, opts);
+        if (d.subtitle) setValue("subtitle", d.subtitle, opts);
+        if (d.tldr) setValue("tldr", d.tldr, opts);
+        if (d.category) setValue("category", d.category, opts);
+        if (d.body) setValue("body", d.body, opts);
+        setValue("hidden", true, opts);
+        if (d.videoUrl) {
+            setBannerType("video");
+            setAiBanner(null);
+            // The YouTube field only exists once Video is selected.
+            setTimeout(() => setValue("video", d.videoUrl, opts), 0);
+        } else {
+            setBannerType("image");
+            setAiBanner(d.bannerUrl || null);
+            if (d.bannerUrl) setSelectedImage(null);
+        }
+    };
 
     const handleBannerTypeChange = (event, newType) => {
         if (newType !== null) {
@@ -104,7 +129,7 @@ const PostEditorPage = (props) => {
                     return null;
                 });
         } else {
-            return null;
+            return aiBanner || null;
         }
     };
 
@@ -252,6 +277,12 @@ const PostEditorPage = (props) => {
                 handleDelete={() => deletePost()}
             />
             <form onSubmit={handleSubmit(onSubmit)}>
+                {!editorMode && (
+                    <PressReleasePanel
+                        uploadImage={uploadImage}
+                        onDraft={applyDraft}
+                    />
+                )}
                 <Grid container>
                     {editorMode && (
                         <Grid item xs={12}>
@@ -318,21 +349,26 @@ const PostEditorPage = (props) => {
                         />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                        <TextField
-                            select
-                            fullWidth
-                            label="Category"
-                            defaultValue={posts?.category}
-                            inputProps={register("category", {
-                                required: "Please choose a category",
-                            })}
-                            error={errors.category}
-                            helperText={errors.category?.message}
-                        >
-                            <MenuItem value={"Tech"}>Tech</MenuItem>
-                            <MenuItem value={"Lifestyle"}>Lifestyle</MenuItem>
-                            <MenuItem value={"Education"}>Education</MenuItem>
-                        </TextField>
+                        <Controller
+                            name="category"
+                            control={control}
+                            defaultValue={posts?.category || ""}
+                            rules={{ required: "Please choose a category" }}
+                            render={({ field }) => (
+                                <TextField
+                                    select
+                                    fullWidth
+                                    label="Category"
+                                    error={!!errors.category}
+                                    helperText={errors.category?.message}
+                                    {...field}
+                                >
+                                    <MenuItem value={"Tech"}>Tech</MenuItem>
+                                    <MenuItem value={"Lifestyle"}>Lifestyle</MenuItem>
+                                    <MenuItem value={"Education"}>Education</MenuItem>
+                                </TextField>
+                            )}
+                        />
                     </Grid>
                     <Grid item xs={12} sx={{ mb: 4 }}>
                         <Controller
@@ -428,6 +464,19 @@ const PostEditorPage = (props) => {
                             )}
                         </Button>
                     </label>
+                    {aiBanner && !selectedImage && bannerType == "image" && (
+                        <Box sx={{ mt: 2 }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={aiBanner}
+                                alt="Banner from press-release photos"
+                                style={{ maxWidth: 320, borderRadius: 4 }}
+                            />
+                            <Button onClick={() => setAiBanner(null)}>
+                                Remove banner
+                            </Button>
+                        </Box>
+                    )}
                     {posts?.banner && (
                         <Button onClick={() => clearPicture()}>
                             Reset Picture
@@ -457,7 +506,7 @@ const PostEditorPage = (props) => {
                             defaultValue={posts?.video}
                             rules={{
                                 pattern: {
-                                    value: /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/gm,
+                                    value: /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/m,
                                     message: "Invalid YouTube URL",
                                 },
                             }}
@@ -538,11 +587,9 @@ const PostEditorPage = (props) => {
                                 control={
                                     <Checkbox
                                         {...field}
-                                        defaultChecked={
-                                            posts?.hidden == true ||
+                                        checked={
+                                            !!field.value ||
                                             user?.role === "contributor"
-                                                ? true
-                                                : false
                                         }
                                     />
                                 }
