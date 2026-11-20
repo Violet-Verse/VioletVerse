@@ -21,7 +21,8 @@ Rules:
 - 400-800 words unless the editor's notes say otherwise.
 - Body is HTML using only <p>, <h2>, <blockquote>, <ul>, <ol>, <li>, <strong>, <em>, <a href>. No <h1> (the title is separate).
 - If photos are provided, place each marker {{PHOTO_n}} on its own line where that photo fits best, using each photo at most once. Photo 1 is the banner, so don't place PHOTO_1 in the body unless told there is no banner.
-- In editor_notes, list anything the editor should verify or that the release left unclear. Leave it empty if nothing.`;
+- In editor_notes, list anything the editor should verify or that the release left unclear. Leave it empty if nothing.
+- Always answer by calling the write_article tool, with no other text.`;
 
 const TOOL = {
     name: "write_article",
@@ -90,6 +91,13 @@ async function releaseContent({ releaseText, releaseUrl, file }) {
     return blocks;
 }
 
+function jsonFromText(content) {
+    const text = (content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) return null;
+    try { return JSON.parse(m[0]); } catch { return null; }
+}
+
 export function placePhotos(bodyHtml, photos, alts, { bannerUsed }) {
     let body = bodyHtml;
     const used = new Set();
@@ -150,13 +158,15 @@ export default async function handler(req, res) {
                 max_tokens: 4000,
                 system: SYSTEM,
                 tools: [TOOL],
-                tool_choice: { type: "tool", name: TOOL.name },
+                // Some models reject a forced tool choice, so let the model
+                // call the tool itself and fall back to JSON in the text.
+                tool_choice: { type: "auto" },
                 messages: [{ role: "user", content }],
             }),
         });
         const json = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(json?.error?.message || `Claude request failed (${r.status})`);
-        const out = json.content?.find((c) => c.type === "tool_use")?.input;
+        const out = json.content?.find((c) => c.type === "tool_use")?.input || jsonFromText(json.content);
         if (!out?.body_html) throw new Error("Claude didn't return an article. Try again.");
 
         return res.status(200).json({
