@@ -1,5 +1,6 @@
 {
   "functions": {
-    "pages/api/ai/draftFromRelease.js": { "maxDuration": 60 }
+    "pages/api/ai/draftFromRelease.js": { "maxDuration": 60 },
+    "pages/api/ai/emailDraft.js": { "maxDuration": 60 }
   }
 }
