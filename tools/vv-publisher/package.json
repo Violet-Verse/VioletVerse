@@ -1,0 +1,14 @@
+{
+  "name": "vv-publisher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Turn a Markdown, Word or HTML article into a Violet Verse draft, then publish it once approved.",
+  "type": "module",
+  "bin": { "vv-publish": "./vv-publish.mjs" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "mammoth": "^1.8.0",
+    "marked": "^14.1.0"
+  }
+}
