@@ -60,6 +60,7 @@ export default async function updatePost(req, res) {
     try {
         // Connect to the MongoDB database
         const db = await connectDatabase();
+        if (!db) return res.status(503).end("Database not available");
 
         // Update the post with the specified ID with the new data
         await db.collection("posts").updateOne(

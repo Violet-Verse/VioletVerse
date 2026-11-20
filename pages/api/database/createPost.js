@@ -72,6 +72,7 @@ export default async function createPost(req, res) {
 
     try {
         const db = await connectDatabase();
+        if (!db) return res.status(503).json({ error: "Database not available" });
         const collection = db.collection("posts");
         const post = await collection.insertOne(postData);
         console.log(post);

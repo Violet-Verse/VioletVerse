@@ -20,6 +20,7 @@ export default async function handler(req, res) {
 
     try {
         const db = await connectDatabase();
+        if (!db) { res.status(503).end(); return; }
         await db.collection("posts").updateOne(
             {
                 _id: new ObjectId(req.body._id),
