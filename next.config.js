@@ -8,7 +8,12 @@ const nextConfig = {
             'viem',
             '@wagmi/core',
             '@wagmi/connectors',
+            'ox',
+            '@exodus/bytes',
       ],
+      experimental: {
+            esmExternals: 'loose',
+      },
       images: {
               domains: [
                         "i.imgur.com",
