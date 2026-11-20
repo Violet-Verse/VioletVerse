@@ -1,4 +1,4 @@
-import { getLoginSession } from "../../../lib/cookie-auth";
+import { getSessionUser, canWrite } from "../../../lib/authz";
 import { nanoid } from "nanoid";
 import connectDatabase from "../../../lib/mongoClient";
 
@@ -19,8 +19,9 @@ function string_to_slug(str) {
 
 export default async function createPost(req, res) {
     if (req.method !== "POST") return res.status(405).end();
-    const session = await getLoginSession(req);
-    if (!session?.issuer) return res.status(405).end();
+    const user = await getSessionUser(req);
+    if (!canWrite(user)) return res.status(403).end();
+    const session = { issuer: user.issuer };
 
     const title = req.body.title;
     const subtitle = req.body.subtitle;
@@ -28,7 +29,8 @@ export default async function createPost(req, res) {
     const category = req.body.category;
     const body = req.body.body;
     const largeLetter = req.body.largeLetter || false;
-    const hidden = req.body.hidden;
+    // Contributors can only submit drafts; an admin approves them.
+    const hidden = user.role === "contributor" ? true : req.body.hidden;
     const video = req.body.video;
     const contributor = req.body.contributor;
     const tokenPrice = req.body.tokenPrice;
