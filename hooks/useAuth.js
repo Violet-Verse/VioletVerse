@@ -1,51 +1,38 @@
-import Router from "next/router";
-import { useEffect } from "react";
-import useSWR from "swr";
+import useSWR from 'swr'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-const fetcher = (url) =>
-    fetch(url)
-        .then((r) => r.json())
-        .then((data) => {
-            return { user: data?.user || null };
-        });
-
-const postFetcher = (url) => fetch(url).then((r) => r.json());
+const fetcher = (url) => fetch(url).then((r) => r.json())
 
 export function useUser({ redirectTo, redirectIfFound } = {}) {
-    const { data: users, error: userError } = useSWR(
-        "/api/database/getUser",
-        fetcher
-    );
-    const user = users?.user;
-    const finished = Boolean(users);
-    const hasUser = Boolean(user);
+  const router = useRouter()
+  const { data, error } = useSWR('/api/database/getUser', fetcher)
 
-    useEffect(() => {
-        if (!redirectTo || !finished) return;
-        if (
-            // If redirectTo is set, redirect if the user was not found.
-            (redirectTo && !redirectIfFound && !hasUser) ||
-            // If redirectIfFound is also set, redirect if the user was found
-            (redirectIfFound && hasUser)
-        ) {
-            Router.push(redirectTo);
-        }
-    }, [redirectTo, redirectIfFound, finished, hasUser]);
+  const user = data?.user || null
+  const loaded = data !== undefined || error !== undefined
+  const hasUser = Boolean(user)
 
-    return {
-        user: userError ? null : user,
-        loaded: finished || null,
-    };
+  useEffect(() => {
+    if (!redirectTo || !loaded) return
+    if (
+      (redirectTo && !redirectIfFound && !hasUser) ||
+      (redirectIfFound && hasUser)
+    ) {
+      router.push(redirectTo)
+    }
+  }, [redirectTo, redirectIfFound, hasUser, loaded, router])
+
+  return {
+    user,
+    loaded,
+    authenticated: hasUser,
+    login: () => {},
+    logout: () => {
+      router.push('/api/auth/logout')
+    },
+  }
 }
 
 export function usePosts() {
-    const { data: posts, error: postsError } = useSWR(
-        "/api/database/getUserPosts",
-        postFetcher
-    );
-    const loaded = Boolean(posts);
-
-    console.log(posts);
-
-    return { posts: posts, loaded: loaded };
+  return { posts: [], isLoading: false, isError: false }
 }
